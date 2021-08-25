@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- テキストボックスで入力した値がリアルタイムに反映される -->
+      <div>
+        <h1>テキストボックス</h1>
+        <input v-model="message">
+        {{ message }}
+      </div>
+      <!-- セレクトボックスで入力した値がリアルタイムに反映される -->
+      <div>
+        <h1>セレクトボックス</h1>
+        <select v-model="selected">
+          <option>いぬ</option>
+          <option>さる</option>
+          <option>きじ</option>
+        </select>
+        <span>Selected: {{selected}}</span>
+      </div>
+      <!-- ボタンなどイベント発生時に処理を行う -->
+      <div>
+        <h1>イベント</h1>
+        <input type="button" value="＋1" v-on:click="plusOne"></input>
+        <input type="button" value="－1" v-on:click="minusOne"></input>
+        {{ counter }}
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="test.js"></script>
+  </body>
+</html>
