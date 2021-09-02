@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" dir="ltr">
   <head>
+    <link rel="stylesheet" href="./test.css">
     <meta charset="utf-8">
     <title></title>
   </head>
@@ -25,8 +26,20 @@
       <!-- ボタンなどイベント発生時に処理を行う -->
       <div>
         <h1>イベント</h1>
-        <input type="button" value="＋1" v-on:click="plusOne"></input>
-        <input type="button" value="－1" v-on:click="minusOne"></input>
+        <input type="button" value="検索検索" v-on:click="plusOne" class="btn-square-pop"></input>
+        <input type="button" value="承認" v-on:click="minusOne" class="btn-square-pop"></input>
+        <input type="button" value="検索条件検索" v-on:click="plusOne" class="btn-square-pop-long"></input>
+        <input type="button" value="部署マスタ検索" v-on:click="minusOne" class="btn-square-pop-long"></input>
+
+        <input type="button" value="検索" v-on:click="plusOne" class="btn-square-pop-oreange"></input>
+        <input type="button" value="否認" v-on:click="minusOne" class="btn-square-pop-oreange"></input>
+        <input type="button" value="検索条件検索" v-on:click="plusOne" class="btn-square-pop-oreange-long"></input>
+        <input type="button" value="部署マスタ検索" v-on:click="minusOne" class="btn-square-pop-oreange-long"></input>
+
+        <input type="button" value="検索" v-on:click="plusOne" class="btn-square-pop-green"></input>
+        <input type="button" value="否認" v-on:click="minusOne" class="btn-square-pop-green"></input>
+        <input type="button" value="検索条件検索" v-on:click="plusOne" class="btn-square-pop-green-long"></input>
+        <input type="button" value="部署マスタ検索" v-on:click="minusOne" class="btn-square-pop-green-long"></input>
         {{ counter }}
       </div>
     </div>

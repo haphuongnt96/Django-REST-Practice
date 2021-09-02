@@ -1,0 +1,115 @@
+body {
+    background-color: #f7f3f4; //これは赤色
+  }
+h1{
+    background-color: #FFBBC6;
+    color: #424242;
+}
+.btn-square-pop {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background: #99D6D3;/*背景色*/
+    border-bottom: solid 2px #457471;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  }
+  .btn-square-pop:active {
+    border-bottom: solid 2px #369994;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  }
+
+  .btn-square-pop-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background: #99D6D3;/*背景色*/
+    border-bottom: solid 2px #457471;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  }
+  .btn-square-pop-long:active {
+    border-bottom: solid 2px #369994;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  }
+
+  .btn-square-pop-oreange {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background: #FFA333;/*背景色*/
+    border-bottom: solid 2px #4d3211;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  }
+  .btn-square-pop-oreange:active {
+    border-bottom: solid 2px #aa6107;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  }
+
+  .btn-square-pop-oreange-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background: #FFA333;/*背景色*/
+    border-bottom: solid 2px #4d3211;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  }
+  .btn-square-pop-oreange-long:active {
+    border-bottom: solid 2px #aa6107;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  }
+
+  
+  .btn-square-pop-green {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background: #CCD933;/*背景色*/
+    border-bottom: solid 2px #6f7527;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  }
+  .btn-square-pop-green:active {
+    border-bottom: solid 2px #6f7527;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  }
+
+  .btn-square-pop-green-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background: #CCD933;/*背景色*/
+    border-bottom: solid 2px #6f7527;/*少し濃い目の色に*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  }
+  .btn-square-pop-green-long:active {
+    border-bottom: solid 2px #6f7527;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+  }
