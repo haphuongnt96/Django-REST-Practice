@@ -1,4 +1,4 @@
-# 開発にVSCode拡張機能をインストールする
+# 開発にVSCode拡張をインストールする
 
 1. Python
 2. Pylance
