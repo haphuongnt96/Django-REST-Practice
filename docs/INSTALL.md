@@ -5,6 +5,7 @@
 - [docker](https://docs.docker.com/engine/installation/)
 - [docker-compose](https://docs.docker.com/compose/install/)
 - [pyenv](https://github.com/pyenv/pyenv)
+- [pyenv-win](https://github.com/pyenv-win/pyenv-win) (for Window)
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 
 
