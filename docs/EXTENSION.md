@@ -1,4 +1,4 @@
-# Install VS Code extensions for development
+# 開発にVSCode拡張機能をインストールする
 
 1. Python
 2. Pylance

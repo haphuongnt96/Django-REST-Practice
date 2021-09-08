@@ -1,6 +1,6 @@
-# Install tools for local PC
+# ローカルPC用のツールをインストールします 
 
-You should install the following tools before initialize the project:
+プロジェクトを開始する前に、次のツールをインストールする必要があります。 
 
 - [docker](https://docs.docker.com/engine/installation/)
 - [docker-compose](https://docs.docker.com/compose/install/)
@@ -8,17 +8,17 @@ You should install the following tools before initialize the project:
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 
 
-## Backend
+## バックエンド 
 
-### Services
+### サービス 
 
-The project use external services like Postgres for DB, Redis for caching.
-It is defined in `docker-compose.yml` file.
+プロジェクトは、Postgres for DB、Redisなどの外部サービスをキャッシングに使用します。 
+in `docker-compose.yml` file で定義されています。 
 
 
-# Prepare python env using virtualenv
+# virtualenvを使用してpythonenvを準備します 
 
-1. Create virtual environment for running local:
+1. ローカルで実行するための仮想環境を作成します: 
 
 ```bash
 
@@ -28,35 +28,35 @@ pyenv local approval-system-backend
 pyenv activate approval-system-backend
 ```
 
-2. Install python packages:
+2. Pythonパッケージをインストールします:
 
 ```bash
 pip install -r approvalsystem/requirements/requirement.txt
 ```
 
-3. Start Docker Database and Caching in detach mode:
+3. Dockerデータベースとキャッシングをデタッチモードで起動します: 
 
 ```bash
 docker-compose up -d
 ```
 
-4. Run Django app and check `localhost:8000` page in browser:
+4. Djangoアプリを実行し、ブラウザーで `localhost：8000 ` pageをチェックします: 
 
 ```bash
 python manage.py runserver
 ```
 
-That's all required steps to run the project successfully.
+プロジェクトを成功に実行するために必要な手順はこれだけです。 
 
-# Prepare VueJS application
+# VueJSアプリケーションを準備します 
 
-1. Install packages:
+1. パッケージをインストールします：
 
 ```bash
 npm install
 ```
 
-2. Run VueJS app and check `localhost:8080` page in browser:
+2. VueJSアプリを実行し、ブラウザーで `localhost：8080` pageをチェックします:
 
 ```bash
 npm run serve
