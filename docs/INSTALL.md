@@ -57,7 +57,7 @@ python manage.py runserver
 npm install
 ```
 
-2. VueJSアプリを実行し、ブラウザーで `localhost：8080` pをチェックします:
+2. VueJSアプリを実行し、ブラウザーで `localhost：8080` pageをチェックします:
 
 ```bash
 npm run serve
