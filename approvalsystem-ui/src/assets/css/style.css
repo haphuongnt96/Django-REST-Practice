@@ -5,11 +5,11 @@ h1{
     background-color: #FFBBC6;
     color: #424242;
 }
-.block {
-  display: block;
-  width: 100%;
-}
 .btn-square-pop {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -24,6 +24,10 @@ h1{
   }
 
   .btn-square-pop-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -38,6 +42,10 @@ h1{
   }
 
   .btn-square-pop-orange {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -52,6 +60,10 @@ h1{
   }
 
   .btn-square-pop-orange-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -67,6 +79,10 @@ h1{
 
   
   .btn-square-pop-green {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -81,6 +97,10 @@ h1{
   }
 
   .btn-square-pop-green-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -96,6 +116,10 @@ h1{
 
 
   .btn-square-pop-red {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -110,6 +134,10 @@ h1{
   }
 
   .btn-square-pop-red-long {
+    position: relative;
+    width: 120px;
+    height: 30px;
+    display: inline-block;
     padding: 0.25em 0.5em;
     text-decoration: none;
     color: rgb(0, 0, 0);
