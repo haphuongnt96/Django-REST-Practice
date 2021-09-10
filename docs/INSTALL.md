@@ -4,9 +4,9 @@
 
 - [docker](https://docs.docker.com/engine/installation/)
 - [docker-compose](https://docs.docker.com/compose/install/)
-- [pyenv](https://github.com/pyenv/pyenv) (for Linux and MacOS)
+- [pyenv](https://github.com/pyenv/pyenv) (Linux, MacOS)
 - [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) (for Linux and MacOS)
-- [pyenv-win](https://github.com/pyenv-win/pyenv-win) (for Window)
+- [pyenv-win](https://github.com/pyenv-win/pyenv-win) (Windows)
 
 
 ## バックエンド 
