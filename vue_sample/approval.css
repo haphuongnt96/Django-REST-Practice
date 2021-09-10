@@ -2,6 +2,10 @@ body {
     background-color: #F7F3F4;
 }
 
+.a {
+    border-bottom: 3px solid #FFBBC6;
+}
+
 .applicant {
     text-align: center;
     border: 2px solid;
@@ -45,6 +49,10 @@ body {
     width: 180px;
     height: 80px;
     border-radius: 6px;/*角の丸み*/
+}
+
+.content5 {
+    margin: 20px;
 }
 
 .top-label {
