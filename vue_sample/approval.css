@@ -8,6 +8,7 @@ body {
     margin: 10px;
     width: 100px;
     height: 60px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .content {
@@ -15,6 +16,8 @@ body {
     border: 2px solid;
     margin: 10px;
     width: 180px;
+    height: 79px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .content2 {
@@ -23,6 +26,7 @@ body {
     margin: 10px;
     width: 180px;
     height: 125px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .content3 {
@@ -31,18 +35,33 @@ body {
     margin: 10px;
     width: 180px;
     height: 103px;
+    border-radius: 6px;/*角の丸み*/
+}
+
+.content4 {
+    text-align: center;
+    border: 2px solid;
+    margin: 10px;
+    width: 180px;
+    height: 80px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .top-label {
     text-align: center;
     color: aliceblue;
     border-bottom: 2px solid black;
-    background-color: #8FAADC;
+    background-color: #99D6D3;
 }
 
 .inner-label {
     text-align: left;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid black;
+    padding-left:15px;
+}
+
+.inner-label2 {
+    text-align: left;
     padding-left:15px;
 }
 
@@ -51,6 +70,8 @@ body {
     margin-left: 20px;
     text-align: center;
     width: 55px;
+          
+
 }
 
 .span2 {
@@ -59,6 +80,8 @@ body {
     text-align: center;
     width: 55px;
     color: #0FCB83;
+    vertical-align: middle;/*氏名文字真ん中へ*/          
+    
 }
 
 .span3 {
@@ -67,5 +90,16 @@ body {
     text-align: center;
     width: 55px;
     color: red;
+    vertical-align: middle;/*氏名文字真ん中へ*/          
+
 }
+
+.span4 {
+    border-left: 1px solid black;
+    margin-left: 20px;
+    text-align: center;
+    width: 55px;
+    
+}
+
 
