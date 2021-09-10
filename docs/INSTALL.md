@@ -4,9 +4,9 @@
 
 - [docker](https://docs.docker.com/engine/installation/)
 - [docker-compose](https://docs.docker.com/compose/install/)
-- [pyenv](https://github.com/pyenv/pyenv)
+- [pyenv](https://github.com/pyenv/pyenv) (for Linux and MacOS)
+- [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) (for Linux and MacOS)
 - [pyenv-win](https://github.com/pyenv-win/pyenv-win) (for Window)
-- [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv)
 
 
 ## バックエンド 
@@ -21,6 +21,8 @@
 
 1. ローカルで実行するための仮想環境を作成する: 
 
+## Linux-MacOS
+
 ```bash
 
 pyenv install 3.9.5
@@ -28,6 +30,19 @@ pyenv virtualenv 3.9.5 approval-system-backend
 pyenv local approval-system-backend
 pyenv activate approval-system-backend
 ```
+
+## Windows
+
+
+```bash
+
+pyenv install 3.9.5
+pyenv local 3.9.5
+python -m pip install virtualenv
+python -m venv approval-system-backend
+.\approval-system-backend\Scripts\activate
+```
+
 
 2. Pythonパッケージをインストールする:
 
