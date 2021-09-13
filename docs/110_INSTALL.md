@@ -20,12 +20,21 @@
 
 ## pyenvインストール
 
-#### 1. アプリ実行エイリアスでpythonのアプリインストーラーをオフにする。
+#### 1. pipでpyenv-winをインストール
+
+PowerShellからpipを使ってインストールする。
+
+```bash
+
+PS C:\work\approval-system> pip install pyenv-win --target $HOME\\.pyenv
+```
+
+#### 2. アプリ実行エイリアスでpythonのアプリインストーラーをオフにする。
 
 ![](img/aliases.png)
 ![](img/aliases-for-Python.png)
 
-#### 2. 環境変数を設定
+#### 3. 環境変数を設定
 
 PowerShellで以下のコマンドを実行して環境変数を設定する。
 
@@ -36,7 +45,7 @@ PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('PYENV_
 PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('path', $env:USERPROFILE + "\.pyenv\pyenv-win\bin;" + $env:USERPROFILE + "\.pyenv\pyenv-win\shims;" + [System.Environment]::GetEnvironmentVariable('path', "User"),"User")
 ```
 
-#### 3. pyenvバージョン確認
+#### 4. pyenvバージョン確認
 
 ```bash
 
