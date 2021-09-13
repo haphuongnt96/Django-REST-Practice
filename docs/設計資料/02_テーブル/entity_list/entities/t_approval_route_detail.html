@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+		<title>テーブル定義書&#32;approval-system</title>
+		<link rel="stylesheet" href="a5m2.css">
+	</head>
+	<body>
+	<table border="1">
+		<caption>エンティティ情報</caption>
+			<colgroup>
+				<col width="115">
+				<col width="180">
+				<col width="115">
+				<col width="180">
+			</colgroup>
+			<th>システム名</th>
+			<td>approval-system&nbsp;</td>
+			<th>作成者</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>サブシステム名</th>
+			<td>&nbsp;</td>
+			<th>作成日</th>
+			<td>2021/09/13&nbsp;</td>
+		</tr>
+		<tr>
+			<th>スキーマ名</th>
+			<td>&nbsp;</td>
+			<th>更新日</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>論理エンティティ名</th>
+			<td>T_承認ルート明細&nbsp;</td>
+			<th>タグ&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<th>物理エンティティ名</th>
+			<td>t_approval_route_detail&nbsp;</td>
+			<th>&nbsp;</th>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="4"><b>備考</b><br></td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>カラム情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="120">
+				<col width="100">
+				<col width="60">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>論理名</th>
+			<th>物理名</th>
+			<th>データ型</th>
+			<th>Not Null</th>
+			<th>デフォルト</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td>承認ルートID</td>
+			<td>approval_route_id</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td>明細No</td>
+			<td>detail_no</td>
+			<td>@INT</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td>部門コード</td>
+			<td>department_cd</td>
+			<td>@CHAR</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">4</td>
+			<td>セグメントコード</td>
+			<td>segment_cd</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">5</td>
+			<td>課コード</td>
+			<td>division_cd</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">6</td>
+			<td>必要承認数</td>
+			<td>required_num_approvals</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">7</td>
+			<td>順位</td>
+			<td>order</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">8</td>
+			<td>通知区分</td>
+			<td>notification</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">9</td>
+			<td>承認役職コード</td>
+			<td>approval_post_cd</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">10</td>
+			<td>承認者社員コード</td>
+			<td>approval_emp_cd</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">11</td>
+			<td>承認ステータス</td>
+			<td>approval_status</td>
+			<td></td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>インデックス情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="170">
+				<col width="230">
+				<col width="60">
+				<col width="100">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>インデックス名</th>
+			<th>カラムリスト</th>
+			<th>ユニーク</th>
+			<th>備考</th>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照先</th>
+			<th>参照先カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>approval_emp_cd</td>
+			<td>m_emp</td>
+			<td>emp_cd</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td></td>
+			<td>approval_post_cd</td>
+			<td>m_post</td>
+			<td>post_cd</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">3</td>
+			<td></td>
+			<td>approval_route_id</td>
+			<td>t_approval_route</td>
+			<td>approval_route_id</td>
+		</tr>
+	</table>
+
+<br>
+<br>
+	<table border="1">
+		<caption>リレーションシップ情報(PK側)</caption>
+			<colgroup>
+				<col width="30">
+				<col width="120">
+				<col width="160">
+				<col width="120">
+				<col width="160">
+			</colgroup>
+		<tr>
+			<th>No.</th>
+			<th>動詞句</th>
+			<th>カラムリスト</th>
+			<th>参照元</th>
+			<th>参照元カラムリスト</th>
+		</tr>
+	</table>
+
+
+	</body>
