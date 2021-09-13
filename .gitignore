@@ -49,3 +49,6 @@ supervisord.pid
 
 # venv directory
 approval-system-backend
+
+# initdb
+*test.sql
