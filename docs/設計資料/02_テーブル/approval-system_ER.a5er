@@ -40,7 +40,7 @@ ShowCommonAttributes=0
 
 [Entity]
 PName=m_emp
-LName=社員マスタ
+LName=M_社員
 Comment=
 TableOption=
 Page=MAIN
@@ -53,7 +53,7 @@ Field="削除フラグ","deleted_flg","",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$C0DCC0
-ModifiedDateTime=20210913163626
+ModifiedDateTime=20210913182447
 Position="MAIN",600,150,455,267
 ZOrder=0
 
@@ -395,71 +395,71 @@ Width=429
 Height=294
 
 [Entity]
-PName=部門マスタ
-LName=部門マスタ
+PName=m_department
+LName=M_部門
 Comment=
 TableOption=
 Page=MAIN
-Left=2150
+Left=2600
 Top=200
-Field="部門コード","部門コード","",,,"","",$FFFFFFFF,""
-Field="部門名","部門名","",,,"","",$FFFFFFFF,""
+Field="部門コード","department_cd","",,,"","",$FFFFFFFF,""
+Field="部門名","department_nm","",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210824024354
-Position="MAIN",2150,200,315,164
+ModifiedDateTime=20210913190232
+Position="MAIN",2600,200,569,164
 ZOrder=27
 
 [Entity]
-PName=セグメントマスタ
-LName=セグメントマスタ
+PName=m_segment
+LName=M_セグメント
 Comment=
 TableOption=
 Page=MAIN
-Left=2450
+Left=2900
 Top=450
-Field="セグメントコード","セグメントコード","",,,"","",$FFFFFFFF,""
-Field="セグメント名","セグメント名","",,,"","",$FFFFFFFF,""
+Field="セグメントコード","segment_cd","",,,"","",$FFFFFFFF,""
+Field="セグメント名","segment_nm","",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210824024421
-Position="MAIN",2450,450,344,124
+ModifiedDateTime=20210913190239
+Position="MAIN",2900,450,542,124
 ZOrder=28
 
 [Entity]
-PName=課マスタ
-LName=課マスタ
+PName=m_division
+LName=M_課
 Comment=
 TableOption=
 Page=MAIN
-Left=2500
+Left=2950
 Top=650
-Field="課コード","課コード","",,,"","",$FFFFFFFF,""
-Field="課名","課名","",,,"","",$FFFFFFFF,""
+Field="課コード","division_cd","",,,"","",$FFFFFFFF,""
+Field="課名","division_nm","",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210824024504
-Position="MAIN",2500,650,243,103
+ModifiedDateTime=20210913190245
+Position="MAIN",2950,650,410,103
 ZOrder=29
 
 [Entity]
-PName=事業部マスタ
-LName=事業部マスタ
+PName=m_business_unit
+LName=M_事業部
 Comment=
 TableOption=
 Page=MAIN
-Left=2300
-Top=800
-Field="事業部コード","事業部コード","",,,"","",$FFFFFFFF,""
-Field="事業部名","事業部名","",,,"","",$FFFFFFFF,""
+Left=2800
+Top=850
+Field="事業部コード","business_unit_cd","",,,"","",$FFFFFFFF,""
+Field="事業部名","business_unit_nm","",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210824025128
-Position="MAIN",2300,800,296,127
+ModifiedDateTime=20210913190250
+Position="MAIN",2800,850,627,127
 ZOrder=30
 
 [Comment]
@@ -568,23 +568,24 @@ TermPos2=R
 ZOrder=35
 
 [Entity]
-PName=社員所属関連マスタ
-LName=社員所属関連マスタ
+PName=m_emp_affiliation
+LName=T_社員所属関連
 Comment=
 TableOption=
 Page=MAIN
 Left=1500
 Top=400
-Field="社員コード","社員コード","",,,"","",$000000FF,""
-Field="部門コード","部門コード","",,,"","",$000000FF,""
-Field="セグメントコード","セグメントコード","",,,"","",$000000FF,""
-Field="課コード","課コード","",,,"","",$000000FF,""
-Field="事業部コード","事業部コード","",,,"","",$000000FF,""
+Field="社員コード","emp_cd","",,,"","",$FFFFFFFF,""
+Field="部門コード","department_cd","",,,"","",$FFFFFFFF,""
+Field="セグメントコード","segment_cd","",,,"","",$FFFFFFFF,""
+Field="課コード","division_cd","",,,"","",$FFFFFFFF,""
+Field="事業部コード","business_unit_cd","",,,"","",$FFFFFFFF,""
+Field="主フラグ","main_flg","",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210824033114
-Position="MAIN",1500,400,378,233
+ModifiedDateTime=20210913190037
+Position="MAIN",1500,400,616,302
 ZOrder=36
 
 [Entity]
@@ -654,7 +655,7 @@ ZOrder=39
 
 [Relation]
 Entity1=m_emp
-Entity2=社員所属関連マスタ
+Entity2=m_emp_affiliation
 RelationType1=1
 RelationType2=3
 Fields1=
@@ -674,12 +675,12 @@ TermPos2=R
 ZOrder=40
 
 [Relation]
-Entity1=部門マスタ
-Entity2=社員所属関連マスタ
+Entity1=m_department
+Entity2=m_emp_affiliation
 RelationType1=1
 RelationType2=3
-Fields1=部門コード
-Fields2=部門コード
+Fields1=department_cd
+Fields2=department_cd
 Cardinarity1=
 Cardinarity2=
 Position="MAIN",0,1848,8152,1009,R,R,""
@@ -696,12 +697,12 @@ TermPos2=R
 ZOrder=41
 
 [Relation]
-Entity1=セグメントマスタ
-Entity2=社員所属関連マスタ
+Entity1=m_segment
+Entity2=m_emp_affiliation
 RelationType1=1
 RelationType2=3
-Fields1=セグメントコード
-Fields2=セグメントコード
+Fields1=segment_cd
+Fields2=segment_cd
 Cardinarity1=
 Cardinarity2=
 Position="MAIN",0,1848,8152,1971,R,R,""
@@ -718,12 +719,12 @@ TermPos2=R
 ZOrder=42
 
 [Relation]
-Entity1=課マスタ
-Entity2=社員所属関連マスタ
+Entity1=m_division
+Entity2=m_emp_affiliation
 RelationType1=1
 RelationType2=3
-Fields1=課コード
-Fields2=課コード
+Fields1=division_cd
+Fields2=division_cd
 Cardinarity1=
 Cardinarity2=
 Position="MAIN",0,1848,8152,6339,R,R,""
@@ -740,12 +741,12 @@ TermPos2=R
 ZOrder=43
 
 [Relation]
-Entity1=事業部マスタ
-Entity2=社員所属関連マスタ
+Entity1=m_business_unit
+Entity2=m_emp_affiliation
 RelationType1=1
 RelationType2=3
-Fields1=事業部コード
-Fields2=事業部コード
+Fields1=business_unit_cd
+Fields2=business_unit_cd
 Cardinarity1=
 Cardinarity2=
 Position="MAIN",0,1848,8226,8383,R,R,""

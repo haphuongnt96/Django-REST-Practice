@@ -33,13 +33,13 @@
 		</tr>
 		<tr>
 			<th>論理エンティティ名</th>
-			<td>社員所属関連マスタ&nbsp;</td>
+			<td>M_セグメント&nbsp;</td>
 			<th>タグ&nbsp;</th>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<th>物理エンティティ名</th>
-			<td>社員所属関連マスタ&nbsp;</td>
+			<td>m_segment&nbsp;</td>
 			<th>&nbsp;</th>
 			<td>&nbsp;</td>
 		</tr>
@@ -72,8 +72,8 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">1</td>
-			<td>社員コード</td>
-			<td>社員コード</td>
+			<td>セグメントコード</td>
+			<td>segment_cd</td>
 			<td></td>
 			<td>&nbsp;</td>
 			<td></td>
@@ -81,35 +81,8 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
-			<td>部門コード</td>
-			<td>部門コード</td>
-			<td></td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">3</td>
-			<td>セグメントコード</td>
-			<td>セグメントコード</td>
-			<td></td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">4</td>
-			<td>課コード</td>
-			<td>課コード</td>
-			<td></td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">5</td>
-			<td>事業部コード</td>
-			<td>事業部コード</td>
+			<td>セグメント名</td>
+			<td>segment_nm</td>
 			<td></td>
 			<td>&nbsp;</td>
 			<td></td>
@@ -154,41 +127,6 @@
 			<th>参照先</th>
 			<th>参照先カラムリスト</th>
 		</tr>
-		<tr>
-			<td style="text-align:right;">1</td>
-			<td></td>
-			<td>事業部コード</td>
-			<td>事業部マスタ</td>
-			<td>事業部コード</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">2</td>
-			<td></td>
-			<td>課コード</td>
-			<td>課マスタ</td>
-			<td>課コード</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">3</td>
-			<td></td>
-			<td>セグメントコード</td>
-			<td>セグメントマスタ</td>
-			<td>セグメントコード</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">4</td>
-			<td></td>
-			<td>部門コード</td>
-			<td>部門マスタ</td>
-			<td>部門コード</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">5</td>
-			<td></td>
-			<td></td>
-			<td>m_emp</td>
-			<td></td>
-		</tr>
 	</table>
 
 <br>
@@ -208,6 +146,13 @@
 			<th>カラムリスト</th>
 			<th>参照元</th>
 			<th>参照元カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>segment_cd</td>
+			<td>m_emp_affiliation</td>
+			<td>segment_cd</td>
 		</tr>
 	</table>
 
