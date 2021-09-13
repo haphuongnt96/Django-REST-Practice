@@ -46,3 +46,6 @@ supervisord.log
 supervisord.pid
 .tmp/
 .DS_Store
+
+# venv directory
+approval-system-backend
