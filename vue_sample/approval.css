@@ -2,12 +2,17 @@ body {
     background-color: #F7F3F4;
 }
 
+.a {
+    border-bottom: 3px solid #FFBBC6;
+}
+
 .applicant {
     text-align: center;
     border: 2px solid;
     margin: 10px;
     width: 100px;
     height: 60px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .content {
@@ -15,34 +20,58 @@ body {
     border: 2px solid;
     margin: 10px;
     width: 180px;
+    height: 75px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .content2 {
     text-align: center;
     border: 2px solid;
-    margin: 10px;
+    margin: 8px;
     width: 180px;
     height: 125px;
+    border-radius: 6px;/*角の丸み*/
 }
 
 .content3 {
     text-align: center;
     border: 2px solid;
-    margin: 10px;
+    margin: 8px;
     width: 180px;
     height: 103px;
+    border-radius: 6px;/*角の丸み*/
 }
+
+.content4 {
+    text-align: center;
+    border: 2px solid;
+    margin: 8px;
+    width: 180px;
+    height: 80px;
+    border-radius: 6px;/*角の丸み*/
+}
+
+.content5 {
+    margin-left: 10px;
+}
+
 
 .top-label {
     text-align: center;
-    color: aliceblue;
+    color: black;
+    font-weight: 400;
     border-bottom: 2px solid black;
-    background-color: #8FAADC;
+    background-color: #FFBBC6;
 }
 
 .inner-label {
     text-align: left;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid black;
+    padding-left:15px;
+}
+
+.inner-label2 {
+    text-align: left;
     padding-left:15px;
 }
 
@@ -51,6 +80,8 @@ body {
     margin-left: 20px;
     text-align: center;
     width: 55px;
+          
+
 }
 
 .span2 {
@@ -58,7 +89,9 @@ body {
     margin-left: 20px;
     text-align: center;
     width: 55px;
-    color: #0FCB83;
+    color: rgb(9, 129, 25);
+    vertical-align: middle;/*氏名文字真ん中へ*/          
+    
 }
 
 .span3 {
@@ -67,5 +100,77 @@ body {
     text-align: center;
     width: 55px;
     color: red;
+    vertical-align: middle;/*氏名文字真ん中へ*/          
+
 }
 
+.span4 {
+    border-left: 1px solid black;
+    margin-left: 20px;
+    text-align: center;
+    width: 55px;
+    
+}
+/*承認ボタン*/
+.btn.type01{
+    width:50px;
+    height: 30px;
+    font-size:15px;
+    color:#FFFFFF;
+    display:block;
+    padding:10px 0 10px;
+    background:#241E6B;
+    border-radius: 6px;/*角の丸み*/
+     /* 縦横中央揃え */
+    text-align:center;
+    line-height: 8px;
+  }
+
+/*差戻ボタン*/
+.btn.type02{
+  width:50px;
+  height: 30px;
+  font-size:15px;
+  color:#FFFFFF;
+  display:block;
+  padding:10px 0 10px;
+  background:#b62f5c;
+  border-radius: 6px;/*角の丸み*/
+     /* 縦横中央揃え */
+    text-align:center;
+    line-height: 8px;
+}
+
+  .mybox{
+    border: 1px solid #f0b8bf;	/* 線の太さ・種類・色 */
+    border-radius: 3px;
+    padding: 1px;	/* 内側の余白 */
+    position: relative;
+    text-align: center;
+    width: 30px;
+    margin-left:50px
+  
+  }
+  .mybox:before{
+    background-color: rgba(255,255,255,0.7);  /* 文字部分背景色・透過度 */
+    border-radius: 3px;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 3px;
+    z-index: -1;
+  }
+  .mybox:after{
+    background: repeating-linear-gradient(-45deg, #f5d5da, #f5d5da 5px, #fcf0f1 0, #fcf0f1 10px); /* ストライプの色 */
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -2;
+  }
