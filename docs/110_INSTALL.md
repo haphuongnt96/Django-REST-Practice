@@ -214,6 +214,12 @@ pyenv activate approval-system-backend
 
 # フロントエンド
 
+## node.js & npmインストール
+
+[こちら](https://nodejs.org/ja/download/)からダウンロードした「Windows Installer (.msi)」を使ってインストールする。
+
+※デフォルト設定で「next」でウィザードを進めてOK
+
 ## VueJSアプリケーション構築
 
 Vuejsを独立して実行させるための環境です。
@@ -224,7 +230,7 @@ Vuejsを独立して実行させるための環境です。
 PS C:\work\approval-system\approvalsystem-ui> npm install
 ```
 
-#### 2. VueJSアプリを実行し、ブラウザーで `localhost：8080` pageを確認します:
+#### 2. VueJSアプリを実行し、ブラウザーで `localhost：8080` pageを確認する:
 
 ```bash
 PS C:\work\approval-system\approvalsystem-ui> npm run serve
