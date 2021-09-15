@@ -235,3 +235,5 @@ PS C:\work\approval-system\approvalsystem-ui> npm install
 ```bash
 PS C:\work\approval-system\approvalsystem-ui> npm run serve
 ```
+
+※2回目以降起動するときは`runserve.bat`をダブルクリックなどで実行すると便利です。
