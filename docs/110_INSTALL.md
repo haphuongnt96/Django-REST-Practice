@@ -45,7 +45,15 @@ PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('PYENV_
 PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('path', $env:USERPROFILE + "\.pyenv\pyenv-win\bin;" + $env:USERPROFILE + "\.pyenv\pyenv-win\shims;" + [System.Environment]::GetEnvironmentVariable('path', "User"),"User")
 ```
 
-#### 4. pyenvバージョン確認
+#### 4. PowerShellを一度再起動する
+
+環境変数が反映されていない可能性があるのでPowerShellのウィンドウを一度閉じて再度開く。
+
+```bash
+exit
+```
+
+#### 5. pyenvバージョン確認
 
 ```bash
 
