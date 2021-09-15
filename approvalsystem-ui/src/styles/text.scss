@@ -1,0 +1,49 @@
+/*====== Font-weight css starts ======*/
+$i: 100, 200, 300, 500, 400, 600, 700, 900;
+@each $val in $i {
+  .fw-#{$val} {
+    font-weight: $val !important;
+  }
+}
+/*====== Font-weight css ends ======*/
+.txt-white {
+  color: $white;
+}
+
+/*======= Font-family css end  ======= */
+
+/*======= Font-color css starts  ======= */
+
+$text-name: primary, blue-1, blue-2, blue-3, blue-4, text-1, text-2, text-3,
+  text-4, grey-1, grey-2, grey-3, grey-4, grey-5, grey-6, grey-7, grey-8,
+  green-1, green-2, green-3, green-4, green-5, yellow-1, yellow-2, yellow-3,
+  yellow-4, red-1, red-2, red-3, orange-1, orange-3, purple-1, purple-3,
+  purple-4, dark, dark-1, dark-2, dark-3, dark-4, warning;
+$text-color: $primary, $blue-1, $blue-2, $blue-3, $blue-4, $text-1, $text-2,
+  $text-3, $text-4, $grey-1, $grey-2, $grey-3, $grey-4, $grey-5, $grey-6,
+  $grey-7, $grey-8, $green-1, $green-2, $green-3, $green-4, $green-5, $yellow-1,
+  $yellow-2, $yellow-3, $yellow-4, $red-1, $red-2, $red-3, $orange-1, $orange-3,
+  $purple-1, $purple-3, $purple-4, $dark, $dark-1, $dark-2, $dark-3, $dark-4,
+  $warning;
+@each $var in $text-name {
+  $i: index($text-name, $var);
+  .txt-#{$var} {
+    color: nth($text-color, $i) !important;
+  }
+}
+.txt-white {
+  color: $white;
+}
+
+.bg-white {
+  background: $white !important;
+}
+
+@each $var in $text-name {
+  $i: index($text-name, $var);
+  .bg-#{$var} {
+    background: nth($text-color, $i) !important;
+  }
+}
+
+/*======= Font-color css end  ======= */

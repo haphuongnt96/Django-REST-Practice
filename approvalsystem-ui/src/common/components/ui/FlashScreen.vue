@@ -1,0 +1,194 @@
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component({ components: {} })
+export default class FlashScreen extends Vue {
+  //*===👜===👜===👜===👜===👜===👜===👜===👜===👜===👜===👜===👜Props
+}
+</script>
+
+<template>
+  <v-container pa-0 fluid fill-height class="splash__container">
+    <div class="splash__content">
+      <div class="group">
+        <div class="bigSqr">
+          <div class="square first"></div>
+          <div class="square second"></div>
+          <div class="square third"></div>
+          <div class="square fourth"></div>
+        </div>
+        <div class="text">loading</div>
+      </div>
+    </div>
+  </v-container>
+</template>
+
+<style lang="scss" scoped>
+.splash__container {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.splash__content {
+  width: 100vw;
+  height: 100vh;
+  background: #0ae;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 16px;
+}
+
+.bigSqr {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  transform-origin: bottom left;
+  -webkit-animation: bigSqrShrink 1s linear infinite;
+  animation: bigSqrShrink 1s linear infinite;
+}
+
+.square {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+}
+
+.first {
+  left: 0px;
+  top: 20px;
+}
+
+.second {
+  left: 20px;
+  top: 20px;
+  -webkit-animation: drop2 1s linear infinite;
+  animation: drop2 1s linear infinite;
+}
+
+.third {
+  left: 0px;
+  top: 0px;
+  -webkit-animation: drop3 1s linear infinite;
+  animation: drop3 1s linear infinite;
+}
+
+.fourth {
+  left: 20px;
+  top: 0px;
+  -webkit-animation: drop4 1s linear infinite;
+  animation: drop4 1s linear infinite;
+}
+
+.text {
+  line-height: 16px;
+  font-family: 'Open Sans', 'Roboto', Arial, sans-serif;
+  font-weight: 400;
+  color: #fff;
+  display: block;
+  margin: 10px auto;
+  padding: 3px;
+}
+
+@-webkit-keyframes bigSqrShrink {
+  0% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.5);
+  }
+}
+
+@keyframes bigSqrShrink {
+  0% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.5);
+  }
+}
+@-webkit-keyframes drop2 {
+  0% {
+    transform: translateY(-50px);
+  }
+  25% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+@keyframes drop2 {
+  0% {
+    transform: translateY(-50px);
+  }
+  25% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+@-webkit-keyframes drop3 {
+  0% {
+    transform: translateY(-50px);
+  }
+  50% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+@keyframes drop3 {
+  0% {
+    transform: translateY(-50px);
+  }
+  50% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+@-webkit-keyframes drop4 {
+  0% {
+    transform: translateY(-50px);
+  }
+  75% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+@keyframes drop4 {
+  0% {
+    transform: translateY(-50px);
+  }
+  75% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+</style>

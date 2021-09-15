@@ -1,24 +1,33 @@
-<template>
-  <Approval/>
-</template>
+<script lang="ts">
+import FlashScreen from '@/common/components/ui/FlashScreen.vue'
+import { Component, Vue } from 'vue-property-decorator'
 
-<script>
-import Approval from './pages/Approval.vue'
+//*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
 
-export default {
-  name: 'App',
-  components: {
-    Approval
+@Component({
+  components: { FlashScreen }
+})
+export default class App extends Vue {
+  //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
+  layout = 'AppDefaultLayout'
+  loading = true
+  //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
+
+  mounted() {
+    this.$router.onReady(() => {
+      this.loading = false
+      const metaLayout = this.$route.meta && this.$route.meta.layout
+      if (metaLayout) this.layout = `App${metaLayout}Layout`
+    })
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
+<template>
+  <v-app :style="{ background: '#F7F3F4' }">
+    <FlashScreen v-if="loading" />
+    <component v-else :is="layout" />
+  </v-app>
+</template>
+
+<style lang="scss"></style>
