@@ -2,6 +2,11 @@
 
 プロジェクトを初期する前に、次のツールをインストールする必要があります。
 
+- python
+- Visual Studio Code
+- Docker Descktop
+- PostgreSQL 13
+- Git
 - [docker](https://docs.docker.com/engine/installation/)
 - [docker-compose](https://docs.docker.com/compose/install/)
 - [pyenv](https://github.com/pyenv/pyenv) (Linux, MacOS) ※Widowsの場合は不要
