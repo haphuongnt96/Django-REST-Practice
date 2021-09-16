@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/09/13&nbsp;</td>
+			<td>2021/09/16&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -75,7 +75,7 @@
 			<td>承認種類コード</td>
 			<td>承認種類コード</td>
 			<td></td>
-			<td>&nbsp;</td>
+			<td>Yes (PK)</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -120,7 +120,7 @@
 			<td>順位</td>
 			<td>順位</td>
 			<td></td>
-			<td>&nbsp;</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -135,19 +135,19 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">8</td>
-			<td>承認役職名</td>
-			<td>承認役職名</td>
+			<td>承認役職コード</td>
+			<td>approval_post_cd</td>
 			<td></td>
-			<td>&nbsp;</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">9</td>
 			<td>社員コード</td>
-			<td>社員コード</td>
+			<td>emp_cd</td>
 			<td></td>
-			<td>&nbsp;</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -156,16 +156,7 @@
 			<td>必要承認数</td>
 			<td>必要承認数</td>
 			<td></td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">11</td>
-			<td>承認役職コード</td>
-			<td>承認役職コード</td>
-			<td></td>
-			<td>&nbsp;</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -211,12 +202,19 @@
 		<tr>
 			<td style="text-align:right;">1</td>
 			<td></td>
-			<td>社員コード</td>
+			<td>approval_post_cd</td>
+			<td>m_approval_post</td>
+			<td>approval_post_cd</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
+			<td></td>
+			<td>emp_cd</td>
 			<td>m_emp</td>
 			<td>emp_cd</td>
 		</tr>
 		<tr>
-			<td style="text-align:right;">2</td>
+			<td style="text-align:right;">3</td>
 			<td></td>
 			<td>承認種類コード</td>
 			<td>MM_承認種類マスタ</td>
