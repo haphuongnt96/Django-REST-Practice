@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/09/13&nbsp;</td>
+			<td>2021/09/16&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -74,8 +74,8 @@
 			<td style="text-align:right;">1</td>
 			<td>ID</td>
 			<td>id</td>
-			<td></td>
-			<td>&nbsp;</td>
+			<td>@INT</td>
+			<td>Yes (PK)</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -83,8 +83,8 @@
 			<td style="text-align:right;">2</td>
 			<td>社員コード</td>
 			<td>emp_cd</td>
-			<td></td>
-			<td>&nbsp;</td>
+			<td>@VARCHAR(7)</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -92,8 +92,8 @@
 			<td style="text-align:right;">3</td>
 			<td>社員名</td>
 			<td>emp_nm</td>
-			<td></td>
-			<td>&nbsp;</td>
+			<td>@VARCHAR(10)</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -101,8 +101,8 @@
 			<td style="text-align:right;">4</td>
 			<td>削除フラグ</td>
 			<td>deleted_flg</td>
-			<td></td>
-			<td>&nbsp;</td>
+			<td>@BOOLEAN</td>
+			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -191,7 +191,7 @@
 			<td></td>
 			<td>emp_cd</td>
 			<td>MM_承認ルートマスタ</td>
-			<td>社員コード</td>
+			<td>emp_cd</td>
 		</tr>
 	</table>
 
