@@ -12,18 +12,24 @@ class ApprovalRoute(BaseModel):
     request_id = models.ForeignKey(
         Request, on_delete=models.CASCADE
     )
-    approval_route_id = models.AutoField()
+    approval_route_id = models.AutoField(primary_key=True)
     approval_type_cd = models.CharField(max_length=5)
     judgement_cd = models.CharField(
         max_length=1, null=True, blank=True
     )
     request_emp_cd = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-        max_length=7, null=True, blank=True
+        max_length=7, null=True, blank=True,
     )
 
     class Meta:
         db_table = 't_approval_route'
+
+    @property
+    def request_emp_fullname(self) -> str:
+        emp_fullname = self.request_emp_cd.emp_nm \
+            if self.request_emp_cd else ''
+        return emp_fullname
 
 
 class ApprovalPost(BaseModel):
@@ -40,7 +46,7 @@ class ApprovalRouteDetail(BaseModel):
     approval_route_id = models.ForeignKey(
         ApprovalRoute, on_delete=models.CASCADE
     )
-    detail_no = models.AutoField()
+    detail_no = models.AutoField(primary_key=True)
 
     department_cd = models.ForeignKey(
         Department, on_delete=models.SET_NULL,
@@ -67,7 +73,7 @@ class ApprovalRouteDetail(BaseModel):
     )
     approval_emp_cd = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-        max_length=7, null=True
+        max_length=7, null=True,
     )
     approval_status = models.BooleanField(
         null=True, blank=True
@@ -78,3 +84,19 @@ class ApprovalRouteDetail(BaseModel):
 
     class Meta:
         db_table = 't_approval_route_detail'
+
+    @property
+    def organization_path(self) -> str:
+        organization_path = filter(None, [
+            self.department_cd,
+            self.segment_cd,
+            self.division_cd,
+        ])
+        result = ' '.join(map(str, organization_path))
+        return result
+
+    @property
+    def approval_emp_fullname(self) -> str:
+        emp_fullname = self.approval_emp_fullname.emp_nm \
+            if self.approval_emp_cd else ''
+        return emp_fullname

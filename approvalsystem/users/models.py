@@ -86,3 +86,12 @@ class User(
 
     def __str__(self):
         return self.email
+
+    @property
+    def emp_nm(self) -> str:
+        name = filter(None, [
+            self.first_name,
+            self.last_name,
+        ])
+        fullname = ' '.join(map(str, name))
+        return fullname
