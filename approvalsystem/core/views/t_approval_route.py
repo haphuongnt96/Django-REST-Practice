@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import os
 
@@ -8,7 +9,7 @@ from django.conf import settings
 
 def read_json(path):
     abs_path = os.path.join(settings.BASE_DIR, path)
-    with open(abs_path) as f:
+    with open(abs_path, 'rt', encoding='utf-8') as f:
         data = json.load(f)
     return data
 
