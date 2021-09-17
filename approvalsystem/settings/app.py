@@ -8,6 +8,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'corsheaders',
     'django_extensions',
+    'rest_framework',
     'core',
     'users',
 ]
