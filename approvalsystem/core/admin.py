@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.models import Department, Segment, Division, \
-    Request, ApprovalRoute, ApprovalRouteDetail
+    Request, ApprovalRoute, ApprovalRouteDetail, ApprovalPost
 
 
 class ApprovalRouteInline(admin.TabularInline):
@@ -25,3 +25,4 @@ admin.site.register(Segment)
 admin.site.register(Division)
 admin.site.register(Request, RequestAdmin)
 admin.site.register(ApprovalRoute, ApprovalRouteAdmin)
+admin.site.register(ApprovalPost)

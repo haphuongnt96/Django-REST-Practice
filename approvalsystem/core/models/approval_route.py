@@ -26,10 +26,10 @@ class ApprovalRoute(BaseModel):
         db_table = 't_approval_route'
 
     @property
-    def request_emp_fullname(self) -> str:
-        emp_fullname = self.request_emp_cd.emp_nm \
+    def request_emp_nm(self) -> str:
+        emp_nm = self.request_emp_cd.emp_nm \
             if self.request_emp_cd else ''
-        return emp_fullname
+        return emp_nm
 
 
 class ApprovalPost(BaseModel):
@@ -41,10 +41,14 @@ class ApprovalPost(BaseModel):
     class Meta:
         db_table = 'm_approval_post'
 
+    def __str__(self):
+        return self.approval_post_nm
+
 
 class ApprovalRouteDetail(BaseModel):
     approval_route_id = models.ForeignKey(
-        ApprovalRoute, on_delete=models.CASCADE
+        ApprovalRoute, on_delete=models.CASCADE,
+        related_name='approval_route_details'
     )
     detail_no = models.AutoField(primary_key=True)
 
@@ -75,8 +79,8 @@ class ApprovalRouteDetail(BaseModel):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         max_length=7, null=True,
     )
-    approval_status = models.BooleanField(
-        null=True, blank=True
+    approval_status = models.CharField(
+        max_length=1, null=True, blank=True
     )
     approval_date = models.DateField(
         null=True, blank=True
@@ -86,17 +90,11 @@ class ApprovalRouteDetail(BaseModel):
         db_table = 't_approval_route_detail'
 
     @property
-    def organization_path(self) -> str:
-        organization_path = filter(None, [
-            self.department_cd,
-            self.segment_cd,
-            self.division_cd,
-        ])
-        result = ' '.join(map(str, organization_path))
-        return result
+    def approval_post_nm(self) -> str:
+        return self.approval_post_cd.approval_post_nm
 
     @property
-    def approval_emp_fullname(self) -> str:
-        emp_fullname = self.approval_emp_fullname.emp_nm \
+    def approval_emp_nm(self) -> str:
+        emp_nm = self.approval_emp_cd.emp_nm \
             if self.approval_emp_cd else ''
-        return emp_fullname
+        return emp_nm
