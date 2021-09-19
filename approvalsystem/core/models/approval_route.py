@@ -46,6 +46,11 @@ class ApprovalPost(BaseModel):
 
 
 class ApprovalRouteDetail(BaseModel):
+    class StatusChoices(models.TextChoices):
+        not_verified = '0', 'Not Verified'
+        approved = '1', 'Approved'
+        rejected = '2', 'Rejected'
+
     approval_route_id = models.ForeignKey(
         ApprovalRoute, on_delete=models.CASCADE,
         related_name='approval_route_details'
@@ -80,7 +85,8 @@ class ApprovalRouteDetail(BaseModel):
         max_length=7, null=True,
     )
     approval_status = models.CharField(
-        max_length=1, null=True, blank=True
+        max_length=1, choices=StatusChoices.choices,
+        default=StatusChoices.not_verified,
     )
     approval_date = models.DateField(
         null=True, blank=True
