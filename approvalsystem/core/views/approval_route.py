@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView, UpdateAPIView
 from django.shortcuts import get_object_or_404
 
-from core.models import ApprovalRoute, Request
-from core.serializers import ApprovalRouteSerializer
+from core.models import Request, ApprovalRoute, ApprovalRouteDetail
+from core.serializers import ApprovalRouteSerializer, \
+    UpdateStatusApprovalRouteDetailSerializer
 
 
 class ApprovalRouteListAPI(ListAPIView):
@@ -19,3 +21,9 @@ class ApprovalRouteListAPI(ListAPIView):
         queryset = super().get_queryset()
         request_id = self.kwargs['request_id']
         return queryset.filter(request_id=request_id)
+
+
+class UpdateStatusApprovalRouteDetailAPI(UpdateAPIView):
+    queryset = ApprovalRouteDetail.objects.all()
+    lookup_field = 'approval_route_id'
+    serializer_class = UpdateStatusApprovalRouteDetailSerializer

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import date
+
 from django.db import models
 from django.conf import settings
 
@@ -89,11 +91,17 @@ class ApprovalRouteDetail(BaseModel):
         default=StatusChoices.not_verified,
     )
     approval_date = models.DateField(
-        null=True, blank=True
+        null=True, blank=True, editable=False
     )
 
     class Meta:
         db_table = 't_approval_route_detail'
+
+    def save(self, *args, **kwargs):
+        if not self.approval_date and \
+                self.approval_status != self.StatusChoices.not_verified:
+            self.approval_date = date.today()
+        return super().save(*args, **kwargs)
 
     @property
     def approval_post_nm(self) -> str:
