@@ -1,0 +1,48 @@
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { format } from 'date-fns'
+
+@Component({ components: {} })
+export default class RequestHeader extends Vue {
+  //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
+  format = format
+  //#region COMPUTED
+  get contents() {
+    return this.$pageContents.APPROVAL
+  }
+  //#endregion
+}
+</script>
+
+<template>
+  <v-card flat>
+    <v-card-title>{{ contents.APP_INFORMATION }}</v-card-title>
+    <v-card-text class="text-body-2 fw-600">
+      <div class="d-flex flex-gap-8">
+        <div>{{ contents.APP_CONTENT }}:</div>
+        <div>
+          <span class="mr-8">{{ contents.APP_TITLE }}</span>
+          <v-btn small color="grey">{{ contents.SELECT }}</v-btn>
+        </div>
+      </div>
+      <div class="d-flex flex-gap-8">
+        <div>{{ contents.APP_DEPARTMENT }}:</div>
+        <div>
+          <div>{{ contents.DEPARTMENT_NAME }}</div>
+        </div>
+      </div>
+      <div class="d-flex flex-gap-8">
+        <div>{{ contents.APP_CONTENT }}:</div>
+        <div>
+          <div>{{ format(Date.now(), 'dd/mm/yyyy hh:mm') }}</div>
+        </div>
+      </div>
+      <div class="d-flex flex-gap-8">
+        <div>{{ contents.APP_NAME }}:</div>
+        <div></div>
+      </div>
+    </v-card-text>
+  </v-card>
+</template>
+
+<style lang="scss" scoped></style>

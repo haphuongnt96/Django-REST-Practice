@@ -29,7 +29,7 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    return response.data
+    return response
   },
   (e) => {
     return Promise.reject(e)

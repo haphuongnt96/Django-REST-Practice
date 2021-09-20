@@ -1,30 +1,3 @@
-// import Vue from 'vue'
-// import Vuetify from 'vuetify/lib'
-// import colors from 'vuetify/es5/util/colors'
-
-// // Vue.use(Vuetify, {
-// //   iconfont: 'md',
-// // });
-
-// Vue.use(Vuetify, {
-//   theme: {
-//     primary: '#727375', // a color that is not in the material colors palette
-//     secondary: '#7f8285', // a color that is not in the material colors palette
-//     accent: '#cc2531',
-//     info: colors.teal.lighten1,
-//     warning: colors.amber.base,
-//     error: colors.deepOrange.accent4,
-//     success: colors.green.accent3,
-//     white: '#ffffff',
-//     subtoolbar: '#3b6eb4',
-//     primaryToolbar: '#315f9a',
-//     secondaryToolbar: '#4393f9'
-//   },
-//   options: {
-//     customProperties: true
-//   }
-// })
-
 import Vue from 'vue'
 // import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
@@ -56,6 +29,7 @@ const opts = {
         lighty: '#1e1e1e',
         lightyHl: '#000000',
         navbarBtnActive,
+        grey: '#e4d8dc',
         esgRed: '#eb513a'
       },
       dark: {

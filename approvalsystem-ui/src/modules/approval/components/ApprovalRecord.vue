@@ -17,8 +17,8 @@ export default class ApprovalRecord extends Vue {
   get color() {
     return (approval_status: boolean) => {
       return approval_status
-        ? this.$config.Colors.green3
-        : this.$config.Colors.red3
+        ? this.$config.Colors.success
+        : this.$config.Colors.error
     }
   }
 
@@ -27,32 +27,25 @@ export default class ApprovalRecord extends Vue {
       return approval_status ? 'mdi-checkbox-marked-circle' : 'mdi-close-circle'
     }
   }
-
-  get headerBg() {
-    const approval_status = this.items[0]
-      ? this.items[0].approval_status
-      : false
-    return approval_status ? '#8FAADC' : '#FDCC82'
-  }
 }
 </script>
 
 <template>
   <v-simple-table>
-    <thead :style="{ background: headerBg }">
+    <thead>
       <tr>
         <th colspan="2" class="text-center">{{ header }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="detail in items" :key="detail.approval_emp_fullname">
-        <td>{{ detail.approval_emp_fullname }}</td>
+      <tr v-for="detail in items" :key="detail.detail_no">
+        <td>{{ detail.approval_emp_nm }}</td>
         <td class="d-flex flex-column justify-center">
           <template v-if="detail.approval_status !== null">
             <v-icon size="16" :color="color(detail.approval_status)">
               {{ icon(detail.approval_status) }}
             </v-icon>
-            {{ detail.updated_at }}
+            {{ detail.approval_date }}
           </template>
         </td>
       </tr>
@@ -68,7 +61,7 @@ export default class ApprovalRecord extends Vue {
       border: solid 1px #000;
     }
     th {
-      color: #fff !important;
+      background: $pink-2;
     }
   }
 }

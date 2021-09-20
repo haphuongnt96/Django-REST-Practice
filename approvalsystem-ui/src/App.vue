@@ -24,10 +24,15 @@ export default class App extends Vue {
 </script>
 
 <template>
-  <v-app :style="{ background: '#F7F3F4' }">
+  <v-app :style="{ background: $config.Colors.pink1 }">
     <FlashScreen v-if="loading" />
     <component v-else :is="layout" />
   </v-app>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+html {
+  font-size: 16px;
+  color: #000;
+}
+</style>
