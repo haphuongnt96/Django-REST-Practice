@@ -19,6 +19,8 @@ from django.conf import settings
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf.urls.static import static
+
 
 admin.site.site_header = 'Approval System Admin'
 admin.site.site_title = 'Approval System Admin'
@@ -26,7 +28,8 @@ admin.site.site_title = 'Approval System Admin'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +\
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     schema_view = get_schema_view(
