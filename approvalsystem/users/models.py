@@ -6,7 +6,7 @@ from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from core.models import BaseModel
+from utils.base_model import BaseModel
 
 
 class UserManager(DjangoUserManager):
@@ -86,3 +86,12 @@ class User(
 
     def __str__(self):
         return self.email
+
+    @property
+    def emp_nm(self) -> str:
+        name = filter(None, [
+            self.first_name,
+            self.last_name,
+        ])
+        fullname = ' '.join(map(str, name))
+        return fullname

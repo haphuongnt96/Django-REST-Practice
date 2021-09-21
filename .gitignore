@@ -50,5 +50,14 @@ supervisord.pid
 # venv directory
 approval-system-backend
 
+# environments
+*.env
+
+# Django stuff:
+migrations
+*.log
+local_settings.py
+db.sqlite3
+
 # initdb
 *test.sql
