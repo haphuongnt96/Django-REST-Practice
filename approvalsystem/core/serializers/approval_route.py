@@ -69,5 +69,5 @@ class UpdateStatusApprovalRouteDetailSerializer(serializers.ModelSerializer):
         return value
 
 
-class CountApprovalRouteDetailSerializer(serializers.Serializer):
-    count = serializers.IntegerField()
+class SummaryApprovalRouteDetailSerializer(serializers.Serializer):
+    approval_notification = serializers.IntegerField()

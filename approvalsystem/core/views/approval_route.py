@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, \
+    RetrieveAPIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from core.models import Request, ApprovalRoute, ApprovalRouteDetail
 from core.serializers import ApprovalRouteSerializer, \
-    UpdateStatusApprovalRouteDetailSerializer, CountApprovalRouteDetailSerializer
+    UpdateStatusApprovalRouteDetailSerializer, SummaryApprovalRouteDetailSerializer
 
 
 class ApprovalRouteListAPI(ListAPIView):
@@ -26,13 +27,13 @@ class ApprovalRouteListAPI(ListAPIView):
 
 class UpdateStatusApprovalRouteDetailAPI(UpdateAPIView):
     queryset = ApprovalRouteDetail.objects.all()
-    lookup_field = 'approval_route_id'
+    lookup_field = 'detail_no'
     serializer_class = UpdateStatusApprovalRouteDetailSerializer
 
 
-class CountNotVerifyApprovalRouteDetailAPI(ListAPIView):
+class CountNotVerifyApprovalRouteDetailAPI(RetrieveAPIView):
     queryset = ApprovalRouteDetail.objects.all()
-    serializer_class = CountApprovalRouteDetailSerializer
+    serializer_class = SummaryApprovalRouteDetailSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -40,10 +41,10 @@ class CountNotVerifyApprovalRouteDetailAPI(ListAPIView):
             approval_status=ApprovalRouteDetail.StatusChoices.not_verified
         )
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+    def retrieve(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
 
-        serializer = self.get_serializer(data={
-            'count': queryset.count()
-        })
-        return Response(serializer.data)
+        result = {
+            'approval_notification': queryset.count()
+        }
+        return Response(result)
