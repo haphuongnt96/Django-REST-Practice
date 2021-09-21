@@ -50,106 +50,106 @@ export function makeServer({ environment = 'development' } = {}) {
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長',
+              approval_post_nm: '大阪北支店 課長',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '山田 太郎',
+              approval_emp_nm: '山田 太郎',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長1',
+              approval_post_nm: '大阪北支店 課長1',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '山田 太郎',
+              approval_emp_nm: '山田 太郎',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長2',
+              approval_post_nm: '大阪北支店 課長2',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '山田 太郎',
+              approval_emp_nm: '山田 太郎',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長3',
+              approval_post_nm: '大阪北支店 課長3',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '山田 太郎',
+              approval_emp_nm: '山田 太郎',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長4',
+              approval_post_nm: '大阪北支店 課長4',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '山田 太郎',
+              approval_emp_nm: '山田 太郎',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長',
+              approval_post_nm: '大阪北支店 課長',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '武藤 敬司',
+              approval_emp_nm: '武藤 敬司',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 課長',
+              approval_post_nm: '大阪北支店 課長',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '蝶野 正洋',
+              approval_emp_nm: '蝶野 正洋',
               approval_status: false,
-              updated_at: Date.now()
+              approval_date: Date.now()
             },
             {
               approval_route_id: '',
               detail_no: 0,
-              organization_path: '大阪北支店 支店長',
+              approval_post_nm: '大阪北支店 支店長',
               required_num_approvals: 0,
               order: 0,
               notification: '',
               approval_post_cd: '',
               approval_emp_cd: 0,
-              approval_emp_fullname: '蝶野 正洋',
+              approval_emp_nm: '蝶野 正洋',
               approval_status: true,
-              updated_at: Date.now()
+              approval_date: Date.now()
             }
           ]
         })

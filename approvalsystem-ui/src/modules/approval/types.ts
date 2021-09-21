@@ -13,14 +13,14 @@ declare namespace Approvals {
   type ApprovalRouteDetailResponse = {
     approval_route_id: string
     detail_no: number
-    organization_path: string
+    approval_post_nm: string
     required_num_approvals: number
     order: number
     notification: string
     approval_post_cd: string
     approval_emp_cd: number
-    approval_emp_fullname: string
+    approval_emp_nm: string
     approval_status: boolean
-    updated_at: string
+    approval_date: string
   }
 }
