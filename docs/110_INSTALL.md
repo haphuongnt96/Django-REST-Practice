@@ -14,6 +14,28 @@
 - [pyenv-win](https://github.com/pyenv-win/pyenv-win) (Windows)
 - [npm](https://nodejs.org/ja/)
 
+# Power Shell実行ポリシーの設定
+
+Power Shellを開いて以下のコマンドを実行する。
+
+```bash
+> Set-ExecutionPolicy Bypass -Scope CurrentUser
+```
+
+以下のコマンドを実行し実行ポリシーを確認する。
+
+```bash
+> Get-ExecutionPolicy -List
+
+        Scope ExecutionPolicy
+        ----- ---------------
+MachinePolicy       Undefined
+   UserPolicy       Undefined
+      Process       Undefined
+  CurrentUser          Bypass
+ LocalMachine       Undefined
+```
+
 # バックエンド
 
 ### サービス
