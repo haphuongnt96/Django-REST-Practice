@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-pkpa+#3s8@muc)jo(qu8jswt0!k=*nr1x&0ntyj%0w239oiinw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = str(env('ALLOWED_HOSTS')).split(';') if env('ALLOWED_HOSTS') else []
 
 
 # Application definition
@@ -62,6 +62,7 @@ CORS_ALLOW_HEADERS = (
     'accept-encoding',
     'user-timezone'
 )
+CORS_ALLOWED_ORIGINS = str(env('CORS_ALLOWED_ORIGINS')).split(';') if env('CORS_ALLOWED_ORIGINS') else []
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
