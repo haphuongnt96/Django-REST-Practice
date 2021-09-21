@@ -67,3 +67,7 @@ class UpdateStatusApprovalRouteDetailSerializer(serializers.ModelSerializer):
                     _('Invalid approval status.')
                 )
         return value
+
+
+class CountApprovalRouteDetailSerializer(serializers.Serializer):
+    count = serializers.IntegerField()
