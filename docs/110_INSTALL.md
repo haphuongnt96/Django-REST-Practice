@@ -84,7 +84,7 @@ exit
 
 ```bash
 
-PS C:\work\approval-system> pyenv.bat --version
+PS C:\work\approval-system> pyenv --version
 pyenv 2.64.10
 ```
 
@@ -96,7 +96,7 @@ pyenvにpython3.9.5をインストールする。
 
 ```bash
 
-PS C:\work\approval-system> pyenv.bat install 3.9.5
+PS C:\work\approval-system> pyenv install 3.9.5
 
 Windows PowerShell
 Copyright (C) Microsoft Corporation. All rights reserved.
@@ -111,7 +111,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 python3.9.5を使うように切り替える。
 
 ```bash
-PS C:\work\approval-system> pyenv.bat local 3.9.5
+PS C:\work\approval-system> pyenv local 3.9.5
 PS C:\work\approval-system> python --version
 Python 3.9.5
 ```
@@ -146,7 +146,7 @@ venvで仮想環境を作成する。
 PS C:\work\approval-system> python -m venv approval-system-backend
 ```
 
-Note: このようなエラーが出たときは`pyenv.bat global 3.9.5`と実行する。
+Note: このようなエラーが出たときは`pyenv global 3.9.5`と実行する。
 
 ```
 No global python version has been set yet. Please set the global version by typing:
@@ -156,7 +156,7 @@ pyenv global 3.7.2
 仮想環境をアクティブにする。
 
 ```
-.\approval-system-backend\Scripts\activate.bat
+.\approval-system-backend\Scripts\activate
 ```
 
 #### 2. Pythonパッケージをインストールする:
