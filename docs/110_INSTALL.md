@@ -35,6 +35,13 @@ MachinePolicy       Undefined
   CurrentUser          Bypass
  LocalMachine       Undefined
 ```
+# データベース
+
+#### 1. Dockerデータベースとキャッシングをデタッチモードで起動する:
+
+```bash
+PS C:\work\approval-system> docker-compose up -d
+```
 
 # バックエンド
 
@@ -217,19 +224,28 @@ sqlparse                          0.4.1
 virtualenv                        20.7.2
 ```
 
-#### 3. Dockerデータベースとキャッシングをデタッチモードで起動する:
+#### 3. 「.env」ファイル作成
 
 ```bash
-docker-compose up -d
+PS C:\work\approval-system> cd approvalsystem
+PS C:\work\approval-system\approvalsystem> cp .\config\.env.example .\config\.env
+```
+
+作成された「.env」ファイルを開いて「192.168.1.4」の部分を自分のPCのローカルIPアドレスに編集する。
+
+```
+CORS_ALLOWED_ORIGINS=http://localhost:8080;http://127.0.0.1:8080;http://192.168.1.4:8080
 ```
 
 #### 4. Djangoアプリを実行し、ブラウザーで `localhost：8000 ` pageをチェックする:
 
 ```bash
+PS C:\work\approval-system>
+
 python manage.py runserver
 ```
 
-## Linux-MacOSの場合はこちらを参照
+## LinuxもしくはMacOSの場合はこちらを参照
 
 ```bash
 
