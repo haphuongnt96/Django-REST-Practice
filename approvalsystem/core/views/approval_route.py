@@ -14,10 +14,10 @@ class ApprovalRouteListAPI(ListAPIView):
     queryset = ApprovalRoute.objects.all()
     serializer_class = ApprovalRouteSerializer
 
-    def dispatch(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         request_id = kwargs['request_id']
         get_object_or_404(Request, pk=request_id)
-        return super().dispatch(request, *args, **kwargs)
+        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = super().get_queryset()

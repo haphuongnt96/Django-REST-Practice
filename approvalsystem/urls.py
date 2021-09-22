@@ -27,7 +27,8 @@ admin.site.site_title = 'Approval System Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('core.urls'))
+    path('api/', include('users.urls')),
+    path('api/', include('core.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +\
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
