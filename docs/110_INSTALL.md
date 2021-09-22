@@ -240,9 +240,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:8080;http://127.0.0.1:8080;http://192.168.
 #### 4. Djangoアプリを実行し、ブラウザーで `localhost：8000 ` pageをチェックする:
 
 ```bash
-PS C:\work\approval-system>
-
-python manage.py runserver
+PS C:\work\approval-system\approvalsystem> python manage.py runserver
 ```
 
 ## LinuxもしくはMacOSの場合はこちらを参照
