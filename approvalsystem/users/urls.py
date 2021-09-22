@@ -4,7 +4,10 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from .views import TokenRevokeView
+
 urlpatterns = [
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/login/', TokenObtainPairView.as_view(), name='token.login'),
+    path('auth/refresh/', TokenRefreshView.as_view(), name='token.refresh'),
+    path('auth/logout/', TokenRevokeView.as_view(), name='token.logout'),
 ]
