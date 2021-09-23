@@ -19,6 +19,6 @@ class TokenRevokeView(APIView):
             access_token = JWTAccessToken(str(request.META.get('HTTP_AUTHORIZATION')).split()[-1])
             access_token.blacklist()
         except TokenError:
-            return Response({'message': _(self.error_message)}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'detail': _(self.error_message)}, status=status.HTTP_401_UNAUTHORIZED)
         session_logout(request)
-        return Response({'message': _(self.success_message)})
+        return Response({'detail': _(self.success_message)})
