@@ -98,9 +98,11 @@ class ApprovalRouteDetail(BaseModel):
         db_table = 't_approval_route_detail'
 
     def save(self, *args, **kwargs):
-        if not self.approval_date and \
-                self.approval_status != self.StatusChoices.not_verified:
+        if self.approval_status != self.StatusChoices.not_verified and \
+                not self.approval_date:
             self.approval_date = date.today()
+        elif self.approval_status == self.StatusChoices.not_verified:
+            self.approval_date = None
         return super().save(*args, **kwargs)
 
     @property

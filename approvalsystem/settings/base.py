@@ -106,7 +106,9 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'utils.renderers.CustomJsonRenderer',
-    ]
+    ],
+    'DATE_FORMAT': os.getenv('DATE_FORMAT', '%Y/%m/%d'),
+    'DATETIME_FORMAT': os.getenv('DATETIME_FORMAT', '%Y/%m/%d %H:%M:%S')
 }
 
 SIMPLE_JWT = {
@@ -147,6 +149,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+DATE_FORMAT = '%Y/%m/%d'
+DATETIME_FORMAT = '%Y/%m/%d %H:%M:%S'
 
 
 # Static files (CSS, JavaScript, Images)
