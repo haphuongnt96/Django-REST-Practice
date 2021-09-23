@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, UpdateAPIView, \
     RetrieveAPIView
 from rest_framework.response import Response
+from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
 from core.models import Request, ApprovalRoute, ApprovalRouteDetail
@@ -30,15 +30,21 @@ class UpdateStatusApprovalRouteDetailAPI(UpdateAPIView):
     lookup_field = 'detail_no'
     serializer_class = UpdateStatusApprovalRouteDetailSerializer
 
+    def get_object(self):
+        update_object = super().get_object()
+        if update_object.approval_emp_cd != self.request.user:
+            raise PermissionDenied
 
-class CountNotVerifyApprovalRouteDetailAPI(RetrieveAPIView):
+
+class CountSummaryApprovalRouteDetailAPI(RetrieveAPIView):
     queryset = ApprovalRouteDetail.objects.all()
     serializer_class = SummaryApprovalRouteDetailSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(
-            approval_status=ApprovalRouteDetail.StatusChoices.not_verified
+            approval_status=ApprovalRouteDetail.StatusChoices.not_verified,
+            approval_emp_cd=self.request.user
         )
 
     def retrieve(self, request, *args, **kwargs):
