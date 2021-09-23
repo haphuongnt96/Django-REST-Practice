@@ -856,11 +856,11 @@ COPY public.t_approval_route (created, modified, approval_route_id, approval_typ
 --
 
 COPY public.t_approval_route_detail (created, modified, detail_no, required_num_approvals, "order", notification, approval_status, approval_date, approval_emp_cd_id, approval_post_cd_id, approval_route_id_id, department_cd_id, division_cd_id, segment_cd_id) FROM stdin;
-2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	1	1	1	\N	1	\N	2	100	1	\N	\N	\N
-2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	2	1	1	\N	1	\N	1	100	1	\N	\N	\N
-2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	3	1	1	\N	1	\N	2	200	1	\N	\N	\N
-2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	4	1	1	\N	1	\N	2	300	1	\N	\N	\N
-2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	5	1	1	\N	1	\N	2	300	2	\N	\N	\N
+2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	1	1	1	\N	1	2021-09-22	2	100	1	\N	\N	\N
+2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	2	1	2	\N	1	2021-09-22	1	100	1	\N	\N	\N
+2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	3	1	3	\N	1	\N	2	200	1	\N	\N	\N
+2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	4	1	4	\N	1	\N	2	300	1	\N	\N	\N
+2021-09-22 03:46:47.06+00	2021-09-22 03:46:50.216+00	5	1	5	\N	1	\N	2	300	2	\N	\N	\N
 \.
 
 
