@@ -42,16 +42,14 @@ class User(
 ):
     """Custom user model without username."""
 
-    first_name = models.CharField(
-        verbose_name=_("First name"),
-        max_length=30,
-        blank=True
+    emp_cd = models.CharField(
+        max_length=7, editable=False, unique=True
     )
-    last_name = models.CharField(
-        verbose_name=_("Last name"),
-        max_length=30,
-        blank=True
+    emp_nm = models.CharField(
+        verbose_name=_('Employee name'),
+        max_length=10,
     )
+    deleted_flg = models.BooleanField(default=False)
     email = CICharField(
         verbose_name=_("Email address"),
         max_length=254,
@@ -81,17 +79,20 @@ class User(
     objects = UserManager()
 
     class Meta:
+        db_table = 'm_emp'
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            try:
+                max_emp_cd = int(User.objects.latest('emp_cd').emp_cd)
+            except ValueError:
+                max_emp_cd = User.objects.latest('id').id
+            self.emp_cd = '{:0>7d}'.format(max_emp_cd + 1)
+        elif not self.emp_cd:
+            self.emp_cd = '{:0>7d}'.format(self.pk)
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return self.email
-
-    @property
-    def emp_nm(self) -> str:
-        name = filter(None, [
-            self.first_name,
-            self.last_name,
-        ])
-        fullname = ' '.join(map(str, name))
-        return fullname

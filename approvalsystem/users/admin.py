@@ -4,14 +4,15 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import User
 
+
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """UI for User model."""
     ordering = ("email", )
     list_display = (
         'email',
-        'first_name',
-        'last_name',
+        'emp_cd',
+        'emp_nm',
         'is_staff',
         'is_superuser',
     )
@@ -21,7 +22,7 @@ class UserAdmin(DjangoUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
+            'fields': ('email', 'emp_nm', 'password1', 'password2'),
         }),
     )
     fieldsets = (
@@ -33,8 +34,8 @@ class UserAdmin(DjangoUserAdmin):
         }),
         (_('Personal info'), {
             'fields': (
-                'first_name',
-                'last_name',
+                'emp_cd',
+                'emp_nm',
             )
         }),
         (_('Permissions'), {
@@ -54,6 +55,7 @@ class UserAdmin(DjangoUserAdmin):
         }),
     )
     readonly_fields = DjangoUserAdmin.readonly_fields + (
+        'emp_cd',
         'created',
         'modified',
     )
