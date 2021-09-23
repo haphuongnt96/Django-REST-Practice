@@ -21,7 +21,7 @@ class ApprovalRoute(BaseModel):
     )
     request_emp_cd = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-        max_length=7, null=True, blank=True, to_field='emp_cd',
+        max_length=7, null=True, blank=True,
     )
 
     class Meta:
@@ -84,7 +84,7 @@ class ApprovalRouteDetail(BaseModel):
     )
     approval_emp_cd = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-        max_length=7, null=True, to_field='emp_cd'
+        max_length=7, null=True,
     )
     approval_status = models.CharField(
         max_length=1, choices=StatusChoices.choices,
