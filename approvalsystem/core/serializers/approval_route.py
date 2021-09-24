@@ -38,6 +38,7 @@ class ApprovalRouteSerializer(serializers.ModelSerializer):
             'request_emp_cd',
             'request_emp_nm',
             'approval_route_details',
+            'created',
         ]
 
 
