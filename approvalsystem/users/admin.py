@@ -10,32 +10,32 @@ class UserAdmin(DjangoUserAdmin):
     """UI for User model."""
     ordering = ("email", )
     list_display = (
-        'email',
         'emp_cd',
         'emp_nm',
+        'email',
         'is_staff',
         'is_superuser',
     )
     list_display_links = (
-        'email',
+        'emp_cd',
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'emp_nm', 'password1', 'password2'),
+            'fields': ('emp_nm', 'password1', 'password2'),
         }),
     )
     fieldsets = (
         (None, {
             'fields': (
-                'email',
+                'emp_cd',
                 'password'
             )
         }),
         (_('Personal info'), {
             'fields': (
-                'emp_cd',
                 'emp_nm',
+                'email',
             )
         }),
         (_('Permissions'), {
@@ -55,7 +55,6 @@ class UserAdmin(DjangoUserAdmin):
         }),
     )
     readonly_fields = DjangoUserAdmin.readonly_fields + (
-        'emp_cd',
         'created',
         'modified',
     )
