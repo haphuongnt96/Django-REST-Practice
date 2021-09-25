@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+import re
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Max
 from django.utils.translation import gettext_lazy as _
 
 from utils.base_model import BaseModel
@@ -35,7 +37,7 @@ class UserManager(DjangoUserManager):
 
 def validate_emp_cd(value):
     """
-    Check emp_cd is sequence numbers
+    Check emp_cd is sequence digits
     """
     value = str(value)
     if not value.isdigit():
@@ -53,7 +55,7 @@ class User(
     """Custom user model without username."""
 
     emp_cd = models.CharField(
-        max_length=7, unique=True, blank=True,
+        max_length=7, unique=True,
         validators=[validate_emp_cd],
         verbose_name=_('Employee code')
     )
@@ -97,12 +99,30 @@ class User(
         verbose_name_plural = _("Users")
 
     def save(self, *args, **kwargs):
-        if not self.emp_cd:
-            max_emp_cd = User.objects.aggregate(Max('emp_cd'))['emp_cd__max']
-            max_emp_cd = int(max_emp_cd) if max_emp_cd else 0
-            self.emp_cd = str(max_emp_cd + 1)
         self.emp_cd = self.emp_cd.zfill(7)
         return super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.emp_cd} - {self.emp_nm}'
+
+
+class AlphabetTypePasswordValidator:
+    """
+    Validate password has at least three type of alphabets.
+    """
+    special_characters = '_@$!%*#?&'
+    pattern = re.compile(
+        rf'(?=.*[A-Za-z])(?=.*\d)(?=.*[{special_characters}])'
+    )
+    error_message = f'Password must contain at least one letter, one number and' \
+                    f' one special character "{special_characters}".'
+
+    def validate(self, password, user=None):
+        if not self.pattern.match(password):
+            raise ValidationError(
+                _(self.error_message),
+                code='password_alphabet_type_required',
+            )
+
+    def get_help_text(self):
+        return _(self.error_message)

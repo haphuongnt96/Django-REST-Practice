@@ -13,6 +13,7 @@ class UserAdmin(DjangoUserAdmin):
         'emp_cd',
         'emp_nm',
         'email',
+        'deleted_flg',
         'is_staff',
         'is_superuser',
     )
@@ -22,7 +23,12 @@ class UserAdmin(DjangoUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('emp_nm', 'password1', 'password2'),
+            'fields': (
+                'emp_cd',
+                'emp_nm',
+                'email',
+                'password1',
+                'password2'),
         }),
     )
     fieldsets = (
@@ -36,6 +42,7 @@ class UserAdmin(DjangoUserAdmin):
             'fields': (
                 'emp_nm',
                 'email',
+                'deleted_flg',
             )
         }),
         (_('Permissions'), {
