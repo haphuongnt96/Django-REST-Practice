@@ -1,2 +1,2 @@
 from .token import JWTAccessToken
-from .users import User, AlphabetTypePasswordValidator
+from .users import User, UserManager, AlphabetTypePasswordValidator
