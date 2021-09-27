@@ -1,13 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare namespace Approvals {
   type ApprovalRouteResponse = {
-    request_id: string
+    approval_route_details: ApprovalRouteDetailResponse[]
     approval_route_id: string
     approval_type_cd: string
+    created: string
     judgement_cd: string
     request_emp_cd: string
+    request_emp_nm: string
     request_emp_fullname: string
-    approval_route_details: ApprovalRouteDetailResponse[]
+    request_id: string
   }
 
   type ApprovalRouteDetailResponse = {
