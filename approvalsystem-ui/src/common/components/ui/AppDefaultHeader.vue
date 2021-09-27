@@ -15,7 +15,7 @@ export default class AppDefaultHeader extends Vue {
   <v-app-bar app fixed dense color="#93B5C6">
     <div class="text-h6 txt-white">{{ contents.title }}</div>
     <v-spacer />
-    <v-btn small color="grey" class="mr-3" router-link to="/Dashboard">
+    <v-btn small color="grey" class="mr-3" to="/dashboard">
       {{ contents.BACK }}
     </v-btn>
     <div class="txt-white mr-3">{{ contents.USER_LOGIN }}</div>
