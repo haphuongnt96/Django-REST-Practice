@@ -46,7 +46,11 @@ class UpdateStatusApprovalRouteDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ApprovalRouteDetail
         fields = [
-            'approval_status'
+            'detail_no',
+            'approval_status',
+        ]
+        read_only_fields = [
+            'detail_no',
         ]
 
     @classmethod

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from rest_framework.generics import ListAPIView, UpdateAPIView, \
     RetrieveAPIView
+from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotFound
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 
 from core.models import Request, ApprovalRoute, ApprovalRouteDetail
 from core.serializers import ApprovalRouteSerializer, \
@@ -25,15 +28,37 @@ class ApprovalRouteListAPI(ListAPIView):
         return queryset.filter(request_id=request_id)
 
 
-class UpdateStatusApprovalRouteDetailAPI(UpdateAPIView):
-    queryset = ApprovalRouteDetail.objects.all()
-    lookup_field = 'detail_no'
-    serializer_class = UpdateStatusApprovalRouteDetailSerializer
-
-    def get_object(self):
-        update_object = super().get_object()
-        if update_object.approval_emp_cd != self.request.user:
-            raise PermissionDenied
+class ApprovalRequestAPI(APIView):
+    def post(self, request, *args, **kwargs):
+        request_id = kwargs['request_id']
+        try:
+            approval_route = ApprovalRoute.objects.filter(request_id=request_id).latest('approval_route_id')
+        except ApprovalRoute.DoesNotExist:
+            raise NotFound(
+                _('Invalid request_id or does not exist Approval Routes.')
+            )
+        try:
+            approval_route_detail = ApprovalRouteDetail.objects.filter(
+                approval_route_id=approval_route.approval_route_id,
+                approval_status=ApprovalRouteDetail.StatusChoices.not_verified,
+            ).earliest('detail_no')
+        except ApprovalRouteDetail.DoesNotExist:
+            raise NotFound(
+                _('Does not exist Approval Route Details.')
+            )
+        if approval_route_detail.approval_emp_cd != request.user:
+            raise PermissionDenied(
+                _('Invalid approval user.')
+            )
+        approval_detail_serializer = UpdateStatusApprovalRouteDetailSerializer(
+            instance=approval_route_detail,
+            data=request.data,
+        )
+        if approval_detail_serializer.is_valid():
+            approval_detail_serializer.save()
+            return Response(approval_detail_serializer.data)
+        else:
+            return Response(approval_detail_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CountSummaryApprovalRouteDetailAPI(RetrieveAPIView):

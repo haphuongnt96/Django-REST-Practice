@@ -1,2 +1,5 @@
-from .approval_route import ApprovalRouteListAPI, UpdateStatusApprovalRouteDetailAPI, \
-    CountSummaryApprovalRouteDetailAPI
+from .approval_route import (
+    ApprovalRouteListAPI,
+    CountSummaryApprovalRouteDetailAPI,
+    ApprovalRequestAPI,
+)
