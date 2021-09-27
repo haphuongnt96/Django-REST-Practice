@@ -1,4 +1,31 @@
-@import "./text.scss";
-@import "./scrollbar.scss";
-@import "./display.scss";
-@import "./common.scss";
+@charset 'UTF-8';
+
+// Vendor
+// @import 'vendor/bootstrap';
+
+// Utils
+@import 'utils/mixins';
+@import 'utils/functions';
+@import 'utils/variables';
+
+// Base
+@import 'base/base';
+@import 'base/fonts';
+@import 'base/typography';
+@import 'base/common';
+
+// Components
+@import 'components/modal';
+@import 'components/form';
+@import 'components/buttons';
+@import 'components/animations';
+@import 'components/spinner';
+
+
+// Layout
+@import 'layout/header';
+@import 'layout/footer';
+
+// Pages
+@import 'pages/approval';
+@import 'pages/authen';

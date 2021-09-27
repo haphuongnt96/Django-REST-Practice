@@ -1,3 +1,12 @@
+// Base
+//css for basic element
+* {
+  box-sizing: border-box;
+  outline: none !important;
+}
+a {
+  text-decoration: none;
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 10px;
@@ -11,4 +20,11 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
   background-color: #aaa;
+}
+main{
+  padding: 0 !important;
+}
+
+.layout {
+  padding-top: 50px !important;
 }

@@ -1,4 +1,27 @@
-@import "./colors.scss";
+$primary: #226fea;
+$accent: #82b1ff;
+$error: #ff5252;
+$success: #4caf50;
+$warning: #ffc107;
+$white: #ffffff;
+
+$blue-1: #241e6b;
+
+$text-1: #2c2c2e;
+$text-2: #5d5d71;
+$text-3: #87879d;
+$text-4: #9d9db5;
+
+$grey-1: #c9ccd5;
+$grey-2: #e4d8dc;
+
+$green-1: #098119;
+
+$red-1: #b62f5c;
+$red-2: #e11900;
+
+$pink-1: #f7f3f4;
+$pink-2: #ffbbc6;
 
 $headings: (
   'h1': (

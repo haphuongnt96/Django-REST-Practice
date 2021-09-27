@@ -8,6 +8,11 @@ export default class AppDefaultHeader extends Vue {
   get contents() {
     return this.$pageContents.APP_HEADER
   }
+  handleLogout() {
+    this.$router.push({ name: 'authen' })
+    localStorage.removeItem('vue-token')
+    localStorage.removeItem('vue-token-reset')
+  }
 }
 </script>
 

@@ -1,5 +1,7 @@
 import * as approval from './approval'
+import * as authen from './authen'
 const $api = {
-  approval
+  approval,
+  authen
 }
 export default $api

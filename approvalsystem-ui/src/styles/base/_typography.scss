@@ -1,0 +1,41 @@
+// Typography
+/*====== Font-weight css starts ======*/
+$i: 100, 200, 300, 500, 400, 600, 700, 900;
+@each $val in $i {
+  .fw-#{$val} {
+    font-weight: $val !important;
+  }
+}
+/*====== Font-weight css ends ======*/
+.txt-white {
+  color: $white;
+}
+
+/*======= Font-family css end  ======= */
+
+/*======= Font-color css starts  ======= */
+
+$text-name: primary, blue-1, text-1, text-2, text-3, text-4, green-1, red-1, red-2, pink-1, pink-2, warning;
+$text-color: $primary, $blue-1, $text-1, $text-2, $text-3, $text-4, $green-1, $red-1, $red-2, $pink-1, $pink-2, $warning;
+@each $var in $text-name {
+  $i: index($text-name, $var);
+  .txt-#{$var} {
+    color: nth($text-color, $i) !important;
+  }
+}
+.txt-white {
+  color: $white;
+}
+
+.bg-white {
+  background: $white !important;
+}
+
+@each $var in $text-name {
+  $i: index($text-name, $var);
+  .bg-#{$var} {
+    background: nth($text-color, $i) !important;
+  }
+}
+
+/*======= Font-color css end  ======= */

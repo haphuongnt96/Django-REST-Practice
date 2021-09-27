@@ -34,11 +34,17 @@ const APPROVAL = {
   ANNOUNT_PERSON: '通知者',
   COPY_FUNCTION: '複写機能'
 }
-
+const AUTHEN = {
+  AU_TITLE: 'ログイン',
+  AU_EMPLOYEEID: '社員ID',
+  AU_PASSWORD: 'パスワード',
+  AU_BUTTON: 'ログイン'
+}
 const $pageContents = {
   APP_SIDE_BAR,
   APP_HEADER,
-  APPROVAL
+  APPROVAL,
+  AUTHEN
 }
 
 export default $pageContents

@@ -13,10 +13,10 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // do something before request is sent
-    // const token = store.getters[AuthS.extGetToken]
-    // if (token) {
-    //   config.headers = { Authorization: `Bearer ${token}` }
-    // }
+    const token = localStorage.getItem('vue-token')
+    if (token) {
+      config.headers = { Authorization: `Bearer ${token}` }
+    }
     return config
   },
   (error) => {
@@ -29,11 +29,11 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
+    console.log(response)
     return response
   },
   (e) => {
     return Promise.reject(e)
   }
 )
-
 export default service

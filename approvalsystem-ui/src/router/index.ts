@@ -10,6 +10,11 @@ const routes: Array<RouteConfig> = [
     redirect: '/approval'
   },
   {
+    path: '/login',
+    name: 'authen',
+    component: () => import('@/views/authen/Login.vue')
+  },
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/Dashboard.vue')
@@ -40,5 +45,18 @@ const router = new VueRouter({
   },
   routes
 })
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = localStorage.getItem('vue-token')
 
+  if (authRequired && !loggedIn) {
+    return next({
+      path: '/login',
+      query: { returnUrl: to.path }
+    })
+  }
+  next()
+})
 export default router
