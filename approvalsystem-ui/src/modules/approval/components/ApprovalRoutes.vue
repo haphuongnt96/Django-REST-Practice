@@ -42,7 +42,7 @@ export default class ApprovalRoutes extends Vue {
 
 <template>
   <v-container pa-0 fluid class="d-flex">
-    <perfect-scrollbar class="d-flex flex-column flex-grow-1">
+    <perfect-scrollbar class="d-flex flex-column flex-grow-1 bg-white">
       <v-card flat class="px-5" :style="{ height: '100%' }">
         <v-expansion-panels flat v-model="panel" multiple>
           <v-expansion-panel v-for="(item, i) in items" :key="i">
