@@ -29,11 +29,37 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    console.log(response)
     return response
   },
-  (e) => {
-    return Promise.reject(e)
+  async (err) => {
+    const originalConfig = err.config
+    console.log(originalConfig)
+    console.log(err.response.data)
+    if (err.response.status === 401 && !originalConfig._retry) {
+      originalConfig._retry = true
+      try {
+        const rs = await refreshToken()
+        const { accessToken } = rs.data.refresh
+        localStorage.setItem('vue-token', accessToken)
+        // service.defaults.headers.common["x-access-token"] = accessToken
+        // service.defaults.headers.common = { Authorization: `Bearer ${accessToken}` }
+        return instance(originalConfig)
+      } catch (_error) {
+        if (_error.response && _error.response.data) {
+          return Promise.reject(_error.response.data)
+        }
+
+        return Promise.reject(_error)
+      }
+    }
+    return Promise.reject(err)
   }
 )
+
+function refreshToken() {
+  console.log('rune to refresh')
+  return service.post('/api/auth/refresh/', {
+    refresh: localStorage.getItem('vue-token-reset')
+  })
+}
 export default service

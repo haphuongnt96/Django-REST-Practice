@@ -4,7 +4,6 @@ export default class Login extends Vue {
   emp_cd = ''
   password = ''
   async handleSubmit(e) {
-    //fake user - pass
     //0000001 - Tur54305
     const [err, res] = await this.$api.authen.doLogin({
       emp_cd: this.emp_cd,
