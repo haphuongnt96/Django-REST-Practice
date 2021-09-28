@@ -35,7 +35,7 @@ export default class MainFunction extends Vue {
       </div>
       <div class="d-flex flex-gap-4 mb-5">
         <v-btn small color="grey" @click="handleApprove()">
-          {{ contents.APPROVE }} hieudt
+          {{ contents.APPROVE }}
         </v-btn>
         <v-btn small color="grey">{{ contents.DISAPPROVE }}</v-btn>
         <v-btn small color="grey">{{ contents.CANCEL }}</v-btn>
