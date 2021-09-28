@@ -1,9 +1,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ApprovalRecord from '@/modules/approval/components/ApprovalRecord.vue'
+import moment from 'moment'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
-
+//using moment js to convert date,time
+Vue.prototype.moment = moment
 @Component({ components: { ApprovalRecord } })
 export default class ApprovalRoutes extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
@@ -12,20 +14,10 @@ export default class ApprovalRoutes extends Vue {
   ]
   items: Approvals.ApprovalRouteResponse[] = []
   panel = [0]
-
+  // Vue.prototype.moment = moment
   //#region Computed
   get contents() {
     return this.$pageContents.APPROVAL
-  }
-
-  get applicantUsers() {
-    return (name: string) => {
-      return [
-        {
-          request_emp_fullname: name
-        }
-      ]
-    }
   }
 
   get routeDetailsGrouped() {
@@ -38,7 +30,11 @@ export default class ApprovalRoutes extends Vue {
   //#region Hook
   async mounted() {
     const [err, res] = await this.$api.approval.getApprovals('1')
-    if (!err && res) this.items = res
+    if (!err && res) {
+      console.log(res)
+      this.items = res.data
+    }
+    console.log(this.items)
   }
   //#endregion
 }
@@ -56,14 +52,25 @@ export default class ApprovalRoutes extends Vue {
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <div class="d-box flex-gap-4">
-                <v-data-table
-                  class="table__applicant"
-                  :headers="applicantUserHeaders"
-                  :items="applicantUsers(item.request_emp_fullname)"
-                  hide-default-footer
-                  disable-sort
-                  no-data-text="データなし"
-                ></v-data-table>
+                <v-simple-table class="table__applicant">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-center">
+                          {{ '申請者' }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="text-center">
+                        <td>{{ item.request_emp_nm || 'データなし' }}</td>
+                      </tr>
+                      <tr class="text-center">
+                        <td>{{ moment(item.created).format('YYYY/MM/DD') }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
                 <div
                   v-for="(value, key) in routeDetailsGrouped(
                     item.approval_route_details
