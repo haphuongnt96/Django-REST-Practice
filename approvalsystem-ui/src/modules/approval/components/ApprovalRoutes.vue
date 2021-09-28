@@ -31,10 +31,8 @@ export default class ApprovalRoutes extends Vue {
   async mounted() {
     const [err, res] = await this.$api.approval.getApprovals('1')
     if (!err && res) {
-      console.log(res)
       this.items = res.data
     }
-    console.log(this.items)
   }
   //#endregion
 }

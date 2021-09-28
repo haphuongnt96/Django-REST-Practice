@@ -18,3 +18,12 @@ export function getApprovalRouteDetail(id: string) {
     })
   )
 }
+export function postApprovalStatus(id: string, data: any) {
+  return transformData(
+    service.request<Approvals.ApprovalRouteDetailResponse[]>({
+      method: 'post',
+      url: `api/requests/${id}/approval`,
+      data
+    })
+  )
+}
