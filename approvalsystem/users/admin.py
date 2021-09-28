@@ -4,37 +4,45 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import User
 
+
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """UI for User model."""
     ordering = ("email", )
     list_display = (
+        'emp_cd',
+        'emp_nm',
         'email',
-        'first_name',
-        'last_name',
+        'deleted_flg',
         'is_staff',
         'is_superuser',
     )
     list_display_links = (
-        'email',
+        'emp_cd',
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),
+            'fields': (
+                'emp_cd',
+                'emp_nm',
+                'email',
+                'password1',
+                'password2'),
         }),
     )
     fieldsets = (
         (None, {
             'fields': (
-                'email',
+                'emp_cd',
                 'password'
             )
         }),
         (_('Personal info'), {
             'fields': (
-                'first_name',
-                'last_name',
+                'emp_nm',
+                'email',
+                'deleted_flg',
             )
         }),
         (_('Permissions'), {
