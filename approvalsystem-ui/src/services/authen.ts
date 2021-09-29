@@ -10,3 +10,12 @@ export function doLogin(data: any) {
     })
   )
 }
+
+export function doLogout() {
+  return transformData(
+    service.request<Auth.User[]>({
+      method: 'post',
+      url: '/api/auth/logout/'
+    })
+  )
+}

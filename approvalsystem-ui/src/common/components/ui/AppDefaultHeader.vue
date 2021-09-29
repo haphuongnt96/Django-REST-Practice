@@ -8,10 +8,15 @@ export default class AppDefaultHeader extends Vue {
   get contents() {
     return this.$pageContents.APP_HEADER
   }
-  handleLogout() {
-    this.$router.push({ name: 'authen' })
-    localStorage.removeItem('vue-token')
-    localStorage.removeItem('vue-token-reset')
+  async handleLogout() {
+    const [err, res] = await this.$api.authen.doLogout()
+    if (!err && res) {
+      this.$router.push({ name: 'authen' })
+      localStorage.removeItem('vue-token')
+      localStorage.removeItem('vue-token-reset')
+    } else {
+      alert('logout fail')
+    }
   }
 }
 </script>
@@ -24,7 +29,7 @@ export default class AppDefaultHeader extends Vue {
       {{ contents.BACK }}
     </v-btn>
     <div class="txt-white mr-3">{{ contents.USER_LOGIN }}</div>
-    <v-btn small color="grey">
+    <v-btn small color="grey" @click="handleLogout()">
       {{ contents.LOGOUT }}
     </v-btn>
   </v-app-bar>
