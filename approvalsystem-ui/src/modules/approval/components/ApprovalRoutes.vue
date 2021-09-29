@@ -34,6 +34,15 @@ export default class ApprovalRoutes extends Vue {
       this.items = res.data
     }
   }
+  updateApprovalStatus(data) {
+    const route = this.items.find(
+      (t) => t.approval_route_id === data.approval_route_id
+    )
+    let routeDetail = route.approval_route_details.find(
+      (t) => t.detail_no === data.detail_no
+    )
+    routeDetail.approval_status = data.approval_status
+  }
   //#endregion
 }
 </script>

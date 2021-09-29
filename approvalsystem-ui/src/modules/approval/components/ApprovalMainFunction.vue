@@ -11,9 +11,8 @@ export default class MainFunction extends Vue {
       approval_status: '1'
     })
     if (!err && res) {
-      //response
-      // approval_status: "1"
-      // detail_no: 5
+      //emit data to ApprovalRoute for update approvalStatus
+      this.$emit('approval', res.data)
       this.$swal(this.contents.APPROVE_SUCCESS_MESS)
     } else {
       this.$swal(this.contents.APPROVE_FAIL_MESS)

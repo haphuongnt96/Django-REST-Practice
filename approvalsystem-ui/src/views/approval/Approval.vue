@@ -13,16 +13,20 @@ import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequest
     ApprovalRequestDetail
   }
 })
-export default class Approval extends Vue {}
+export default class Approval extends Vue {
+  approvalStatus(data) {
+    this.$refs.TDH.updateApprovalStatus(data)
+  }
+}
 </script>
 
 <template>
   <v-container fluid px-8>
-    <ApprovalRoutes />
+    <ApprovalRoutes ref="TDH" />
     <v-container fluid pa-0 class="d-flex mt-5">
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-spacer />
-      <ApprovalMainFunction />
+      <ApprovalMainFunction @approval="approvalStatus" />
     </v-container>
     <v-container fluid pa-0 class="d-flex mt-5 justify-center">
       <ApprovalRequestDetail />

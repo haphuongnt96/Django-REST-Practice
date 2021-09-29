@@ -16,7 +16,6 @@ export default class ApprovalRecord extends Vue {
 
   get color() {
     return (approval_status: string) => {
-      console.log(approval_status)
       switch (approval_status) {
         case '1':
           return 'success-text'
