@@ -27,10 +27,6 @@ $text-color: $primary, $blue-1, $text-1, $text-2, $text-3, $text-4, $green-1, $r
   color: $white;
 }
 
-.bg-white {
-  background: $white !important;
-}
-
 @each $var in $text-name {
   $i: index($text-name, $var);
   .bg-#{$var} {

@@ -15,16 +15,37 @@ export default class ApprovalRecord extends Vue {
   format = format
 
   get color() {
-    return (approval_status: boolean) => {
-      return approval_status
-        ? this.$config.Colors.success
-        : this.$config.Colors.error
+    return (approval_status: string) => {
+      switch (approval_status) {
+        case '1':
+          return 'success-text'
+          break
+        case '2':
+          return 'error-text'
+          break
+        default:
+          return ''
+          break
+      }
     }
   }
 
   get icon() {
-    return (approval_status: boolean) => {
-      return approval_status ? 'mdi-checkbox-marked-circle' : 'mdi-close-circle'
+    return (approval_status: string) => {
+      switch (approval_status) {
+        case '0':
+          return '-'
+          break
+        case '1':
+          return '承認'
+          break
+        case '2':
+          return '差戻'
+          break
+        default:
+          return '-'
+          break
+      }
     }
   }
 }
@@ -40,11 +61,11 @@ export default class ApprovalRecord extends Vue {
     <tbody>
       <tr v-for="detail in items" :key="detail.detail_no">
         <td>{{ detail.approval_emp_nm }}</td>
-        <td class="d-flex flex-column justify-center">
+        <td class="d-flex flex-column justify-center text-center">
           <template v-if="detail.approval_status !== null">
-            <v-icon size="16" :color="color(detail.approval_status)">
+            <span v-bind:class="[color(detail.approval_status)]">
               {{ icon(detail.approval_status) }}
-            </v-icon>
+            </span>
             {{ detail.approval_date }}
           </template>
         </td>

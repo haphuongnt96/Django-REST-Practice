@@ -31,10 +31,17 @@ export default class ApprovalRoutes extends Vue {
   async mounted() {
     const [err, res] = await this.$api.approval.getApprovals('1')
     if (!err && res) {
-      console.log(res)
       this.items = res.data
     }
-    console.log(this.items)
+  }
+  updateApprovalStatus(data) {
+    const route = this.items.find(
+      (t) => t.approval_route_id === data.approval_route_id
+    )
+    let routeDetail = route.approval_route_details.find(
+      (t) => t.detail_no === data.detail_no
+    )
+    routeDetail.approval_status = data.approval_status
   }
   //#endregion
 }
@@ -42,7 +49,7 @@ export default class ApprovalRoutes extends Vue {
 
 <template>
   <v-container pa-0 fluid class="d-flex">
-    <perfect-scrollbar class="d-flex flex-column flex-grow-1">
+    <perfect-scrollbar class="d-flex flex-column flex-grow-1 bg-white">
       <v-card flat class="px-5" :style="{ height: '100%' }">
         <v-expansion-panels flat v-model="panel" multiple>
           <v-expansion-panel v-for="(item, i) in items" :key="i">

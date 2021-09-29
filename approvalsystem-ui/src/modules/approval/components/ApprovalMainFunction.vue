@@ -1,12 +1,24 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
 @Component({ components: {} })
 export default class MainFunction extends Vue {
   //#region COMPUTED
   get contents() {
     return this.$pageContents.APPROVAL
   }
+  async handleApprove() {
+    const [err, res] = await this.$api.approval.postApprovalStatus('1', {
+      approval_status: '1'
+    })
+    if (!err && res) {
+      //emit data to ApprovalRoute for update approvalStatus
+      this.$emit('approval', res.data)
+      this.$swal(this.contents.APPROVE_SUCCESS_MESS)
+    } else {
+      this.$swal(this.contents.APPROVE_FAIL_MESS)
+    }
+  }
+
   //#endregion
 }
 </script>
@@ -21,7 +33,9 @@ export default class MainFunction extends Vue {
         <v-btn small color="grey">{{ contents.DELETE }}</v-btn>
       </div>
       <div class="d-flex flex-gap-4 mb-5">
-        <v-btn small color="grey">{{ contents.APPROVE }}</v-btn>
+        <v-btn small color="grey" @click="handleApprove()">
+          {{ contents.APPROVE }}
+        </v-btn>
         <v-btn small color="grey">{{ contents.DISAPPROVE }}</v-btn>
         <v-btn small color="grey">{{ contents.CANCEL }}</v-btn>
       </div>

@@ -32,7 +32,9 @@ const APPROVAL = {
   SELECT: '選択',
   APPROVER: '承認者',
   ANNOUNT_PERSON: '通知者',
-  COPY_FUNCTION: '複写機能'
+  COPY_FUNCTION: '複写機能',
+  APPROVE_SUCCESS_MESS: '承認に成功しました',
+  APPROVE_FAIL_MESS: '承認に失敗しました'
 }
 const AUTHEN = {
   AU_TITLE: 'ログイン',
