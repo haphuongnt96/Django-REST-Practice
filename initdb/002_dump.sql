@@ -319,6 +319,54 @@ CREATE TABLE public.m_division (
 ALTER TABLE public.m_division OWNER TO approval_user;
 
 --
+-- Name: m_emp; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_emp (
+    id bigint NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    email character varying(254),
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    deleted_flg boolean NOT NULL,
+    emp_cd character varying(7) NOT NULL,
+    emp_nm character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.m_emp OWNER TO approval_user;
+
+--
+-- Name: m_emp_groups; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_emp_groups (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.m_emp_groups OWNER TO approval_user;
+
+--
+-- Name: m_emp_user_permissions; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_emp_user_permissions (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.m_emp_user_permissions OWNER TO approval_user;
+
+--
 -- Name: m_segment; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -454,38 +502,75 @@ ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_reuqest.request
 
 
 --
--- Name: users_user; Type: TABLE; Schema: public; Owner: approval_user
+-- Name: token_blacklist_blacklistedtoken; Type: TABLE; Schema: public; Owner: approval_user
 --
 
-CREATE TABLE public.users_user (
+CREATE TABLE public.token_blacklist_blacklistedtoken (
     id bigint NOT NULL,
-    password character varying(128) NOT NULL,
-    last_login timestamp with time zone,
-    is_superuser boolean NOT NULL,
-    created timestamp with time zone NOT NULL,
-    modified timestamp with time zone NOT NULL,
-    first_name character varying(30) NOT NULL,
-    last_name character varying(30) NOT NULL,
-    email public.citext NOT NULL,
-    is_staff boolean NOT NULL,
-    is_active boolean NOT NULL
+    blacklisted_at timestamp with time zone NOT NULL,
+    token_id bigint NOT NULL
 );
 
 
-ALTER TABLE public.users_user OWNER TO approval_user;
+ALTER TABLE public.token_blacklist_blacklistedtoken OWNER TO approval_user;
 
 --
--- Name: users_user_groups; Type: TABLE; Schema: public; Owner: approval_user
+-- Name: token_blacklist_blacklistedtoken_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
 --
 
-CREATE TABLE public.users_user_groups (
+CREATE SEQUENCE public.token_blacklist_blacklistedtoken_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.token_blacklist_blacklistedtoken_id_seq OWNER TO approval_user;
+
+--
+-- Name: token_blacklist_blacklistedtoken_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.token_blacklist_blacklistedtoken_id_seq OWNED BY public.token_blacklist_blacklistedtoken.id;
+
+
+--
+-- Name: token_blacklist_outstandingtoken; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.token_blacklist_outstandingtoken (
     id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    group_id integer NOT NULL
+    token text NOT NULL,
+    created_at timestamp with time zone,
+    expires_at timestamp with time zone NOT NULL,
+    user_id bigint,
+    jti character varying(255) NOT NULL
 );
 
 
-ALTER TABLE public.users_user_groups OWNER TO approval_user;
+ALTER TABLE public.token_blacklist_outstandingtoken OWNER TO approval_user;
+
+--
+-- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.token_blacklist_outstandingtoken_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.token_blacklist_outstandingtoken_id_seq OWNER TO approval_user;
+
+--
+-- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.token_blacklist_outstandingtoken_id_seq OWNED BY public.token_blacklist_outstandingtoken.id;
+
 
 --
 -- Name: users_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
@@ -505,7 +590,7 @@ ALTER TABLE public.users_user_groups_id_seq OWNER TO approval_user;
 -- Name: users_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.users_user_groups_id_seq OWNED BY public.users_user_groups.id;
+ALTER SEQUENCE public.users_user_groups_id_seq OWNED BY public.m_emp_groups.id;
 
 
 --
@@ -526,21 +611,8 @@ ALTER TABLE public.users_user_id_seq OWNER TO approval_user;
 -- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users_user.id;
+ALTER SEQUENCE public.users_user_id_seq OWNED BY public.m_emp.id;
 
-
---
--- Name: users_user_user_permissions; Type: TABLE; Schema: public; Owner: approval_user
---
-
-CREATE TABLE public.users_user_user_permissions (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    permission_id integer NOT NULL
-);
-
-
-ALTER TABLE public.users_user_user_permissions OWNER TO approval_user;
 
 --
 -- Name: users_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
@@ -560,7 +632,7 @@ ALTER TABLE public.users_user_user_permissions_id_seq OWNER TO approval_user;
 -- Name: users_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.users_user_user_permissions_id_seq OWNED BY public.users_user_user_permissions.id;
+ALTER SEQUENCE public.users_user_user_permissions_id_seq OWNED BY public.m_emp_user_permissions.id;
 
 
 --
@@ -606,6 +678,27 @@ ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: m_emp id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp ALTER COLUMN id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
+
+
+--
+-- Name: m_emp_groups id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_groups ALTER COLUMN id SET DEFAULT nextval('public.users_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: m_emp_user_permissions id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.users_user_user_permissions_id_seq'::regclass);
+
+
+--
 -- Name: t_approval_route approval_route_id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -627,24 +720,17 @@ ALTER TABLE ONLY public.t_reuqest ALTER COLUMN request_id SET DEFAULT nextval('p
 
 
 --
--- Name: users_user id; Type: DEFAULT; Schema: public; Owner: approval_user
+-- Name: token_blacklist_blacklistedtoken id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user ALTER COLUMN id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
-
-
---
--- Name: users_user_groups id; Type: DEFAULT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.users_user_groups ALTER COLUMN id SET DEFAULT nextval('public.users_user_groups_id_seq'::regclass);
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken ALTER COLUMN id SET DEFAULT nextval('public.token_blacklist_blacklistedtoken_id_seq'::regclass);
 
 
 --
--- Name: users_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: approval_user
+-- Name: token_blacklist_outstandingtoken id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.users_user_user_permissions_id_seq'::regclass);
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken ALTER COLUMN id SET DEFAULT nextval('public.token_blacklist_outstandingtoken_id_seq'::regclass);
 
 
 --
@@ -724,6 +810,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 54	Can change User	14	change_user
 55	Can delete User	14	delete_user
 56	Can view User	14	view_user
+57	Can add blacklisted token	15	add_blacklistedtoken
+58	Can change blacklisted token	15	change_blacklistedtoken
+59	Can delete blacklisted token	15	delete_blacklistedtoken
+60	Can view blacklisted token	15	view_blacklistedtoken
+61	Can add outstanding token	16	add_outstandingtoken
+62	Can change outstanding token	16	change_outstandingtoken
+63	Can delete outstanding token	16	delete_outstandingtoken
+64	Can view outstanding token	16	view_outstandingtoken
 \.
 
 
@@ -757,6 +851,8 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 12	core	request
 13	core	segment
 14	users	user
+15	token_blacklist	blacklistedtoken
+16	token_blacklist	outstandingtoken
 \.
 
 
@@ -786,6 +882,17 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 19	core	0001_initial	2021-09-22 00:54:29.740834+00
 20	core	0002_initial	2021-09-22 00:54:29.942381+00
 21	sessions	0001_initial	2021-09-22 00:54:29.983382+00
+22	token_blacklist	0001_initial	2021-09-27 10:58:34.513201+00
+23	token_blacklist	0002_outstandingtoken_jti_hex	2021-09-27 10:58:34.541204+00
+24	token_blacklist	0003_auto_20171017_2007	2021-09-27 10:58:34.584201+00
+25	token_blacklist	0004_auto_20171017_2013	2021-09-27 10:58:34.623211+00
+26	token_blacklist	0005_remove_outstandingtoken_jti	2021-09-27 10:58:34.649201+00
+27	token_blacklist	0006_auto_20171017_2113	2021-09-27 10:58:34.719204+00
+28	token_blacklist	0007_auto_20171017_2214	2021-09-27 10:58:34.776701+00
+29	token_blacklist	0008_migrate_to_bigautofield	2021-09-27 10:58:34.880704+00
+30	token_blacklist	0010_fix_migrate_to_bigautofield	2021-09-27 10:58:34.9172+00
+31	token_blacklist	0011_linearizes_history	2021-09-27 10:58:34.925212+00
+32	users	0002_auto_20210926_0206	2021-09-27 10:58:35.142706+00
 \.
 
 
@@ -795,6 +902,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 yigkgqjbcblyj2kpe7pu8lmemsyrdilg	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mSuEQ:hq6EKgyBgorOQ5MCJ2sRGsU0xMe0_OWc9hyLLCR9Lz8	2021-10-06 04:51:42.239745+00
+ihx16sdmo21hminnfw3eisnykee4dcha	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mV27a:jRpvK8lAur5PUTtuPD_StdV9imefYq1NXX6tNs7s5f4	2021-10-12 01:41:26.094011+00
 \.
 
 
@@ -830,6 +938,32 @@ COPY public.m_department (created, modified, department_cd, department_nm) FROM 
 --
 
 COPY public.m_division (created, modified, division_cd, division_nm) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_emp; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_emp (id, password, last_login, is_superuser, created, modified, email, is_staff, is_active, deleted_flg, emp_cd, emp_nm) FROM stdin;
+1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-09-28 01:41:26.087986+00	t	2021-09-22 03:43:00.644272+00	2021-09-27 10:58:35.037229+00	admin@example.com	t	t	f	0000001	あどみん
+2	pbkdf2_sha256$260000$1DZJ22YKKNTGSelK2Ti3CI$SKJPYqfH3bv3UH3AkkJeVpeMbWcdN5eZVvaJqxbN5Ps=	\N	f	2021-09-22 03:44:48.939363+00	2021-09-27 10:58:35.040219+00	ai@example.com	f	t	f	0000002	あいうえお
+\.
+
+
+--
+-- Data for Name: m_emp_groups; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_emp_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_emp_user_permissions; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_emp_user_permissions (id, user_id, permission_id) FROM stdin;
 \.
 
 
@@ -874,28 +1008,24 @@ COPY public.t_reuqest (created, modified, request_id, status) FROM stdin;
 
 
 --
--- Data for Name: users_user; Type: TABLE DATA; Schema: public; Owner: approval_user
+-- Data for Name: token_blacklist_blacklistedtoken; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.users_user (id, password, last_login, is_superuser, created, modified, first_name, last_name, email, is_staff, is_active) FROM stdin;
-1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-09-22 04:50:55.938136+00	t	2021-09-22 03:43:00.644272+00	2021-09-22 03:43:00.644272+00	admin	test	admin@example.com	t	t
-2	pbkdf2_sha256$260000$1DZJ22YKKNTGSelK2Ti3CI$SKJPYqfH3bv3UH3AkkJeVpeMbWcdN5eZVvaJqxbN5Ps=	\N	f	2021-09-22 03:44:48.939363+00	2021-09-22 04:51:42.197753+00	あい	うえお	ai@example.com	f	t
+COPY public.token_blacklist_blacklistedtoken (id, blacklisted_at, token_id) FROM stdin;
+1	2021-09-28 02:22:00.909682+00	1
+2	2021-09-28 07:24:53.568582+00	2
+3	2021-09-28 07:46:01.315791+00	3
 \.
 
 
 --
--- Data for Name: users_user_groups; Type: TABLE DATA; Schema: public; Owner: approval_user
+-- Data for Name: token_blacklist_outstandingtoken; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.users_user_groups (id, user_id, group_id) FROM stdin;
-\.
-
-
---
--- Data for Name: users_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: approval_user
---
-
-COPY public.users_user_user_permissions (id, user_id, permission_id) FROM stdin;
+COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at, user_id, jti) FROM stdin;
+1	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzMjg4MDIwMSwianRpIjoiNTE4YjlmYWJjNDBlNDA5YjkzMDdjZjA1ZTdiNWY3NzMiLCJ1c2VyX2lkIjoxfQ.ffCp0jAyMb0ntY4amzrtySVCJZuVirinPRVJpvm8fgc	2021-09-28 01:50:01.235012+00	2021-09-29 01:50:01+00	1	518b9fabc40e409b9307cf05e7b5f773
+2	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzMjg5NzIzNSwianRpIjoiOTY3Njg1ODQxZTI2NDM5ZWExOWI5YmZlZDFkMWE3OTIiLCJ1c2VyX2lkIjoxfQ.HYcniCwAI61yAW-zuPNYZU8Jllpe0torT1sVfwDCEz4	\N	2021-09-29 06:33:55+00	\N	967685841e26439ea19b9bfed1d1a792
+3	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzMjkwMDI5MywianRpIjoiMjYyYzJjNDM0OTM2NDk1MTk0MjVhZjdmNDY3M2JmNTciLCJ1c2VyX2lkIjoxfQ.Lzkjos4OSSGp72UKUK8RtFp034CB8lL3YCG0nJciZxE	\N	2021-09-29 07:24:53+00	\N	262c2c43493649519425af7f4673bf57
 \.
 
 
@@ -917,7 +1047,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 56, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 64, true);
 
 
 --
@@ -931,14 +1061,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 14, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 16, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 21, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 32, true);
 
 
 --
@@ -960,6 +1090,20 @@ SELECT pg_catalog.setval('public.t_approval_route_detail_detail_no_seq', 1, fals
 --
 
 SELECT pg_catalog.setval('public.t_reuqest_request_id_seq', 1, false);
+
+
+--
+-- Name: token_blacklist_blacklistedtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 3, true);
+
+
+--
+-- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 3, true);
 
 
 --
@@ -1136,50 +1280,90 @@ ALTER TABLE ONLY public.t_reuqest
 
 
 --
--- Name: users_user users_user_email_key; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken
+    ADD CONSTRAINT token_blacklist_blacklistedtoken_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken_token_id_key; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken
+    ADD CONSTRAINT token_blacklist_blacklistedtoken_token_id_key UNIQUE (token_id);
+
+
+--
+-- Name: token_blacklist_outstandingtoken token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken
+    ADD CONSTRAINT token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_uniq UNIQUE (jti);
+
+
+--
+-- Name: token_blacklist_outstandingtoken token_blacklist_outstandingtoken_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken
+    ADD CONSTRAINT token_blacklist_outstandingtoken_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: m_emp users_user_email_key; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp
     ADD CONSTRAINT users_user_email_key UNIQUE (email);
 
 
 --
--- Name: users_user_groups users_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp users_user_emp_cd_key; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_groups
+ALTER TABLE ONLY public.m_emp
+    ADD CONSTRAINT users_user_emp_cd_key UNIQUE (emp_cd);
+
+
+--
+-- Name: m_emp_groups users_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_groups
     ADD CONSTRAINT users_user_groups_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_user_groups users_user_groups_user_id_group_id_b88eab82_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp_groups users_user_groups_user_id_group_id_b88eab82_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_groups
+ALTER TABLE ONLY public.m_emp_groups
     ADD CONSTRAINT users_user_groups_user_id_group_id_b88eab82_uniq UNIQUE (user_id, group_id);
 
 
 --
--- Name: users_user users_user_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp users_user_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user
+ALTER TABLE ONLY public.m_emp
     ADD CONSTRAINT users_user_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_user_user_permissions users_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp_user_permissions users_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_user_permissions
+ALTER TABLE ONLY public.m_emp_user_permissions
     ADD CONSTRAINT users_user_user_permissions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_user_user_permissions users_user_user_permissions_user_id_permission_id_43338c45_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp_user_permissions users_user_user_permissions_user_id_permission_id_43338c45_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_user_permissions
+ALTER TABLE ONLY public.m_emp_user_permissions
     ADD CONSTRAINT users_user_user_permissions_user_id_permission_id_43338c45_uniq UNIQUE (user_id, permission_id);
 
 
@@ -1265,6 +1449,13 @@ CREATE INDEX m_department_department_cd_0bb8db7b_like ON public.m_department USI
 --
 
 CREATE INDEX m_division_division_cd_4f4969ee_like ON public.m_division USING btree (division_cd varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_emp_cd_68c49e31_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_emp_cd_68c49e31_like ON public.m_emp USING btree (emp_cd varchar_pattern_ops);
 
 
 --
@@ -1359,31 +1550,45 @@ CREATE INDEX t_approval_route_request_id_id_8c99be6d ON public.t_approval_route 
 
 
 --
+-- Name: token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX token_blacklist_outstandingtoken_jti_hex_d9bdf6f7_like ON public.token_blacklist_outstandingtoken USING btree (jti varchar_pattern_ops);
+
+
+--
+-- Name: token_blacklist_outstandingtoken_user_id_83bc629a; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX token_blacklist_outstandingtoken_user_id_83bc629a ON public.token_blacklist_outstandingtoken USING btree (user_id);
+
+
+--
 -- Name: users_user_groups_group_id_9afc8d0e; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX users_user_groups_group_id_9afc8d0e ON public.users_user_groups USING btree (group_id);
+CREATE INDEX users_user_groups_group_id_9afc8d0e ON public.m_emp_groups USING btree (group_id);
 
 
 --
 -- Name: users_user_groups_user_id_5f6f5a90; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX users_user_groups_user_id_5f6f5a90 ON public.users_user_groups USING btree (user_id);
+CREATE INDEX users_user_groups_user_id_5f6f5a90 ON public.m_emp_groups USING btree (user_id);
 
 
 --
 -- Name: users_user_user_permissions_permission_id_0b93982e; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX users_user_user_permissions_permission_id_0b93982e ON public.users_user_user_permissions USING btree (permission_id);
+CREATE INDEX users_user_user_permissions_permission_id_0b93982e ON public.m_emp_user_permissions USING btree (permission_id);
 
 
 --
 -- Name: users_user_user_permissions_user_id_20aca447; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX users_user_user_permissions_user_id_20aca447 ON public.users_user_user_permissions USING btree (user_id);
+CREATE INDEX users_user_user_permissions_user_id_20aca447 ON public.m_emp_user_permissions USING btree (user_id);
 
 
 --
@@ -1423,7 +1628,7 @@ ALTER TABLE ONLY public.django_admin_log
 --
 
 ALTER TABLE ONLY public.django_admin_log
-    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1431,7 +1636,7 @@ ALTER TABLE ONLY public.django_admin_log
 --
 
 ALTER TABLE ONLY public.t_approval_route_detail
-    ADD CONSTRAINT t_approval_route_det_approval_emp_cd_id_c690a825_fk_users_use FOREIGN KEY (approval_emp_cd_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_det_approval_emp_cd_id_c690a825_fk_users_use FOREIGN KEY (approval_emp_cd_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1479,7 +1684,7 @@ ALTER TABLE ONLY public.t_approval_route_detail
 --
 
 ALTER TABLE ONLY public.t_approval_route
-    ADD CONSTRAINT t_approval_route_request_emp_cd_id_52020950_fk_users_user_id FOREIGN KEY (request_emp_cd_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_request_emp_cd_id_52020950_fk_users_user_id FOREIGN KEY (request_emp_cd_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -1491,35 +1696,51 @@ ALTER TABLE ONLY public.t_approval_route
 
 
 --
--- Name: users_user_groups users_user_groups_group_id_9afc8d0e_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: token_blacklist_blacklistedtoken token_blacklist_blacklistedtoken_token_id_3cc7fe56_fk; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_groups
+ALTER TABLE ONLY public.token_blacklist_blacklistedtoken
+    ADD CONSTRAINT token_blacklist_blacklistedtoken_token_id_3cc7fe56_fk FOREIGN KEY (token_id) REFERENCES public.token_blacklist_outstandingtoken(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: token_blacklist_outstandingtoken token_blacklist_outs_user_id_83bc629a_fk_users_use; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.token_blacklist_outstandingtoken
+    ADD CONSTRAINT token_blacklist_outs_user_id_83bc629a_fk_users_use FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_groups users_user_groups_group_id_9afc8d0e_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_groups
     ADD CONSTRAINT users_user_groups_group_id_9afc8d0e_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: users_user_groups users_user_groups_user_id_5f6f5a90_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp_groups users_user_groups_user_id_5f6f5a90_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_groups
-    ADD CONSTRAINT users_user_groups_user_id_5f6f5a90_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.m_emp_groups
+    ADD CONSTRAINT users_user_groups_user_id_5f6f5a90_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: users_user_user_permissions users_user_user_perm_permission_id_0b93982e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp_user_permissions users_user_user_perm_permission_id_0b93982e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_user_permissions
+ALTER TABLE ONLY public.m_emp_user_permissions
     ADD CONSTRAINT users_user_user_perm_permission_id_0b93982e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: users_user_user_permissions users_user_user_permissions_user_id_20aca447_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: m_emp_user_permissions users_user_user_permissions_user_id_20aca447_fk_users_user_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.users_user_user_permissions
-    ADD CONSTRAINT users_user_user_permissions_user_id_20aca447_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.users_user(id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.m_emp_user_permissions
+    ADD CONSTRAINT users_user_user_permissions_user_id_20aca447_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
