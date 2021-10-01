@@ -47,7 +47,7 @@ export default class ApprovalRoutes extends Vue {
         <v-expansion-panels flat v-model="panel" multiple>
           <v-expansion-panel v-for="(item, i) in items" :key="i">
             <v-divider v-if="i" class="bg-pink-2 mb-2" />
-            <v-expansion-panel-header class="px-0 text-h6">
+            <v-expansion-panel-header class="px-0">
               承認状況: {{ item.approval_route_id }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
