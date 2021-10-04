@@ -32,7 +32,6 @@ export default class App extends Vue {
 
 <style lang="scss">
 html {
-  font-size: 16px;
   color: #000;
 }
 </style>

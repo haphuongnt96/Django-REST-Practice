@@ -2,13 +2,15 @@
 @keyframes fadeRight {
   0% {
     opacity: 0;
-    transform: translate3d(100%,0,0);
-}
-100% {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
     opacity: 1;
     transform: translateZ(0);
+  }
 }
-}
+
 @keyframes fadeLeft {
   0% {
     opacity: 0;
@@ -18,5 +20,35 @@
   100% {
     opacity: 1;
     transform: translateZ(0);
+  }
+}
+
+@keyframes bell-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  2.5% {
+    transform: rotate(10deg);
+  }
+
+  7.5% {
+    transform: rotate(-10deg);
+  }
+
+  12.5% {
+    transform: rotate(5deg);
+  }
+
+  17.5% {
+    transform: rotate(-5deg);
+  }
+
+  22.5% {
+    transform: rotate(2.5deg);
+  }
+
+  25% {
+    transform: rotate(0deg);
   }
 }

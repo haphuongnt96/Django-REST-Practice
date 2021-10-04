@@ -1,0 +1,148 @@
+.side__bar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 280px;
+  background-color: #fff;
+  border: 1px solid #d0d0d0;
+  overflow: hidden;
+  height: calc(100vh - 60px);
+  padding: 10px 20px;
+
+  .nav__menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    &--items {
+      display: block;
+
+      >a {
+        display: block;
+        color: #798892;
+        text-align: center;
+        padding: 10px 0;
+        cursor: default;
+      }
+
+      .nav__submenu {
+        list-style: none;
+        padding: 0;
+
+        &--items {
+          display: block;
+
+          a {
+            cursor: default;
+            display: block;
+            padding: 10px 15px;
+            color: rgba(0, 0, 0, 0.87);
+            border-bottom: 1px solid #d0d0d0;
+            transition: padding linear 0.2s;
+
+            &:hover {
+              background-color: #6699d5;
+              color: #fff;
+              padding-left: 30px;
+              .v-icon{
+                color: #fff;
+                cursor: default;
+              }
+              .noti-number{
+                color: #fff;
+              }
+            }
+
+            .noti-number {
+              display: block;
+              float: right;
+              font-weight: 500;
+              position: relative;
+              span{
+                position: absolute;
+                top: -2px;
+                right: -5px;
+                display: inline-block;
+                font-size: 10px;
+                width: 14px;
+                height: 14px;
+                line-height: 14px;
+                border-radius: 50%;
+                background-color: #ff5252;
+                text-align: center;
+                color: #fff;
+                z-index: 9;
+                &.blue-noti{
+                  background-color: #226fea;
+                }
+              }
+              .v-icon{
+                animation: bell-ring 2s linear 0s infinite;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.dash__board {
+  padding-left: 310px;
+  padding-top: 10px;
+  padding-right: 15px;
+
+  &--box {
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    padding: 15px;
+  }
+
+  .approval__notification {
+    background-color: #226fea;
+    margin-bottom: 15px;
+    padding: 10px 25px;
+    color: #fff;
+  }
+
+  .dashboard__content {
+    .app__form {
+      @include clearfix();
+      &--left {
+        display: block;
+        float: left;
+        width: 50%;
+        padding: 15px;
+      }
+
+      &--right {
+        display: block;
+        float: left;
+        width: 50%;
+        padding: 15px;
+      }
+    }
+    .dash__control{
+      width: 100%;
+      tbody{
+        tr{
+          td{
+            padding: 10px;
+          }
+        }
+      }
+    }
+  }
+  .dashboard__list{
+    margin-top: 30px;
+  }
+  .group__action{
+    text-align: center;
+    margin-top: 30px;
+    &--primary{
+      background-color: #6699d5 !important;
+      color: #fff;
+      margin: 15px;
+    }
+  }
+}
