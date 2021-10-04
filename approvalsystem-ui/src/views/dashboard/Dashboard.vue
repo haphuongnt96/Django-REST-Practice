@@ -1,10 +1,16 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
+import DashboardSideBar from '@/modules/dashboard/components/DashboardSideBar.vue'
+import DashboardNotification from '@/modules/dashboard/components/DashboardNotification.vue'
+import DashboardDetail from '@/modules/dashboard/components/DashboardDetail.vue'
 //*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
 
 @Component({
-  components: {}
+  components: {
+    DashboardSideBar,
+    DashboardNotification,
+    DashboardDetail
+  }
 })
 export default class Dashboard extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
@@ -13,9 +19,15 @@ export default class Dashboard extends Vue {
 </script>
 
 <template>
-  <v-container>
-    <div>Dashboard</div>
-  </v-container>
+  <div class="wrap-dashboard">
+    <DashboardSideBar />
+    <div class="dash__board">
+      <DashboardNotification />
+      <div class="dash__board--box">
+        <DashboardDetail />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss"></style>

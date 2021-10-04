@@ -3,8 +3,7 @@ import { Vue } from 'vue-property-decorator'
 export default class Login extends Vue {
   emp_cd = ''
   password = ''
-  async handleSubmit(e) {
-    //0000001 - Tur54305
+  async handleSubmit() {
     const [err, res] = await this.$api.authen.doLogin({
       emp_cd: this.emp_cd,
       password: this.password

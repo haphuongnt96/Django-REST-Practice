@@ -15,7 +15,7 @@ service.interceptors.request.use(
     // do something before request is sent
     const token = localStorage.getItem('vue-token')
     if (token) {
-      // config.headers = { Authorization: `Bearer ${token}` }
+      //set authorization in headers request
       config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
@@ -25,9 +25,6 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-// service.defaults.headers.common['Authorization'] = '123'
-// console.log(service.defaults.headers.common['Authorization'])
-// console.log(err.response.data)
 // response interceptor
 service.interceptors.response.use(
   (response) => {
@@ -35,15 +32,19 @@ service.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config
+    //check reponse status to refresh accesstoken
     if (err.response.status === 401 && !originalConfig._retry) {
       originalConfig._retry = true
       try {
+        //call refreshToken api
         const rs = await refreshToken()
         if (!rs) {
+          //remove token and logout when refresh token expired
           localStorage.removeItem('vue-token')
           localStorage.removeItem('vue-token-reset')
           window.location.href = '/login'
         } else {
+          //renew accesstoken
           const refreshToken = rs.data.data.refresh
           const token = rs.data.data.access
           service.defaults.headers.common['Authorization'] = `Bearer ${token}`
