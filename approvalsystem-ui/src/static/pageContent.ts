@@ -40,7 +40,10 @@ const AUTHEN = {
   AU_TITLE: 'ログイン',
   AU_EMPLOYEEID: '社員ID',
   AU_PASSWORD: 'パスワード',
-  AU_BUTTON: 'ログイン'
+  AU_BUTTON: 'ログイン',
+  BLANK_EMPLOYEEID: '社員IDを入力してください',
+  BLANK_PASSWORD: 'パスワードを入力してください',
+  AUTHEN_ERROR: '社員IDもしくはパスワードが正しくありません'
 }
 const DASHBOARD = {
   DASH_TITLE: 'ログイン',
