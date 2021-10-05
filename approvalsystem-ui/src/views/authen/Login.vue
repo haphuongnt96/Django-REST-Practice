@@ -1,8 +1,9 @@
 <script lang="ts">
-import { Vue } from 'vue-property-decorator'
+import { Vue, Watch } from 'vue-property-decorator'
 export default class Login extends Vue {
   emp_cd = ''
   password = ''
+  e_password = '1'
   async handleSubmit() {
     const [err, res] = await this.$api.authen.doLogin({
       emp_cd: this.emp_cd,
@@ -13,7 +14,7 @@ export default class Login extends Vue {
       localStorage.setItem('vue-token-reset', res.data.refresh)
       this.$router.push({ name: 'approval' })
     } else {
-      alert('login fail')
+      this.$swal('社員IDもしくはパスワードが正しくありません')
     }
   }
   get contents() {
@@ -33,9 +34,11 @@ export default class Login extends Vue {
             <input
               type="text"
               class="form-control"
+              required
               v-model="emp_cd"
               name="emp_cd"
-              @change="(e) => (this.emp_cd = e.target.value)"
+              oninvalid="this.setCustomValidity('社員IDを入力してください')"
+              oninput="this.setCustomValidity('')"
             />
           </div>
           <div class="login__board--form">
@@ -43,9 +46,11 @@ export default class Login extends Vue {
             <input
               type="password"
               class="form-control"
+              required
               v-model="password"
               name="password"
-              @change="(e) => (this.password = e.target.value)"
+              oninvalid="this.setCustomValidity('パスワードを入力してください')"
+              oninput="this.setCustomValidity('')"
             />
           </div>
           <div class="login__board--button">
