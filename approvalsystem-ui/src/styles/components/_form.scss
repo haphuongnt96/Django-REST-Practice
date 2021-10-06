@@ -1,5 +1,5 @@
 // Forms
-.form-control{
+.form-control {
   display: block;
   width: 100%;
   padding: .375rem .75rem;
@@ -12,5 +12,16 @@
   border: 1px solid #ced4da;
   appearance: none;
   border-radius: .25rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  &:focus{
+    box-shadow: 0 0 0 0.2rem rgb(34 111 234 / 25%);
+    border: 1px solid #226fea;
+  }
+  &.error-form {
+    border: 1px solid #dc3545;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
+    }
+  }
 }

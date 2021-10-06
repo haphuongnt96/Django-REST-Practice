@@ -45,9 +45,9 @@
       height: 60px;
       line-height: 60px;
       text-align: center;
-      background-color: $primary;
-
+      
       .btn {
+        background-color: $primary;
         width: 100%;
         color: #fff;
         text-transform: uppercase;
@@ -81,5 +81,9 @@
         }
       }
     }
+  }
+  .error-text{
+    display: block;
+    margin-top: 5px;
   }
 }
