@@ -6,7 +6,8 @@ const APP_HEADER = {
   title: '社内申請',
   LOGOUT: 'ログアウト',
   USER_LOGIN: 'ログイン者',
-  BACK: '戻る'
+  BACK: '戻る',
+  CHANGE_PASS: 'パスワード変更'
 }
 
 const APPROVAL = {
@@ -43,7 +44,13 @@ const AUTHEN = {
   AU_BUTTON: 'ログイン',
   BLANK_EMPLOYEEID: '社員IDを入力してください',
   BLANK_PASSWORD: 'パスワードを入力してください',
-  AUTHEN_ERROR: '社員IDもしくはパスワードが正しくありません'
+  AUTHEN_ERROR: '社員IDもしくはパスワードが正しくありません',
+  CHANGE_PASS_TITLE: 'パスワード変更',
+  CHANGE_PASS_OLDPASS: '現在のパスワード',
+  CHANGE_PASS_NEWPASS: '新しいパスワード',
+  CHANGE_PASS_NEWPASS_ERR: '有効なパスワードを入力してください',
+  CHANGE_PASS_CONFIRMPASS: '新しいパスワード（確認)',
+  CHANGE_PASS_BUTTON: '確認'
 }
 const DASHBOARD = {
   DASH_TITLE: 'ログイン',

@@ -389,7 +389,7 @@ export default class DashboardDetail extends Vue {
         </div>
       </div>
     </div>
-    <!-- <DashboardDetailTable /> -->
+    <DashboardDetailTable />
   </div>
 </template>
 

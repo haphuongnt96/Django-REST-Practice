@@ -15,6 +15,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/authen/Login.vue')
   },
   {
+    path: '/change-pass',
+    name: 'changePass',
+    component: () => import('@/views/authen/ChangePass.vue')
+  },
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/Dashboard.vue')
