@@ -20,16 +20,16 @@ export default class SideBar extends Vue {
           <li class="nav__submenu--items">
             <a href="#">
               {{ contents.APPLICANT_CREATE_NEW }}
-              <span class="noti-number">
-                <span class="blue-noti">1</span>
-                <v-icon class="cta ring-anmation">mdi-email</v-icon>
-              </span>
             </a>
           </li>
           <li class="nav__submenu--items">
             <a href="#">
               {{ contents.APPLICANT_APPLYING }}
-              <span class="noti-number primary-text">3</span>
+
+              <span class="noti-number">
+                <span class="blue-noti">1</span>
+                <v-icon class="cta ring-anmation">mdi-email</v-icon>
+              </span>
             </a>
           </li>
           <li class="nav__submenu--items">
@@ -129,6 +129,9 @@ export default class SideBar extends Vue {
           <li class="nav__submenu--items">
             <a href="#">
               {{ contents.APPROVAL_NOTI }}
+              <span class="noti-number">
+                <v-icon class="cta">mdi-hand-okay</v-icon>
+              </span>
             </a>
           </li>
         </ul>
