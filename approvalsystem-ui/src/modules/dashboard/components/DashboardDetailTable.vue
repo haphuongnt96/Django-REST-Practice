@@ -90,6 +90,76 @@ export default class DetailTable extends Vue {
       title: 'パソコン導入依頼書の申請について',
       applicant: '管理者　 太郎',
       status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
+    },
+    {
+      index: 9,
+      content: 'パソコン導入依頼書',
+      title: 'パソコン導入依頼書の申請について',
+      applicant: '管理者　 太郎',
+      status: '承認中'
     }
   ]
   //#end
@@ -101,8 +171,11 @@ export default class DetailTable extends Vue {
     <v-data-table
       :headers="headers"
       :items="applicants"
-      :items-per-page="5"
+      :items-per-page="15"
       :no-data-text="contents.TABLE_NO_DATA"
+      :footer-props="{
+        'disable-items-per-page': 'true'
+      }"
       class="dashboard__list--table"
     ></v-data-table>
   </div>
