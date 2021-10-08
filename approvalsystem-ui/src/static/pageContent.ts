@@ -83,7 +83,14 @@ const DASHBOARD = {
   TABLE_TITLE: 'タイトル',
   TABLE_APPLICANT: '申請者',
   TABLE_STATUS: '状況',
-  TABLE_NO_DATA: '対象のレコードはありません'
+  TABLE_NO_DATA: '対象のレコードはありません',
+  POPUP_SEARCH_TITLE: '申請内容選択',
+  POPUP_SEARCH_DEPARTMENT: '申請内容選択',
+  POPUP_SEARCH_CATEGORY: '申請内容選択',
+  POPUP_SEARCH_CONTENT: '申請内容選択',
+  POPUP_SEARCH_DEPARTMENT_PLACEHOLDER: '部署名',
+  POPUP_SEARCH_CATEGORY_PLACEHOLDER: '課名',
+  POPUP_SEARCH_CONTENT_PLACEHOLDER: '分類名'
 }
 const $pageContents = {
   APP_SIDE_BAR,

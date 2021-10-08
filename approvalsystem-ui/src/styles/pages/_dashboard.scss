@@ -17,7 +17,7 @@
     &--items {
       display: block;
 
-      >a {
+      > a {
         display: block;
         color: #798892;
         text-align: center;
@@ -44,11 +44,11 @@
               background-color: #6699d5;
               color: #fff;
               padding-left: 30px;
-              .v-icon{
+              .v-icon {
                 color: #fff;
                 cursor: default;
               }
-              .noti-number{
+              .noti-number {
                 color: #fff;
               }
             }
@@ -58,7 +58,7 @@
               float: right;
               font-weight: 500;
               position: relative;
-              span{
+              span {
                 position: absolute;
                 top: -2px;
                 right: -5px;
@@ -72,11 +72,11 @@
                 text-align: center;
                 color: #fff;
                 z-index: 9;
-                &.blue-noti{
+                &.blue-noti {
                   background-color: #226fea;
                 }
               }
-              .ring-anmation{
+              .ring-anmation {
                 animation: bell-ring 2s linear 0s infinite;
               }
             }
@@ -122,27 +122,57 @@
         padding: 15px;
       }
     }
-    .dash__control{
+    .dash__control {
       width: 100%;
-      tbody{
-        tr{
-          td{
+      tbody {
+        tr {
+          td {
             padding: 10px;
           }
         }
       }
     }
   }
-  .dashboard__list{
+  .dashboard__list {
     margin-top: 30px;
   }
-  .group__action{
+  .group__action {
     text-align: center;
     margin-top: 30px;
-    &--primary{
+    &--primary {
       background-color: #6699d5 !important;
       color: #fff;
       margin: 15px;
+    }
+  }
+}
+.pop-search {
+  .search__form {
+    &-header {
+      margin-bottom: 30px;
+      table {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        tbody {
+          td {
+            padding: 0 5px;
+          }
+        }
+        .select-deparment {
+          .v-input {
+            width: 48%;
+            display: inline-block;
+            margin: 0 1%;
+          }
+        }
+      }
+    }
+    &-control {
+     display: flex;
+     .v-input{
+       margin: 0 10px;
+     }
     }
   }
 }
