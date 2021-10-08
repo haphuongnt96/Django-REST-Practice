@@ -12,7 +12,7 @@ export default class DetailTable extends Vue {
   //table header and set value
   headers = [
     {
-      text: '受付番号',
+      text: '番号',
       align: 'start',
       sortable: false,
       value: 'index'
