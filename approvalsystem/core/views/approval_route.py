@@ -14,7 +14,7 @@ from core.serializers import ApprovalRouteSerializer, \
 
 
 class ApprovalRouteListAPI(ListAPIView):
-    queryset = ApprovalRoute.objects.all()
+    queryset = ApprovalRoute.objects.order_by('-created').all()
     serializer_class = ApprovalRouteSerializer
 
     def get(self, request, *args, **kwargs):
@@ -32,7 +32,7 @@ class ApprovalRequestAPI(APIView):
     def post(self, request, *args, **kwargs):
         request_id = kwargs['request_id']
         try:
-            approval_route = ApprovalRoute.objects.filter(request_id=request_id).latest('approval_route_id')
+            approval_route = ApprovalRoute.objects.filter(request_id=request_id).latest('created')
         except ApprovalRoute.DoesNotExist:
             raise NotFound(
                 _('Invalid request_id or does not exist Approval Routes.')
