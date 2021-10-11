@@ -4,7 +4,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({ components: {} })
 export default class AppDefaultHeader extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-
+  profiles = [{ title: 'パスワード変更', path: '/change-pass' }]
   get contents() {
     return this.$pageContents.APP_HEADER
   }
@@ -28,7 +28,25 @@ export default class AppDefaultHeader extends Vue {
     <v-btn small color="grey" class="mr-3" to="/dashboard">
       {{ contents.BACK }}
     </v-btn>
-    <div class="txt-white mr-3">{{ contents.USER_LOGIN }}</div>
+    <div class="txt-white mr-3">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn class="user__dropdown" v-bind="attrs" v-on="on">
+            {{ contents.USER_LOGIN }}
+            <v-icon class="cta">mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+        <v-list class="custom_menu_drop">
+          <v-list-item v-for="(item, index) in profiles" :key="index">
+            <v-list-item-title>
+              <v-btn :to="item.path">
+                {{ item.title }}
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
     <v-btn small color="grey" @click="handleLogout()">
       {{ contents.LOGOUT }}
     </v-btn>
