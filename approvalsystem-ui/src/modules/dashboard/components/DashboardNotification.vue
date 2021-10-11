@@ -1,7 +1,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
-@Component({ components: {} })
+import { VTextMarquee } from 'vue-text-marquee'
+@Component({
+  components: {
+    VTextMarquee
+  }
+})
 export default class Notification extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   //#region COMPUTED
@@ -14,9 +18,9 @@ export default class Notification extends Vue {
 
 <template>
   <div class="approval__notification">
-    <marquee>
+    <VTextMarquee :speed="40">
       *2022 年4月1日12時から13時までメンテナンス作行のため、利用できません。*
-    </marquee>
+    </VTextMarquee>
   </div>
 </template>
 

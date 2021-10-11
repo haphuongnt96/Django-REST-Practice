@@ -20,53 +20,49 @@ export default class DashboardDetail extends Vue {
     { state: 'California', abbr: 'CA' },
     { state: 'New York', abbr: 'NY' }
   ]
+
   applicantContent = ''
+  //set data for application date
+  //define show popup application date
+  showApplicationDate = false
+  //set range data application date
+  ApplicationDates = [
+    moment().format('YYYY-MM-DD'),
+    moment().add(7, 'days').format('YYYY-MM-DD')
+  ]
+  //#end
+  //set data application latest date
+  showApplicationLatestDate = false
+  ApplicationLatestDates = [
+    moment().format('YYYY-MM-DD'),
+    moment().add(7, 'days').format('YYYY-MM-DD')
+  ]
+  //#end
+  //set approval date
+  showApprovalDate = false
+  ApprovalDates = [
+    moment().format('YYYY-MM-DD'),
+    moment().add(7, 'days').format('YYYY-MM-DD')
+  ]
+  //#end
   //#region COMPUTED
   get contents() {
     return this.$pageContents.DASHBOARD
   }
-  //#endregion
-  data() {
-    return {
-      //set data for application date
-      //define show popup application date
-      showApplicationDate: false,
-      //set range data application date
-      ApplicationDates: [
-        moment().format('YYYY-MM-DD'),
-        moment().add(7, 'days').format('YYYY-MM-DD')
-      ],
-      //#end
-      //set data application latest date
-      showApplicationLatestDate: false,
-      ApplicationLatestDates: [
-        moment().format('YYYY-MM-DD'),
-        moment().add(7, 'days').format('YYYY-MM-DD')
-      ],
-      //#end
-      //set approval date
-      showApprovalDate: false,
-      ApprovalDates: [
-        moment().format('YYYY-MM-DD'),
-        moment().add(7, 'days').format('YYYY-MM-DD')
-      ]
-      //#end
-    }
-  }
-  //format display data application date
   get getApplicationDates() {
     return this.ApplicationDates.join(' ~ ')
   }
-  //#end
   get getApplicationLatestDates() {
     return this.ApplicationLatestDates.join(' ~ ')
   }
   get getApprovalDates() {
     return this.ApprovalDates.join(' ~ ')
   }
+
   setDataSearch(value) {
     this.applicantContent = value.department
   }
+  //#endregion
 }
 </script>
 
@@ -176,11 +172,11 @@ export default class DashboardDetail extends Vue {
                     <v-text-field
                       v-model="getApplicationDates"
                       append-icon="mdi-calendar"
+                      v-on="on"
                       dense
                       outlined
                       hide-details="auto"
                       readonly
-                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -207,12 +203,12 @@ export default class DashboardDetail extends Vue {
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="getApplicationLatestDates"
+                      append-icon="mdi-calendar"
+                      v-on="on"
                       dense
                       outlined
                       hide-details="auto"
-                      append-icon="mdi-calendar"
                       readonly
-                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -295,12 +291,12 @@ export default class DashboardDetail extends Vue {
                   <template v-slot:activator="{ on }">
                     <v-text-field
                       v-model="getApprovalDates"
+                      append-icon="mdi-calendar"
+                      v-on="on"
                       dense
                       outlined
                       hide-details="auto"
-                      append-icon="mdi-calendar"
                       readonly
-                      v-on="on"
                     ></v-text-field>
                   </template>
                   <v-date-picker
