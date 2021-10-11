@@ -1,11 +1,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import DashboardDetailTable from '@/modules/dashboard/components/DashboardDetailTable.vue'
+import DashboardDetailPopup from '@/modules/dashboard/components/DashboardDetailPopup.vue'
 import moment from 'moment'
 Vue.prototype.moment = moment
 @Component({
   components: {
-    DashboardDetailTable
+    DashboardDetailTable,
+    DashboardDetailPopup
   }
 })
 export default class DashboardDetail extends Vue {
@@ -18,6 +20,8 @@ export default class DashboardDetail extends Vue {
     { state: 'California', abbr: 'CA' },
     { state: 'New York', abbr: 'NY' }
   ]
+
+  applicantContent = ''
   //set data for application date
   //define show popup application date
   showApplicationDate = false
@@ -54,6 +58,10 @@ export default class DashboardDetail extends Vue {
   get getApprovalDates() {
     return this.ApprovalDates.join(' ~ ')
   }
+
+  setDataSearch(value) {
+    this.applicantContent = value.department
+  }
   //#endregion
 }
 </script>
@@ -74,12 +82,13 @@ export default class DashboardDetail extends Vue {
                   disabled
                   background-color="#eee"
                   outlined
+                  v-model="applicantContent"
                   placeholder="input here ..."
                   hide-details="auto"
                 />
               </td>
               <td>
-                <v-btn small color="grey">{{ contents.FORM_SEARCH }}</v-btn>
+                <DashboardDetailPopup @setDataSearch="setDataSearch" />
               </td>
             </tr>
             <tr>
