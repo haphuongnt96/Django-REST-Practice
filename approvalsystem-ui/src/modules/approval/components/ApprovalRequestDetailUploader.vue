@@ -36,8 +36,7 @@ export default class ApprovalRequestDetailUploader extends Vue {
 
 <template>
   <v-container pa-0 fluid class="d-flex" @click="handleUpload">
-    <div>Upload</div>
-    <div class="flex-grow-1">Choose file</div>
+    <div class="flex-grow-1">添付したいファイルを選択してください</div>
     <input
       type="file"
       multiple
@@ -45,7 +44,7 @@ export default class ApprovalRequestDetailUploader extends Vue {
       ref="uploader"
       @change="uploaded"
     />
-    <div>Browse</div>
+    <div>参照...</div>
   </v-container>
 </template>
 
