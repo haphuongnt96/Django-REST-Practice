@@ -7,7 +7,8 @@ const APP_HEADER = {
   LOGOUT: 'ログアウト',
   USER_LOGIN: 'ログイン者',
   BACK: '戻る',
-  CHANGE_PASS: 'パスワード変更'
+  CHANGE_PASS: 'パスワード変更',
+  NEW_REGISTER: '新規申請'
 }
 
 const APPROVAL = {
