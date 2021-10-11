@@ -18,6 +18,7 @@ export default class Notification extends Vue {
 
 <template>
   <div class="approval__notification">
+    <div class="float-left approval__notification_title">お知らせ</div>
     <VTextMarquee :speed="40">
       *2022 年4月1日12時から13時までメンテナンス作行のため、利用できません。*
     </VTextMarquee>

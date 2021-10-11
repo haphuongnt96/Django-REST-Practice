@@ -105,6 +105,10 @@
     color: #fff;
   }
 
+  .approval__notification_title {
+    margin-right: 25px;
+  }
+
   .dashboard__content {
     .app__form {
       @include clearfix();
