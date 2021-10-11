@@ -24,10 +24,14 @@ header {
 .v-list.custom_menu_drop{
   padding: 0;
   .v-list-item{
+    display: block !important;
     padding: 10px 0;
     .v-btn{
       background-color: transparent;
       border-radius: 0;
+      box-shadow: none;
+      display: block;
+      width: 100%;
       &::before{
         content: none;
       }
