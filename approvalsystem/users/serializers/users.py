@@ -23,17 +23,17 @@ class UserPassSerializer(serializers.Serializer):
     oldPassword = serializers.CharField()
     newPassword = serializers.CharField()
     confirmPassword = serializers.CharField()
-        
+
     class Meta:
         model = User
-        fields = ('old_password', 'password', 'password2')
+        fields = ('oldPassword', 'newPassword', 'confirmPassword')
     
     def validate(self, attrs):
         '''
         新パスワード入力同一チェック
         '''
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
+        if attrs['newPassword'] != attrs['confirmPassword']:
+            raise serializers.ValidationError({"password": "新パス"})
 
         return attrs
 
