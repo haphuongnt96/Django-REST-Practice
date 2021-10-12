@@ -10,13 +10,16 @@ export default class ChangePass extends Vue {
   isCPError = false
   isValidation = false
   ConfirmPassMess = ''
+  //formがsubmitされたときに実行される関数 async非同期処理
   async handleSubmit() {
-    this.$swal('エラーが発生しました！')
-    // const [err, res] = await this.$api.authen.doLogin({
-    //   emp_cd: this.emp_cd,
-    //   password: this.password
-    // })
-    // if (!err && res) {
+    //this.$swal('エラーが発生しました！')
+    //await でPromiseの結果がかえってくるまで処理を停止
+    const [err, res] = await this.$api.authen.doChangePass({
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword
+    })
+    //エラーがないときの処理
+    //if (!err && res) {
     //   localStorage.setItem('vue-token', res.data.access)
     //   localStorage.setItem('vue-token-reset', res.data.refresh)
     //   this.$router.push({ name: 'approval' })
