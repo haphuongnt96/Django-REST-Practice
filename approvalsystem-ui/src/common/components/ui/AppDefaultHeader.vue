@@ -5,6 +5,7 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class AppDefaultHeader extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   profiles = [{ title: 'パスワード変更', path: '/change-pass' }]
+  user = {}
   get contents() {
     return this.$pageContents.APP_HEADER
   }
@@ -16,6 +17,12 @@ export default class AppDefaultHeader extends Vue {
       localStorage.removeItem('vue-token-reset')
     } else {
       alert('logout fail')
+    }
+  }
+  async mounted() {
+    const [err, res] = await this.$api.authen.getUserInfo()
+    if (!err && res) {
+      this.user = res.data
     }
   }
 }
@@ -32,7 +39,7 @@ export default class AppDefaultHeader extends Vue {
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="user__dropdown" v-bind="attrs" v-on="on">
-            {{ contents.USER_LOGIN }}
+            {{ user.emp_nm }}
             <v-icon class="cta">mdi-chevron-down</v-icon>
           </v-btn>
         </template>
