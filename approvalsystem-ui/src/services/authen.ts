@@ -21,7 +21,7 @@ export function doLogout() {
 }
 export function getUserInfo() {
   return transformData(
-    service.request<Approvals.User[]>({
+    service.request<Auth.User[]>({
       method: 'get',
       url: `api/user/info/`
     })
