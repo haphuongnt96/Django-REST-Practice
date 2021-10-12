@@ -2,12 +2,16 @@
 import { Component, Vue } from 'vue-property-decorator'
 import DashboardDetailTable from '@/modules/dashboard/components/DashboardDetailTable.vue'
 import DashboardDetailPopup from '@/modules/dashboard/components/DashboardDetailPopup.vue'
+import DashboardPopupApplicant from '@/modules/dashboard/components/DashboardPopupApplicant.vue'
+import DashboardPopupNoti from '@/modules/dashboard/components/DashboardPopupNoti.vue'
 import moment from 'moment'
 Vue.prototype.moment = moment
 @Component({
   components: {
     DashboardDetailTable,
-    DashboardDetailPopup
+    DashboardDetailPopup,
+    DashboardPopupApplicant,
+    DashboardPopupNoti
   }
 })
 export default class DashboardDetail extends Vue {
@@ -22,6 +26,8 @@ export default class DashboardDetail extends Vue {
   ]
 
   applicantContent = ''
+  applicant = ''
+  noti = ''
   //set data for application date
   //define show popup application date
   showApplicationDate = false
@@ -61,6 +67,12 @@ export default class DashboardDetail extends Vue {
 
   setDataSearch(value) {
     this.applicantContent = value.department
+  }
+  setDataApplicant(value) {
+    this.applicant = value.department
+  }
+  setDataNoti(value) {
+    this.noti = value.department
   }
   //#endregion
 }
@@ -133,13 +145,14 @@ export default class DashboardDetail extends Vue {
                   dense
                   outlined
                   disabled
+                  v-model="applicant"
                   background-color="#eee"
                   placeholder="input here ..."
                   hide-details="auto"
                 />
               </td>
               <td>
-                <v-btn small color="grey">{{ contents.FORM_SEARCH }}</v-btn>
+                <DashboardPopupApplicant @setDataApplicant="setDataApplicant" />
               </td>
             </tr>
             <tr>
@@ -316,6 +329,7 @@ export default class DashboardDetail extends Vue {
                 <v-text-field
                   dense
                   disabled
+                  v-model="noti"
                   background-color="#eee"
                   outlined
                   placeholder="input here ..."
@@ -323,7 +337,7 @@ export default class DashboardDetail extends Vue {
                 />
               </td>
               <td>
-                <v-btn small color="grey">{{ contents.FORM_SEARCH }}</v-btn>
+                <DashboardPopupNoti @setDataNoti="setDataNoti" />
               </td>
             </tr>
             <tr>
