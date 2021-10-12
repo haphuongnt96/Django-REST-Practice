@@ -37,19 +37,21 @@ export default class AppDefaultHeader extends Vue {
           </v-btn>
         </template>
         <v-list class="custom_menu_drop">
-          <v-list-item v-for="(item, index) in profiles" :key="index">
+          <v-list-item>
             <v-list-item-title>
-              <v-btn :to="item.path">
-                {{ item.title }}
+              <v-btn to="/change-pass">
+                {{ 'パスワード変更' }}
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title>
+              <v-btn @click="handleLogout()">
+                {{ contents.LOGOUT }}
               </v-btn>
             </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
     </div>
-    <v-btn small color="grey" @click="handleLogout()">
-      {{ contents.LOGOUT }}
-    </v-btn>
   </v-app-bar>
 </template>
 
