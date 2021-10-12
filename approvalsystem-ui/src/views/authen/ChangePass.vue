@@ -16,7 +16,8 @@ export default class ChangePass extends Vue {
     //await でPromiseの結果がかえってくるまで処理を停止
     const [err, res] = await this.$api.authen.doChangePass({
       oldPassword: this.oldPassword,
-      newPassword: this.newPassword
+      newPassword: this.newPassword,
+      confirmPassword: this.confirmPassword
     })
     //エラーがないときの処理
     //if (!err && res) {

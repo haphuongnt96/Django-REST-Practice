@@ -23,8 +23,9 @@ export function doLogout() {
 export function doChangePass(data: any) {
   return transformData(
     service.request<Auth.User[]>({
-      method: 'post',
-      url: '/api/user/changepass/'
+      method: 'put',
+      url: '/api/user/changepass/',
+      data
     })
   )
 }
