@@ -95,10 +95,10 @@ export default class ApprovalRoutes extends Vue {
     <v-divider vertical class="mx-4" />
     <v-card
       flat
-      class="approval__btns d-flex flex-column align-center flex-gap-8 pa-5"
+      class="approval__btns d-flex flex-column align-left flex-gap-8 pa-5"
     >
       <div class="d-flex align-center flex-gap-1">
-        <v-btn width="160" :color="$config.Colors.blue1">コメント</v-btn>
+        <v-btn width="120" :color="$config.Colors.blue1">コメント</v-btn>
         <div class="comment__status">有</div>
       </div>
       <v-btn width="120" :color="$config.Colors.red1">
@@ -149,6 +149,7 @@ $sectionBtnWidth: 270px;
 
 .comment__status {
   border: solid thin $pink-2;
+  height: 36px;
   padding: 0 12px;
   background: $white;
 }
