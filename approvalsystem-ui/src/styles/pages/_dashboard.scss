@@ -39,7 +39,17 @@
             color: rgba(0, 0, 0, 0.87);
             border-bottom: 1px solid #d0d0d0;
             transition: padding linear 0.2s;
-
+            &.v-btn{
+              padding: 0;
+              padding-top: 8px;
+              transition: all linear 0.2s;
+              font-size: 14px;
+              &:hover{
+                color: rgba(0, 0, 0, 0.87);
+                padding-left: 0;
+                transform: scale(0.93)
+              }
+            }
             &:hover {
               background-color: $pink-2;
               color: #fff;
