@@ -7,7 +7,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'root',
-    redirect: '/approval'
+    redirect: '/dashboard'
   },
   {
     path: '/login',

@@ -15,7 +15,7 @@ export default class Login extends Vue {
     if (!err && res) {
       localStorage.setItem('vue-token', res.data.access)
       localStorage.setItem('vue-token-reset', res.data.refresh)
-      this.$router.push({ name: 'approval' })
+      this.$router.push({ name: 'dashboard' })
     } else {
       this.$swal('社員IDもしくはパスワードが正しくありません')
     }

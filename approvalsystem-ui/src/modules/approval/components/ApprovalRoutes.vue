@@ -14,6 +14,7 @@ export default class ApprovalRoutes extends Vue {
   ]
   items: Approvals.ApprovalRouteResponse[] = []
   panel = [0]
+  idKey = new URLSearchParams(location.search).get('id')
   // Vue.prototype.moment = moment
   //#region Computed
   get contents() {
@@ -29,9 +30,11 @@ export default class ApprovalRoutes extends Vue {
 
   //#region Hook
   async mounted() {
-    const [err, res] = await this.$api.approval.getApprovals('1')
-    if (!err && res) {
-      this.items = res.data
+    if (this.idKey) {
+      const [err, res] = await this.$api.approval.getApprovals(this.idKey)
+      if (!err && res) {
+        this.items = res.data
+      }
     }
   }
   updateApprovalStatus(data) {

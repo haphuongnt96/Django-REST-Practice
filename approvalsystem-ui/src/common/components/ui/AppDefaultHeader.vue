@@ -28,6 +28,9 @@ export default class AppDefaultHeader extends Vue {
     <v-btn small color="grey" class="mr-3" to="/dashboard">
       {{ contents.BACK }}
     </v-btn>
+    <v-btn small color="grey" to="/approval">
+      {{ contents.NEW_REGISTER }}
+    </v-btn>
     <div class="txt-white mr-3">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
