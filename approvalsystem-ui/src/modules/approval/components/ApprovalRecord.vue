@@ -66,7 +66,7 @@ export default class ApprovalRecord extends Vue {
             <span v-bind:class="[color(detail.approval_status)]">
               {{ icon(detail.approval_status) }}
             </span>
-            <span v-if="detail.approval_date !== null">
+            <span v-if="detail.approval_date">
               {{ moment(detail.approval_date).format('M/D') }}
             </span>
           </template>
