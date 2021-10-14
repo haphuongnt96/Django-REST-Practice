@@ -76,7 +76,7 @@ export default class ApprovalRoutes extends Vue {
                         <td>{{ item.request_emp_nm || 'データなし' }}</td>
                       </tr>
                       <tr class="text-center">
-                        <td>{{ moment(item.created).format('YYYY/MM/DD') }}</td>
+                        <td>{{ moment(item.created).format('YYYY/M/D') }}</td>
                       </tr>
                     </tbody>
                   </template>
