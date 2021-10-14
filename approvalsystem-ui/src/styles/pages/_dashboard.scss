@@ -17,7 +17,7 @@
     &--items {
       display: block;
 
-      > a {
+      >a {
         display: block;
         color: #798892;
         text-align: center;
@@ -54,10 +54,12 @@
               background-color: $pink-2;
               color: #fff;
               padding-left: 30px;
+
               .v-icon {
                 color: #fff;
                 cursor: default;
               }
+
               .noti-number {
                 color: #fff;
               }
@@ -68,6 +70,7 @@
               float: right;
               font-weight: 500;
               position: relative;
+
               span {
                 position: absolute;
                 top: -2px;
@@ -82,11 +85,13 @@
                 text-align: center;
                 color: #fff;
                 z-index: 9;
+
                 &.blue-noti {
                   background-color: #226fea;
                 }
               }
-              .ring-anmation{
+
+              .ring-anmation {
                 animation: bell-ring 2s linear 0s infinite;
               }
             }
@@ -112,7 +117,7 @@
     background-color: $pink-2;
     margin-bottom: 15px;
     padding: 10px 25px;
-    color: rgba(0,0,0,.6);
+    color: rgba(0, 0, 0, .6);
   }
 
   .approval__notification_title {
@@ -122,6 +127,7 @@
   .dashboard__content {
     .app__form {
       @include clearfix();
+
       &--left {
         display: block;
         float: left;
@@ -136,8 +142,10 @@
         padding: 15px;
       }
     }
+
     .dash__control {
       width: 100%;
+
       tbody {
         tr {
           td {
@@ -147,12 +155,15 @@
       }
     }
   }
+
   .dashboard__list {
     margin-top: 30px;
   }
+
   .group__action {
     text-align: center;
     margin-top: 30px;
+
     &--primary {
       background-color: #6699d5 !important;
       color: #fff;
@@ -160,20 +171,24 @@
     }
   }
 }
+
 .pop-search {
   .search__form {
     &-header {
       margin-bottom: 30px;
+
       table {
         width: 100%;
         padding: 0;
         margin: 0;
+
         tbody {
           td {
             padding: 0 5px;
             font-size: 14px;
           }
         }
+
         .select-deparment {
           .v-input {
             width: 48%;
@@ -183,11 +198,22 @@
         }
       }
     }
+
     &-control {
-     display: flex;
-     .v-input{
-       margin: 0 10px;
-     }
+      display: flex;
+
+      .v-input {
+        margin: 0 10px;
+      }
     }
+  }
+}
+
+.inline__element {
+  white-space: nowrap;
+}
+.v-select__slot{
+  .v-label{
+    font-size: 13px;
   }
 }
