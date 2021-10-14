@@ -10,9 +10,9 @@ export default class ChangePass extends Vue {
   isCPError = false
   isValidation = false
   ConfirmPassMess = ''
+  error_list = []
   //formがsubmitされたときに実行される関数 async非同期処理
   async handleSubmit() {
-    //this.$swal('エラーが発生しました！')
     //await でPromiseの結果がかえってくるまで処理を停止
     const [err, res] = await this.$api.authen.doChangePass({
       oldPassword: this.oldPassword,
@@ -20,13 +20,28 @@ export default class ChangePass extends Vue {
       confirmPassword: this.confirmPassword
     })
     //エラーがないときの処理
-    //if (!err && res) {
-    //   localStorage.setItem('vue-token', res.data.access)
-    //   localStorage.setItem('vue-token-reset', res.data.refresh)
-    //   this.$router.push({ name: 'approval' })
-    // } else {
-    //   this.$swal('社員IDもしくはパスワードが正しくありません')
-    // }
+    console.log(err)
+    console.log(res)
+    if (!err && res) {
+      //localStorage.setItem('vue-token', res.data.access)
+      //localStorage.setItem('vue-token-reset', res.data.refresh)
+      console.log(err)
+      this.$swal({
+        title: '成功',
+        text: 'パスワードを変更しました',
+        icon: 'success'
+      })
+      this.$router.push({ name: 'logout' })
+    } else {
+      console.log(err)
+      //swalはアラート用のライブラリ。バックエンド側でエラーが発生したときのメッセージ
+      this.$swal({
+        title: 'エラー',
+        text: 'パスワードが間違っているか、パスワード要件を満たしていません',
+        icon: 'error'
+      })
+      //this.$swal('エラー', err.message, 'error')
+    }
   }
   get contents() {
     return this.$pageContents.AUTHEN

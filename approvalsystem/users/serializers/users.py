@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password, check_password
 import re
@@ -17,52 +16,29 @@ class UserDetailSerializer(serializers.ModelSerializer):
         ]
 
 class UserPassSerializer(serializers.Serializer):
+
     '''
     パスワード変更用serializer
     '''
     oldPassword = serializers.CharField()
     newPassword = serializers.CharField()
     confirmPassword = serializers.CharField()
-
-    class Meta:
-        model = User
-        fields = ('oldPassword', 'newPassword', 'confirmPassword')
     
-    def validate(self, attrs):
+    def validate(self, data):
         '''
-        新パスワード入力同一チェック
+        入力チェック
         '''
-        if attrs['newPassword'] != attrs['confirmPassword']:
-            raise serializers.ValidationError({"password": "新パス"})
+        # oldpassチェック
+        #self.object = self.get_object()
+        #if not self.object.check_password(oldPassword):
+        #    raise serializers.ValidationError({"oldPassword": "現在のパスワードが間違っています。"})
+        
+        # 新しいPassと確認用Pass一致チェック
+        if data['newPassword'] != data['confirmPassword']:
+            raise serializers.ValidationError({"confirmPassword": "新しいパスワード・新しいパスワード（確認）が一致していません"})
 
-        return attrs
-
-
-    def new_password_check(self, new_password):
-        '''
-        パスワードの正規チェック
-        '''
-        return re.search(r'(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*?\d)(?=.*?[!-/:-@[-`{-~])[0-9a-zA-Z]{8,30}', new_password)
-
-
-    def old_password_check(self, value):
-        '''
-        chek_passwordでolo_passwordが現在データベースにあるパスワードと一致しているかチェックする
-        '''
-        user = self.context['user']
-        if not user.chek_password(value):
-            raise serializers.ValidationError(
-                _('パスワードが間違っています。再入力をお願いします。')
-            )
-        return value
-
-    '''
-    new_passwordとold_password不一致チェック（同一ならエラー）
-    '''
-
-    def update(self, instance, validated_data):
-
-        instance.set_password(validated_data['password'])
-        instance.save()
-
-        return instance
+        #　新しいPassと確認用Pass正規チェック
+        pattern = '^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,}$'
+        if not re.search(pattern, data['newPassword']):
+            raise serializers.ValidationError({"newPassword": "新しいパスワードが大文字小文字数字記号3種類以上　8桁以上30文字以内ではありません。"})
+        return data
