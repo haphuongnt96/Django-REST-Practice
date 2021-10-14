@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 @Component({ components: {} })
-export default class DashboardDetailSearchTable extends Vue {
+export default class ApprovalPopupNotifierTable extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   //#region COMPUTED
   get contents() {

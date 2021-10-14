@@ -36,7 +36,11 @@ const APPROVAL = {
   ANNOUNT_PERSON: '通知者',
   COPY_FUNCTION: '申請複写',
   APPROVE_SUCCESS_MESS: '承認に成功しました',
-  APPROVE_FAIL_MESS: '承認に失敗しました'
+  APPROVE_FAIL_MESS: '承認に失敗しました',
+  BTN_SEARCH: '検索',
+  BTN_ADD: '追加',
+  POP_NOTIFIER_ADD: '通知者追加',
+  POP_NOTIFIER_POSITION: '役職名'
 }
 const AUTHEN = {
   AU_TITLE: 'ログイン',

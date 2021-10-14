@@ -1,12 +1,18 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ApprovalRecord from '@/modules/approval/components/ApprovalRecord.vue'
+import ApprovalPopupNotifier from '@/modules/approval/components/ApprovalPopupNotifier.vue'
 import moment from 'moment'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
 //using moment js to convert date,time
 Vue.prototype.moment = moment
-@Component({ components: { ApprovalRecord } })
+@Component({
+  components: {
+    ApprovalRecord,
+    ApprovalPopupNotifier
+  }
+})
 export default class ApprovalRoutes extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   applicantUserHeaders = [
@@ -76,7 +82,7 @@ export default class ApprovalRoutes extends Vue {
                         <td>{{ item.request_emp_nm || 'データなし' }}</td>
                       </tr>
                       <tr class="text-center">
-                        <td>{{ moment(item.created).format('YYYY/M/D') }}</td>
+                        <td>{{ moment(item.created).format('YYYY/MM/DD') }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -107,9 +113,7 @@ export default class ApprovalRoutes extends Vue {
       <v-btn width="120" :color="$config.Colors.red1">
         {{ contents.APPROVER }}
       </v-btn>
-      <v-btn width="120" :color="$config.Colors.red1">
-        {{ contents.ANNOUNT_PERSON }}
-      </v-btn>
+      <ApprovalPopupNotifier />
       <v-btn width="120" :color="$config.Colors.red1">
         {{ contents.COPY_FUNCTION }}
       </v-btn>

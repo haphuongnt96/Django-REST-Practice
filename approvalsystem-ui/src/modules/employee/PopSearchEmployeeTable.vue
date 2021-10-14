@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 @Component({ components: {} })
-export default class DashboardPopupApplicantTable extends Vue {
+export default class PopSearchEmployeeTable extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   //#region COMPUTED
   get contents() {
@@ -22,8 +22,8 @@ export default class DashboardPopupApplicantTable extends Vue {
       align: 'center',
       value: 'department'
     },
-    { text: '社員コード', align: 'center', value: 'category' },
-    { text: '社員名', align: 'center', value: 'content' }
+    { text: '社員コード', align: 'center', value: 'emID' },
+    { text: '社員名', align: 'center', value: 'emName' }
   ]
   // //#end
   // //list applicants
@@ -31,26 +31,32 @@ export default class DashboardPopupApplicantTable extends Vue {
     {
       index: 1,
       department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      emID: '000001',
+      emName: '依頼書の申請'
     },
     {
       index: 2,
       department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      emID: '000002',
+      emName: '依頼書の申請'
     },
     {
       index: 3,
       department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      emID: '000003',
+      emName: '依頼書の申請'
     },
     {
       index: 4,
       department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      emID: '000004',
+      emName: '依頼書の申請'
+    },
+    {
+      index: 5,
+      department: 'パソコン導入依頼書',
+      emID: '000005',
+      emName: '依頼書の申請'
     }
   ]
   //#end
