@@ -10,7 +10,6 @@ export default class ChangePass extends Vue {
   isCPError = false
   isValidation = false
   ConfirmPassMess = ''
-  error_list = []
   //formがsubmitされたときに実行される関数 async非同期処理
   async handleSubmit() {
     //await でPromiseの結果がかえってくるまで処理を停止
@@ -20,27 +19,20 @@ export default class ChangePass extends Vue {
       confirmPassword: this.confirmPassword
     })
     //エラーがないときの処理
-    console.log(err)
-    console.log(res)
     if (!err && res) {
-      //localStorage.setItem('vue-token', res.data.access)
-      //localStorage.setItem('vue-token-reset', res.data.refresh)
-      console.log(err)
       this.$swal({
         title: '成功',
-        text: 'パスワードを変更しました',
+        text: res.message,
         icon: 'success'
       })
-      this.$router.push({ name: 'logout' })
+      this.$router.push({ name: 'approval' })
     } else {
-      console.log(err)
       //swalはアラート用のライブラリ。バックエンド側でエラーが発生したときのメッセージ
       this.$swal({
         title: 'エラー',
-        text: 'パスワードが間違っているか、パスワード要件を満たしていません',
+        text: err.response.data.message,
         icon: 'error'
       })
-      //this.$swal('エラー', err.message, 'error')
     }
   }
   get contents() {
