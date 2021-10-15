@@ -1,0 +1,61 @@
+.comment__dialog {
+  top: 0;
+  right: 0;
+  .v-snack__content{
+    max-height: 90vh;
+    padding: 30px;
+    overflow: auto;
+  }
+  .comment__box{
+    &--title{
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    &--items{
+      margin-top: 15px;
+      .box__items{
+        &--top{
+          ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            margin-bottom: 20px;
+            li{
+              display: inline-block;
+              margin-right: 15px;
+              .items__top{
+                &--date{
+                  b{
+                    font-size: 16px;
+                    margin: 0 10px;
+                  }
+                }
+                &--author{
+                  b{
+                    font-size: 16px;
+                    margin: 0 10px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .v-snack__action  {
+    display: block;
+    margin: 0;
+  }
+  .close-btn{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    button.v-btn{
+      padding: 1px 7px;
+      min-width: 0;
+      font-weight: 700;
+    }
+  }
+}
