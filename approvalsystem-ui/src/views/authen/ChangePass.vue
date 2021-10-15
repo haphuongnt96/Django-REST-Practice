@@ -68,9 +68,27 @@ export default class ChangePass extends Vue {
       this.isNPError = true
     }
     //regex validation for pass rule
-    var regexPass = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,}$/
-    let result = this.newPassword.match(regexPass)
-    if (result) {
+    // チェック希望記号：!?@#$%~&*,.+-_=
+    let low_up_num = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$/
+    let low_up_sym = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
+    let up_num_sym = /^(?=.*\d)(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
+    let low_num_sym = /^(?=.*\d)(?=.*[a-z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
+
+    let result_low_up_num = low_up_num.test(this.newPassword)
+    let result_low_up_sym = low_up_sym.test(this.newPassword)
+    let result_up_num_sym = up_num_sym.test(this.newPassword)
+    let result_low_num_sym = low_num_sym.test(this.newPassword)
+    console.log(this.newPassword)
+    console.log(result_low_up_num)
+    console.log(result_low_up_sym)
+    console.log(result_up_num_sym)
+    console.log(result_low_num_sym)
+    if (
+      result_low_up_num ||
+      result_low_up_sym ||
+      result_up_num_sym ||
+      result_low_num_sym
+    ) {
       this.isNPError = false
     } else {
       this.isNPError = true
