@@ -4,6 +4,7 @@ import DashboardDetailTable from '@/modules/dashboard/components/DashboardDetail
 import DashboardDetailPopup from '@/modules/dashboard/components/DashboardDetailPopup.vue'
 import DashboardPopupApplicant from '@/modules/dashboard/components/DashboardPopupApplicant.vue'
 import DashboardPopupNoti from '@/modules/dashboard/components/DashboardPopupNoti.vue'
+import DashboardPopupObject from '@/modules/dashboard/components/DashboardPopupObject.vue'
 import moment from 'moment'
 Vue.prototype.moment = moment
 @Component({
@@ -11,7 +12,9 @@ Vue.prototype.moment = moment
     DashboardDetailTable,
     DashboardDetailPopup,
     DashboardPopupApplicant,
-    DashboardPopupNoti
+    DashboardPopupNoti,
+    DashboardDetailPopup,
+    DashboardPopupObject
   }
 })
 export default class DashboardDetail extends Vue {
@@ -26,8 +29,6 @@ export default class DashboardDetail extends Vue {
   ]
 
   applicantContent = ''
-  applicant = ''
-  noti = ''
   //set data for application date
   //define show popup application date
   showApplicationDate = false
@@ -67,12 +68,6 @@ export default class DashboardDetail extends Vue {
 
   setDataSearch(value) {
     this.applicantContent = value.department
-  }
-  setDataApplicant(value) {
-    this.applicant = value.department
-  }
-  setDataNoti(value) {
-    this.noti = value.department
   }
   //#endregion
 }
@@ -255,6 +250,7 @@ export default class DashboardDetail extends Vue {
                 <v-text-field
                   dense
                   outlined
+                  v-model="formObject"
                   placeholder="input here ..."
                   hide-details="auto"
                   disabled
@@ -262,7 +258,7 @@ export default class DashboardDetail extends Vue {
                 />
               </td>
               <td>
-                <v-btn small color="grey">{{ contents.FORM_SEARCH }}</v-btn>
+                <DashboardPopupObject @setObjectData="setObjectData" />
               </td>
             </tr>
           </tbody>
