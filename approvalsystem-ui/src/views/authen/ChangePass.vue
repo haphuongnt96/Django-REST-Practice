@@ -23,9 +23,13 @@ export default class ChangePass extends Vue {
       this.$swal({
         title: '成功',
         text: res.message,
-        icon: 'success'
+        icon: 'success',
+        value: true
+      }).then((result) => {
+        if (result) {
+          this.$router.push({ name: 'approval' })
+        }
       })
-      this.$router.push({ name: 'approval' })
     } else {
       //swalはアラート用のライブラリ。バックエンド側でエラーが発生したときのメッセージ
       this.$swal({
@@ -64,7 +68,7 @@ export default class ChangePass extends Vue {
       this.isNPError = true
     }
     //regex validation for pass rule
-    var regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$/
+    var regexPass = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,}$/
     let result = this.newPassword.match(regexPass)
     if (result) {
       this.isNPError = false
@@ -96,7 +100,7 @@ export default class ChangePass extends Vue {
     <div class="login__board">
       <div class="login__board--wrap">
         <h4 class="login__board--title">{{ contents.CHANGE_PASS_TITLE }}</h4>
-        <form @submit.prevent="handleSubmit(this)">
+        <form @keydown.enter.prevent @submit.prevent="handleSubmit(this)">
           <div class="login__board--form">
             <label for="">{{ contents.CHANGE_PASS_OLDPASS }}</label>
             <input
@@ -154,7 +158,7 @@ export default class ChangePass extends Vue {
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
                       <span>
-                        使用可能記号：!?"#$%&amp;*()+-=^~@`[]{}&lt;&gt;;:,./|_
+                        使用可能記号：!?"#$%&amp;*()+-=^~@`&lt;&gt;;:,./|_
                       </span>
                     </li>
                     <li>
