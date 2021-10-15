@@ -48,14 +48,15 @@
   .v-input{
     margin: 0 !important;
     display: inline-block;
-    width: 50%;
     &:nth-child(1){
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+      width: 30%;
     }
     &:nth-child(2){
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+      width: 70%;
     }
   }
 }

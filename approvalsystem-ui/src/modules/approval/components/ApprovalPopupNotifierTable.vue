@@ -12,18 +12,17 @@ export default class ApprovalPopupNotifierTable extends Vue {
   //table header and set value
   searchHeader = [
     {
-      text: 'ID',
+      text: '役職',
       align: 'center',
       sortable: false,
       value: 'index'
     },
     {
-      text: '部署課名',
+      text: '氏名',
       align: 'center',
       value: 'department'
     },
-    { text: '分類', align: 'center', value: 'category' },
-    { text: '申請内容', align: 'center', value: 'content' }
+    { text: '確認日', align: 'center', value: 'category' }
   ]
   // //#end
   // //list applicants
