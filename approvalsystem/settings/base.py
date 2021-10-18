@@ -65,7 +65,7 @@ CORS_ALLOW_HEADERS = (
     'accept-encoding',
     'user-timezone'
 )
-#許可するアクセスの指定
+# CORS許可するアクセスの指定（djangoが別サーバでもアクセスできるための指定）
 CORS_ALLOWED_ORIGINS = str(os.getenv('CORS_ALLOWED_ORIGINS')).split(';') if os.getenv('CORS_ALLOWED_ORIGINS') else []
 
 MIDDLEWARE = [
@@ -114,11 +114,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # パーミッションチェックは、他のコードの処理が許可される前に、常にビューの開始時に実行されます https://runebook.dev/ja/docs/django_rest_framework/api-guide/permissions/index
+        # パーミッションチェックは、他のコードの処理が許可される前に、常にビューの開始時に実行されます
+        # https://runebook.dev/ja/docs/django_rest_framework/api-guide/permissions/index
         'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_RENDERER_CLASSES': [
-        # utilsで設定したJson形式に変更　https://www.django-rest-framework.org/api-guide/renderers/
+        # utilsで設定したJson形式に変更
+        # https://www.django-rest-framework.org/api-guide/renderers/
         'utils.renderers.CustomJsonRenderer',
     ],
     #日付と日付時間のデータ型を指定
