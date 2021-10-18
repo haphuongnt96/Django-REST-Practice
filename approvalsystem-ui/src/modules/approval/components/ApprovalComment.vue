@@ -60,15 +60,6 @@ export default class ApprovalComment extends Vue {
         </div>
         <br />
         <p>承認状況No.00001</p>
-        <!-- <v-select
-          :items="selectStatus"
-          label="承認状況No.00001"
-          item-text="state"
-          item-value="abbr"
-          dense
-          outlined
-          hide-details="auto"
-        /> -->
         <div class="comment__box--items">
           <div class="box__items--top">
             <ul>
@@ -95,6 +86,7 @@ export default class ApprovalComment extends Vue {
             </p>
           </div>
         </div>
+        <p>承認状況No.00001</p>
         <div class="comment__box--items">
           <div class="box__items--top">
             <ul>
@@ -119,6 +111,7 @@ export default class ApprovalComment extends Vue {
             </p>
           </div>
         </div>
+        <p>承認状況No.00001</p>
         <div class="comment__box--items">
           <div class="box__items--top">
             <ul>
@@ -143,6 +136,7 @@ export default class ApprovalComment extends Vue {
             </p>
           </div>
         </div>
+        <p>承認状況No.00001</p>
         <div class="comment__box--items">
           <div class="box__items--top">
             <ul>
