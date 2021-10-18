@@ -59,7 +59,8 @@ export default class ApprovalComment extends Vue {
           </v-btn>
         </div>
         <br />
-        <v-select
+        <p>承認状況No.00001</p>
+        <!-- <v-select
           :items="selectStatus"
           label="承認状況No.00001"
           item-text="state"
@@ -67,7 +68,7 @@ export default class ApprovalComment extends Vue {
           dense
           outlined
           hide-details="auto"
-        />
+        /> -->
         <div class="comment__box--items">
           <div class="box__items--top">
             <ul>
@@ -86,13 +87,12 @@ export default class ApprovalComment extends Vue {
             </ul>
           </div>
           <div class="box__items--body">
-            <v-textarea
-              filled
-              disabled
-              no-resize="true"
-              name="input-7-4"
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
+            <p>
+              The Woodman set to work at once, and so sharp was his axe that the
+              tree was soon chopped nearly through.The Woodman set to work at
+              once, and so sharp was his axe that the tree was soon chopped
+              nearly through. The Woodman set to work at once
+            </p>
           </div>
         </div>
         <div class="comment__box--items">
@@ -113,13 +113,10 @@ export default class ApprovalComment extends Vue {
             </ul>
           </div>
           <div class="box__items--body">
-            <v-textarea
-              filled
-              disabled
-              no-resize="true"
-              name="input-7-4"
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
+            <p>
+              The Woodman set to work at once, and so sharp was his axe that the
+              tree was soon chopped nearly through.
+            </p>
           </div>
         </div>
         <div class="comment__box--items">
@@ -140,13 +137,10 @@ export default class ApprovalComment extends Vue {
             </ul>
           </div>
           <div class="box__items--body">
-            <v-textarea
-              filled
-              disabled
-              no-resize="true"
-              name="input-7-4"
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
+            <p>
+              The Woodman set to work at once, and so sharp was his axe that the
+              tree was soon chopped nearly through.
+            </p>
           </div>
         </div>
         <div class="comment__box--items">
@@ -167,13 +161,10 @@ export default class ApprovalComment extends Vue {
             </ul>
           </div>
           <div class="box__items--body">
-            <v-textarea
-              filled
-              disabled
-              no-resize="true"
-              name="input-7-4"
-              value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-            ></v-textarea>
+            <p>
+              The Woodman set to work at once, and so sharp was his axe that the
+              tree was soon chopped nearly through.
+            </p>
           </div>
         </div>
       </div>
