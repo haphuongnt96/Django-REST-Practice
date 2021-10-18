@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/09/16&nbsp;</td>
+			<td>2021/10/12&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -33,13 +33,13 @@
 		</tr>
 		<tr>
 			<th>論理エンティティ名</th>
-			<td>MM_承認ルートマスタ&nbsp;</td>
+			<td>M_申請明細&nbsp;</td>
 			<th>タグ&nbsp;</th>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<th>物理エンティティ名</th>
-			<td>MM_承認ルートマスタ&nbsp;</td>
+			<td>m_request_detail&nbsp;</td>
 			<th>&nbsp;</th>
 			<td>&nbsp;</td>
 		</tr>
@@ -73,90 +73,72 @@
 		<tr>
 			<td style="text-align:right;">1</td>
 			<td>承認種類コード</td>
-			<td>承認種類コード</td>
-			<td></td>
-			<td>Yes (PK)</td>
+			<td>approval_type_cd</td>
+			<td>@VARCHAR(4)</td>
+			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
-			<td>判定コード</td>
-			<td>判定コード</td>
-			<td></td>
+			<td>申請明細ID</td>
+			<td>request_column_id</td>
+			<td>@VARCHAR(4)</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">3</td>
-			<td>部門コード</td>
-			<td>部門コード</td>
-			<td></td>
+			<td>項目タイプID</td>
+			<td>column_type_id</td>
+			<td>@VARCHAR(2)</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">4</td>
-			<td>セグメントコード</td>
-			<td>セグメントコード</td>
-			<td></td>
+			<td>必須</td>
+			<td>required</td>
+			<td>@BOOLEAN</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">5</td>
-			<td>課コード</td>
-			<td>課コード</td>
-			<td></td>
+			<td>サイズ</td>
+			<td>max_length</td>
+			<td>@INT</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">6</td>
-			<td>順位</td>
-			<td>順位</td>
-			<td></td>
-			<td>Yes</td>
+			<td>項目名</td>
+			<td>column_nm</td>
+			<td>@VARCHAR(30)</td>
+			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">7</td>
-			<td>通知区分</td>
-			<td>通知区分</td>
-			<td></td>
+			<td>選択肢種類ID</td>
+			<td>choices_type_id</td>
+			<td>@VARCHAR(3)</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">8</td>
-			<td>承認役職コード</td>
-			<td>approval_post_cd</td>
-			<td></td>
-			<td>Yes</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">9</td>
-			<td>社員コード</td>
-			<td>emp_cd</td>
-			<td></td>
-			<td>Yes</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">10</td>
-			<td>必要承認数</td>
-			<td>必要承認数</td>
-			<td></td>
-			<td>Yes</td>
+			<td>注釈</td>
+			<td>notes</td>
+			<td>@VARCHAR(50)</td>
+			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -202,23 +184,23 @@
 		<tr>
 			<td style="text-align:right;">1</td>
 			<td></td>
-			<td>approval_post_cd</td>
-			<td>m_approval_post</td>
-			<td>approval_post_cd</td>
+			<td>choices_type_id</td>
+			<td>m_choices</td>
+			<td>choices_type_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
 			<td></td>
-			<td>emp_cd</td>
-			<td>m_emp</td>
-			<td>emp_cd</td>
+			<td>approval_type_cd</td>
+			<td>mm_approval_type</td>
+			<td>approval_type_cd</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">3</td>
 			<td></td>
-			<td>承認種類コード</td>
-			<td>MM_承認種類マスタ</td>
-			<td>承認種類コード</td>
+			<td>column_type_id</td>
+			<td>m_column_type</td>
+			<td>column_type_id</td>
 		</tr>
 	</table>
 
@@ -239,6 +221,13 @@
 			<th>カラムリスト</th>
 			<th>参照元</th>
 			<th>参照元カラムリスト</th>
+		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>request_column_id</td>
+			<td>t_request_detail</td>
+			<td>request_column_id</td>
 		</tr>
 	</table>
 

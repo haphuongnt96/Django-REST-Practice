@@ -32,12 +32,18 @@ service.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config
+    const refreshToken = localStorage.getItem('vue-token-reset')
     //check reponse status to refresh accesstoken
-    if (err.response.status === 401 && !originalConfig._retry) {
+    if (err.response.status === 401 && !originalConfig._retry && refreshToken) {
       originalConfig._retry = true
       try {
         //call refreshToken api
-        const rs = await refreshToken()
+        const rs = await axios.post(
+          `${process.env.VUE_APP_BACKEND_URL}/api/auth/refresh/`,
+          {
+            refresh: refreshToken
+          }
+        )
         if (!rs) {
           //remove token and logout when refresh token expired
           localStorage.removeItem('vue-token')
@@ -54,20 +60,12 @@ service.interceptors.response.use(
           return service(originalConfig)
         }
       } catch (_error) {
-        if (_error.response && _error.response.data) {
-          return Promise.reject(_error.response.data)
-        }
-
-        return Promise.reject(_error)
+        localStorage.removeItem('vue-token')
+        localStorage.removeItem('vue-token-reset')
+        window.location.href = '/login'
       }
     }
     return Promise.reject(err)
   }
 )
-
-function refreshToken() {
-  return service.post('/api/auth/refresh/', {
-    refresh: localStorage.getItem('vue-token-reset')
-  })
-}
 export default service

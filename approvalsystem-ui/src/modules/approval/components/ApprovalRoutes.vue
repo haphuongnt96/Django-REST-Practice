@@ -14,6 +14,7 @@ export default class ApprovalRoutes extends Vue {
   ]
   items: Approvals.ApprovalRouteResponse[] = []
   panel = [0]
+  idKey = new URLSearchParams(location.search).get('id')
   // Vue.prototype.moment = moment
   //#region Computed
   get contents() {
@@ -29,9 +30,11 @@ export default class ApprovalRoutes extends Vue {
 
   //#region Hook
   async mounted() {
-    const [err, res] = await this.$api.approval.getApprovals('1')
-    if (!err && res) {
-      this.items = res.data
+    if (this.idKey) {
+      const [err, res] = await this.$api.approval.getApprovals(this.idKey)
+      if (!err && res) {
+        this.items = res.data
+      }
     }
   }
   updateApprovalStatus(data) {
@@ -73,7 +76,7 @@ export default class ApprovalRoutes extends Vue {
                         <td>{{ item.request_emp_nm || 'データなし' }}</td>
                       </tr>
                       <tr class="text-center">
-                        <td>{{ moment(item.created).format('YYYY/MM/DD') }}</td>
+                        <td>{{ moment(item.created).format('YYYY/M/D') }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -95,10 +98,10 @@ export default class ApprovalRoutes extends Vue {
     <v-divider vertical class="mx-4" />
     <v-card
       flat
-      class="approval__btns d-flex flex-column align-center flex-gap-8 pa-5"
+      class="approval__btns d-flex flex-column align-left flex-gap-8 pa-5"
     >
       <div class="d-flex align-center flex-gap-1">
-        <v-btn width="160" :color="$config.Colors.blue1">コメント</v-btn>
+        <v-btn width="120" :color="$config.Colors.blue1">コメント</v-btn>
         <div class="comment__status">有</div>
       </div>
       <v-btn width="120" :color="$config.Colors.red1">
@@ -149,6 +152,7 @@ $sectionBtnWidth: 270px;
 
 .comment__status {
   border: solid thin $pink-2;
+  height: 36px;
   padding: 0 12px;
   background: $white;
 }

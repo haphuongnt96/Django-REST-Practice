@@ -18,9 +18,9 @@ export default class SideBar extends Vue {
         <a href="#">{{ contents.APPLICANT }}</a>
         <ul class="nav__submenu">
           <li class="nav__submenu--items">
-            <a href="#">
+            <v-btn color="grey" class="mr-3" to="/approval">
               {{ contents.APPLICANT_CREATE_NEW }}
-            </a>
+            </v-btn>
           </li>
           <li class="nav__submenu--items">
             <a href="#">
