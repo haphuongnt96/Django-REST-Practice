@@ -33,6 +33,8 @@ export default class DashboardDetail extends Vue {
   applicantEmpName = ''
   notiEmpCode = ''
   notiEmpName = ''
+  formEmpCode = ''
+  formEmpName = ''
   noti = ''
   formObject = ''
   //set data for application date
@@ -82,6 +84,10 @@ export default class DashboardDetail extends Vue {
   setDataNoti(data) {
     this.notiEmpCode = data.emID
     this.notiEmpName = data.emName
+  }
+  setDataForm(data) {
+    this.formEmpCode = data.emID
+    this.formEmpName = data.emName
   }
   setObjectData(data) {
     this.formObject = data.department
@@ -291,18 +297,22 @@ export default class DashboardDetail extends Vue {
               <td>
                 <label for="">{{ contents.FORM_APPROVER }}</label>
               </td>
-              <td>
+              <td class="select-deparment inline-input-nmr">
                 <v-text-field
+                  v-model="formEmpCode"
                   dense
-                  disabled
-                  background-color="#eee"
                   outlined
-                  placeholder="input here ..."
                   hide-details="auto"
-                />
+                ></v-text-field>
+                <v-text-field
+                  v-model="formEmpName"
+                  dense
+                  outlined
+                  hide-details="auto"
+                ></v-text-field>
               </td>
               <td>
-                <v-btn small color="grey">{{ contents.FORM_SEARCH }}</v-btn>
+                <PopSearchEmployee @setData="setDataForm" />
               </td>
             </tr>
             <tr>
