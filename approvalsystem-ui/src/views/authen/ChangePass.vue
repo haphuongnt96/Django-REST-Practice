@@ -18,8 +18,8 @@ export default class ChangePass extends Vue {
       newPassword: this.newPassword,
       confirmPassword: this.confirmPassword
     })
-    //エラーがないときの処理
     if (!err && res) {
+      //正常処理　swalはアラート用のライブラリ
       this.$swal({
         title: '成功',
         text: res.message,
@@ -31,7 +31,7 @@ export default class ChangePass extends Vue {
         }
       })
     } else {
-      //swalはアラート用のライブラリ。バックエンド側でエラーが発生したときのメッセージ
+      //バックエンド側でエラーが発生したときのメッセージ
       this.$swal({
         title: 'エラー',
         text: err.response.data.message,
@@ -44,6 +44,7 @@ export default class ChangePass extends Vue {
   }
   validationRequire() {
     if (
+      //未入力がなくエラーがないなら処理
       this.oldPassword.trim() !== '' &&
       this.newPassword.trim() !== '' &&
       this.confirmPassword.trim() !== '' &&
@@ -73,16 +74,12 @@ export default class ChangePass extends Vue {
     let low_up_sym = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
     let up_num_sym = /^(?=.*\d)(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
     let low_num_sym = /^(?=.*\d)(?=.*[a-z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
-
+    //正規表現チェック
     let result_low_up_num = low_up_num.test(this.newPassword)
     let result_low_up_sym = low_up_sym.test(this.newPassword)
     let result_up_num_sym = up_num_sym.test(this.newPassword)
     let result_low_num_sym = low_num_sym.test(this.newPassword)
-    console.log(this.newPassword)
-    console.log(result_low_up_num)
-    console.log(result_low_up_sym)
-    console.log(result_up_num_sym)
-    console.log(result_low_num_sym)
+
     if (
       result_low_up_num ||
       result_low_up_sym ||
@@ -97,15 +94,24 @@ export default class ChangePass extends Vue {
   }
   onChangeConfirmPass() {
     if (this.confirmPassword == '') {
+      //未入力チェック
       this.isCPError = true
       this.ConfirmPassMess = this.$pageContents.AUTHEN.BLANK_PASSWORD
     } else {
       if (this.confirmPassword !== this.newPassword) {
+        //新しいパスワードと確認用パスワードの一致チェック
         this.isCPError = true
         this.ConfirmPassMess =
           '「新しいパスワード」及び「新しいパスワード（確認）」には同じ内容を入力してください'
       } else {
-        this.isCPError = false
+        if (this.confirmPassword == this.oldPassword) {
+          //現在のパスワードと確認用パスワードと変更されているかチェック
+          this.isCPError = true
+          this.ConfirmPassMess =
+            '「現在のパスワード」と同一のものは使用できません'
+        } else {
+          this.isCPError = false
+        }
       }
     }
     this.validationRequire()
@@ -143,7 +149,7 @@ export default class ChangePass extends Vue {
               required
               v-model="newPassword"
               name="newPassword"
-              @change="onChangeNewPass()"
+              @input="onChangeNewPass()"
             />
             <div class="error-text" v-show="isNPError">
               {{ contents.CHANGE_PASS_NEWPASS_ERR }}
@@ -163,21 +169,11 @@ export default class ChangePass extends Vue {
                   <ul class="error__list">
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
-                      「英小文字」を１文字以上必要
+                      「英小文字」「英大文字」「数字」「記号」の中で3種類上、8文字以上30文字以内で入力してください
                     </li>
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
-                      「英大文字」を１文字以上必要
-                    </li>
-                    <li>
-                      <v-icon class="cta">mdi-close</v-icon>
-                      「数字」を１文字以上必要
-                    </li>
-                    <li>
-                      <v-icon class="cta">mdi-close</v-icon>
-                      <span>
-                        使用可能記号：!?"#$%&amp;*()+-=^~@`&lt;&gt;;:,./|_
-                      </span>
+                      <span>使用可能記号：!?@#$%~&*,.+-_=</span>
                     </li>
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
@@ -201,7 +197,7 @@ export default class ChangePass extends Vue {
               required
               v-model="confirmPassword"
               name="confirmPassword"
-              @change="onChangeConfirmPass()"
+              @input="onChangeConfirmPass()"
             />
             <span class="error-text" v-show="isCPError">
               {{ ConfirmPassMess }}

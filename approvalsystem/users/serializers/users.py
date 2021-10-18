@@ -29,14 +29,14 @@ class UserPassSerializer(serializers.Serializer):
         '''
         newpass_err_message = '変更後のパスワードが変更前と同一です'
         newconfirmpass_err_message = '新しいパスワード・新しいパスワード（確認）が一致していません'
-        newpass_re_err_message = '新しいパスワードが大文字小文字数字記号3種類以上　8桁以上30文字以内ではありません。'
+        newpass_re_err_message = '「英小文字」「英大文字」「数字」「記号」の中で3種類上、8文字以上30文字以内で入力してください'
         oldpass_err_message = '現在のパスワードが正しくありません'
 
         #正規表現チェック
-        low_up_num = '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]){8,30}$'
-        low_up_sym = '(?=.*[a-z])(?=.*[A-Z])(?=.*[!?"#$%&amp;*()+-=^~@`&lt;&gt;;:,./|_]){8,30}$'
-        up_num_sym = '(?=.*[A-Z])(?=.*[0-9])(?=.*[!?"#$%&amp;*()+-=^~@`&lt;&gt;;:,./|_]){8,30}$'
-        low_num_sym = '(?=.*[a-z])(?=.*[0-9])(?=.*[!?"#$%&amp;*()+-=^~@`&lt;&gt;;:,./|_]){8,30}$'
+        low_up_num = '\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,30}\Z'
+        low_up_sym = '\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
+        up_num_sym = '\A(?=.*[A-Z])(?=.*?\d)(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
+        low_num_sym = '\A(?=.*?[a-z])(?=.*?\d)(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
 
         # oldpassと新パスワードが一致の場合
         if data['newPassword'] == data['oldPassword']:
@@ -46,12 +46,11 @@ class UserPassSerializer(serializers.Serializer):
         if data['newPassword'] != data['confirmPassword']:
             raise serializers.ValidationError({"detail": newconfirmpass_err_message})
 
-        #　新しいPassと確認用Pass正規チェック
+        #　正規表現チェック    
         if not re.search(low_up_num, data['newPassword']) \
         and not re.search(low_up_sym, data['newPassword']) \
         and not re.search(up_num_sym, data['newPassword']) \
         and not re.search(low_num_sym, data['newPassword']):
-            print('NNNN')
             raise serializers.ValidationError({"detail": newpass_re_err_message})       
 
         #パスワードチェック
