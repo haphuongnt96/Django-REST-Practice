@@ -981,7 +981,7 @@ COPY public.m_segment (created, modified, segment_cd, segment_nm) FROM stdin;
 
 COPY public.t_approval_route (created, modified, approval_route_id, approval_type_cd, judgement_cd, request_emp_cd_id, request_id_id) FROM stdin;
 2021-09-22 02:38:59.177+00	2021-09-22 02:39:03.113+00	1	00001	\N	2	1
-2021-09-22 02:38:59.177+00	2021-09-22 02:39:03.113+00	2	00001	\N	2	1
+2021-09-22 02:39:59.177+00	2021-09-22 02:39:03.113+00	2	00001	\N	2	1
 \.
 
 

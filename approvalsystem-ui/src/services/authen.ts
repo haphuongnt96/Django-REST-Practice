@@ -29,3 +29,12 @@ export function doChangePass(data: any) {
     })
   )
 }
+
+export function getUserInfo() {
+  return transformData(
+    service.request<Auth.User[]>({
+      method: 'get',
+      url: `api/user/info/`
+    })
+  )
+}
