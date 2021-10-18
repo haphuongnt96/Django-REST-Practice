@@ -74,13 +74,11 @@ export default class ChangePass extends Vue {
     let low_up_sym = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
     let up_num_sym = /^(?=.*\d)(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
     let low_num_sym = /^(?=.*\d)(?=.*[a-z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
-    
     //正規表現チェック
     let result_low_up_num = low_up_num.test(this.newPassword)
     let result_low_up_sym = low_up_sym.test(this.newPassword)
     let result_up_num_sym = up_num_sym.test(this.newPassword)
     let result_low_num_sym = low_num_sym.test(this.newPassword)
-    
     //結果判定
     if (
       result_low_up_num ||
