@@ -27,7 +27,7 @@ export default class ChangePass extends Vue {
         value: true
       }).then((result) => {
         if (result) {
-          this.$router.push({ name: 'approval' })
+          this.$router.push({ name: 'dashboard' })
         }
       })
     } else {
