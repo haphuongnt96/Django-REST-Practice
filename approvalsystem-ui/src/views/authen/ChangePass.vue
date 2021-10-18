@@ -122,7 +122,7 @@ export default class ChangePass extends Vue {
     <div class="login__board">
       <div class="login__board--wrap">
         <h4 class="login__board--title">{{ contents.CHANGE_PASS_TITLE }}</h4>
-        <form @submit.prevent="handleSubmit(this)">
+        <form @keydown.enter.prevent @submit.prevent="handleSubmit(this)">
           <div class="login__board--form">
             <label for="">{{ contents.CHANGE_PASS_OLDPASS }}</label>
             <input
@@ -147,6 +147,7 @@ export default class ChangePass extends Vue {
               required
               v-model="newPassword"
               name="newPassword"
+              @input="onChangeNewPass()"
             />
             <div class="error-text" v-show="isNewPassError">
               {{ contents.CHANGE_PASS_NEWPASS_ERR }}
@@ -194,6 +195,7 @@ export default class ChangePass extends Vue {
               required
               v-model="confirmPassword"
               name="confirmPassword"
+              @input="onChangeConfirmPass()"
             />
             <span class="error-text" v-show="isConfirmPassError">
               {{ confirmPassMsg }}

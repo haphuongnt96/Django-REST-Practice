@@ -107,9 +107,6 @@ class User(
 
 
 class AlphabetTypePasswordValidator:
-
-    def __init__(self):
-        print('B')
     """
     大・小英数字記号のうち3種類以上必須
     """ 
@@ -118,7 +115,6 @@ class AlphabetTypePasswordValidator:
                     f' 使用可能記号： "{special_characters}".'
 
     def validate(self, password, user=None):
-        print('A')
         #正規表現チェック
         low_up_num = '\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,30}\Z'
         low_up_sym = '\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
