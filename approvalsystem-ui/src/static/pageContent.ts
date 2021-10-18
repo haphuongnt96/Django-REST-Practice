@@ -49,8 +49,10 @@ const AUTHEN = {
   CHANGE_PASS_OLDPASS: '現在のパスワード',
   CHANGE_PASS_NEWPASS: '新しいパスワード',
   CHANGE_PASS_NEWPASS_ERR: '有効なパスワードを入力してください',
-  CHANGE_PASS_CONFIRMPASS: '新しいパスワード（確認)',
-  CHANGE_PASS_BUTTON: '確認'
+  CHANGE_PASS_CONFIRMPASS: '新しいパスワード（確認）',
+  CHANGE_PASS_BUTTON: '確認',
+  NOT_SAME_PASSWORD: '新しいパスワードと（確認）には同じ内容を入力してください',
+  NOT_CHANGE_PASS: '「現在のパスワード」と同一のものは使用できません'
 }
 const DASHBOARD = {
   DASH_TITLE: 'ログイン',

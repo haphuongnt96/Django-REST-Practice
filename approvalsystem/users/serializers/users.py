@@ -47,12 +47,14 @@ class UserPassSerializer(serializers.Serializer):
             raise serializers.ValidationError({"detail": newconfirmpass_err_message})
 
         #　正規表現チェック    
+        '''
         if not re.search(low_up_num, data['newPassword']) \
         and not re.search(low_up_sym, data['newPassword']) \
         and not re.search(up_num_sym, data['newPassword']) \
         and not re.search(low_num_sym, data['newPassword']):
             raise serializers.ValidationError({"detail": newpass_re_err_message})       
-
+        '''
+        
         #パスワードチェック
         user = self.context['request'].user
         oldPassword = data['oldPassword']

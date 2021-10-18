@@ -107,18 +107,28 @@ class User(
 
 
 class AlphabetTypePasswordValidator:
+
+    def __init__(self):
+        print('B')
     """
-    Validate password has at least three type of alphabets.
-    """
-    special_characters = '_@$!%*#?&'
-    pattern = re.compile(
-        rf'(?=.*[A-Za-z])(?=.*\d)(?=.*[{special_characters}])'
-    )
-    error_message = f'Password must contain at least one letter, one number and' \
-                    f' one special character "{special_characters}".'
+    大・小英数字記号のうち3種類以上必須
+    """ 
+    special_characters = '!?@#$%&*,.+_=\-~'
+    error_message = f'「英小文字」「英大文字」「数字」「記号」の中で3種類上、8文字以上30文字以内で入力してください' \
+                    f' 使用可能記号： "{special_characters}".'
 
     def validate(self, password, user=None):
-        if not self.pattern.match(password):
+        print('A')
+        #正規表現チェック
+        low_up_num = '\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,30}\Z'
+        low_up_sym = '\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
+        up_num_sym = '\A(?=.*[A-Z])(?=.*?\d)(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
+        low_num_sym = '\A(?=.*?[a-z])(?=.*?\d)(?=.*?[!?@#$%&*,.+_=\-~])[!-~]{8,30}\Z'
+
+        if not re.search(low_up_num, password) \
+        and not re.search(low_up_sym, password) \
+        and not re.search(up_num_sym, password) \
+        and not re.search(low_num_sym, password):
             raise ValidationError(
                 _(self.error_message),
                 code='password_alphabet_type_required',
