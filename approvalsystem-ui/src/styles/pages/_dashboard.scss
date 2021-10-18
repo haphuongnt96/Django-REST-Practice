@@ -117,11 +117,14 @@
     background-color: $pink-2;
     margin-bottom: 15px;
     padding: 10px 25px;
-    color: rgba(0, 0, 0, .6);
+    color: rgb(5, 109, 27);
+    font-size: 20px;
+    font-weight:  bold;
   }
 
   .approval__notification_title {
     margin-right: 25px;
+    font-weight:  bold;
   }
 
   .dashboard__content {
