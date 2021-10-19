@@ -1,6 +1,7 @@
 .cta {
   cursor: pointer;
 }
+
 .flex-gap-1 {
   gap: 4px;
 }
@@ -16,22 +17,46 @@
 .flex-gap-12 {
   gap: 48px;
 }
-.success-text{
+
+.success-text {
   color: #4caf50;
 }
-.error-text{
+
+.error-text {
   color: #ff5252;
 }
-.bg-white{
-  background-color: #fff;
+
+.btn-white {
+  color: #fff !important;
 }
-.primary-text{
+
+.primary-text {
   color: #226fea;
 }
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th{
+
+.v-data-table>.v-data-table__wrapper>table>tbody>tr>th,
+.v-data-table>.v-data-table__wrapper>table>thead>tr>th,
+.v-data-table>.v-data-table__wrapper>table>tfoot>tr>th {
   font-size: 14px !important;
 }
-.prevent-click{
+
+.prevent-click {
   pointer-events: none;
   filter: grayscale(1);
+}
+.inline-input-nmr{
+  .v-input{
+    margin: 0 !important;
+    display: inline-block;
+    &:nth-child(1){
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      width: 30%;
+    }
+    &:nth-child(2){
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      width: 70%;
+    }
+  }
 }

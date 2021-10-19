@@ -1,12 +1,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import DashboardPopupApplicantTable from '@/modules/dashboard/components/DashboardPopupApplicantTable.vue'
+import PopSearchEmployeeTable from '@/modules/employee/PopSearchEmployeeTable.vue'
 @Component({
   components: {
-    DashboardPopupApplicantTable
+    PopSearchEmployeeTable
   }
 })
-export default class DashboardPopupApplicant extends Vue {
+export default class PopSearchEmployee extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   //#region COMPUTED
   name = ''
@@ -25,7 +25,7 @@ export default class DashboardPopupApplicant extends Vue {
   //#endregion
   //handle call child function
   applicationCotent(value) {
-    this.$emit('setDataApplicant', value)
+    this.$emit('setData', value)
     this.dialog = false
   }
 }
@@ -97,9 +97,7 @@ export default class DashboardPopupApplicant extends Vue {
             </table>
           </div>
           <div class="search__form-result">
-            <DashboardPopupApplicantTable
-              @applicationCotent="applicationCotent"
-            />
+            <PopSearchEmployeeTable @applicationCotent="applicationCotent" />
           </div>
         </div>
       </v-card-text>
