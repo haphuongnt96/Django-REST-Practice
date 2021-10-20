@@ -1,7 +1,7 @@
 import { transformData } from '@/common/helpers'
 import service from './base'
 
-export function doLogin(data: any) {
+export function doLogin(data: { emp_cd: string; password: string }) {
   return transformData(
     service.request<Auth.User[]>({
       method: 'post',
