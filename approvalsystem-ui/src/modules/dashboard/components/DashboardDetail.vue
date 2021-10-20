@@ -21,12 +21,17 @@ export default class DashboardDetail extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   //dummy data for select
   selectStatus = [
-    { state: ' ', abbr: 'KU' },
-    { state: 'Florida', abbr: 'FL' },
-    { state: 'Georgia', abbr: 'GA' },
-    { state: 'Nebraska', abbr: 'NE' },
-    { state: 'California', abbr: 'CA' },
-    { state: 'New York', abbr: 'NY' }
+    { state: '', abbr: 'KU' },
+    { state: '下書き', abbr: 'SITA' },
+    { state: '申請中', abbr: 'SIN' },
+    { state: '承認済', abbr: 'SHO' },
+    { state: '未承認', abbr: 'MI' },
+    { state: '未承認（順番待）', abbr: 'MIJ' },
+    { state: '承認済（未完了分）', abbr: 'SHOMI' },
+    { state: '承認済（申請取消）', abbr: 'SHOTORI' },
+    { state: '不在通知', abbr: 'FU' },
+    { state: '差戻', abbr: 'SASHI' },
+    { state: '差戻取消', abbr: 'SASHITORI' }
   ]
 
   applicantContent = ''
