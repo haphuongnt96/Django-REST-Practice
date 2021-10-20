@@ -5,35 +5,51 @@ export default class ChangePass extends Vue {
   oldPassword = ''
   newPassword = ''
   confirmPassword = ''
-  isOPError = false
-  isNPError = false
-  isCPError = false
+  isOldPassError = false
+  isNewPassError = false
+  isConfirmPassError = false
   isValidation = false
-  ConfirmPassMess = ''
+  confirmPassMsg = ''
+  //formがsubmitされたときに実行される関数 async非同期処理
   async handleSubmit() {
-    this.$swal('エラーが発生しました！')
-    // const [err, res] = await this.$api.authen.doLogin({
-    //   emp_cd: this.emp_cd,
-    //   password: this.password
-    // })
-    // if (!err && res) {
-    //   localStorage.setItem('vue-token', res.data.access)
-    //   localStorage.setItem('vue-token-reset', res.data.refresh)
-    //   this.$router.push({ name: 'approval' })
-    // } else {
-    //   this.$swal('社員IDもしくはパスワードが正しくありません')
-    // }
+    //await でPromiseの結果がかえってくるまで処理を停止
+    const [err, res] = await this.$api.authen.doChangePass({
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword,
+      confirmPassword: this.confirmPassword
+    })
+    if (!err && res) {
+      //正常処理　swalはアラート用のライブラリ
+      this.$swal({
+        title: '成功',
+        text: res.message,
+        icon: 'success',
+        value: true
+      }).then((result) => {
+        if (result) {
+          this.$router.push({ name: 'dashboard' })
+        }
+      })
+    } else {
+      //バックエンド側でエラーが発生したときのメッセージ
+      this.$swal({
+        title: 'エラー',
+        text: err.response.data.message,
+        icon: 'error'
+      })
+    }
   }
   get contents() {
     return this.$pageContents.AUTHEN
   }
   validationRequire() {
     if (
+      //各入力項目に未入力がなくエラーがないならtrue
       this.oldPassword.trim() !== '' &&
       this.newPassword.trim() !== '' &&
       this.confirmPassword.trim() !== '' &&
-      !this.isNPError &&
-      !this.isCPError
+      !this.isNewPassError &&
+      !this.isConfirmPassError
     ) {
       this.isValidation = true
     } else {
@@ -42,37 +58,58 @@ export default class ChangePass extends Vue {
   }
   onChangePass() {
     if (this.oldPassword == '') {
-      this.isOPError = true
+      this.isOldPassError = true
     } else {
-      this.isOPError = false
+      this.isOldPassError = false
     }
     this.validationRequire()
   }
   onChangeNewPass() {
     if (this.newPassword == '') {
-      this.isNPError = true
+      this.isNewPassError = true
     }
     //regex validation for pass rule
-    var regexPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$/
-    let result = this.newPassword.match(regexPass)
-    if (result) {
-      this.isNPError = false
+    // チェック希望記号：!?@#$%~&*,.+-_=
+    let low_up_num = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$/
+    let low_up_sym = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
+    let up_num_sym = /^(?=.*\d)(?=.*[A-Z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
+    let low_num_sym = /^(?=.*\d)(?=.*[a-z])(?=.*[!?@#$%~&*,.+_=\-]).{8,30}$/
+    //正規表現チェック
+    let result_low_up_num = low_up_num.test(this.newPassword)
+    let result_low_up_sym = low_up_sym.test(this.newPassword)
+    let result_up_num_sym = up_num_sym.test(this.newPassword)
+    let result_low_num_sym = low_num_sym.test(this.newPassword)
+    //結果判定
+    if (
+      result_low_up_num ||
+      result_low_up_sym ||
+      result_up_num_sym ||
+      result_low_num_sym
+    ) {
+      this.isNewPassError = false
     } else {
-      this.isNPError = true
+      this.isNewPassError = true
     }
     this.validationRequire()
   }
   onChangeConfirmPass() {
     if (this.confirmPassword == '') {
-      this.isCPError = true
-      this.ConfirmPassMess = this.$pageContents.AUTHEN.BLANK_PASSWORD
+      //未入力チェック
+      this.isConfirmPassError = true
+      this.confirmPassMsg = this.$pageContents.AUTHEN.BLANK_PASSWORD
     } else {
       if (this.confirmPassword !== this.newPassword) {
-        this.isCPError = true
-        this.ConfirmPassMess =
-          '「新しいパスワード」及び「新しいパスワード（確認）」には同じ内容を入力してください'
+        //新しいパスワードと確認用パスワードの一致チェック
+        this.isConfirmPassError = true
+        this.confirmPassMsg = this.$pageContents.AUTHEN.NOT_SAME_PASSWORD
       } else {
-        this.isCPError = false
+        if (this.confirmPassword == this.oldPassword) {
+          //現在のパスワードと確認用パスワードと変更されているかチェック
+          this.isConfirmPassError = true
+          this.confirmPassMsg = this.$pageContents.AUTHEN.NOT_CHANGE_PASS
+        } else {
+          this.isConfirmPassError = false
+        }
       }
     }
     this.validationRequire()
@@ -85,19 +122,19 @@ export default class ChangePass extends Vue {
     <div class="login__board">
       <div class="login__board--wrap">
         <h4 class="login__board--title">{{ contents.CHANGE_PASS_TITLE }}</h4>
-        <form @submit.prevent="handleSubmit(this)">
+        <form @keydown.enter.prevent @submit.prevent="handleSubmit(this)">
           <div class="login__board--form">
             <label for="">{{ contents.CHANGE_PASS_OLDPASS }}</label>
             <input
               type="password"
               class="form-control"
-              v-bind:class="[isOPError ? 'error-form' : '']"
+              v-bind:class="[isOldPassError ? 'error-form' : '']"
               required
               v-model="oldPassword"
               name="oldPassword"
               @change="onChangePass()"
             />
-            <span class="error-text" v-show="isOPError">
+            <span class="error-text" v-show="isOldPassError">
               {{ contents.BLANK_PASSWORD }}
             </span>
           </div>
@@ -106,13 +143,13 @@ export default class ChangePass extends Vue {
             <input
               type="password"
               class="form-control"
-              v-bind:class="[isNPError ? 'error-form' : '']"
+              v-bind:class="[isNewPassError ? 'error-form' : '']"
               required
               v-model="newPassword"
               name="newPassword"
-              @change="onChangeNewPass()"
+              @input="onChangeNewPass()"
             />
-            <div class="error-text" v-show="isNPError">
+            <div class="error-text" v-show="isNewPassError">
               {{ contents.CHANGE_PASS_NEWPASS_ERR }}
               <span class="error-tip">
                 <v-icon class="cta">mdi-alert</v-icon>
@@ -130,21 +167,11 @@ export default class ChangePass extends Vue {
                   <ul class="error__list">
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
-                      「英小文字」を１文字以上必要
+                      「英小文字」「英大文字」「数字」「記号」の中で3種類上、8文字以上30文字以内で入力してください
                     </li>
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
-                      「英大文字」を１文字以上必要
-                    </li>
-                    <li>
-                      <v-icon class="cta">mdi-close</v-icon>
-                      「数字」を１文字以上必要
-                    </li>
-                    <li>
-                      <v-icon class="cta">mdi-close</v-icon>
-                      <span>
-                        使用可能記号：!?"#$%&amp;*()+-=^~@`[]{}&lt;&gt;;:,./|_
-                      </span>
+                      <span>使用可能記号：!?@#$%~&*,.+-_=</span>
                     </li>
                     <li>
                       <v-icon class="cta">mdi-close</v-icon>
@@ -164,14 +191,14 @@ export default class ChangePass extends Vue {
             <input
               type="password"
               class="form-control"
-              v-bind:class="[isCPError ? 'error-form' : '']"
+              v-bind:class="[isConfirmPassError ? 'error-form' : '']"
               required
               v-model="confirmPassword"
               name="confirmPassword"
-              @change="onChangeConfirmPass()"
+              @input="onChangeConfirmPass()"
             />
-            <span class="error-text" v-show="isCPError">
-              {{ ConfirmPassMess }}
+            <span class="error-text" v-show="isConfirmPassError">
+              {{ confirmPassMsg }}
             </span>
           </div>
           <div class="login__board--button">

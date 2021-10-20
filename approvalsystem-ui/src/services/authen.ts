@@ -19,6 +19,17 @@ export function doLogout() {
     })
   )
 }
+
+export function doChangePass(data: any) {
+  return transformData(
+    service.request<Auth.User[]>({
+      method: 'put',
+      url: '/api/user/changepass/',
+      data
+    })
+  )
+}
+
 export function getUserInfo() {
   return transformData(
     service.request<Auth.User[]>({
