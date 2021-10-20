@@ -83,7 +83,7 @@ export default class ApprovalRoutes extends Vue {
                         <td>{{ item.request_emp_nm || 'データなし' }}</td>
                       </tr>
                       <tr class="text-center">
-                        <td>{{ moment(item.created).format('YYYY/M/D') }}</td>
+                        <td>{{ moment(item.created).format('YYYY/MM/DD') }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -121,7 +121,7 @@ export default class ApprovalRoutes extends Vue {
       <v-btn width="120" :color="$config.Colors.red1">
         {{ contents.APPROVER }}
       </v-btn>
-      <v-btn width="120" :color="$config.Colors.red1">
+      <v-btn class="btn-white" width="120" :color="$config.Colors.red1">
         {{ contents.ANNOUNT_PERSON }}
       </v-btn>
       <v-btn width="120" :color="$config.Colors.red1">

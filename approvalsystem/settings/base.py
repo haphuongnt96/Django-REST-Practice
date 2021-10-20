@@ -47,9 +47,13 @@ WSGI_APPLICATION = 'wsgi.application'
 
 ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split(';') if os.getenv('ALLOWED_HOSTS') else []
 
+#すべてのアクセスを許可をしない(false)で設定
 CORS_ORIGIN_ALLOW_ALL = False
-# Custom headers
+
+# Custom headers https://githubja.com/ottoyiu/django-cors-headers
+# ブラウザーに公開されるHTTPヘッダーのリスト
 CORS_EXPOSE_HEADERS = ()
+# 実際のリクエストを行うときに使用できる非標準のHTTPヘッダーのリスト
 CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'content-type',
@@ -61,6 +65,7 @@ CORS_ALLOW_HEADERS = (
     'accept-encoding',
     'user-timezone'
 )
+# CORS許可するアクセスの指定（djangoが別サーバでもアクセスできるための指定）
 CORS_ALLOWED_ORIGINS = str(os.getenv('CORS_ALLOWED_ORIGINS')).split(';') if os.getenv('CORS_ALLOWED_ORIGINS') else []
 
 MIDDLEWARE = [
@@ -79,60 +84,90 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = 'users.User'
 
+# パスワードのバリデーター要件設定
 AUTH_PASSWORD_VALIDATORS = [
     {
+        # username, first_name, last_name, email と類似しているかどうかを検証してくれるclass
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
+        # パスワードの最小の長さを設定できる
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
+        # よくあるパスワードのリスト.txtと一致したらエラー出す
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
+        # usersモデルで設定しているパスワード3種類以上必要のチェック
         'NAME': 'users.models.AlphabetTypePasswordValidator',
     },
 ]
 
-# rest_framework config
+# rest_framework config　
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # デフォルトの認証をJWTにするSimple JWTの読み込み
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # リクエスト元のユーザーや署名に使用されたトークンなどの一連の識別資格情報に関連付ける
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
+        # パーミッションチェックは、他のコードの処理が許可される前に、常にビューの開始時に実行されます
+        # https://runebook.dev/ja/docs/django_rest_framework/api-guide/permissions/index
         'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_RENDERER_CLASSES': [
+        # utilsで設定したJson形式に変更
+        # https://www.django-rest-framework.org/api-guide/renderers/
         'utils.renderers.CustomJsonRenderer',
     ],
+    #日付と日付時間のデータ型を指定
     'DATE_FORMAT': os.getenv('DATE_FORMAT', '%Y/%m/%d'),
     'DATETIME_FORMAT': os.getenv('DATETIME_FORMAT', '%Y/%m/%d %H:%M:%S')
 }
 
+# https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
 SIMPLE_JWT = {
+    #アクセストークンの有効時間を指定する
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('ACCESS_TOKEN_LIFETIME', 5))),
+    #更新トークンの有効期間を指定する
     'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('REFRESH_TOKEN_LIFETIME', 1))),
+    #更新トークンがに送信される TokenRefreshViewと、新しい更新トークンが新しいアクセストークンとともに返されます
     'ROTATE_REFRESH_TOKENS': True,
+    # 送信された更新トークンが ブラックリストに追加されます
     'BLACKLIST_AFTER_ROTATION': True,
+    # auth_userテーブルのlast_loginフィールドがログイン時に更新しない（？なんで？）
     'UPDATE_LAST_LOGIN': False,
 
+    # 暗号化方式
     'ALGORITHM': 'HS256',
+    # 生成されたトークンのコンテンツに署名するために使用される署名キー
+    # 開発者はこの設定をdjangoプロジェクトの秘密鍵から独立した値に変更することをお勧めします(?いつ変更?)
     'SIGNING_KEY': SECRET_KEY,
+    # 生成されたトークンの内容を検証するために使用される検証キー
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
     'JWK_URL': None,
+    # 有効期限にある程度のマージンを与えるために使用
     'LEEWAY': 0,
 
+    # 認証が必要なビューで受け入れられる許可ヘッダータイプ
     'AUTH_HEADER_TYPES': ('Bearer',),
+    # 認証に使用される許可ヘッダー名
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    # ユーザーを識別するために生成されたトークンに含まれるユーザーモデルのデータベースフィールド
     'USER_ID_FIELD': 'id',
+    # 生成されたトークンにユーザーの識別子を含む「user_id」が含まれる
     'USER_ID_CLAIM': 'user_id',
+    # ユーザーが認証を許可されているかどうかを判断するために呼び出すことができます
     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
 
+    # 認証を証明できるトークンのタイプを指定
     'AUTH_TOKEN_CLASSES': ('users.models.JWTAccessToken',),
+    # トークンのタイプを格納するために使用されるクレーム名
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
 

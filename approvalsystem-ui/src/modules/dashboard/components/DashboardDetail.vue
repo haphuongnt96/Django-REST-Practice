@@ -2,19 +2,19 @@
 import { Component, Vue } from 'vue-property-decorator'
 import DashboardDetailTable from '@/modules/dashboard/components/DashboardDetailTable.vue'
 import DashboardDetailPopup from '@/modules/dashboard/components/DashboardDetailPopup.vue'
-import DashboardPopupApplicant from '@/modules/dashboard/components/DashboardPopupApplicant.vue'
 import DashboardPopupNoti from '@/modules/dashboard/components/DashboardPopupNoti.vue'
 import DashboardPopupObject from '@/modules/dashboard/components/DashboardPopupObject.vue'
+import PopSearchEmployee from '@/modules/employee/PopSearchEmployee.vue'
 import moment from 'moment'
 Vue.prototype.moment = moment
 @Component({
   components: {
     DashboardDetailTable,
     DashboardDetailPopup,
-    DashboardPopupApplicant,
     DashboardPopupNoti,
     DashboardDetailPopup,
-    DashboardPopupObject
+    DashboardPopupObject,
+    PopSearchEmployee
   }
 })
 export default class DashboardDetail extends Vue {
@@ -29,6 +29,14 @@ export default class DashboardDetail extends Vue {
   ]
 
   applicantContent = ''
+  applicantEmpCode = ''
+  applicantEmpName = ''
+  notiEmpCode = ''
+  notiEmpName = ''
+  formEmpCode = ''
+  formEmpName = ''
+  noti = ''
+  formObject = ''
   //set data for application date
   //define show popup application date
   showApplicationDate = false
@@ -68,6 +76,21 @@ export default class DashboardDetail extends Vue {
 
   setDataSearch(value) {
     this.applicantContent = value.department
+  }
+  setDataApplicant(data) {
+    this.applicantEmpCode = data.emID
+    this.applicantEmpName = data.emName
+  }
+  setDataNoti(data) {
+    this.notiEmpCode = data.emID
+    this.notiEmpName = data.emName
+  }
+  setDataForm(data) {
+    this.formEmpCode = data.emID
+    this.formEmpName = data.emName
+  }
+  setObjectData(data) {
+    this.formObject = data.department
   }
   //#endregion
 }
@@ -135,19 +158,22 @@ export default class DashboardDetail extends Vue {
               <td>
                 <label for="">{{ contents.FORM_APPLICANT }}</label>
               </td>
-              <td>
+              <td class="select-deparment inline-input-nmr">
                 <v-text-field
+                  v-model="applicantEmpCode"
                   dense
                   outlined
-                  disabled
-                  v-model="applicant"
-                  background-color="#eee"
-                  placeholder="input here ..."
                   hide-details="auto"
-                />
+                ></v-text-field>
+                <v-text-field
+                  v-model="applicantEmpName"
+                  dense
+                  outlined
+                  hide-details="auto"
+                ></v-text-field>
               </td>
               <td>
-                <DashboardPopupApplicant @setDataApplicant="setDataApplicant" />
+                <PopSearchEmployee @setData="setDataApplicant" />
               </td>
             </tr>
             <tr>
@@ -271,18 +297,22 @@ export default class DashboardDetail extends Vue {
               <td>
                 <label for="">{{ contents.FORM_APPROVER }}</label>
               </td>
-              <td>
+              <td class="select-deparment inline-input-nmr">
                 <v-text-field
+                  v-model="formEmpCode"
                   dense
-                  disabled
-                  background-color="#eee"
                   outlined
-                  placeholder="input here ..."
                   hide-details="auto"
-                />
+                ></v-text-field>
+                <v-text-field
+                  v-model="formEmpName"
+                  dense
+                  outlined
+                  hide-details="auto"
+                ></v-text-field>
               </td>
               <td>
-                <v-btn small color="grey">{{ contents.FORM_SEARCH }}</v-btn>
+                <PopSearchEmployee @setData="setDataForm" />
               </td>
             </tr>
             <tr>
@@ -321,19 +351,22 @@ export default class DashboardDetail extends Vue {
               <td>
                 <label for="">{{ contents.FORM_NOTIFIER }}</label>
               </td>
-              <td>
+              <td class="select-deparment inline-input-nmr">
                 <v-text-field
+                  v-model="notiEmpCode"
                   dense
-                  disabled
-                  v-model="noti"
-                  background-color="#eee"
                   outlined
-                  placeholder="input here ..."
                   hide-details="auto"
-                />
+                ></v-text-field>
+                <v-text-field
+                  v-model="notiEmpName"
+                  dense
+                  outlined
+                  hide-details="auto"
+                ></v-text-field>
               </td>
               <td>
-                <DashboardPopupNoti @setDataNoti="setDataNoti" />
+                <PopSearchEmployee @setData="setDataNoti" />
               </td>
             </tr>
             <tr>

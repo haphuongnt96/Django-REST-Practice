@@ -194,7 +194,7 @@ export default class DetailTable extends Vue {
       :items-per-page="15"
       :no-data-text="contents.TABLE_NO_DATA"
       :footer-props="{
-        'disable-items-per-page': 'true'
+        'disable-items-per-page': true
       }"
       class="dashboard__list--table"
     ></v-data-table>
