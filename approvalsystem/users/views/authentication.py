@@ -15,9 +15,6 @@ class TokenRevokeView(APIView):
     '''
     Token取消処理
     '''
-    # 認証済みユーザーのみ実行可能　不要ですか？
-    permission_classes = (IsAuthenticated,)
-
     error_message = 'ログアウト出来ませんでした'
     success_message = 'ログアウトに成功しました'
 
