@@ -1,8 +1,9 @@
 import Vue from 'vue'
-// import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
 import { Ripple } from 'vuetify/lib/directives'
 import { Iconfont } from 'vuetify/types/services/icons'
+import '@mdi/font/css/materialdesignicons.css'
+import config from '@/common/config'
 
 const navbarBtnActive = '#00cf83'
 
@@ -20,7 +21,7 @@ const opts = {
     themes: {
       light: {
         primary: '#206fea', // a color that is not in the material colors palette
-        secondary: '#7f8285', // a color that is not in the material colors palette
+        secondary: config.Colors.blue1, // a color that is not in the material colors palette
         accent: '#b71c1b',
         white: '#ffffff',
         subtoolbar: '#3b6eb4',

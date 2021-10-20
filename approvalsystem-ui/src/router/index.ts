@@ -12,6 +12,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/login',
     name: 'authen',
+    meta: { layout: 'AppFullscreen' },
     component: () => import('@/views/authen/Login.vue')
   },
   {

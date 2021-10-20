@@ -18,7 +18,10 @@ export function getApprovalRouteDetail(id: string) {
     })
   )
 }
-export function postApprovalStatus(id: string, data: any) {
+export function postApprovalStatus(
+  id: string,
+  data: { approval_status: string }
+) {
   return transformData(
     service.request<Approvals.ApprovalRouteDetailResponse[]>({
       method: 'post',

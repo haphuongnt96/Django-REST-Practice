@@ -1,7 +1,7 @@
 .login-page {
   position: relative;
-  height: calc(100vh - 50px);
-  background-image: url('~@/assets/login_bg.png');
+  height: 100vh;
+  background-image: url("~@/assets/login_bg.png");
   background-size: 100% 100%;
   .login__board {
     border-radius: 2px 2px 5px 5px;
@@ -46,7 +46,7 @@
       height: 60px;
       line-height: 60px;
       text-align: center;
-      
+
       .btn {
         background-color: $primary;
         width: 100%;
@@ -83,20 +83,20 @@
       }
     }
   }
-  .error-text{
+  .error-text {
     display: block;
     margin-top: 5px;
   }
 }
-ul.error__list{
+ul.error__list {
   padding: 0;
   margin: 0;
   list-style: none;
-  li{
+  li {
     display: block;
     position: relative;
     padding-left: 18px;
-    .v-icon{
+    .v-icon {
       position: absolute;
       left: 0;
       top: 4px;
@@ -105,20 +105,20 @@ ul.error__list{
     }
   }
 }
-.error-tip{
+.error-tip {
   position: absolute;
   right: -20px;
   top: 25px;
-  .v-icon{
+  .v-icon {
     color: #ff5252;
     font-size: 16px;
   }
 }
-.v-tooltip__content{
-  &.custom__tooltip{
+.v-tooltip__content {
+  &.custom__tooltip {
     background-color: #fff;
   }
 }
-.swal2-title{
+.swal2-title {
   font-size: 18px;
 }

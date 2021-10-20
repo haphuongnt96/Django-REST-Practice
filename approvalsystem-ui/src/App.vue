@@ -9,15 +9,20 @@ import { Component, Vue } from 'vue-property-decorator'
 })
 export default class App extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  layout = 'AppDefaultLayout'
   loading = true
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
+
+  get layout() {
+    const defaultLayout = 'AppDefault'
+    return (
+      ((this.$route.meta && this.$route.meta.layout) || defaultLayout) +
+      'Layout'
+    )
+  }
 
   mounted() {
     this.$router.onReady(() => {
       this.loading = false
-      const metaLayout = this.$route.meta && this.$route.meta.layout
-      if (metaLayout) this.layout = `App${metaLayout}Layout`
     })
   }
 }

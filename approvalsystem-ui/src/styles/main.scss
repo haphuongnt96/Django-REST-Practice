@@ -4,29 +4,27 @@
 // @import 'vendor/bootstrap';
 
 // Utils
-@import 'utils/mixins';
-@import 'utils/functions';
-@import 'utils/variables';
+@import "utils/mixins";
+@import "utils/functions";
+@import "./vuetify.scss";
 
 // Base
-@import 'base/base';
-@import 'base/fonts';
-@import 'base/typography';
-@import 'base/common';
+@import "base/base";
+@import "base/fonts";
+@import "base/typography";
+@import "base/common";
 
 // Components
-@import 'components/modal';
-@import 'components/form';
-@import 'components/buttons';
-@import 'components/animations';
-@import 'components/spinner';
-
+@import "components/modal";
+@import "components/form";
+@import "components/buttons";
+@import "components/animations";
+@import "components/spinner";
 
 // Layout
-@import 'layout/header';
-@import 'layout/footer';
+@import "layout/header";
+@import "layout/footer";
 
 // Pages
-@import 'pages/approval';
-@import 'pages/authen';
-@import 'pages/dashboard';
+@import "pages/authen";
+@import "pages/dashboard";

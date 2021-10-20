@@ -1,19 +1,47 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import moment from 'moment'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component({
   components: {}
 })
 export default class ApprovalComment extends Vue {
-  //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  //#region COMPUTED
-  snackbar = false
-  selectStatus = [
-    { state: 'Florida', abbr: 'FL' },
-    { state: 'Georgia', abbr: 'GA' },
-    { state: 'Nebraska', abbr: 'NE' },
-    { state: 'California', abbr: 'CA' },
-    { state: 'New York', abbr: 'NY' }
+  //#region Prop
+  @Prop() isOpen: boolean
+  //#endregion
+
+  //#region Data
+  items = [
+    {
+      index: '承認状況No.00001',
+      createdAt: moment(),
+      comment:
+        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
+    },
+    {
+      index: '承認状況No.00002',
+      createdAt: moment(),
+      comment:
+        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
+    },
+    {
+      index: '承認状況No.00003',
+      createdAt: moment(),
+      comment:
+        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
+    }
   ]
+  snackbar = false
+  //#endregion
+
+  //#region COMPUTED
+  get drawer() {
+    return this.isOpen
+  }
+
+  set drawer(value: boolean) {
+    this.$emit('update:isOpen', value)
+  }
+
   get contents() {
     return this.$pageContents.APPROVAL
   }
@@ -23,151 +51,48 @@ export default class ApprovalComment extends Vue {
 </script>
 
 <template>
-  <div class="text-center">
-    <v-btn
-      class="color-white"
-      @click="snackbar = true"
-      width="120"
-      :color="$config.Colors.blue1"
-    >
-      コメント
-    </v-btn>
-    <v-snackbar
-      v-model="snackbar"
-      class="comment__dialog"
-      timeout="-1"
-      right="true"
-      top="true"
-      light="true"
-    >
-      <div class="comment__box">
-        <h4 class="comment__box--title">
-          {{ contents.COMMENT_TITLE }}
-        </h4>
-        <v-textarea
-          no-resize="true"
-          filled
-          name="input-7-4"
-          hide-details="auto"
-          dense
-          value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
-        ></v-textarea>
-        <br />
-        <div class="text-right">
-          <v-btn color="grey">
-            {{ contents.COMMENT_SAVE }}
-          </v-btn>
+  <v-navigation-drawer width="400" app v-model="drawer" right>
+    <div class="pa-5">
+      <v-fab-transition>
+        <v-btn color="grey" fab fixed right top x-small @click="drawer = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <div class="text-h5 txt-text-1 mb-3">
+        {{ contents.COMMENT_TITLE }}
+      </div>
+      <v-textarea
+        class="mb-2"
+        outlined
+        hide-details="auto"
+        dense
+        value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+      ></v-textarea>
+      <div class="d-flex mb-5">
+        <v-spacer />
+        <v-btn color="secondary">
+          {{ contents.COMMENT_SAVE }}
+        </v-btn>
+      </div>
+      <div class="mb-5" v-for="item in items" :key="item.index">
+        <div class="text-h6 txt-dark mb-1">{{ item.index }}</div>
+        <div class="text-body-2 txt-text-3">
+          <span class="mr-2">{{ item.createdAt | date('yyyy/MM/dd') }}</span>
+          <span>{{ contents.COMMENT_REMAND }}</span>
         </div>
-        <br />
-        <p>承認状況No.00001</p>
-        <div class="comment__box--items">
-          <div class="box__items--top">
-            <ul>
-              <li>
-                <div class="items__top--date">
-                  <span>yyyy/mm/dd</span>
-                  <b>{{ contents.COMMENT_REMAND }}</b>
-                </div>
-              </li>
-              <li>
-                <div class="items__top--author">
-                  <b>[{{ contents.COMMENT_APPROVER }}]</b>
-                  <span>〇〇　✕✕</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="box__items--body">
-            <p>
-              The Woodman set to work at once, and so sharp was his axe that the
-              tree was soon chopped nearly through.The Woodman set to work at
-              once, and so sharp was his axe that the tree was soon chopped
-              nearly through. The Woodman set to work at once
-            </p>
-          </div>
+        <div class="text-body-1 txt-text-2 mb-2">
+          <span class="mr-2">[{{ contents.COMMENT_APPROVER }}]</span>
+          <span>〇〇　✕✕</span>
         </div>
-        <p>承認状況No.00001</p>
-        <div class="comment__box--items">
-          <div class="box__items--top">
-            <ul>
-              <li>
-                <div class="items__top--date">
-                  <span>yyyy/mm/dd</span>
-                  <b>{{ contents.COMMENT_REMAND }}</b>
-                </div>
-              </li>
-              <li>
-                <div class="items__top--author">
-                  <b>[{{ contents.COMMENT_APPROVER }}]</b>
-                  <span>〇〇　✕✕</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="box__items--body">
-            <p>
-              The Woodman set to work at once, and so sharp was his axe that the
-              tree was soon chopped nearly through.
-            </p>
-          </div>
-        </div>
-        <p>承認状況No.00001</p>
-        <div class="comment__box--items">
-          <div class="box__items--top">
-            <ul>
-              <li>
-                <div class="items__top--date">
-                  <span>yyyy/mm/dd</span>
-                  <b>{{ contents.COMMENT_REMAND }}</b>
-                </div>
-              </li>
-              <li>
-                <div class="items__top--author">
-                  <b>[{{ contents.COMMENT_APPROVER }}]</b>
-                  <span>〇〇　✕✕</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="box__items--body">
-            <p>
-              The Woodman set to work at once, and so sharp was his axe that the
-              tree was soon chopped nearly through.
-            </p>
-          </div>
-        </div>
-        <p>承認状況No.00001</p>
-        <div class="comment__box--items">
-          <div class="box__items--top">
-            <ul>
-              <li>
-                <div class="items__top--date">
-                  <span>yyyy/mm/dd</span>
-                  <b>{{ contents.COMMENT_REMAND }}</b>
-                </div>
-              </li>
-              <li>
-                <div class="items__top--author">
-                  <b>[{{ contents.COMMENT_APPROVER }}]</b>
-                  <span>〇〇　✕✕</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="box__items--body">
-            <p>
-              The Woodman set to work at once, and so sharp was his axe that the
-              tree was soon chopped nearly through.
-            </p>
-          </div>
+        <div class="text-body-2 txt-text-2">
+          The Woodman set to work at once, and so sharp was his axe that the
+          tree was soon chopped nearly through.The Woodman set to work at once,
+          and so sharp was his axe that the tree was soon chopped nearly
+          through. The Woodman set to work at once
         </div>
       </div>
-
-      <div class="text-left close-btn">
-        <v-btn v-bind="attrs" @click="snackbar = false">X</v-btn>
-      </div>
-    </v-snackbar>
-  </div>
+    </div>
+  </v-navigation-drawer>
 </template>
 
 <style lang="scss" scoped></style>

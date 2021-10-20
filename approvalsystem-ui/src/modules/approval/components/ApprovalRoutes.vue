@@ -21,6 +21,7 @@ export default class ApprovalRoutes extends Vue {
   items: Approvals.ApprovalRouteResponse[] = []
   panel = [0]
   idKey = new URLSearchParams(location.search).get('id')
+  isOpen = false
   // Vue.prototype.moment = moment
   //#region Computed
   get contents() {
@@ -107,7 +108,14 @@ export default class ApprovalRoutes extends Vue {
       class="approval__btns d-flex flex-column align-left flex-gap-8 pa-5"
     >
       <div class="d-flex align-center flex-gap-1">
-        <ApprovalComment />
+        <v-btn
+          class="color-white"
+          @click="isOpen = !isOpen"
+          width="120"
+          :color="$config.Colors.blue1"
+        >
+          コメント
+        </v-btn>
         <div class="comment__status">有</div>
       </div>
       <v-btn width="120" :color="$config.Colors.red1">
@@ -120,6 +128,7 @@ export default class ApprovalRoutes extends Vue {
         {{ contents.COPY_FUNCTION }}
       </v-btn>
     </v-card>
+    <ApprovalComment :isOpen.sync="isOpen" />
   </v-container>
 </template>
 
