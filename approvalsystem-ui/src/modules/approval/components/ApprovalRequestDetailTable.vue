@@ -46,21 +46,13 @@ export default class ApprovalRequestDetailTable extends Vue {
               hide-details="auto"
               :items="items"
             />
-            <v-select
-              class="vcl"
-              dense
-              outlined
-              placeholder="selection"
-              hide-details="auto"
-              :items="items"
-            />
           </td>
           <td>{{ contents.REMARK_AND_NOTE }}</td>
         </tr>
         <tr>
           <td>{{ contents.APP_ITEM_NAME }}</td>
           <td>
-            <v-radio-group row hide-details class="mt-0">
+            <v-radio-group dense row hide-details class="mt-0">
               <v-radio label="1" />
               <v-radio label="2" />
             </v-radio-group>
@@ -86,7 +78,7 @@ tr:hover {
   background-color: transparent !important;
 }
 td {
-  border: solid thin #000;
+  border: solid thin $text-3;
   padding: 12px 16px !important;
   &:first-child {
     width: 250px;

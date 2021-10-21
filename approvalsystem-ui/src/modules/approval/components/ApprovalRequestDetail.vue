@@ -29,11 +29,11 @@ export default class ApprovalRequestDetail extends Vue {
 </script>
 
 <template>
-  <v-card flat class="pa-5" width="80%">
+  <div>
     <ApprovalRequestDetailTable />
     <ApprovalRequestDetailUploader class="mt-5" @upload="upload" />
     <ApprovalRequestDetailFiles class="mt-5" :files="files" @remove="remove" />
-  </v-card>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>

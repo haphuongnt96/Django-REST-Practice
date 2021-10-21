@@ -1,7 +1,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import ApprovalRecord from '@/modules/approval/components/ApprovalRecord.vue'
-import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 import moment from 'moment'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
@@ -9,8 +8,7 @@ const groupBy = require('lodash.groupby')
 Vue.prototype.moment = moment
 @Component({
   components: {
-    ApprovalRecord,
-    ApprovalComment
+    ApprovalRecord
   }
 })
 export default class ApprovalRoutes extends Vue {
@@ -21,7 +19,6 @@ export default class ApprovalRoutes extends Vue {
   items: Approvals.ApprovalRouteResponse[] = []
   panel = [0]
   idKey = new URLSearchParams(location.search).get('id')
-  isOpen = false
   // Vue.prototype.moment = moment
   //#region Computed
   get contents() {
@@ -102,33 +99,6 @@ export default class ApprovalRoutes extends Vue {
         </v-expansion-panels>
       </v-card>
     </perfect-scrollbar>
-    <v-divider vertical class="mx-4" />
-    <v-card
-      flat
-      class="approval__btns d-flex flex-column align-left flex-gap-8 pa-5"
-    >
-      <div class="d-flex align-center flex-gap-1">
-        <v-btn
-          class="color-white"
-          @click="isOpen = !isOpen"
-          width="120"
-          :color="$config.Colors.blue1"
-        >
-          コメント
-        </v-btn>
-        <div class="comment__status">有</div>
-      </div>
-      <v-btn width="120" :color="$config.Colors.red1">
-        {{ contents.APPROVER }}
-      </v-btn>
-      <v-btn width="120" :color="$config.Colors.red1">
-        {{ contents.ANNOUNT_PERSON }}
-      </v-btn>
-      <v-btn width="120" :color="$config.Colors.red1">
-        {{ contents.COPY_FUNCTION }}
-      </v-btn>
-    </v-card>
-    <ApprovalComment :isOpen.sync="isOpen" />
   </v-container>
 </template>
 
