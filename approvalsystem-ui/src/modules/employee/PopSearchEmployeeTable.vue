@@ -75,7 +75,7 @@ export default class PopSearchEmployeeTable extends Vue {
       :no-data-text="contents.TABLE_NO_DATA"
       @click:row="handleSelect"
       :footer-props="{
-        'disable-items-per-page': 'true'
+        'disable-items-per-page': true
       }"
       class="dashboard__list--table"
     ></v-data-table>
