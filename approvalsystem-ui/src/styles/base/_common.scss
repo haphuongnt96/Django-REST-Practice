@@ -6,6 +6,10 @@
   gap: 4px;
 }
 
+.flex-gap-2 {
+  gap: 8px;
+}
+
 .flex-gap-4 {
   gap: 16px;
 }
@@ -34,9 +38,9 @@
   color: #226fea;
 }
 
-.v-data-table>.v-data-table__wrapper>table>tbody>tr>th,
-.v-data-table>.v-data-table__wrapper>table>thead>tr>th,
-.v-data-table>.v-data-table__wrapper>table>tfoot>tr>th {
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
   font-size: 14px !important;
 }
 
@@ -44,22 +48,22 @@
   pointer-events: none;
   filter: grayscale(1);
 }
-.inline-input-nmr{
-  .v-input{
+.inline-input-nmr {
+  .v-input {
     margin: 0 !important;
     display: inline-block;
-    &:nth-child(1){
+    &:nth-child(1) {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       width: 30%;
     }
-    &:nth-child(2){
+    &:nth-child(2) {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       width: 70%;
     }
   }
 }
-.color-white{
+.color-white {
   color: #fff !important;
 }

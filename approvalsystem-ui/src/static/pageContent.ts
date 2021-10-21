@@ -2,6 +2,11 @@ const APP_SIDE_BAR = {
   title: '社内申請'
 }
 
+const COMMON = {
+  ADD: '追加',
+  TABLE_NO_DATA: '対象のレコードはありません'
+}
+
 const APP_HEADER = {
   title: '社内申請',
   LOGOUT: 'ログアウト',
@@ -9,6 +14,18 @@ const APP_HEADER = {
   BACK: '戻る',
   CHANGE_PASS: 'パスワード変更',
   NEW_REGISTER: '新規申請'
+}
+
+const APPROVAL_TABS = {
+  LIST_OF_NOTIFIERS: '通知者一覧',
+  ADD_NOTIFIERS: '通知者追加',
+  ADD_APPROVERS: '承認者追加',
+  POSITION_NAME: '役職名',
+  POSITION: '役職',
+  NAME: '氏名',
+  CONFIRMED_DATE: '確認日',
+  LIST_OF_APPROVER: '承認者一覧',
+  INSERT_ORDER: '挿入順位'
 }
 
 const APPROVAL = {
@@ -142,7 +159,9 @@ const $pageContents = {
   APP_HEADER,
   APPROVAL,
   AUTHEN,
-  DASHBOARD
+  DASHBOARD,
+  APPROVAL_TABS,
+  COMMON
 }
 
 export default $pageContents

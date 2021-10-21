@@ -1,20 +1,16 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import PopSearchEmployeeTable from '@/modules/employee/PopSearchEmployeeTable.vue'
+import { Component, Emit, Vue } from 'vue-property-decorator'
+import PopSearchEmployeeTable from '@/modules/employee/components/PopSearchEmployeeTable.vue'
 @Component({
   components: {
     PopSearchEmployeeTable
   }
 })
 export default class PopSearchEmployee extends Vue {
-  //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  //#region COMPUTED
+  //#region Data
   name = ''
   valid = true
   dialog = false
-  get contents() {
-    return this.$pageContents.DASHBOARD
-  }
   selectStatus = [
     { state: 'Florida', abbr: 'FL' },
     { state: 'Georgia', abbr: 'GA' },
@@ -23,11 +19,25 @@ export default class PopSearchEmployee extends Vue {
     { state: 'New York', abbr: 'NY' }
   ]
   //#endregion
-  //handle call child function
-  applicationCotent(value) {
-    this.$emit('setData', value)
+
+  //#region Emit
+  @Emit('setData') setData(employee: Employee.Employee) {
+    return employee
+  }
+  //#endregion
+
+  //#region Computed
+  get contents() {
+    return this.$pageContents.DASHBOARD
+  }
+  //#endregion
+
+  //#region Methods
+  select(employee: Employee.Employee) {
+    this.setData(employee)
     this.dialog = false
   }
+  //#endregion
 }
 </script>
 
@@ -97,7 +107,7 @@ export default class PopSearchEmployee extends Vue {
             </table>
           </div>
           <div class="search__form-result">
-            <PopSearchEmployeeTable @applicationCotent="applicationCotent" />
+            <PopSearchEmployeeTable @select="select" />
           </div>
         </div>
       </v-card-text>
