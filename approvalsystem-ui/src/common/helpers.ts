@@ -5,7 +5,8 @@ import { AxiosError, AxiosResponse } from 'axios'
 // promise のデータ変換関数 backendから返ってきたデータを変換する
 export function transformData<T>(promise: Promise<AxiosResponse<T>>) {
   const data = promise.then(
-    // val.dataをTに名前を変更し、valにAxiosResponseにセットする
+    // val.dataをデータ型の汎用型Tとして、valにAxiosResponseにセットする
+    // https://techacademy.jp/magazine/32604
     (val: AxiosResponse<T>) => [null, val.data] as [null, T],
     // err をAxiosErrorと名前をつけて、errにAxiosErrorをセットする
     (err: AxiosError) => [err, null] as [AxiosError, null]
