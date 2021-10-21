@@ -69,7 +69,7 @@ export default class ApprovalComment extends Vue {
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-fab-transition>
-      <div class="mb-5 pa-5">
+      <div class="pa-5">
         <div class="text-h5 txt-text-1 mb-3">
           {{ contents.COMMENT_TITLE }}
         </div>

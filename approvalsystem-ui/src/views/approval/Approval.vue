@@ -63,7 +63,7 @@ export default class Approval extends Vue {
         <ApprovalMainFunction @approval="updateApprovalStatus" />
       </v-container>
     </v-card>
-    <ApprovalSubFunction />
+    <ApprovalSubFunction :commentCount="123" />
   </v-container>
 </template>
 
