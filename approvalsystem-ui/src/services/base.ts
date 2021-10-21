@@ -64,6 +64,7 @@ service.interceptors.response.use(
           // レスポンスがないのでローカルにあるaccess_token refresh_tokenを削除してログイン画面に遷移させる
           localStorage.removeItem('vue-token')
           localStorage.removeItem('vue-token-reset')
+          localStorage.clear()
           window.location.href = '/login'
         } else {
           //renew accesstoken
@@ -82,6 +83,7 @@ service.interceptors.response.use(
         // ローカルストレージにあるaccess_token と refresh_token　を削除してログイン画面に遷移させる
         localStorage.removeItem('vue-token')
         localStorage.removeItem('vue-token-reset')
+        localStorage.clear()
         window.location.href = '/login'
       }
     }
