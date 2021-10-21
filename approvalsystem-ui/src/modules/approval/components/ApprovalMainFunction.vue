@@ -12,7 +12,7 @@ export default class MainFunction extends Vue {
     })
     if (!err && res) {
       //emit data to ApprovalRoute for update approvalStatus
-      this.$emit('approval', res.data)
+      this.$emit('approval', res)
       this.$swal(this.contents.APPROVE_SUCCESS_MESS)
     } else {
       this.$swal(this.contents.APPROVE_FAIL_MESS)
@@ -25,16 +25,16 @@ export default class MainFunction extends Vue {
 
 <template>
   <div class="grid">
-    <v-btn small color="grey">{{ contents.APPLY }}</v-btn>
-    <v-btn small color="grey">{{ contents.SAVE_DRAFT }}</v-btn>
-    <v-btn small color="grey">{{ contents.CANCEL_APP }}</v-btn>
-    <v-btn small color="grey">{{ contents.DELETE }}</v-btn>
-    <v-btn small color="grey" @click="handleApprove()">
+    <v-btn color="grey">{{ contents.APPLY }}</v-btn>
+    <v-btn color="grey">{{ contents.SAVE_DRAFT }}</v-btn>
+    <v-btn color="grey">{{ contents.CANCEL_APP }}</v-btn>
+    <v-btn color="grey">{{ contents.DELETE }}</v-btn>
+    <v-btn color="grey" @click="handleApprove()">
       {{ contents.APPROVE }}
     </v-btn>
-    <v-btn small color="grey">{{ contents.DISAPPROVE }}</v-btn>
-    <v-btn small color="grey">{{ contents.CANCEL }}</v-btn>
-    <v-btn small color="grey">{{ contents.PRINT }}</v-btn>
+    <v-btn color="grey">{{ contents.DISAPPROVE }}</v-btn>
+    <v-btn color="grey">{{ contents.CANCEL }}</v-btn>
+    <v-btn color="grey">{{ contents.PRINT }}</v-btn>
   </div>
 </template>
 

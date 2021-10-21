@@ -19,13 +19,10 @@ export default class ApprovalRecord extends Vue {
       switch (approval_status) {
         case '1':
           return 'success-text'
-          break
         case '2':
           return 'error-text'
-          break
         default:
           return ''
-          break
       }
     }
   }
@@ -35,16 +32,12 @@ export default class ApprovalRecord extends Vue {
       switch (approval_status) {
         case '0':
           return '-'
-          break
         case '1':
           return '承認'
-          break
         case '2':
           return '差戻'
-          break
         default:
           return '-'
-          break
       }
     }
   }
@@ -67,7 +60,7 @@ export default class ApprovalRecord extends Vue {
               {{ icon(detail.approval_status) }}
             </span>
             <span v-if="detail.approval_date">
-              {{ moment(detail.approval_date).format('M/D') }}
+              {{ detail.approval_date | date('MM/dd') }}
             </span>
           </template>
         </td>

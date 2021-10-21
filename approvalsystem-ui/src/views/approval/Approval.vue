@@ -16,20 +16,51 @@ import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFuncti
   }
 })
 export default class Approval extends Vue {
-  approvalStatus(data) {
-    this.$refs.TDH.updateApprovalStatus(data)
+  //#region Data
+  items: Approvals.ApprovalRouteResponse[] = []
+  //#endregion
+
+  //#region Computed
+  get approvalId() {
+    return this.$route.query.id.toString()
   }
+  //#endregion
+
+  //#region Hooks
+  async mounted() {
+    if (this.approvalId) {
+      const [err, res] = await this.$api.approval.getApprovals(this.approvalId)
+      if (!err && res) {
+        this.items = res
+      }
+    }
+  }
+  //#endregion
+
+  //#region Methods
+  updateApprovalStatus(data: Approvals.ApprovalRouteDetailResponse) {
+    const route = this.items.find(
+      (t) => t.approval_route_id === data.approval_route_id
+    )
+    if (!route) return
+    const routeDetail = route.approval_route_details.find(
+      (t) => t.detail_no === data.detail_no
+    )
+    if (!routeDetail) return
+    routeDetail.approval_status = data.approval_status
+  }
+  //#endregion
 }
 </script>
 
 <template>
   <v-container fluid px-8>
-    <ApprovalRoutes ref="TDH" class="mb-5" />
+    <ApprovalRoutes :items="items" class="mb-5" />
     <v-card class="pa-5">
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
         <ApprovalRequestDetail class="flex-grow-1" />
-        <ApprovalMainFunction @approval="approvalStatus" />
+        <ApprovalMainFunction @approval="updateApprovalStatus" />
       </v-container>
     </v-card>
     <ApprovalSubFunction />

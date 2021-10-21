@@ -35,11 +35,18 @@ const APPROVAL = {
   ANNOUNT_PERSON: '通知者',
   COPY_FUNCTION: '申請複写',
   APPROVE_SUCCESS_MESS: '承認に成功しました',
+  BTN_SEARCH: '検索',
+  BTN_ADD: '追加',
+  POP_NOTIFIER_ADD: '通知者追加',
+  POP_NOTIFIER_POSITION: '役職名',
   APPROVE_FAIL_MESS: '承認に失敗しました',
   COMMENT_TITLE: 'コメント履歴',
   COMMENT_SAVE: 'コメント保存',
   COMMENT_REMAND: '差戻',
-  COMMENT_APPROVER: '第1承認者'
+  COMMENT_APPROVER: '第1承認者',
+  APPROVAL_ROUTE: '承認ルート',
+  ADD_APPROVER: '承認者追加',
+  ADD_NOTIFIER: '通知者追加'
 }
 const AUTHEN = {
   AU_TITLE: 'ログイン',
@@ -53,8 +60,10 @@ const AUTHEN = {
   CHANGE_PASS_OLDPASS: '現在のパスワード',
   CHANGE_PASS_NEWPASS: '新しいパスワード',
   CHANGE_PASS_NEWPASS_ERR: '有効なパスワードを入力してください',
-  CHANGE_PASS_CONFIRMPASS: '新しいパスワード（確認)',
-  CHANGE_PASS_BUTTON: '確認'
+  CHANGE_PASS_CONFIRMPASS: '新しいパスワード（確認）',
+  CHANGE_PASS_BUTTON: '確認',
+  NOT_SAME_PASSWORD: '新しいパスワードと（確認）には同じ内容を入力してください',
+  NOT_CHANGE_PASS: '「現在のパスワード」と同一のものは使用できません'
 }
 const DASHBOARD = {
   DASH_TITLE: 'ログイン',
@@ -100,9 +109,9 @@ const DASHBOARD = {
   TABLE_STATUS: '状況',
   TABLE_NO_DATA: '対象のレコードはありません',
   POPUP_SEARCH_TITLE: '申請内容選択',
-  POPUP_SEARCH_DEPARTMENT: '申請内容選択',
-  POPUP_SEARCH_CATEGORY: '申請内容選択',
-  POPUP_SEARCH_CONTENT: '申請内容選択',
+  POPUP_SEARCH_DEPARTMENT: '主幹部署',
+  POPUP_SEARCH_CATEGORY: '分類',
+  POPUP_SEARCH_CONTENT: '申請内容名',
   POPUP_SEARCH_DEPARTMENT_PLACEHOLDER: '部署名',
   POPUP_SEARCH_CATEGORY_PLACEHOLDER: '課名',
   POPUP_SEARCH_CONTENT_PLACEHOLDER: '分類名',

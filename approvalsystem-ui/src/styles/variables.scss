@@ -23,91 +23,77 @@ $red-2: #e11900;
 $pink-1: #f7f3f4;
 $pink-2: #ffbbc6;
 
-$headings: (
-  "h1": (
-    "size": 3.3125rem,
-    "line-height": 1.15rem,
-    "letter-spacing": 0em,
-  ),
-  "h2": (
-    "size": 1.75rem,
-    "weight": 400,
-    "line-height": 2.25rem,
-    "letter-spacing": 0em,
-  ),
-  "h3": (
-    "size": 1.5rem,
-    "weight": 400,
-    "line-height": 2rem,
-    "letter-spacing": 0em,
-  ),
-  "h4": (
-    "size": 1.25rem,
-    "weight": 500,
-    "line-height": 1.75rem,
-    "letter-spacing": 0em,
-  ),
-  "h5": (
-    "weight": 600,
-    "size": 1rem,
-    "line-height": 1.25rem,
-    "letter-spacing": 0em,
-  ),
-  "h6": (
-    "weight": 600,
-    "size": 0.815rem,
-    "line-height": 1.0625rem,
-    "letter-spacing": 0em,
-  ),
-  "body-1": (
-    "size": 1rem,
-    "line-height": 1.5rem,
-    "letter-spacing": 0em,
-  ),
-  "body-2": (
-    "size": 0.8125rem,
-    "line-height": 1.25rem,
-    "letter-spacing": 0em,
-  ),
-  "caption": (
-    "weight": 500,
-    "size": 0.75rem,
-    "line-height": 1rem,
-    "letter-spacing": 0em,
-  ),
-  "button": (
-    "weight": 500,
-    "line-height": 0.875rem,
-    "letter-spacing": 0,
-    "text-transform": capitalize,
-  ),
-  "button-2": (
-    "weight": 500,
-    "size": 0.75rem,
-    "line-height": 1rem,
-    "letter-spacing": 0,
-  ),
-  "button-3": (
-    "weight": 500,
-    "size": 0.769rem,
-    "line-height": 1.077rem,
-    "letter-spacing": 0,
-  ),
-);
+// $headings: (
+//   "h1": (
+//     "size": 3.3125rem,
+//     "line-height": 1.15rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "h2": (
+//     "size": 1.75rem,
+//     "weight": 400,
+//     "line-height": 2.25rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "h3": (
+//     "size": 1.5rem,
+//     "weight": 400,
+//     "line-height": 2rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "h4": (
+//     "size": 1.25rem,
+//     "weight": 500,
+//     "line-height": 1.75rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "h5": (
+//     "weight": 600,
+//     "size": 1rem,
+//     "line-height": 1.25rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "h6": (
+//     "weight": 600,
+//     "size": 0.815rem,
+//     "line-height": 1.0625rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "body-1": (
+//     "size": 1rem,
+//     "line-height": 1.5rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "body-2": (
+//     "size": 0.8125rem,
+//     "line-height": 1.25rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "caption": (
+//     "weight": 500,
+//     "size": 0.75rem,
+//     "line-height": 1rem,
+//     "letter-spacing": 0em,
+//   ),
+//   "button": (
+//     "weight": 500,
+//     "line-height": 0.875rem,
+//     "letter-spacing": 0,
+//     "text-transform": capitalize,
+//   ),
+//   "button-2": (
+//     "weight": 500,
+//     "size": 0.75rem,
+//     "line-height": 1rem,
+//     "letter-spacing": 0,
+//   ),
+//   "button-3": (
+//     "weight": 500,
+//     "size": 0.769rem,
+//     "line-height": 1.077rem,
+//     "letter-spacing": 0,
+//   ),
+// );
 
 $btn-text-transform: capitalize !default;
 $btn-letter-spacing: 0em !default;
-$btn-sizes: (
-  "x-small": 20,
-  "small": 24,
-  "default": 38,
-  "large": 44,
-  "x-large": 52,
-);
-$btn-font-sizes: (
-  "x-small": 0.625rem,
-  "small": 0.75rem,
-  "default": 0.875rem,
-  "large": 0.875rem,
-  "x-large": 1rem,
-);

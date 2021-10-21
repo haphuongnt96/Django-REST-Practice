@@ -30,7 +30,7 @@ const opts = {
         lighty: '#1e1e1e',
         lightyHl: '#000000',
         navbarBtnActive,
-        grey: '#e4d8dc',
+        grey: '#C9CCD5',
         esgRed: '#eb513a'
       },
       dark: {

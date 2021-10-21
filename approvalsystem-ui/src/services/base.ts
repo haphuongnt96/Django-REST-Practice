@@ -28,7 +28,7 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   (response) => {
-    return response
+    return response.data
   },
   async (err) => {
     const originalConfig = err.config

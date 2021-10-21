@@ -1,17 +1,17 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import AppDialog from '@/common/components/ui/AppDialog.vue'
 import DashboardDetailSearchTable from '@/modules/dashboard/components/DashboardDetailSearchTable.vue'
+import { Component, Mixins } from 'vue-property-decorator'
 @Component({
   components: {
     DashboardDetailSearchTable
   }
 })
-export default class DashboardDetailPopup extends Vue {
+export default class ApprovalSearchPopup extends Mixins(AppDialog) {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   //#region COMPUTED
   name = ''
   valid = true
-  dialog = false
   get contents() {
     return this.$pageContents.DASHBOARD
   }
@@ -24,21 +24,15 @@ export default class DashboardDetailPopup extends Vue {
   ]
   //#endregion
   //handle call child function
-  applicationCotent(value) {
-    this.$emit('setDataSearch', value)
-    this.dialog = false
+  applicationCotent(department: { department: string }) {
+    this.$emit('setDataSearch', department)
+    this.isOpen = false
   }
 }
 </script>
 
 <template>
-  <v-dialog v-model="dialog" width="1000">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn small color="grey" v-bind="attrs" v-on="on">
-        {{ contents.FORM_SEARCH }}
-      </v-btn>
-    </template>
-
+  <v-dialog v-model="isOpen" width="1000">
     <v-card class="pop-search">
       <v-card-title class="text-h5 grey lighten-2">
         {{ contents.POPUP_SEARCH_TITLE }}
