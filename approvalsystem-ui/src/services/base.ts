@@ -48,6 +48,7 @@ service.interceptors.response.use(
           //remove token and logout when refresh token expired
           localStorage.removeItem('vue-token')
           localStorage.removeItem('vue-token-reset')
+          localStorage.clear()
           window.location.href = '/login'
         } else {
           //renew accesstoken
@@ -62,6 +63,7 @@ service.interceptors.response.use(
       } catch (_error) {
         localStorage.removeItem('vue-token')
         localStorage.removeItem('vue-token-reset')
+        localStorage.clear()
         window.location.href = '/login'
       }
     }
