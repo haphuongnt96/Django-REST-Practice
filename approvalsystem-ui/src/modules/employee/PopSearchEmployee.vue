@@ -34,7 +34,7 @@ export default class PopSearchEmployee extends Vue {
 <template>
   <v-dialog v-model="dialog" width="1000">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn small color="grey" v-bind="attrs" v-on="on">
+      <v-btn color="grey" v-bind="attrs" v-on="on">
         {{ contents.FORM_SEARCH }}
       </v-btn>
     </template>

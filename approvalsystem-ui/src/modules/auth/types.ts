@@ -4,5 +4,7 @@ declare namespace Auth {
     //email?? usernameのまちがい？
     email: string
     password: string
+    access: string
+    refresh: string
   }
 }

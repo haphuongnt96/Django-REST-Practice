@@ -13,8 +13,8 @@ export default class Login extends Vue {
       password: this.password
     })
     if (!err && res) {
-      localStorage.setItem('vue-token', res.data.access)
-      localStorage.setItem('vue-token-reset', res.data.refresh)
+      localStorage.setItem('vue-token', res.access)
+      localStorage.setItem('vue-token-reset', res.refresh)
       this.$router.push({ name: 'dashboard' })
     } else {
       this.$swal('社員IDもしくはパスワードが正しくありません')

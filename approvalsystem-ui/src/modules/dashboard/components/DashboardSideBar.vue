@@ -1,11 +1,27 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-@Component({ components: {} })
-export default class SideBar extends Vue {
+import ApprovalSearchPopup from '@/modules/approval/components/ApprovalSearchPopup.vue'
+import { Routes } from '@/router'
+
+@Component({ components: { ApprovalSearchPopup } })
+export default class DashboardSideBar extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
+  departmentName = ''
+  isOpen = false
+
   //#region COMPUTED
   get contents() {
     return this.$pageContents.DASHBOARD
+  }
+  //#endregion
+
+  //#region Methods
+  setDataSearch(value: { department: string }) {
+    this.departmentName = value.department
+    this.$router.push({
+      name: Routes.approval.name,
+      query: { departmentName: this.departmentName }
+    })
   }
   //#endregion
 }
@@ -17,10 +33,20 @@ export default class SideBar extends Vue {
       <li class="nav__menu--items">
         <a href="#">{{ contents.APPLICANT }}</a>
         <ul class="nav__submenu">
-          <li class="nav__submenu--items">
-            <v-btn color="grey" class="mr-3" to="/approval">
+          <li class="nav__submenu--items mb-2">
+            <v-btn
+              width="100%"
+              color="secondary"
+              class="mr-3"
+              @click="isOpen = true"
+            >
               {{ contents.APPLICANT_CREATE_NEW }}
             </v-btn>
+            <ApprovalSearchPopup
+              v-model="isOpen"
+              v-if="isOpen"
+              @setDataSearch="setDataSearch"
+            />
           </li>
           <li class="nav__submenu--items">
             <a href="#">

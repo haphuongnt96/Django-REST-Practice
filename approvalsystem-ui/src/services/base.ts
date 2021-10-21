@@ -37,7 +37,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     //responseがあった時
-    return response
+    return response.data
   },
   async (err) => {
     // エラーがあった時の処理

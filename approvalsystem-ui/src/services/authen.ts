@@ -3,7 +3,7 @@ import service from './base'
 
 export function doLogin(data: { emp_cd: string; password: string }) {
   return transformData(
-    service.request<Auth.User[]>({
+    service.request<Auth.User>({
       method: 'post',
       url: '/api/auth/login/',
       data

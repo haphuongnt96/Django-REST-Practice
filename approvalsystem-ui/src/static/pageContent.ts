@@ -15,10 +15,9 @@ const APPROVAL = {
   APP_TITLE: '申請書名',
   APP_INFORMATION: '申請情報',
   APP_CONTENT: '申請内容',
-  APP_DEPARTMENT: '申請部署',
-  DEPARTMENT_NAME: '書名',
+  DEPARTMENT_NAME: '申請部署',
   APP_DATE: '申請日時',
-  APP_NAME: '申請者名',
+  REQUEST_USER_NAME: '申請者名',
   APPLY: '申請',
   SAVE_DRAFT: '下書保存',
   CANCEL_APP: '申請取消',
@@ -44,7 +43,10 @@ const APPROVAL = {
   COMMENT_TITLE: 'コメント履歴',
   COMMENT_SAVE: 'コメント保存',
   COMMENT_REMAND: '差戻',
-  COMMENT_APPROVER: '第1承認者'
+  COMMENT_APPROVER: '第1承認者',
+  APPROVAL_ROUTE: '承認ルート',
+  ADD_APPROVER: '承認者追加',
+  ADD_NOTIFIER: '通知者追加'
 }
 const AUTHEN = {
   AU_TITLE: 'ログイン',
