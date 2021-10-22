@@ -9,40 +9,21 @@ export default class ApprovalComment extends Vue {
   //#endregion
 
   //#region Data
-  items = [
-    {
-      index: '承認状況No.00001',
-      createdAt: new Date(),
-      comment:
-        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
-    },
-    {
-      index: '承認状況No.00002',
-      createdAt: new Date(),
-      comment:
-        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
-    },
-    {
-      index: '承認状況No.00003',
-      createdAt: new Date(),
-      comment:
-        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
-    },
-    {
-      index: '承認状況No.00004',
-      createdAt: new Date(),
-      comment:
-        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
-    },
-    {
-      index: '承認状況No.00005',
-      createdAt: new Date(),
-      comment:
-        'The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through.'
-    }
-  ]
+  items = []
   snackbar = false
   //#endregion
+
+  async mounted() {
+    console.log('mounted')
+    console.log(this)
+    console.log(this.$api.approval.getApprovals())
+    // approval_route_idが取れない状態なので1で固定
+    const [err, res] = await this.$api.approval.getApprovalRouteComment('1')
+    if (!err && res) {
+      this.items = res
+      console.log(res)
+    }
+  }
 
   //#region COMPUTED
   get drawer() {
@@ -88,21 +69,21 @@ export default class ApprovalComment extends Vue {
         </div>
       </div>
       <perfect-scrollbar class="flex-grow-1 pa-5">
-        <div class="mb-5" v-for="item in items" :key="item.index">
-          <div class="text-h6 txt-dark mb-1">{{ item.index }}</div>
+        <div class="mb-5" v-for="item in items" :key="item.comment_no">
           <div class="text-body-2 txt-text-3">
-            <span class="mr-2">{{ item.createdAt | date('yyyy/MM/dd') }}</span>
-            <span>{{ contents.COMMENT_REMAND }}</span>
+            {{ contents.COMMENT_NO_TITLE }}{{ item.approval_type_cd }}
           </div>
-          <div class="text-body-1 txt-text-2 mb-2">
+          <div class="text-body-2 txt-text-3">
+            <span class="mr-2">{{ item.created | date('yyyy/MM/dd') }}</span>
+            <!-- <span>{{ contents.COMMENT_REMAND }}</span> -->
+            <span>{{ item.emp_nm }}</span>
+          </div>
+          <!-- <div class="text-body-1 txt-text-2 mb-2">
             <span class="mr-2">[{{ contents.COMMENT_APPROVER }}]</span>
-            <span>〇〇　✕✕</span>
-          </div>
+            <span>{{ item.ins_emp_id }}</span>
+          </div> -->
           <div class="text-body-2 txt-text-2">
-            The Woodman set to work at once, and so sharp was his axe that the
-            tree was soon chopped nearly through.The Woodman set to work at
-            once, and so sharp was his axe that the tree was soon chopped nearly
-            through. The Woodman set to work at once
+            {{ item.comment }}
           </div>
         </div>
       </perfect-scrollbar>

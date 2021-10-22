@@ -5,6 +5,7 @@ import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequest
 import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunction.vue'
 import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequestDetail.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
+import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 
 @Component({
   components: {
@@ -12,7 +13,8 @@ import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFuncti
     ApprovalRequestHeader,
     ApprovalMainFunction,
     ApprovalRequestDetail,
-    ApprovalSubFunction
+    ApprovalSubFunction,
+    ApprovalComment
   }
 })
 export default class Approval extends Vue {

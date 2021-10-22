@@ -30,3 +30,12 @@ export function postApprovalStatus(
     })
   )
 }
+
+export function getApprovalRouteComment(id: string) {
+  return transformData(
+    service.request<Approvals.ApprovalRouteCommentResponse[]>({
+      method: 'get',
+      url: `api/approval_routes/${id}/approval_route_comment`
+    })
+  )
+}

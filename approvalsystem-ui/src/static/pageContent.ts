@@ -44,6 +44,7 @@ const APPROVAL = {
   COMMENT_SAVE: 'コメント保存',
   COMMENT_REMAND: '差戻',
   COMMENT_APPROVER: '第1承認者',
+  COMMENT_NO_TITLE: '承認状況No.',
   APPROVAL_ROUTE: '承認ルート',
   ADD_APPROVER: '承認者追加',
   ADD_NOTIFIER: '通知者追加'
