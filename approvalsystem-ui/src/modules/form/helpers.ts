@@ -1,0 +1,84 @@
+import config from '@/common/config'
+import RadioGroup from '@/common/components/ui/RadioGroup.vue'
+
+type TableCell = {
+  text: string
+  rowspan?: number
+  key?: string
+  value?: string
+}
+
+export const rowIndexStatus = (name: string, status: string, fixed = false) => {
+  return [
+    {
+      className: 'index--circle',
+      text: name,
+      style: { background: config.Colors.grey1 }
+    },
+    {
+      text: fixed ? 'リストから選択' : '',
+      style: fixed
+        ? {
+            textAlign: 'center',
+            background: config.Colors.pink3,
+            color: config.Colors.red1
+          }
+        : null
+    },
+    {
+      text: `※ ${status}`,
+      style: { background: config.Colors.grey1 }
+    }
+  ]
+}
+
+export const rowIndexStatusRadios = (
+  name: string,
+  status: string,
+  options: { text: string; value: string }[]
+) => {
+  return [
+    {
+      className: 'index--circle',
+      text: name,
+      style: { background: config.Colors.grey1 }
+    },
+    {
+      component: RadioGroup,
+      items: options
+    },
+    {
+      text: `※ ${status}`,
+      style: { background: config.Colors.grey1 }
+    }
+  ]
+}
+
+export const rowType1 = (parent: TableCell, children: TableCell[]) => {
+  console.log([
+    {
+      ...{
+        text: parent.text,
+        rowspan: parent.rowspan,
+        style: { background: config.Colors.grey1 }
+      },
+      ...children.map((x) => ({
+        text: x.text,
+        style: { background: config.Colors.grey1 }
+      }))
+    }
+  ])
+  return [
+    ...[
+      {
+        text: parent.text,
+        rowspan: parent.rowspan,
+        style: { background: config.Colors.grey1 }
+      }
+    ],
+    ...children.map((x) => ({
+      text: x.text,
+      style: { background: config.Colors.grey1 }
+    }))
+  ]
+}

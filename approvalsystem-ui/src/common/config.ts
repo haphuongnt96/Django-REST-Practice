@@ -23,7 +23,8 @@ export enum Colors {
   red2 = '#e11900',
 
   pink1 = '#f7f3f4',
-  pink2 = '#ffbbc6'
+  pink2 = '#ffbbc6',
+  pink3 = '#ffe3e3'
 }
 
 const config = {
