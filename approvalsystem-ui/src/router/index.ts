@@ -29,6 +29,11 @@ const routes: Array<RouteConfig> = [
     path: '/approval',
     name: 'approval',
     component: () => import('@/views/approval/Approval.vue')
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: () => import('@/views/form/Form.vue')
   }
 ]
 
