@@ -71,12 +71,8 @@ export default class ApprovalRequestDetailTable extends Vue {
 .v-data-table {
   width: 100%;
 }
-tr:hover {
-  background-color: transparent !important;
-}
+
 td {
-  border: solid thin $text-3;
-  padding: 12px 16px !important;
   &:first-child {
     width: 250px;
   }

@@ -29,9 +29,8 @@ const opts = {
         secondaryToolbar: '#4393f9',
         lighty: '#1e1e1e',
         lightyHl: '#000000',
-        navbarBtnActive,
         grey: '#C9CCD5',
-        esgRed: '#eb513a'
+        blue2: config.Colors.blue2
       },
       dark: {
         primary: '#206fea', // a color that is not in the material colors palette
@@ -42,9 +41,7 @@ const opts = {
         primaryToolbar: '#315f9a',
         secondaryToolbar: '#4393f9',
         lighty: '#1e1e1e',
-        lightyHl: '#000000',
-        navbarBtnActive,
-        esgRed: '#eb513a'
+        lightyHl: '#000000'
       }
     }
   }

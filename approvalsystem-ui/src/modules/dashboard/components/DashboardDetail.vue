@@ -4,7 +4,7 @@ import DashboardDetailTable from '@/modules/dashboard/components/DashboardDetail
 import DashboardDetailPopup from '@/modules/dashboard/components/DashboardDetailPopup.vue'
 import DashboardPopupNoti from '@/modules/dashboard/components/DashboardPopupNoti.vue'
 import DashboardPopupObject from '@/modules/dashboard/components/DashboardPopupObject.vue'
-import PopSearchEmployee from '@/modules/employee/PopSearchEmployee.vue'
+import PopSearchEmployee from '@/modules/employee/components/PopSearchEmployee.vue'
 import moment from 'moment'
 Vue.prototype.moment = moment
 @Component({

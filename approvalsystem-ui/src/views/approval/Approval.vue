@@ -22,7 +22,8 @@ export default class Approval extends Vue {
 
   //#region Computed
   get approvalId() {
-    return this.$route.query.id.toString()
+    const id = this.$route.query.id
+    return id ? id.toString() : ''
   }
   //#endregion
 

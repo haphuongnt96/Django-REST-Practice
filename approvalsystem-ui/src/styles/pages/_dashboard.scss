@@ -17,7 +17,7 @@
     &--items {
       display: block;
 
-      >a {
+      > a {
         display: block;
         color: #798892;
         text-align: center;
@@ -39,15 +39,15 @@
             color: rgba(0, 0, 0, 0.87);
             border-bottom: 1px solid #d0d0d0;
             transition: padding linear 0.2s;
-            &.v-btn{
+            &.v-btn {
               padding: 0;
               padding-top: 8px;
               transition: all linear 0.2s;
               font-size: 14px;
-              &:hover{
+              &:hover {
                 color: rgba(0, 0, 0, 0.87);
                 padding-left: 0;
-                transform: scale(0.93)
+                transform: scale(0.93);
               }
             }
             &:hover {
@@ -119,12 +119,12 @@
     padding: 10px 25px;
     color: rgb(5, 109, 27);
     font-size: 20px;
-    font-weight:  bold;
+    font-weight: bold;
   }
 
   .approval__notification_title {
     margin-right: 25px;
-    font-weight:  bold;
+    font-weight: bold;
   }
 
   .dashboard__content {
@@ -157,10 +157,6 @@
         }
       }
     }
-  }
-
-  .dashboard__list {
-    margin-top: 30px;
   }
 
   .group__action {
@@ -215,8 +211,8 @@
 .inline__element {
   white-space: nowrap;
 }
-.v-select__slot{
-  .v-label{
+.v-select__slot {
+  .v-label {
     font-size: 13px;
   }
 }
