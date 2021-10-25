@@ -42,6 +42,7 @@ export default class Form extends Vue {
               :key="i + j"
               :style="cell.style"
               :colspan="cell.colspan"
+              :rowspan="cell.rowspan"
             >
               <component
                 dense

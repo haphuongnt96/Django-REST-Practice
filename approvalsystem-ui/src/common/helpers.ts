@@ -14,3 +14,7 @@ export function transformData<T>(promise: Promise<AxiosResponse<T>>) {
   // data　を返す
   return data
 }
+
+export function arrayFromNumber(number: number) {
+  return [...Array(number).keys()]
+}

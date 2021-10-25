@@ -6,6 +6,108 @@ import {
 } from '@/modules/form/helpers'
 import { VCheckbox } from 'vuetify/lib'
 
+const params1 = [
+  {
+    text: '管理部署使用欄',
+    rowspan: 2,
+    colspan: 2
+  },
+  {
+    text: '登録承認',
+    key: '1'
+  },
+  {
+    text: '完了承認',
+    key: '2'
+  },
+  {
+    text: '受託会計部登録',
+    key: '3'
+  },
+  {
+    text: '経理課登録者',
+    key: '4'
+  },
+  {
+    text: '登録者',
+    key: '5'
+  }
+]
+
+const params2 = [
+  {
+    text: '物件情報管理システム',
+    rowspan: 2,
+    children: [
+      {
+        text: '物件マスタ',
+        children: [
+          { text: '物件コード' },
+          { text: '物件名' },
+          { text: '物件カナ' },
+          { text: '物件' },
+          { text: '部署' },
+          { text: 'グループ' },
+          { text: '会計年度開始月' },
+          { text: '管理開始日' },
+          { text: '管理終了日' },
+          { text: '郵便番号' },
+          { text: '住所・所在地' },
+          { text: '管理' },
+          { text: '仲介重説申込' }
+        ]
+      },
+      {
+        text: '棟マスタ',
+        children: [
+          { text: '棟コード' },
+          { text: '棟名' },
+          { text: '郵便番号' },
+          { text: '住所' },
+          { text: '地上・地下階数' },
+          { text: '塔屋' },
+          { text: '住戸・店舗数' },
+          { text: '建築・延床面積' },
+          { text: '竣工年月' },
+          { text: '事業主' },
+          { text: '設計・施工・販売会社' }
+        ]
+      }
+    ]
+  },
+  {
+    text: 'Office 365',
+    children: [
+      {
+        text: 'マンション共有',
+        children: [
+          { text: '物件フォルダさ作成' },
+          { text: '第二階層アクセス権限者登録（22フォルダ)' },
+          { text: '削除' }
+        ]
+      }
+    ]
+  },
+  {
+    text: '受発注管理システム',
+    children: [
+      {
+        text: '物件登録',
+        children: [
+          { text: '物件コード' },
+          { text: '物件名' },
+          { text: '物件' },
+          { text: '管理所属コード' },
+          { text: 'マンションコード' },
+          { text: '郵便番号' },
+          { text: '住所・所在地' },
+          { text: '納戸数' },
+          { text: '削除' }
+        ]
+      }
+    ]
+  }
+]
 const PropertyMasterRegistration = {
   caption: '物件マスタ登録申請票',
   tables: [
@@ -171,29 +273,12 @@ const PropertyMasterRegistration = {
     },
     {
       rows: [
-        rowType1(
-          {
-            text: '管理部署使用欄',
-            rowspan: 2
-          },
-          [
-            {
-              text: '登録承認'
-            },
-            {
-              text: '完了承認'
-            },
-            {
-              text: '受託会計部登録'
-            },
-            {
-              text: '経理課登録者'
-            },
-            {
-              text: '登録者'
-            }
-          ]
-        )
+        rowType1(params1).headers,
+        rowType1(params1).cells,
+        [
+          { text: '区分', colspan: 2 },
+          { text: '登録内容', colspan: 5 }
+        ]
       ]
     }
   ]
