@@ -8,10 +8,11 @@ type TableCell = {
   colspan?: number
   key?: string
   value?: string
+  children?: TableCell[]
 }
 
 type TableItem = TableCell & {
-  children: TableCell[]
+  children?: TableCell[]
 }
 
 export const rowIndexStatus = (name: string, status: string, fixed = false) => {
@@ -85,14 +86,27 @@ export const rowType1 = (cells: TableCell[]) => {
   return { headers, cells: childCells }
 }
 
-const drawTable = (items: TableItem[]) => {
-  const data = []
+export const drawTable = (items: TableItem[]) => {
+  const data = [] as TableItem[]
   items.forEach((item) => {
-    const rowspan = item.rowspan || 0
-    // for (let i in arrayFromNumber(rowspan - 1)) {
-
-    // }
-    data.push(item)
+    const index = 0
+    let row = [item]
+    console.log(row)
+    item.rowspan = item.rowspan || 1
+    while (item.rowspan && index < item.rowspan) {
+      let current = item.children
+      while (current && current.length) {
+        const nextCell = current[index]
+        if (!current.some((x) => x.children && x.children.length)) {
+          row = [...row, ...current.slice(0, 3)]
+          break
+        }
+        row.push(nextCell)
+        current = nextCell && nextCell.children
+      }
+      data.push(row)
+    }
   })
-  return
+  console.log(data)
+  return data
 }
