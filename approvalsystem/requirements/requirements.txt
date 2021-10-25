@@ -11,3 +11,4 @@ sqlparse==0.4.1
 drf-yasg==1.20.0
 pyjwt==2.1.0
 djangorestframework-simplejwt==4.8.0
+django_structlog==2.1.3
