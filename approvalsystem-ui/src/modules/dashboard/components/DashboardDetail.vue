@@ -48,22 +48,22 @@ export default class DashboardDetail extends Vue {
   showApplicationDate = false
   //set range data application date
   ApplicationDates = [
-    moment().format('YYYY/MM/DD'),
-    moment().add(7, 'days').format('YYYY/MM/DD')
+    moment().format('YYYY-MM-DD'),
+    moment().add(7, 'days').format('YYYY-MM-DD')
   ]
   //#end
   //set data application latest date
   showApplicationLatestDate = false
   ApplicationLatestDates = [
-    moment().format('YYYY/MM/DD'),
-    moment().add(7, 'days').format('YYYY/MM/DD')
+    moment().format('YYYY-MM-DD'),
+    moment().add(7, 'days').format('YYYY-MM-DD')
   ]
   //#end
   //set approval date
   showApprovalDate = false
   ApprovalDates = [
-    moment().format('YYYY/MM/DD'),
-    moment().add(7, 'days').format('YYYY/MM/DD')
+    moment().format('YYYY-MM-DD'),
+    moment().add(7, 'days').format('YYYY-MM-DD')
   ]
   //#end
   //#region COMPUTED
