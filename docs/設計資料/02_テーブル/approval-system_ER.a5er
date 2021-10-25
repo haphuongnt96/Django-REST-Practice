@@ -957,11 +957,11 @@ Position="MAIN",3300,400
 ZOrder=56
 
 [Entity]
-PName=M_申請ステータス
-LName=m_reqeust_status
+PName=m_reqeust_status
+LName=M_申請ステータス
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=2900
 Top=2700
 Field="申請ステータス","status","@VARCHAR(1)","NOT NULL",0,"","",$FFFFFFFF,""
@@ -969,13 +969,13 @@ Field="申請ステータス名","status_nm","@VARCHAR(10)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211025121658
-Position="Main",2900,2700
+ModifiedDateTime=20211025132023
+Position="MAIN",2900,2700
 ZOrder=57
 
 [Relation]
 Entity1=t_reuqest
-Entity2=M_申請ステータス
+Entity2=m_reqeust_status
 RelationType1=1
 RelationType2=3
 Fields1=request_id
