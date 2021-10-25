@@ -1,5 +1,6 @@
 import config from '@/common/config'
 import {
+  drawTable,
   rowIndexStatus,
   rowIndexStatusRadios,
   rowType1
@@ -38,9 +39,11 @@ const params2 = [
   {
     text: '物件情報管理システム',
     rowspan: 2,
+    style: { background: config.Colors.grey1 },
     children: [
       {
         text: '物件マスタ',
+        style: { background: config.Colors.grey1 },
         children: [
           { text: '物件コード' },
           { text: '物件名' },
@@ -59,6 +62,7 @@ const params2 = [
       },
       {
         text: '棟マスタ',
+        style: { background: config.Colors.grey1 },
         children: [
           { text: '棟コード' },
           { text: '棟名' },
@@ -77,6 +81,7 @@ const params2 = [
   },
   {
     text: 'Office 365',
+    style: { background: config.Colors.grey1 },
     children: [
       {
         text: 'マンション共有',
@@ -90,6 +95,7 @@ const params2 = [
   },
   {
     text: '受発注管理システム',
+    style: { background: config.Colors.grey1 },
     children: [
       {
         text: '物件登録',
@@ -272,14 +278,16 @@ const PropertyMasterRegistration = {
       ※メールの件名は「マスタ登録申請」にして送信してください。</span>`
     },
     {
-      rows: [
-        rowType1(params1).headers,
-        rowType1(params1).cells,
-        [
-          { text: '区分', colspan: 2 },
-          { text: '登録内容', colspan: 5 }
-        ]
-      ]
+      // rows: [
+      //   rowType1(params1).headers,
+      //   rowType1(params1).cells,
+      //   [
+      //     { text: '区分', colspan: 2 },
+      //     { text: '登録内容', colspan: 5 }
+      //   ],
+      //   drawTable(params2)
+      // ]
+      rows: drawTable(params2)
     }
   ]
 }
