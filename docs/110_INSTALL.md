@@ -40,7 +40,7 @@ MachinePolicy       Undefined
 #### 1. Dockerデータベースとキャッシングをデタッチモードで起動する:
 
 ```bash
-PS C:\work\approval-system> docker-compose up -d
+PS C:\work\approval-system\approvalsystem> docker-compose up -d
 ```
 
 # バックエンド
@@ -60,7 +60,7 @@ PowerShellからpipを使ってインストールする。
 
 ```bash
 
-PS C:\work\approval-system> pip install pyenv-win --target $HOME\\.pyenv
+PS C:\work\approval-system\approvalsystem> pip install pyenv-win --target $HOME\\.pyenv
 ```
 
 #### 2. アプリ実行エイリアスでpythonのアプリインストーラーをオフにする。
@@ -74,9 +74,9 @@ PowerShellで以下のコマンドを実行して環境変数を設定する。
 
 ```bash
 
-PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('PYENV',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
-PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('PYENV_HOME',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
-PS C:\work\approval-system> [System.Environment]::SetEnvironmentVariable('path', $env:USERPROFILE + "\.pyenv\pyenv-win\bin;" + $env:USERPROFILE + "\.pyenv\pyenv-win\shims;" + [System.Environment]::GetEnvironmentVariable('path', "User"),"User")
+PS C:\work\approval-system\approvalsystem> [System.Environment]::SetEnvironmentVariable('PYENV',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
+PS C:\work\approval-system\approvalsystem> [System.Environment]::SetEnvironmentVariable('PYENV_HOME',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
+PS C:\work\approval-system\approvalsystem> [System.Environment]::SetEnvironmentVariable('path', $env:USERPROFILE + "\.pyenv\pyenv-win\bin;" + $env:USERPROFILE + "\.pyenv\pyenv-win\shims;" + [System.Environment]::GetEnvironmentVariable('path', "User"),"User")
 ```
 
 #### 4. PowerShellを一度再起動する
@@ -91,7 +91,7 @@ exit
 
 ```bash
 
-PS C:\work\approval-system> pyenv --version
+PS C:\work\approval-system\approvalsystem> pyenv --version
 pyenv 2.64.10
 ```
 
@@ -103,7 +103,7 @@ pyenvにpython3.9.5をインストールする。
 
 ```bash
 
-PS C:\work\approval-system> pyenv install 3.9.5
+PS C:\work\approval-system\approvalsystem> pyenv install 3.9.5
 
 Windows PowerShell
 Copyright (C) Microsoft Corporation. All rights reserved.
@@ -118,15 +118,15 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 python3.9.5を使うように切り替える。
 
 ```bash
-PS C:\work\approval-system> pyenv local 3.9.5
-PS C:\work\approval-system> python --version
+PS C:\work\approval-system\approvalsystem> pyenv local 3.9.5
+PS C:\work\approval-system\approvalsystem> python --version
 Python 3.9.5
 ```
 
 pipでvenvをインストールする。
 
 ```
-PS C:\work\approval-system> python -m pip install virtualenv
+PS C:\work\approval-system\approvalsystem> python -m pip install virtualenv
 Collecting virtualenv
   Downloading virtualenv-20.7.2-py2.py3-none-any.whl (5.3 MB)
      |████████████████████████████████| 5.3 MB 6.8 MB/s
@@ -150,7 +150,7 @@ You should consider upgrading via the 'C:\Users\parkh\.pyenv\pyenv-win\versions\
 venvで仮想環境を作成する。
 
 ```bash
-PS C:\work\approval-system> python -m venv venv
+PS C:\work\approval-system\approvalsystem> python -m venv venv
 ```
 
 Note: このようなエラーが出たときは`pyenv global 3.9.5`と実行する。
@@ -173,7 +173,7 @@ python -m pip install --upgrade pip
 #### 2. Pythonパッケージをインストールする:
 
 ```bash
-PS C:\work\approval-system> pip install -r approvalsystem/requirements/requirements.txt
+PS C:\work\approval-system\approvalsystem> pip install -r requirements/requirements.txt
 Collecting asgiref==3.4.1
   Using cached asgiref-3.4.1-py3-none-any.whl (25 kB)
 (省略)
@@ -184,12 +184,12 @@ Successfully installed Django-3.2.7 MarkupSafe-2.0.1 asgiref-3.4.1 certifi-2021.
 ライブラリがインストールできたか確認する。
 
 ```
-PS C:\work\approval-system> pip list
+PS C:\work\approval-system\approvalsystem> pip list
 Package                       Version
 ----------------------------- ---------
 asgiref                       3.4.1
-certifi                       2021.5.30
-charset-normalizer            2.0.6
+certifi                       2021.10.8
+charset-normalizer            2.0.7
 coreapi                       2.3.3
 coreschema                    0.0.4
 Django                        3.2.7
@@ -197,33 +197,35 @@ django-concurrency            2.3
 django-cors-headers           3.8.0
 django-environ                0.6.0
 django-extensions             3.1.3
+django-ipware                 4.0.0
+django-structlog              2.1.3
 djangorestframework           3.12.4
 djangorestframework-simplejwt 4.8.0
 drf-yasg                      1.20.0
-idna                          3.2
+idna                          3.3
 inflection                    0.5.1
 itypes                        1.2.0
 Jinja2                        3.0.2
 MarkupSafe                    2.0.1
 packaging                     21.0
-pip                           21.2.4
+pip                           21.3.1
 psycopg2-binary               2.9.1
 PyJWT                         2.1.0
-pyparsing                     2.4.7
+pyparsing                     3.0.1
 pytz                          2021.1
 requests                      2.26.0
 ruamel.yaml                   0.17.16
 ruamel.yaml.clib              0.2.6
 setuptools                    56.0.0
 sqlparse                      0.4.1
-uritemplate                   3.0.1
+structlog                     21.2.0
+uritemplate                   4.1.1
 urllib3                       1.26.7
 ```
 
 #### 3. 「.env」ファイル作成
 
 ```bash
-PS C:\work\approval-system> cd approvalsystem
 PS C:\work\approval-system\approvalsystem> cp .\config\.env.example .\config\.env
 ```
 
@@ -272,5 +274,3 @@ PS C:\work\approval-system\approvalsystem-ui> npm install
 ```bash
 PS C:\work\approval-system\approvalsystem-ui> npm run serve
 ```
-
-※2回目以降起動するときは`runserve.bat`をダブルクリックなどで実行すると便利です。
