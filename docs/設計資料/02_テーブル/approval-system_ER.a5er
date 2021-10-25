@@ -843,12 +843,10 @@ Field="承認ルートID","approval_route_id","@INT","NOT NULL",1,"","",$FFFFFFF
 Field="コメントNo","comment_no","@INT","NOT NULL",2,"","",$FFFFFFFF,""
 Field="コメント","comment","@VARCHAR(100)",,,"","",$FFFFFFFF,""
 Field="登録社員コード","ins_emp_cd","@VARCHAR(7)",,,"","",$FFFFFFFF,""
-Field="登録日時","ins_dt","@DATETIME",,,"","",$FFFFFFFF,""
-Field="確認社員コード","confirmed_emp_cd","@VARCHAR(7)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20210916133854
+ModifiedDateTime=20211022163333
 Position="MAIN",0,2200,836,286
 ZOrder=50
 
@@ -901,7 +899,7 @@ PName=m_choices
 LName=M_選択肢
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=3350
 Top=1250
 Field="選択肢種類ID","choices_type_id","@VARCHAR(3)","NOT NULL",0,"","",$FFFFFFFF,""
@@ -911,7 +909,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211012140509
-Position="Main",3350,1250
+Position="MAIN",3350,1250
 ZOrder=54
 
 [Relation]
@@ -935,3 +933,20 @@ Bar3=641
 TermPos1=R
 TermPos2=R
 ZOrder=55
+
+[Entity]
+PName=m_news
+LName=M_お知らせ
+Comment=
+TableOption=
+Page=MAIN
+Left=3300
+Top=400
+Field="お知らせ番号","news_no","@INT",,,"","",$FFFFFFFF,""
+Field="お知らせ","news","@VARCHAR(100)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20211021214642
+Position="MAIN",3300,400
+ZOrder=56
