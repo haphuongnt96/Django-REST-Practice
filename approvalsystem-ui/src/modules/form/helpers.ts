@@ -1,11 +1,17 @@
 import config from '@/common/config'
 import RadioGroup from '@/common/components/ui/RadioGroup.vue'
+import { arrayFromNumber } from '@/common/helpers'
 
 type TableCell = {
   text: string
   rowspan?: number
+  colspan?: number
   key?: string
   value?: string
+}
+
+type TableItem = TableCell & {
+  children: TableCell[]
 }
 
 export const rowIndexStatus = (name: string, status: string, fixed = false) => {
@@ -54,31 +60,39 @@ export const rowIndexStatusRadios = (
   ]
 }
 
-export const rowType1 = (parent: TableCell, children: TableCell[]) => {
-  console.log([
-    {
-      ...{
-        text: parent.text,
-        rowspan: parent.rowspan,
-        style: { background: config.Colors.grey1 }
-      },
-      ...children.map((x) => ({
-        text: x.text,
-        style: { background: config.Colors.grey1 }
-      }))
-    }
-  ])
-  return [
+export const rowType1 = (cells: TableCell[]) => {
+  const parent = cells[0]
+  const children = cells.slice(1)
+  const childHeaders = children.map((x) => ({
+    text: x.text,
+    style: { background: config.Colors.grey1 }
+  }))
+  const headers = [
     ...[
       {
         text: parent.text,
         rowspan: parent.rowspan,
+        colspan: parent.colspan,
         style: { background: config.Colors.grey1 }
       }
     ],
-    ...children.map((x) => ({
-      text: x.text,
-      style: { background: config.Colors.grey1 }
-    }))
+    ...childHeaders
   ]
+  const childCells = children.map((x) => ({
+    text: '',
+    key: x.key
+  }))
+  return { headers, cells: childCells }
+}
+
+const drawTable = (items: TableItem[]) => {
+  const data = []
+  items.forEach((item) => {
+    const rowspan = item.rowspan || 0
+    // for (let i in arrayFromNumber(rowspan - 1)) {
+
+    // }
+    data.push(item)
+  })
+  return
 }
