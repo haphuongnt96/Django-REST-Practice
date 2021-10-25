@@ -33,13 +33,13 @@
 		</tr>
 		<tr>
 			<th>論理エンティティ名</th>
-			<td>T_社員所属関連&nbsp;</td>
+			<td>M_承認種類閲覧制限&nbsp;</td>
 			<th>タグ&nbsp;</th>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<th>物理エンティティ名</th>
-			<td>m_emp_affiliation&nbsp;</td>
+			<td>M_承認種類閲覧制限&nbsp;</td>
 			<th>&nbsp;</th>
 			<td>&nbsp;</td>
 		</tr>
@@ -72,55 +72,19 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">1</td>
-			<td>社員ID</td>
-			<td>emp_id</td>
-			<td>@VARCHAR(7)</td>
+			<td>承認種類ID</td>
+			<td>approval_type_id</td>
+			<td></td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
-			<td>事業部ID</td>
-			<td>business_unit_id</td>
-			<td>@VARCHAR(2)</td>
+			<td>閲覧制限</td>
+			<td>閲覧制限</td>
+			<td></td>
 			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">3</td>
-			<td>部門ID</td>
-			<td>department_id</td>
-			<td>@VARCHAR(3)</td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">4</td>
-			<td>セグメントID</td>
-			<td>segment_id</td>
-			<td>@VARCHAR(3)</td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">5</td>
-			<td>課ID</td>
-			<td>division_id</td>
-			<td>@VARCHAR(1)</td>
-			<td>&nbsp;</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">6</td>
-			<td>主フラグ</td>
-			<td>main_flg</td>
-			<td>@BOOLEAN</td>
-			<td>Yes</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -162,41 +126,6 @@
 			<th>カラムリスト</th>
 			<th>参照先</th>
 			<th>参照先カラムリスト</th>
-		</tr>
-		<tr>
-			<td style="text-align:right;">1</td>
-			<td></td>
-			<td>business_unit_id</td>
-			<td>m_business_unit</td>
-			<td>business_unit_id</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">2</td>
-			<td></td>
-			<td>division_id</td>
-			<td>m_division</td>
-			<td>division_id</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">3</td>
-			<td></td>
-			<td>segment_id</td>
-			<td>m_segment</td>
-			<td>segment_id</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">4</td>
-			<td></td>
-			<td>department_id</td>
-			<td>m_department</td>
-			<td>department_id</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;">5</td>
-			<td></td>
-			<td></td>
-			<td>m_emp</td>
-			<td></td>
 		</tr>
 	</table>
 
