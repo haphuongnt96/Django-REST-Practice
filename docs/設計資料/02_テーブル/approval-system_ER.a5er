@@ -247,11 +247,12 @@ Field="申請部署事業部ID","business_unit_id","@VARCHAR(2)",,,"","",$FFFFFF
 Field="申請部署部門ID","department_id","@VARCHAR(3)",,,"","",$FFFFFFFF,""
 Field="申請部署セグメントID","segment_id","@VARCHAR(3)",,,"","",$FFFFFFFF,""
 Field="申請部署課ID","division_id","@VARCHAR(1)",,,"","",$FFFFFFFF,""
+Field="申請日時","request_dt","@DATETIME",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211025144228
-Position="MAIN",950,2150,860,407
+ModifiedDateTime=20211026111425
+Position="MAIN",950,2150,860,431
 ZOrder=18
 
 [Entity]
@@ -998,7 +999,7 @@ PName=m_approval_status
 LName=M_承認ステータス
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=50
 Top=850
 Field="承認ステータスID","approval_status_id","@VARCHAR(1)","NOT NULL",0,"","",$FFFFFFFF,""
@@ -1007,7 +1008,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211025144758
-Position="Main",50,850
+Position="MAIN",50,850
 ZOrder=59
 
 [Entity]
@@ -1015,7 +1016,7 @@ PName=m_approval_class
 LName=M_承認分類
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=3200
 Top=1050
 Field="承認分類ID","approval_class_id","@VARCHAR(1)","NOT NULL",0,"","",$FFFFFFFF,""
@@ -1024,7 +1025,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211025170928
-Position="Main",3200,1050
+Position="MAIN",3200,1050
 ZOrder=60
 
 [Relation]
