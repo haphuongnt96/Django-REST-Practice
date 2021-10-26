@@ -57,7 +57,7 @@ export default class Approval extends Vue {
 <template>
   <v-container fluid px-8>
     <ApprovalRoutes :items="items" class="mb-5" />
-    <v-card class="pa-5">
+    <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
         <ApprovalRequestDetail class="flex-grow-1" />
@@ -68,4 +68,8 @@ export default class Approval extends Vue {
   </v-container>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.approval__container {
+  position: relative;
+}
+</style>
