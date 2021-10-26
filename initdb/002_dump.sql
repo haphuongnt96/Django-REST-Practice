@@ -420,6 +420,45 @@ ALTER SEQUENCE public.t_approval_route_approval_route_id_seq OWNED BY public.t_a
 
 
 --
+-- Name: t_approval_route_comment; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.t_approval_route_comment (
+    id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    comment_no integer NOT NULL,
+    comment character varying(100) NOT NULL,
+    approval_route_id integer NOT NULL,
+    ins_emp_id bigint,
+    request_id integer NOT NULL
+);
+
+
+ALTER TABLE public.t_approval_route_comment OWNER TO approval_user;
+
+--
+-- Name: t_approval_route_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.t_approval_route_comment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.t_approval_route_comment_id_seq OWNER TO approval_user;
+
+--
+-- Name: t_approval_route_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.t_approval_route_comment_id_seq OWNED BY public.t_approval_route_comment.id;
+
+
+--
 -- Name: t_approval_route_detail; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -706,6 +745,13 @@ ALTER TABLE ONLY public.t_approval_route ALTER COLUMN approval_route_id SET DEFA
 
 
 --
+-- Name: t_approval_route_comment id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_comment ALTER COLUMN id SET DEFAULT nextval('public.t_approval_route_comment_id_seq'::regclass);
+
+
+--
 -- Name: t_approval_route_detail detail_no; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -818,6 +864,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 62	Can change outstanding token	16	change_outstandingtoken
 63	Can delete outstanding token	16	delete_outstandingtoken
 64	Can view outstanding token	16	view_outstandingtoken
+65	Can add approval route comment	17	add_approvalroutecomment
+66	Can change approval route comment	17	change_approvalroutecomment
+67	Can delete approval route comment	17	delete_approvalroutecomment
+68	Can view approval route comment	17	view_approvalroutecomment
 \.
 
 
@@ -853,6 +903,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 14	users	user
 15	token_blacklist	blacklistedtoken
 16	token_blacklist	outstandingtoken
+17	core	approvalroutecomment
 \.
 
 
@@ -893,6 +944,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 30	token_blacklist	0010_fix_migrate_to_bigautofield	2021-09-27 10:58:34.9172+00
 31	token_blacklist	0011_linearizes_history	2021-09-27 10:58:34.925212+00
 32	users	0002_auto_20210926_0206	2021-09-27 10:58:35.142706+00
+33	core	0002_approvalroutecomment	2021-10-26 06:59:28.117192+00
 \.
 
 
@@ -986,6 +1038,16 @@ COPY public.t_approval_route (created, modified, approval_route_id, approval_typ
 
 
 --
+-- Data for Name: t_approval_route_comment; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.t_approval_route_comment (id, created, modified, comment_no, comment, approval_route_id, ins_emp_id, request_id) FROM stdin;
+1	2021-09-22 11:38:59.177+00	2021-09-22 11:38:59.177+00	1	comment 1st tell you something.	1	1	1
+2	2021-09-22 12:38:59.177+00	2021-09-22 12:38:59.177+00	2	comment 2nd reply you something.	1	2	1
+\.
+
+
+--
 -- Data for Name: t_approval_route_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
@@ -1047,7 +1109,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 64, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 68, true);
 
 
 --
@@ -1061,14 +1123,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 16, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 17, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 32, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 33, true);
 
 
 --
@@ -1076,6 +1138,13 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 32, true);
 --
 
 SELECT pg_catalog.setval('public.t_approval_route_approval_route_id_seq', 1, false);
+
+
+--
+-- Name: t_approval_route_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.t_approval_route_comment_id_seq', 1, false);
 
 
 --
@@ -1253,6 +1322,14 @@ ALTER TABLE ONLY public.m_division
 
 ALTER TABLE ONLY public.m_segment
     ADD CONSTRAINT m_segment_pkey PRIMARY KEY (segment_cd);
+
+
+--
+-- Name: t_approval_route_comment t_approval_route_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_comment
+    ADD CONSTRAINT t_approval_route_comment_pkey PRIMARY KEY (id);
 
 
 --
@@ -1466,6 +1543,27 @@ CREATE INDEX m_segment_segment_cd_75427e7d_like ON public.m_segment USING btree 
 
 
 --
+-- Name: t_approval_route_comment_approval_route_id_ca08c4b4; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_approval_route_comment_approval_route_id_ca08c4b4 ON public.t_approval_route_comment USING btree (approval_route_id);
+
+
+--
+-- Name: t_approval_route_comment_ins_emp_id_a8d597f2; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_approval_route_comment_ins_emp_id_a8d597f2 ON public.t_approval_route_comment USING btree (ins_emp_id);
+
+
+--
+-- Name: t_approval_route_comment_request_id_8cbe311f; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_approval_route_comment_request_id_8cbe311f ON public.t_approval_route_comment USING btree (request_id);
+
+
+--
 -- Name: t_approval_route_detail_approval_emp_cd_id_c690a825; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -1629,6 +1727,30 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_approval_route_comment t_approval_route_com_approval_route_id_ca08c4b4_fk_t_approva; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_comment
+    ADD CONSTRAINT t_approval_route_com_approval_route_id_ca08c4b4_fk_t_approva FOREIGN KEY (approval_route_id) REFERENCES public.t_approval_route(approval_route_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_approval_route_comment t_approval_route_com_request_id_8cbe311f_fk_t_reuqest; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_comment
+    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_approval_route_comment t_approval_route_comment_ins_emp_id_a8d597f2_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_comment
+    ADD CONSTRAINT t_approval_route_comment_ins_emp_id_a8d597f2_fk_m_emp_id FOREIGN KEY (ins_emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
