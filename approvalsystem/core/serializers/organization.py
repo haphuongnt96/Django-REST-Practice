@@ -13,6 +13,7 @@ class BusinessUnitSerializer(serializers.ModelSerializer):
             'business_unit_nm',
         ]
 
+
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -21,6 +22,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'department_nm',
         ]
 
+
 class SegmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Segment
@@ -28,6 +30,7 @@ class SegmentSerializer(serializers.ModelSerializer):
             'segment_id',
             'segment_nm',
         ]
+
 
 class DivisionSerializer(serializers.ModelSerializer):
     class Meta:
