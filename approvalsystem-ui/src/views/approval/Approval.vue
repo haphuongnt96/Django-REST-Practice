@@ -6,6 +6,7 @@ import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunc
 import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequestDetail.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
 import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 
 @Component({
   components: {
@@ -20,6 +21,7 @@ import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 export default class Approval extends Vue {
   //#region Data
   items: Approvals.ApprovalRouteResponse[] = []
+  fixed = false
   //#endregion
 
   //#region Computed
@@ -31,6 +33,7 @@ export default class Approval extends Vue {
 
   //#region Hooks
   async mounted() {
+    window.addEventListener('scroll', this.handleScroll)
     if (this.approvalId) {
       const [err, res] = await this.$api.approval.getApprovals(this.approvalId)
       if (!err && res) {
@@ -38,9 +41,17 @@ export default class Approval extends Vue {
       }
     }
   }
+
   //#endregion
 
   //#region Methods
+  handleScroll() {
+    const offsetTop = this.$el.getBoundingClientRect().top
+    console.log(offsetTop)
+    if (Math.abs(offsetTop) > 50) this.fixed = true
+    else this.fixed = false
+  }
+
   updateApprovalStatus(data: Approvals.ApprovalRouteDetailResponse) {
     const route = this.items.find(
       (t) => t.approval_route_id === data.approval_route_id
@@ -62,8 +73,13 @@ export default class Approval extends Vue {
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
-        <ApprovalRequestDetail class="flex-grow-1" />
-        <ApprovalMainFunction @approval="updateApprovalStatus" />
+        <ApprovalRequestDetail class="approval__detail" />
+        <div :style="{ width: '160px' }">
+          <ApprovalMainFunction
+            @approval="updateApprovalStatus"
+            :class="{ fixed }"
+          />
+        </div>
       </v-container>
     </v-card>
     <ApprovalSubFunction :commentCount="123" />
@@ -73,5 +89,8 @@ export default class Approval extends Vue {
 <style lang="scss" scoped>
 .approval__container {
   position: relative;
+}
+.approval__detail {
+  width: calc(100% - 160px);
 }
 </style>

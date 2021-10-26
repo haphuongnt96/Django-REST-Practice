@@ -1,7 +1,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+
 @Component({ components: {} })
 export default class MainFunction extends Vue {
+  fixed = false
   //#region COMPUTED
   get contents() {
     return this.$pageContents.APPROVAL
@@ -19,6 +21,9 @@ export default class MainFunction extends Vue {
     }
   }
 
+  //#endregion
+
+  //#region Hook
   //#endregion
 }
 </script>
@@ -42,7 +47,12 @@ export default class MainFunction extends Vue {
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: min-content;
   grid-gap: 10px;
   height: -webkit-fill-available;
+}
+.fixed {
+  position: fixed;
+  top: 68px;
 }
 </style>
