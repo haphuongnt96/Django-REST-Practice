@@ -25,4 +25,15 @@ declare namespace Approvals {
     approval_status: boolean
     approval_date: string
   }
+
+  type ApprovalRouteCommentResponse = {
+    id : number,
+    request_id: string,
+    approval_route_id: string,
+    approval_type_cd: string,
+    comment_no: number,
+    comment: string,
+    emp_nm: string,
+    created: string
+  }
 }
