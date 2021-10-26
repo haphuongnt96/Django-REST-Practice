@@ -1,5 +1,8 @@
 from .approval_route import (
     ApprovalRouteListAPI,
     CountSummaryApprovalRouteDetailAPI,
-    ApprovalRequestAPI,
+    ApprovalRequestAPI
+)
+from .approval_route_comment import (
+    ApprovalRouteCommentListAPI
 )

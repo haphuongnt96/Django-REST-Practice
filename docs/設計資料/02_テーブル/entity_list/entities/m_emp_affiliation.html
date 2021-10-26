@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/10/12&nbsp;</td>
+			<td>2021/10/26&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -72,8 +72,8 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">1</td>
-			<td>社員コード</td>
-			<td>emp_cd</td>
+			<td>社員ID</td>
+			<td>emp_id</td>
 			<td>@VARCHAR(7)</td>
 			<td>&nbsp;</td>
 			<td></td>
@@ -81,17 +81,17 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
-			<td>部門コード</td>
-			<td>department_cd</td>
-			<td>@VARCHAR(3)</td>
+			<td>事業部ID</td>
+			<td>business_unit_id</td>
+			<td>@VARCHAR(2)</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">3</td>
-			<td>セグメントコード</td>
-			<td>segment_cd</td>
+			<td>部門ID</td>
+			<td>department_id</td>
 			<td>@VARCHAR(3)</td>
 			<td>&nbsp;</td>
 			<td></td>
@@ -99,17 +99,17 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">4</td>
-			<td>課コード</td>
-			<td>division_cd</td>
-			<td>@VARCHAR(1)</td>
+			<td>セグメントID</td>
+			<td>segment_id</td>
+			<td>@VARCHAR(3)</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">5</td>
-			<td>事業部コード</td>
-			<td>business_unit_cd</td>
+			<td>課ID</td>
+			<td>division_id</td>
 			<td>@VARCHAR(2)</td>
 			<td>&nbsp;</td>
 			<td></td>
@@ -166,30 +166,30 @@
 		<tr>
 			<td style="text-align:right;">1</td>
 			<td></td>
-			<td>business_unit_cd</td>
+			<td>business_unit_id</td>
 			<td>m_business_unit</td>
-			<td>business_unit_cd</td>
+			<td>business_unit_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
 			<td></td>
-			<td>division_cd</td>
+			<td>division_id</td>
 			<td>m_division</td>
-			<td>division_cd</td>
+			<td>division_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">3</td>
 			<td></td>
-			<td>segment_cd</td>
+			<td>segment_id</td>
 			<td>m_segment</td>
-			<td>segment_cd</td>
+			<td>segment_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">4</td>
 			<td></td>
-			<td>department_cd</td>
+			<td>department_id</td>
 			<td>m_department</td>
-			<td>department_cd</td>
+			<td>department_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">5</td>

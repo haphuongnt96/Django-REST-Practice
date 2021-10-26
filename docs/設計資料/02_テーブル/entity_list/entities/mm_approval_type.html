@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/10/12&nbsp;</td>
+			<td>2021/10/26&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -72,8 +72,8 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">1</td>
-			<td>承認種類コード</td>
-			<td>approval_type_cd</td>
+			<td>承認種類ID</td>
+			<td>approval_type_id</td>
 			<td>@VARCHAR(4)</td>
 			<td>Yes (PK)</td>
 			<td></td>
@@ -90,9 +90,36 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">3</td>
+			<td>承認分類ID</td>
+			<td>approval_class_id</td>
+			<td>@VARCHAR(1)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">4</td>
 			<td>閲覧制限</td>
 			<td>can_read</td>
 			<td>@VARCHAR(1)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">5</td>
+			<td>主幹部署セグメントID</td>
+			<td>segment_id</td>
+			<td>@VARCHAR(3)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">6</td>
+			<td>主幹部署課ID</td>
+			<td>division_id</td>
+			<td>@VARCHAR(2)</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
@@ -136,6 +163,13 @@
 			<th>参照先</th>
 			<th>参照先カラムリスト</th>
 		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td>approval_class_id</td>
+			<td>m_approval_class</td>
+			<td>approval_class_id</td>
+		</tr>
 	</table>
 
 <br>
@@ -159,16 +193,16 @@
 		<tr>
 			<td style="text-align:right;">1</td>
 			<td></td>
-			<td>approval_type_cd</td>
+			<td>approval_type_id</td>
 			<td>m_request_detail</td>
-			<td>approval_type_cd</td>
+			<td>approval_type_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
 			<td></td>
-			<td>approval_type_cd</td>
+			<td>approval_type_id</td>
 			<td>mm_approval_route</td>
-			<td>approval_type_cd</td>
+			<td>approval_type_id</td>
 		</tr>
 	</table>
 

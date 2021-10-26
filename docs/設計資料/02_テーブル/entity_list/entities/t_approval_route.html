@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/10/12&nbsp;</td>
+			<td>2021/10/26&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -90,8 +90,8 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">3</td>
-			<td>承認種類コード</td>
-			<td>approval_type_cd</td>
+			<td>承認種類ID</td>
+			<td>approval_type_id</td>
 			<td>@VARCHAR(5)</td>
 			<td>Yes</td>
 			<td></td>
@@ -108,9 +108,54 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">5</td>
-			<td>申請者社員コード</td>
-			<td>request_emp_cd</td>
+			<td>申請者社員ID</td>
+			<td>request_emp_id</td>
 			<td>@VARCHAR(7)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">6</td>
+			<td>申請部署事業部ID</td>
+			<td>business_unit_id</td>
+			<td>@VARCHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">7</td>
+			<td>申請部署部門ID</td>
+			<td>department_id</td>
+			<td>@VARCHAR(3)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">8</td>
+			<td>申請部署セグメントID</td>
+			<td>segment_id</td>
+			<td>@VARCHAR(3)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">9</td>
+			<td>申請部署課ID</td>
+			<td>division_id</td>
+			<td>@VARCHAR(2)</td>
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">10</td>
+			<td>申請日時</td>
+			<td>request_dt</td>
+			<td>@DATETIME</td>
 			<td>&nbsp;</td>
 			<td></td>
 			<td></td>
@@ -157,9 +202,9 @@
 		<tr>
 			<td style="text-align:right;">1</td>
 			<td></td>
-			<td>request_emp_cd</td>
+			<td>request_emp_id</td>
 			<td>m_emp</td>
-			<td>emp_cd</td>
+			<td>emp_id</td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">2</td>
