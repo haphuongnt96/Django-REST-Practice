@@ -6,6 +6,7 @@ import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunc
 import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequestDetail.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
 import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 
 @Component({
   components: {
@@ -21,6 +22,7 @@ export default class Approval extends Vue {
   //#region Data
   // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []
+  fixed = false
   //#endregion
 
   //#region Computed
@@ -35,6 +37,7 @@ export default class Approval extends Vue {
   //#region Hooks
   // リクエストIDから承認ルートテーブルから取得する
   async mounted() {
+    window.addEventListener('scroll', this.handleScroll)
     if (this.requestID) {
       const [err, res] = await this.$api.approval.getApprovals(this.requestID)
       if (!err && res) {
@@ -42,9 +45,17 @@ export default class Approval extends Vue {
       }
     }
   }
+
   //#endregion
 
   //#region Methods
+  handleScroll() {
+    const offsetTop = this.$el.getBoundingClientRect().top
+    console.log(offsetTop)
+    if (Math.abs(offsetTop) > 50) this.fixed = true
+    else this.fixed = false
+  }
+
   updateApprovalStatus(data: Approvals.ApprovalRouteDetailResponse) {
     // backendから取得した承認ルートIDと同一の承認ルートを探す
     const route = this.items.find(
@@ -71,8 +82,13 @@ export default class Approval extends Vue {
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
-        <ApprovalRequestDetail class="flex-grow-1" />
-        <ApprovalMainFunction @approval="updateApprovalStatus" />
+        <ApprovalRequestDetail class="approval__detail" />
+        <div :style="{ width: '160px' }">
+          <ApprovalMainFunction
+            @approval="updateApprovalStatus"
+            :class="{ fixed }"
+          />
+        </div>
       </v-container>
     </v-card>
     <ApprovalSubFunction :commentCount="123" />
@@ -82,5 +98,8 @@ export default class Approval extends Vue {
 <style lang="scss" scoped>
 .approval__container {
   position: relative;
+}
+.approval__detail {
+  width: calc(100% - 160px);
 }
 </style>
