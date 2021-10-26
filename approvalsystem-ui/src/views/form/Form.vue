@@ -1,10 +1,12 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import PropertyMasterRegistration from '@/static/forms/property-master-registration'
+import ListCheckbox from '@/common/components/ui/ListCheckbox.vue'
+import RadioGroupCell from './RadioGroupCell.vue'
 //*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
 
 @Component({
-  components: {}
+  components: { ListCheckbox, RadioGroupCell }
 })
 export default class Form extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
@@ -18,8 +20,10 @@ export default class Form extends Vue {
 </script>
 
 <template>
-  <v-container fluid>
-    <div class="text-h5 txt-text-1">{{ form.caption }}</div>
+  <v-container fluid pa-0>
+    <div class="text-h5 txt-text-1 text-center fw-600 mb-2">
+      {{ form.caption }}
+    </div>
     <template v-for="(table, tableIndex) in form.tables">
       <template v-if="table.note">
         <div v-html="table.note" :key="tableIndex"></div>
@@ -43,17 +47,19 @@ export default class Form extends Vue {
               :style="cell.style"
               :colspan="cell.colspan"
               :rowspan="cell.rowspan"
+              :class="cell.className"
             >
               <component
                 dense
                 hide-details="auto"
                 v-if="cell.component"
                 :is="cell.component"
+                outlined
                 :label="cell.text"
                 :items="cell.items"
               />
               <template v-else>
-                {{ cell.text }}
+                <span v-html="cell.text" />
               </template>
             </td>
           </tr>
@@ -64,7 +70,27 @@ export default class Form extends Vue {
 </template>
 
 <style lang="scss" scoped>
-.container {
-  background: #fff;
+::v-deep {
+  .index--circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    border: solid thin #000;
+  }
+}
+
+table {
+  td {
+    &.fit-content {
+      white-space: nowrap;
+    }
+    &.td--bold {
+      font-weight: 600;
+      background: $grey-1;
+    }
+  }
 }
 </style>

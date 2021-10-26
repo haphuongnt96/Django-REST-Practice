@@ -1,13 +1,19 @@
 import config from '@/common/config'
 import RadioGroup from '@/common/components/ui/RadioGroup.vue'
-import { arrayFromNumber } from '@/common/helpers'
+import { VSelect, VTextField } from 'vuetify/lib'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const groupBy = require('lodash.groupby')
 
 type TableCell = {
-  text: string
+  text?: string
   rowspan?: number
   colspan?: number
   key?: string
   value?: string
+  rowIndex?: number
+  cellIndex?: number
+  rowName?: string
+  options?: { text: string }[]
   children?: TableCell[]
 }
 
@@ -15,39 +21,39 @@ type TableItem = TableCell & {
   children?: TableCell[]
 }
 
-export const rowIndexStatus = (name: string, status: string, fixed = false) => {
+export const rowIndexStatus = (
+  index: number,
+  name: string,
+  status: string,
+  fixed = false
+) => {
   return [
     {
-      className: 'index--circle',
-      text: name,
-      style: { background: config.Colors.grey1 }
+      text: `<span class="index--circle">${index}</span> ${name}`,
+      style: { background: config.Colors.grey1, width: '20%' }
     },
     {
       text: fixed ? 'リストから選択' : '',
-      style: fixed
-        ? {
-            textAlign: 'center',
-            background: config.Colors.pink3,
-            color: config.Colors.red1
-          }
-        : null
+      component: fixed ? VSelect : VTextField,
+      style: { textAlign: 'center' }
     },
     {
       text: `※ ${status}`,
-      style: { background: config.Colors.grey1 }
+      className: 'fit-content',
+      style: { background: config.Colors.grey1, width: '12%' }
     }
   ]
 }
 
 export const rowIndexStatusRadios = (
+  index: number,
   name: string,
   status: string,
   options: { text: string; value: string }[]
 ) => {
   return [
     {
-      className: 'index--circle',
-      text: name,
+      text: `<span class="index--circle">${index}</span> ${name}`,
       style: { background: config.Colors.grey1 }
     },
     {
@@ -56,57 +62,31 @@ export const rowIndexStatusRadios = (
     },
     {
       text: `※ ${status}`,
-      style: { background: config.Colors.grey1 }
+      style: { background: config.Colors.grey1, width: '12%' }
     }
   ]
-}
-
-export const rowType1 = (cells: TableCell[]) => {
-  const parent = cells[0]
-  const children = cells.slice(1)
-  const childHeaders = children.map((x) => ({
-    text: x.text,
-    style: { background: config.Colors.grey1 }
-  }))
-  const headers = [
-    ...[
-      {
-        text: parent.text,
-        rowspan: parent.rowspan,
-        colspan: parent.colspan,
-        style: { background: config.Colors.grey1 }
-      }
-    ],
-    ...childHeaders
-  ]
-  const childCells = children.map((x) => ({
-    text: '',
-    key: x.key
-  }))
-  return { headers, cells: childCells }
 }
 
 export const drawTable = (items: TableItem[]) => {
-  const data = [] as TableItem[]
-  items.forEach((item) => {
-    const index = 0
-    let row = [item]
-    console.log(row)
-    item.rowspan = item.rowspan || 1
-    while (item.rowspan && index < item.rowspan) {
-      let current = item.children
-      while (current && current.length) {
-        const nextCell = current[index]
-        if (!current.some((x) => x.children && x.children.length)) {
-          row = [...row, ...current.slice(0, 3)]
-          break
-        }
-        row.push(nextCell)
-        current = nextCell && nextCell.children
-      }
-      data.push(row)
-    }
-  })
+  const data = groupBy(flatArray(items), 'rowIndex')
   console.log(data)
   return data
+}
+
+export function flatArray(array: TableCell[]) {
+  let flated = [...array]
+  while (flated.some((x) => x && x.children)) {
+    flated = mergeParentWithChildren(flated) as TableCell[]
+  }
+  return flated.filter((x) => x)
+}
+
+function mergeParentWithChildren(array: TableCell[]) {
+  const parent = array.filter((x) => x.children)
+  const noChild = array.filter((x) => !x.children)
+  const children = parent.map((x) => x.children).flat(1)
+  parent.forEach((x) => {
+    delete x.children
+  })
+  return [...noChild, ...parent, ...children]
 }
