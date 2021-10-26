@@ -311,7 +311,7 @@ ALTER TABLE public.m_department OWNER TO approval_user;
 CREATE TABLE public.m_division (
     created timestamp with time zone NOT NULL,
     modified timestamp with time zone NOT NULL,
-    division_cd character varying(1) NOT NULL,
+    division_cd character varying(2) NOT NULL,
     division_nm character varying(10) NOT NULL
 );
 
@@ -475,7 +475,7 @@ CREATE TABLE public.t_approval_route_detail (
     approval_post_cd_id character varying(3) NOT NULL,
     approval_route_id_id integer NOT NULL,
     department_cd_id character varying(3),
-    division_cd_id character varying(1),
+    division_cd_id character varying(2),
     segment_cd_id character varying(3)
 );
 
@@ -945,6 +945,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 31	token_blacklist	0011_linearizes_history	2021-09-27 10:58:34.925212+00
 32	users	0002_auto_20210926_0206	2021-09-27 10:58:35.142706+00
 33	core	0002_approvalroutecomment	2021-10-26 06:59:28.117192+00
+34	core	0002_alter_division_division_cd	2021-10-26 07:27:18.601236+00
 \.
 
 
@@ -1130,7 +1131,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 17, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 33, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 34, true);
 
 
 --
@@ -1786,19 +1787,19 @@ ALTER TABLE ONLY public.t_approval_route_detail
 
 
 --
--- Name: t_approval_route_detail t_approval_route_det_division_cd_id_b137c8d1_fk_m_divisio; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_approval_route_detail
-    ADD CONSTRAINT t_approval_route_det_division_cd_id_b137c8d1_fk_m_divisio FOREIGN KEY (division_cd_id) REFERENCES public.m_division(division_cd) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: t_approval_route_detail t_approval_route_det_segment_cd_id_f8cf4a3a_fk_m_segment; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_approval_route_detail
     ADD CONSTRAINT t_approval_route_det_segment_cd_id_f8cf4a3a_fk_m_segment FOREIGN KEY (segment_cd_id) REFERENCES public.m_segment(segment_cd) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_approval_route_detail t_approval_route_detail_division_cd_id_b137c8d1_fk; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_detail
+    ADD CONSTRAINT t_approval_route_detail_division_cd_id_b137c8d1_fk FOREIGN KEY (division_cd_id) REFERENCES public.m_division(division_cd) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
