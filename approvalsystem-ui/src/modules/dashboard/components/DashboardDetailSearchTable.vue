@@ -3,6 +3,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({ components: {} })
 export default class DashboardDetailSearchTable extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
+  values = []
   //#region COMPUTED
   get contents() {
     return this.$pageContents.DASHBOARD
@@ -53,10 +54,6 @@ export default class DashboardDetailSearchTable extends Vue {
       content: 'パソコン導入依頼書の申請について'
     }
   ]
-  //#end
-  handleSelect(value) {
-    this.$emit('applicationCotent', value)
-  }
 }
 </script>
 

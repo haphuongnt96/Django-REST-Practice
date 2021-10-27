@@ -12,6 +12,19 @@ export default class DashboardPopupObject extends Vue {
   name = ''
   valid = true
   dialog = false
+  value = ''
+  async handleSubmit() {
+    const [err, res] = await this.$api.dashboard.getDashuboardSerchRecord({
+      values: this.value
+    })
+    if (!err && res) {
+      localStorage.setItem('vue-token', res.data.access)
+      localStorage.setItem('vue-token-reset', res.data.refresh)
+      this.$router.push({ name: 'dashboard' })
+    } else {
+      this.$swal('社員IDもしくはパスワードが正しくありません')
+    }
+  }
   get contents() {
     return this.$pageContents.DASHBOARD
   }
@@ -132,6 +145,7 @@ export default class DashboardPopupObject extends Vue {
                       ></v-text-field>
                     </td>
                     <td class="inline__element">
+                      <!-- disabled="!valid" フォームが有効になるまでボタンを非活性  -->
                       <v-btn :disabled="!valid" class="mr-4">
                         {{ contents.FORM_SEARCH }}
                       </v-btn>
