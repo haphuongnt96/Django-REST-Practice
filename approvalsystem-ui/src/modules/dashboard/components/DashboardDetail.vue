@@ -43,30 +43,31 @@ export default class DashboardDetail extends Vue {
   formEmpName = ''
   noti = ''
   formObject = ''
-  //set data for application date
-  //define show popup application date
+  values = []
+  //set data for application date　申請日の日付をセット
+  //define show popup application date ポップアップ表示の適用日を定義
   showApplicationDate = false
-  //set range data application date
+  //set range data application date　日付範囲のデータをセット
   ApplicationDates = [
     moment().format('YYYY-MM-DD'),
     moment().add(7, 'days').format('YYYY-MM-DD')
   ]
   //#end
-  //set data application latest date
+  //set data application latest date　最新の日付を設定
   showApplicationLatestDate = false
   ApplicationLatestDates = [
     moment().format('YYYY-MM-DD'),
     moment().add(7, 'days').format('YYYY-MM-DD')
   ]
   //#end
-  //set approval date
+  //set approval date　承認日を設定
   showApprovalDate = false
   ApprovalDates = [
     moment().format('YYYY-MM-DD'),
     moment().add(7, 'days').format('YYYY-MM-DD')
   ]
   //#end
-  //#region COMPUTED
+  //#region COMPUTED 算出プロパティで実行
   get contents() {
     return this.$pageContents.DASHBOARD
   }
@@ -98,7 +99,10 @@ export default class DashboardDetail extends Vue {
   setObjectData(data) {
     this.formObject = data.department
   }
-  //#endregion
+  //#endregion  // 検索ボタン押下でDetailTableの検索を発火
+  getDetailTable() {
+    this.$refs.detailtable.getdata()
+  }
 }
 </script>
 
@@ -438,7 +442,12 @@ export default class DashboardDetail extends Vue {
           </tbody>
         </table>
         <div class="group__action">
-          <v-btn elevation="2" large class="group__action--primary">
+          <v-btn
+            elevation="2"
+            large
+            class="group__action--primary"
+            @click="getDetailTable()"
+          >
             {{ contents.FORM_SEARCH }}
           </v-btn>
           <v-btn elevation="2" large class="group__action--secondary">
@@ -447,7 +456,7 @@ export default class DashboardDetail extends Vue {
         </div>
       </div>
     </div>
-    <DashboardDetailTable />
+    <DashboardDetailTable ref="detailtable" />
   </div>
 </template>
 

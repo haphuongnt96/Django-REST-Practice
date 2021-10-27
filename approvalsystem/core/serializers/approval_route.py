@@ -3,9 +3,12 @@ from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
 from core.models import ApprovalRoute, ApprovalRouteDetail
-
+from core.serializers.organization import BusinessUnitSerializer, DepartmentSerializer,\
+                                         SegmentSerializer, DivisionSerializer
+from users.serializers import UserDetailSerializer
 
 class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ApprovalRouteDetail
         fields = [
@@ -27,6 +30,11 @@ class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
 
 class ApprovalRouteSerializer(serializers.ModelSerializer):
     approval_route_details = ApprovalRouteDetailSerializer(many=True, read_only=True)
+    business_unit = BusinessUnitSerializer(many=False, read_only=True)
+    department = DepartmentSerializer(many=False, read_only=True)
+    segment = SegmentSerializer(many=False, read_only=True)
+    division = DivisionSerializer(many=False, read_only=True)
+    request_emp = UserDetailSerializer(many=False, read_only=True)
 
     class Meta:
         model = ApprovalRoute
@@ -35,8 +43,11 @@ class ApprovalRouteSerializer(serializers.ModelSerializer):
             'approval_route_id',
             'approval_type_cd',
             'judgement_cd',
-            'request_emp_cd',
-            'request_emp_nm',
+            'business_unit',
+            'department',
+            'segment',
+            'division',
+            'request_emp',
             'approval_route_details',
             'created',
         ]
