@@ -35,6 +35,7 @@ export default class MainFunction extends Vue {
     <v-btn color="grey">{{ contents.DISAPPROVE }}</v-btn>
     <v-btn color="grey">{{ contents.CANCEL }}</v-btn>
     <v-btn color="grey">{{ contents.PRINT }}</v-btn>
+    <v-btn color="grey">{{ contents.COPY_FUNCTION }}</v-btn>
   </div>
 </template>
 
