@@ -43,18 +43,19 @@ export default class ApprovalSubFunction extends Vue {
     >
       <template v-slot:activator>
         <v-badge
-          color="red"
+          :color="$config.Colors.accent"
           :content="commentCount"
           overlap
           :value="!!commentCount"
         >
           <v-btn
-            width="80"
-            :color="$config.Colors.blue1"
-            :style="'border-radius:20px'"
+            :color="$config.Colors.pink2"
             @click.stop="handleOpenComments"
+            dark
+            fab
           >
-            {{ contents.COMMENT }}
+            <!-- <v-icon>mdi-chat-processing-outline</v-icon> -->
+            <v-icon>mdi-message-processing-outline</v-icon>
           </v-btn>
         </v-badge>
       </template>
