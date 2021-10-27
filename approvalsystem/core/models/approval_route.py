@@ -20,23 +20,23 @@ class ApprovalRoute(BaseModel):
     judgement_cd = models.CharField(
         max_length=1, null=True, blank=True
     )
-    request_emp_cd = models.ForeignKey(
+    request_emp = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         max_length=7, null=True, blank=True,
     )
-    business_unit_id = models.ForeignKey(
+    business_unit = models.ForeignKey(
         BusinessUnit, on_delete=models.SET_NULL,
         max_length=2, null=True, blank=True,
     )
-    department_id = models.ForeignKey(
+    department = models.ForeignKey(
         Department, on_delete=models.SET_NULL,
         max_length=3, null=True, blank=True,
     )
-    segment_id = models.ForeignKey(
+    segment = models.ForeignKey(
         Segment, on_delete=models.SET_NULL,
         max_length=3, null=True, blank=True,
     )
-    division_id = models.ForeignKey(
+    division = models.ForeignKey(
         Division, on_delete=models.SET_NULL,
         max_length=2, null=True, blank=True,
     )

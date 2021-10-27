@@ -30,10 +30,10 @@ class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
 
 class ApprovalRouteSerializer(serializers.ModelSerializer):
     approval_route_details = ApprovalRouteDetailSerializer(many=True, read_only=True)
-    business_unit_nm = BusinessUnitSerializer(many=True, read_only=True)
-    department_nm = DepartmentSerializer(many=True, read_only=True)
-    segment_nm = SegmentSerializer(many=True, read_only=True)
-    division_nm = DivisionSerializer(many=True, read_only=True)
+    business_unit = BusinessUnitSerializer(many=False, read_only=True)
+    department = DepartmentSerializer(many=False, read_only=True)
+    segment = SegmentSerializer(many=False, read_only=True)
+    division = DivisionSerializer(many=False, read_only=True)
     
     class Meta:
         model = ApprovalRoute
@@ -42,15 +42,11 @@ class ApprovalRouteSerializer(serializers.ModelSerializer):
             'approval_route_id',
             'approval_type_cd',
             'judgement_cd',
-            'business_unit_id',
-            'business_unit_nm',
-            'department_id',
-            'department_nm',
-            'segment_id',
-            'segment_nm',
-            'division_id',
-            'division_nm',
-            'request_emp_cd',
+            'business_unit',
+            'department',
+            'segment',
+            'division',
+            'request_emp_id',
             'request_emp_nm',
             'approval_route_details',
             'created',
