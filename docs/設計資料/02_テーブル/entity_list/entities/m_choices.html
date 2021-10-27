@@ -23,7 +23,7 @@
 			<th>サブシステム名</th>
 			<td>&nbsp;</td>
 			<th>作成日</th>
-			<td>2021/10/26&nbsp;</td>
+			<td>2021/10/27&nbsp;</td>
 		</tr>
 		<tr>
 			<th>スキーマ名</th>
@@ -72,6 +72,15 @@
 		</tr>
 		<tr>
 			<td style="text-align:right;">1</td>
+			<td>申請明細ID</td>
+			<td>request_column_id</td>
+			<td>@VARCHAR(4)</td>
+			<td>Yes (PK)</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">2</td>
 			<td>選択肢種類ID</td>
 			<td>choices_type_id</td>
 			<td>@VARCHAR(3)</td>
@@ -80,7 +89,7 @@
 			<td></td>
 		</tr>
 		<tr>
-			<td style="text-align:right;">2</td>
+			<td style="text-align:right;">3</td>
 			<td>選択肢番号</td>
 			<td>choice_no</td>
 			<td>@INT</td>
@@ -89,7 +98,7 @@
 			<td></td>
 		</tr>
 		<tr>
-			<td style="text-align:right;">3</td>
+			<td style="text-align:right;">4</td>
 			<td>選択肢名</td>
 			<td>choice_nm</td>
 			<td>@VARCHAR(10)</td>
@@ -136,6 +145,13 @@
 			<th>参照先</th>
 			<th>参照先カラムリスト</th>
 		</tr>
+		<tr>
+			<td style="text-align:right;">1</td>
+			<td></td>
+			<td></td>
+			<td>m_request_detail</td>
+			<td></td>
+		</tr>
 	</table>
 
 <br>
@@ -155,13 +171,6 @@
 			<th>カラムリスト</th>
 			<th>参照元</th>
 			<th>参照元カラムリスト</th>
-		</tr>
-		<tr>
-			<td style="text-align:right;">1</td>
-			<td></td>
-			<td>choices_type_id</td>
-			<td>m_request_detail</td>
-			<td>choices_type_id</td>
 		</tr>
 	</table>
 
