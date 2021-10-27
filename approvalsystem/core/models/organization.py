@@ -8,7 +8,7 @@ class BusinessUnit(BaseModel):
     """
     事業部
     """
-    business_unit_cd = models.CharField(primary_key=True, max_length=2)
+    business_unit_id = models.CharField(primary_key=True, max_length=2)
     business_unit_nm = models.CharField(max_length=10)
 
     class Meta:
@@ -22,7 +22,7 @@ class Department(BaseModel):
     """
     部門
     """
-    department_cd = models.CharField(primary_key=True, max_length=3)
+    department_id = models.CharField(primary_key=True, max_length=3)
     department_nm = models.CharField(max_length=10)
 
     class Meta:
@@ -36,7 +36,7 @@ class Segment(BaseModel):
     """
     セグメント
     """
-    segment_cd = models.CharField(primary_key=True, max_length=3)
+    segment_id = models.CharField(primary_key=True, max_length=3)
     segment_nm = models.CharField(max_length=10)
 
     class Meta:
@@ -50,7 +50,7 @@ class Division(BaseModel):
     """
     課
     """
-    division_cd = models.CharField(primary_key=True, max_length=2)
+    division_id = models.CharField(primary_key=True, max_length=2)
     division_nm = models.CharField(max_length=10)
 
     class Meta:
@@ -58,3 +58,14 @@ class Division(BaseModel):
 
     def __str__(self):
         return self.division_nm
+
+
+class BusinessUnit(BaseModel):
+    business_unit_cd = models.CharField(primary_key=True, max_length=2)
+    business_unit_nm = models.CharField(max_length=10)
+
+    class Meta:
+        db_table = 'm_business_unit'
+
+    def __str__(self):
+        return self.business_unit_nm

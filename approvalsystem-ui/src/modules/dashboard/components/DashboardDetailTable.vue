@@ -13,7 +13,8 @@ export default class DetailTable extends Vue {
     const [err, res] = await this.$api.dashboard.getDashuboardSerchRecord()
     if (!err && res) {
       //正常処理　swalはアラート用のライブラリ
-      this.items = res.data
+      this.items = res
+      console.log(res)
     } else {
       //バックエンド側でエラーが発生したときのメッセージ
       this.$swal({
@@ -33,172 +34,11 @@ export default class DetailTable extends Vue {
       sortable: false,
       value: 'request_id'
     },
-    //{
-    //   text: '申請内容',
-    //   value: 'content'
-    // },
-    //{ text: '件名', value: 'title' },
+    { text: '件名', value: 'request_title' },
     //{ text: '申請部署名', value: 'applicationdepartment' },
-    //{ text: '申請者', value: 'applicant' },
-    { text: '状況', value: 'status' }
+    { text: '申請者', value: 'approvalroute[0].request_emp_nm' },
+    { text: '状況', value: 'status.status_nm' }
   ]
-  // //#end
-  // //list applicants
-  // applicants = [
-  //   {
-  //     index: 1,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 2,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 3,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 4,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 5,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 6,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 7,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 8,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 10,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 11,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 12,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 13,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 14,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 15,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 16,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 17,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 18,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 19,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   },
-  //   {
-  //     index: 20,
-  //     content: 'パソコン導入依頼書',
-  //     title: 'パソコン導入依頼書の申請について',
-  //     applicationdepartment: '経営企画部',
-  //     applicant: '管理者　 太郎',
-  //     status: '承認中'
-  //   }
-  // ]
-  //#end
 }
 </script>
 
