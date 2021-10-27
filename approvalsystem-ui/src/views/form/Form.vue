@@ -21,9 +21,6 @@ export default class Form extends Vue {
 
 <template>
   <v-container fluid pa-0>
-    <div class="text-h5 txt-text-1 text-center fw-600 mb-2">
-      {{ form.caption }}
-    </div>
     <template v-for="(table, tableIndex) in form.tables">
       <template v-if="table.note">
         <div v-html="table.note" :key="tableIndex"></div>

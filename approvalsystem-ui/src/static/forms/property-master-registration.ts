@@ -281,7 +281,6 @@ const params2 = [
   }
 ]
 const PropertyMasterRegistration = {
-  caption: '物件マスタ登録申請票',
   tables: [
     {
       headers: [

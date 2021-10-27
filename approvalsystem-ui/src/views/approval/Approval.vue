@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Ref, Vue } from 'vue-property-decorator'
 import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
 import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequestHeader.vue'
 import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunction.vue'
@@ -46,9 +46,10 @@ export default class Approval extends Vue {
 
   //#region Methods
   handleScroll() {
-    const offsetTop = this.$el.getBoundingClientRect().top
-    console.log(offsetTop)
-    if (Math.abs(offsetTop) > 50) this.fixed = true
+    const ref = this.$refs['main-function'] as Element
+    if (!ref) return
+    const offsetTop = ref.getBoundingClientRect().top
+    if (offsetTop < 50) this.fixed = true
     else this.fixed = false
   }
 
@@ -74,7 +75,7 @@ export default class Approval extends Vue {
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
         <ApprovalRequestDetail class="approval__detail" />
-        <div :style="{ width: '160px' }">
+        <div :style="{ width: '160px' }" ref="main-function">
           <ApprovalMainFunction
             @approval="updateApprovalStatus"
             :class="{ fixed }"
