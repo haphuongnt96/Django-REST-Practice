@@ -61,7 +61,7 @@ class Division(BaseModel):
 
 
 class BusinessUnit(BaseModel):
-    business_unit_cd = models.CharField(primary_key=True, max_length=2)
+    business_unit_id = models.CharField(primary_key=True, max_length=2)
     business_unit_nm = models.CharField(max_length=10)
 
     class Meta:
