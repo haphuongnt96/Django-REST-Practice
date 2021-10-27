@@ -910,13 +910,12 @@ Page=MAIN
 Left=3250
 Top=1300
 Field="申請明細ID","request_column_id","@VARCHAR(4)","NOT NULL",0,"","",$FFFFFFFF,""
-Field="選択肢種類ID","choices_type_id","@VARCHAR(3)","NOT NULL",1,"","",$FFFFFFFF,""
-Field="選択肢番号","choice_no","@INT",,,"","",$FFFFFFFF,""
+Field="選択肢ID","choice_id","@VARCHAR(2)",,1,"","",$FFFFFFFF,""
 Field="選択肢名","choice_nm","@VARCHAR(10)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211027145031
+ModifiedDateTime=20211027161701
 Position="MAIN",3250,1300
 ZOrder=54
 
