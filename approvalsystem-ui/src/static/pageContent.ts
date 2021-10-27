@@ -87,6 +87,7 @@ const AUTHEN = {
 const DASHBOARD = {
   DASH_TITLE: 'ログイン',
   APPLICANT: '申請者',
+  NOTIFIER: '通知者',
   APPLICANT_CREATE_NEW: '新規作成',
   APPLICANT_APPLYING: '申請中',
   APPLICANT_REMAND: '差戻',

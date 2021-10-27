@@ -150,7 +150,7 @@ export default class DashboardSideBar extends Vue {
         </ul>
       </li>
       <li class="nav__menu--items">
-        <a href="#">{{ contents.APPROVER }}</a>
+        <a href="#">{{ contents.NOTIFIER }}</a>
         <ul class="nav__submenu">
           <li class="nav__submenu--items">
             <a href="#">
