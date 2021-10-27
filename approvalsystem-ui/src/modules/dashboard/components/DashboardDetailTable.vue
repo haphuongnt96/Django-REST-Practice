@@ -30,14 +30,30 @@ export default class DetailTable extends Vue {
   headers = [
     {
       text: '番号',
-      align: 'start',
-      sortable: false,
+      align: 'center',
+      //sortable: false,
       value: 'request_id'
     },
-    { text: '件名', value: 'request_title' },
-    //{ text: '申請部署名', value: 'applicationdepartment' },
-    { text: '申請者', value: 'approvalroute[0].request_emp_nm' },
-    { text: '状況', value: 'status.status_nm' }
+    {
+      text: '件名',
+      align: 'center',
+      value: 'request_title'
+    },
+    {
+      text: '申請部署名',
+      align: 'center',
+      value: 'approvalroute[0].department.department_nm'
+    },
+    {
+      text: '申請者',
+      align: 'center',
+      value: 'approvalroute[0].request_emp.emp_nm'
+    },
+    {
+      text: '状況',
+      align: 'center',
+      value: 'status.status_nm'
+    }
   ]
 }
 </script>
