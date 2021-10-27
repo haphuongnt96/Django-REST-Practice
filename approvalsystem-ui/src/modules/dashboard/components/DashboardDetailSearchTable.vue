@@ -53,6 +53,7 @@ export default class DashboardDetailSearchTable extends Vue {
       content: 'パソコン導入依頼書の申請について'
     }
   ]
+  //#end
   handleSelect(value) {
     this.$emit('applicationCotent', value)
   }
