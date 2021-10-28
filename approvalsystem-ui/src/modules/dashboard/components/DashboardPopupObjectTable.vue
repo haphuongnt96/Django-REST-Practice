@@ -11,46 +11,52 @@ export default class DashboardPopupObjectTable extends Vue {
   //dummy data for table
   //table header and set value
   searchHeader = [
-    {
-      text: 'ID',
-      align: 'center',
-      sortable: false,
-      value: 'index'
-    },
-    {
-      text: '部署課名',
-      align: 'center',
-      value: 'department'
-    },
-    { text: '分類', align: 'center', value: 'category' },
-    { text: '申請内容', align: 'center', value: 'content' }
+    { text: 'No', align: 'center', sortable: false, value: 'index' },
+    { text: 'コード', align: 'center', value: 'code' },
+    { text: '名称', align: 'center', value: 'name' },
+    { text: '住所', align: 'center', value: 'content' },
+    { text: 'グループ', align: 'center', value: 'group' },
+    { text: '担当者', align: 'center', value: 'staff' },
+    { text: '電話番号', align: 'center', value: 'telnumber' }
   ]
   // //#end
   // //list applicants
   searchResults = [
     {
       index: 1,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      code: '1111111',
+      name: '〇〇〇〇管理組合',
+      content: '大阪府大阪市〇丁〇号〇番',
+      group: '鈴木　□□',
+      staff: '□□ 太郎',
+      telnumber: '000-000-000'
     },
     {
       index: 2,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      code: '2222222',
+      name: '□□□□管理組合',
+      content: '大阪府大阪市×丁×号×番',
+      group: '鈴木　△△',
+      staff: '△△ 太郎',
+      telnumber: '000-000-111'
     },
     {
       index: 3,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      code: '3333333',
+      name: '△△△△住宅部会',
+      content: '大阪府大阪市△丁△号△番',
+      group: '鈴木　××',
+      staff: '×× 太郎',
+      telnumber: '000-000-222'
     },
     {
       index: 4,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      code: '4444444',
+      name: '〇〇〇〇センター',
+      content: '大阪府大阪市△丁△号△番',
+      group: '鈴木　〇〇',
+      staff: '〇〇 太郎',
+      telnumber: '000-000-333'
     }
   ]
   //#end

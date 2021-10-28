@@ -4,7 +4,8 @@ from core.models import (
     Department, Segment, Division, BusinessUnit,
     Request, RequestStatus,
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
-    ApprovalType, ApprovalClass, Choices, RequestDetailMaster, ColumnType
+    ApprovalType, ApprovalClass, Choices, RequestDetailMaster, ColumnType,
+    Property
 )
 
 
@@ -28,6 +29,10 @@ class RequestStatusAdmin(admin.ModelAdmin):
     model = RequestStatus
 
 
+class PropertyAdmin(admin.ModelAdmin):
+    model = Property
+
+
 admin.site.register(BusinessUnit)
 admin.site.register(Department)
 admin.site.register(Segment)
@@ -41,3 +46,5 @@ admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster)
 admin.site.register(Choices)
 admin.site.register(ColumnType)
+admin.site.register(RequestStatus, RequestAdmin)
+admin.site.register(Property)
