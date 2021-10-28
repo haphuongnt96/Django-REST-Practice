@@ -37,49 +37,28 @@ export default class ApprovalSubFunction extends Vue {
       :bottom="true"
       fixed
       :right="true"
+      :style="'margin-right:20px'"
       :direction="'top'"
       :transition="'slide-y-reverse-transition'"
     >
       <template v-slot:activator>
         <v-badge
-          color="red"
+          :color="$config.Colors.accent"
           :content="commentCount"
           overlap
           :value="!!commentCount"
         >
-          <v-btn v-model="fab" color="primary darken-2" dark fab>
-            <v-icon v-if="fab">mdi-close</v-icon>
-            <span v-else class="text-h5">他</span>
+          <v-btn
+            :color="$config.Colors.pink2"
+            @click.stop="handleOpenComments"
+            dark
+            fab
+          >
+            <!-- <v-icon>mdi-chat-processing-outline</v-icon> -->
+            <v-icon>mdi-message-processing-outline</v-icon>
           </v-btn>
         </v-badge>
       </template>
-      <v-card class="d-flex flex-column align-left flex-gap-2 pa-5">
-        <div class="d-flex align-center flex-gap-1">
-          <v-badge
-            color="red"
-            :content="commentCount"
-            overlap
-            :value="!!commentCount"
-          >
-            <v-btn
-              width="120"
-              :color="$config.Colors.blue1"
-              @click.stop="handleOpenComments"
-            >
-              コメント
-            </v-btn>
-          </v-badge>
-        </div>
-        <!-- <v-btn width="120" :color="$config.Colors.red1">
-          {{ contents.APPROVER }}
-        </v-btn>
-        <v-btn width="120" :color="$config.Colors.red1">
-          {{ contents.ANNOUNT_PERSON }}
-        </v-btn> -->
-        <v-btn width="120" :color="$config.Colors.red1">
-          {{ contents.COPY_FUNCTION }}
-        </v-btn>
-      </v-card>
     </v-speed-dial>
     <ApprovalComment :isOpen.sync="isOpen" />
   </div>

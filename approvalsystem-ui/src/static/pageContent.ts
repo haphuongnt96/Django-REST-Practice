@@ -57,6 +57,7 @@ const APPROVAL = {
   POP_NOTIFIER_ADD: '通知者追加',
   POP_NOTIFIER_POSITION: '役職名',
   APPROVE_FAIL_MESS: '承認に失敗しました',
+  COMMENT: 'コメント',
   COMMENT_TITLE: 'コメント履歴',
   COMMENT_SAVE: 'コメント保存',
   COMMENT_REMAND: '差戻',
@@ -86,6 +87,7 @@ const AUTHEN = {
 const DASHBOARD = {
   DASH_TITLE: 'ログイン',
   APPLICANT: '申請者',
+  NOTIFIER: '通知者',
   APPLICANT_CREATE_NEW: '新規作成',
   APPLICANT_APPLYING: '申請中',
   APPLICANT_REMAND: '差戻',
