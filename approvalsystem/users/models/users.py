@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import F
 from django.utils.translation import gettext_lazy as _
 
 from utils.base_model import BaseModel
@@ -104,6 +105,15 @@ class User(
 
     def __str__(self):
         return f'{self.emp_cd} - {self.emp_nm}'
+
+    @property
+    def affiliations_fetchall(self):
+        return self.affiliations.annotate(
+            business_unit_nm=F('business_unit__business_unit_nm'),
+            department_nm=F('department__department_nm'),
+            segment_nm=F('segment__segment_nm'),
+            division_nm=F('division__division_nm'),
+        )
 
 
 class AlphabetTypePasswordValidator:

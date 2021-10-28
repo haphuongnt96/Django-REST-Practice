@@ -3,9 +3,12 @@ from django.contrib.auth.hashers import make_password, check_password
 import re
 
 from users.models import User
+from .em_affiliation import EmpAffiliationSerializer
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    affiliations = EmpAffiliationSerializer(many=True, source='affiliations_fetchall')
+
     class Meta:
         model = User
         fields = [
@@ -13,7 +16,9 @@ class UserDetailSerializer(serializers.ModelSerializer):
             'emp_cd',
             'emp_nm',
             'email',
+            'affiliations',
         ]
+
 
 class UserPassSerializer(serializers.Serializer):
     '''

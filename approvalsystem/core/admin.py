@@ -23,7 +23,8 @@ class ApprovalRouteAdmin(admin.ModelAdmin):
 class RequestAdmin(admin.ModelAdmin):
     inlines = [ApprovalRouteInline]
 
-class RequestAdmin(admin.ModelAdmin):
+
+class RequestStatusAdmin(admin.ModelAdmin):
     model = RequestStatus
 
 
@@ -34,7 +35,7 @@ admin.site.register(Division)
 admin.site.register(Request, RequestAdmin)
 admin.site.register(ApprovalRoute, ApprovalRouteAdmin)
 admin.site.register(ApprovalPost)
-admin.site.register(RequestStatus, RequestAdmin)
+admin.site.register(RequestStatus, RequestStatusAdmin)
 admin.site.register(ApprovalType)
 admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster)
