@@ -39,3 +39,12 @@ export function getApprovalRouteComment(id: string) {
     })
   )
 }
+
+export function getApproveTypes() {
+  return transformData(
+    service.request<Approvals.GetAprrovalTypesResponse>({
+      method: 'get',
+      url: `api/approval_types`
+    })
+  )
+}

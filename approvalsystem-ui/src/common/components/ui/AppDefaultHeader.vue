@@ -1,14 +1,20 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Getter as G } from 'vuex-class'
+import { AuthD } from '@/store/typeD'
 
 @Component({ components: {} })
 export default class AppDefaultHeader extends Vue {
+  @G(...AuthD.getUser) user: Auth.User
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   profiles = [{ title: 'パスワード変更', path: '/change-pass' }]
-  user = {}
+
+  //#region Computed
   get contents() {
     return this.$pageContents.APP_HEADER
   }
+  //#endregion
+
   async handleLogout() {
     const [err, res] = await this.$api.authen.doLogout()
     if (!err && res) {
@@ -17,12 +23,6 @@ export default class AppDefaultHeader extends Vue {
       localStorage.removeItem('vue-token-reset')
     } else {
       alert('logout fail')
-    }
-  }
-  async mounted() {
-    const [err, res] = await this.$api.authen.getUserInfo()
-    if (!err && res) {
-      this.user = res
     }
   }
 }
