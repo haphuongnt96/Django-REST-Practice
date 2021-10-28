@@ -19,17 +19,22 @@ import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 })
 export default class Approval extends Vue {
   //#region Data
+  // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []
   //#endregion
 
   //#region Computed
+  // requestIDではない？
   get approvalId() {
-    const id = this.$route.query.id
+    // 遷移時にDashboardから渡されたリクエストIDを取得
+    const id = this.$route.params.id
+    // 文字列にして返す
     return id ? id.toString() : ''
   }
   //#endregion
 
   //#region Hooks
+  // リクエストIDから承認ルートテーブルから取得する
   async mounted() {
     if (this.approvalId) {
       const [err, res] = await this.$api.approval.getApprovals(this.approvalId)
@@ -42,14 +47,19 @@ export default class Approval extends Vue {
 
   //#region Methods
   updateApprovalStatus(data: Approvals.ApprovalRouteDetailResponse) {
+    // backendから取得した承認ルートIDと同一の承認ルートを探す
     const route = this.items.find(
       (t) => t.approval_route_id === data.approval_route_id
     )
+    // もしルートがなかったら終了
     if (!route) return
+    // ルートから承認ルートIDと同じ詳細情報を探す
     const routeDetail = route.approval_route_details.find(
       (t) => t.detail_no === data.detail_no
     )
+    // もしルート詳細情報がなかったら終了
     if (!routeDetail) return
+    // ルート詳細のステータスを変更する
     routeDetail.approval_status = data.approval_status
   }
   //#endregion
