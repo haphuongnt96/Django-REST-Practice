@@ -24,8 +24,7 @@ export default class Approval extends Vue {
   //#endregion
 
   //#region Computed
-  // requestIDではない？
-  get approvalId() {
+  get requestID() {
     // 遷移時にDashboardから渡されたリクエストIDを取得
     const id = this.$route.params.id
     // 文字列にして返す
@@ -36,8 +35,8 @@ export default class Approval extends Vue {
   //#region Hooks
   // リクエストIDから承認ルートテーブルから取得する
   async mounted() {
-    if (this.approvalId) {
-      const [err, res] = await this.$api.approval.getApprovals(this.approvalId)
+    if (this.requestID) {
+      const [err, res] = await this.$api.approval.getApprovals(this.requestID)
       if (!err && res) {
         this.items = res
       }

@@ -2,11 +2,11 @@ import { transformData } from '@/common/helpers'
 import service from './base'
 
 // リクエストIDから承認ルートを取得する
-export function getApprovals(id: string) {
+export function getApprovals(requestId: string) {
   return transformData(
     service.request<Approvals.ApprovalRouteResponse[]>({
       method: 'get',
-      url: `api/requests/${id}/approval_routes`
+      url: `api/requests/${requestId}/approval_routes`
     })
   )
 }
