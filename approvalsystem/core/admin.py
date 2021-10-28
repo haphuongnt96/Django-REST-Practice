@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from core.models import BusinessUnit, Department, Segment, Division, \
     Request, ApprovalRoute, ApprovalRouteDetail, ApprovalPost,\
-    RequestStatus
+    RequestStatus, Property
 
 
 class ApprovalRouteInline(admin.TabularInline):
@@ -20,8 +20,13 @@ class ApprovalRouteAdmin(admin.ModelAdmin):
 class RequestAdmin(admin.ModelAdmin):
     inlines = [ApprovalRouteInline]
 
+
 class RequestAdmin(admin.ModelAdmin):
     model = RequestStatus
+
+
+class PropertyAdmin(admin.ModelAdmin):
+    model = Property
 
 
 admin.site.register(BusinessUnit)
@@ -32,3 +37,4 @@ admin.site.register(Request, RequestAdmin)
 admin.site.register(ApprovalRoute, ApprovalRouteAdmin)
 admin.site.register(ApprovalPost)
 admin.site.register(RequestStatus, RequestAdmin)
+admin.site.register(Property)
