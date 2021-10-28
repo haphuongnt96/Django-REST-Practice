@@ -1,8 +1,11 @@
 from django.contrib import admin
 
-from core.models import BusinessUnit, Department, Segment, Division, \
-    Request, ApprovalRoute, ApprovalRouteDetail, ApprovalPost,\
-    RequestStatus
+from core.models import (
+    Department, Segment, Division, BusinessUnit,
+    Request, RequestStatus,
+    ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
+    ApprovalType, ApprovalClass, Choices, RequestDetailMaster, ColumnType
+)
 
 
 class ApprovalRouteInline(admin.TabularInline):
@@ -32,3 +35,8 @@ admin.site.register(Request, RequestAdmin)
 admin.site.register(ApprovalRoute, ApprovalRouteAdmin)
 admin.site.register(ApprovalPost)
 admin.site.register(RequestStatus, RequestAdmin)
+admin.site.register(ApprovalType)
+admin.site.register(ApprovalClass)
+admin.site.register(RequestDetailMaster)
+admin.site.register(Choices)
+admin.site.register(ColumnType)
