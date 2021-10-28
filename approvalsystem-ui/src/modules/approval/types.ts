@@ -27,13 +27,50 @@ declare namespace Approvals {
   }
 
   type ApprovalRouteCommentResponse = {
-    id : number,
-    request_id: string,
-    approval_route_id: string,
-    approval_type_cd: string,
-    comment_no: number,
-    comment: string,
-    emp_nm: string,
+    id: number
+    request_id: string
+    approval_route_id: string
+    approval_type_cd: string
+    comment_no: number
+    comment: string
+    emp_nm: string
     created: string
+  }
+
+  type GetAprrovalTypesResponse = {
+    approval_classes: ApprovalClass[]
+    approval_types: ApprovalType[]
+    divisions: ApprovalDivision[]
+    segments: ApprovalSegment[]
+  }
+
+  type ApprovalClass = {
+    approval_class_id: string
+    approval_class_nm: string
+  }
+
+  type ApprovalDetailFormHeader = {
+    approval_type_nm: string
+  }
+
+  type ApprovalType = {
+    approval_class_id: string
+    approval_class_nm: string
+    approval_type_id: string
+    approval_type_nm: string
+    division_id: string
+    division_nm: string
+    segment_id: string
+    segment_nm: string
+  }
+
+  type ApprovalDivision = {
+    division_id: string
+    division_nm: string
+  }
+
+  type ApprovalSegment = {
+    segment_id: string
+    segment_nm: string
   }
 }

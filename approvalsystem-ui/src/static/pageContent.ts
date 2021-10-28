@@ -157,6 +157,11 @@ const DASHBOARD = {
   POPUP_SEARCH_OBJ_INCHARGE: '担当者',
   BUTTON_CLEAR: 'クリア'
 }
+
+const APPLICATION_SEARCH_POPUP = {
+  APP_DEPARTMENT: '申請部署',
+  USER_DEPARTMENTS_BELONGED: 'ログイン者の部署'
+}
 const $pageContents = {
   APP_SIDE_BAR,
   APP_HEADER,
@@ -164,7 +169,8 @@ const $pageContents = {
   AUTHEN,
   DASHBOARD,
   APPROVAL_TABS,
-  COMMON
+  COMMON,
+  APPLICATION_SEARCH_POPUP
 }
 
 export default $pageContents

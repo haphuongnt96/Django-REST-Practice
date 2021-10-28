@@ -1,11 +1,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { format } from 'date-fns'
+import { Getter as G } from 'vuex-class'
+import { AuthD } from '@/store/typeD'
 
 @Component({
   components: {}
 })
-export default class RequestHeader extends Vue {
+export default class ApprovalRequestHeader extends Vue {
+  @G(...AuthD.getUser) user: Auth.User
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   format = format
   //#region COMPUTED
@@ -13,8 +16,8 @@ export default class RequestHeader extends Vue {
     return this.$pageContents.APPROVAL
   }
 
-  get departmentName() {
-    return this.$route.query.departmentName
+  get approvalType() {
+    return this.$route.query.approval_type_nm
   }
   //#endregion
 }
@@ -30,7 +33,7 @@ export default class RequestHeader extends Vue {
       </div>
       <div>
         <span class="mr-2">{{ contents.DEPARTMENT_NAME }}:</span>
-        <span class="text-body-1 txt-text-2">{{ departmentName }}</span>
+        <span class="text-body-1 txt-text-2">{{ approvalType }}</span>
       </div>
       <div class="d-flex align-center">
         <span class="mr-2">{{ contents.APP_DATE }}:</span>
@@ -40,7 +43,7 @@ export default class RequestHeader extends Vue {
       </div>
       <div class="d-flex align-center">
         <span class="mr-2">{{ contents.REQUEST_USER_NAME }}:</span>
-        <span class="text-body-1 txt-text-2">{{ contents.APP_TITLE }}</span>
+        <span class="text-body-1 txt-text-2">{{ user.emp_nm }}</span>
       </div>
     </div>
   </div>

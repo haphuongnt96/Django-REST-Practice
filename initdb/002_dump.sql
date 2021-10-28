@@ -263,6 +263,20 @@ CREATE TABLE public.django_session (
 ALTER TABLE public.django_session OWNER TO approval_user;
 
 --
+-- Name: m_approval_class; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_approval_class (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    approval_class_id character varying(1) NOT NULL,
+    approval_class_nm character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.m_approval_class OWNER TO approval_user;
+
+--
 -- Name: m_approval_post; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -289,6 +303,36 @@ CREATE TABLE public.m_business_unit (
 
 
 ALTER TABLE public.m_business_unit OWNER TO approval_user;
+
+--
+-- Name: m_choices; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_choices (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    choices_type_id character varying(3) NOT NULL,
+    choice_no integer NOT NULL,
+    choice_name character varying(10) NOT NULL,
+    CONSTRAINT m_choices_choice_no_check CHECK ((choice_no >= 0))
+);
+
+
+ALTER TABLE public.m_choices OWNER TO approval_user;
+
+--
+-- Name: m_column_type; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_column_type (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    column_type_id character varying(2) NOT NULL,
+    column_type_nm character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.m_column_type OWNER TO approval_user;
 
 --
 -- Name: m_department; Type: TABLE; Schema: public; Owner: approval_user
@@ -367,6 +411,60 @@ CREATE TABLE public.m_emp_user_permissions (
 ALTER TABLE public.m_emp_user_permissions OWNER TO approval_user;
 
 --
+-- Name: m_request_detail; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_request_detail (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    request_column_id character varying(4) NOT NULL,
+    required boolean NOT NULL,
+    max_length integer NOT NULL,
+    column_nm character varying(20) NOT NULL,
+    notes character varying(50) NOT NULL,
+    approval_type_id character varying(4),
+    column_type_id character varying(2),
+    CONSTRAINT m_request_detail_max_length_check CHECK ((max_length >= 0))
+);
+
+
+ALTER TABLE public.m_request_detail OWNER TO approval_user;
+
+--
+-- Name: m_request_detail_choices_type; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_request_detail_choices_type (
+    id bigint NOT NULL,
+    requestdetailmaster_id character varying(4) NOT NULL,
+    choices_id character varying(3) NOT NULL
+);
+
+
+ALTER TABLE public.m_request_detail_choices_type OWNER TO approval_user;
+
+--
+-- Name: m_request_detail_choices_type_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.m_request_detail_choices_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.m_request_detail_choices_type_id_seq OWNER TO approval_user;
+
+--
+-- Name: m_request_detail_choices_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.m_request_detail_choices_type_id_seq OWNED BY public.m_request_detail_choices_type.id;
+
+
+--
 -- Name: m_request_status; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -393,6 +491,70 @@ CREATE TABLE public.m_segment (
 
 
 ALTER TABLE public.m_segment OWNER TO approval_user;
+
+--
+-- Name: mm_approval_route; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.mm_approval_route (
+    id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    judge_cd character varying(1) NOT NULL,
+    "order" integer NOT NULL,
+    notification character varying(1),
+    required_num_approvals integer NOT NULL,
+    approval_post_id character varying(3),
+    approval_type_id character varying(4) NOT NULL,
+    department_id character varying(3),
+    division_id character varying(2),
+    emp_id bigint,
+    segment_id character varying(3),
+    CONSTRAINT mm_approval_route_order_check CHECK (("order" >= 0)),
+    CONSTRAINT mm_approval_route_required_num_approvals_check CHECK ((required_num_approvals >= 0))
+);
+
+
+ALTER TABLE public.mm_approval_route OWNER TO approval_user;
+
+--
+-- Name: mm_approval_route_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.mm_approval_route_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.mm_approval_route_id_seq OWNER TO approval_user;
+
+--
+-- Name: mm_approval_route_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.mm_approval_route_id_seq OWNED BY public.mm_approval_route.id;
+
+
+--
+-- Name: mm_approval_type; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.mm_approval_type (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    approval_type_id character varying(4) NOT NULL,
+    approval_type_nm character varying(30) NOT NULL,
+    can_read character varying(1) NOT NULL,
+    approval_class_id character varying(1),
+    division_id character varying(2),
+    segment_id character varying(3)
+);
+
+
+ALTER TABLE public.mm_approval_type OWNER TO approval_user;
 
 --
 -- Name: t_approval_route; Type: TABLE; Schema: public; Owner: approval_user
@@ -757,6 +919,20 @@ ALTER TABLE ONLY public.m_emp_user_permissions ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: m_request_detail_choices_type id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail_choices_type ALTER COLUMN id SET DEFAULT nextval('public.m_request_detail_choices_type_id_seq'::regclass);
+
+
+--
+-- Name: mm_approval_route id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route ALTER COLUMN id SET DEFAULT nextval('public.mm_approval_route_id_seq'::regclass);
+
+
+--
 -- Name: t_approval_route approval_route_id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -891,6 +1067,30 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 70	Can change request status	18	change_requeststatus
 71	Can delete request status	18	delete_requeststatus
 72	Can view request status	18	view_requeststatus
+73	Can add choices	19	add_choices
+74	Can change choices	19	change_choices
+75	Can delete choices	19	delete_choices
+76	Can view choices	19	view_choices
+77	Can add approval class	20	add_approvalclass
+78	Can change approval class	20	change_approvalclass
+79	Can delete approval class	20	delete_approvalclass
+80	Can view approval class	20	view_approvalclass
+81	Can add approval route master	21	add_approvalroutemaster
+82	Can change approval route master	21	change_approvalroutemaster
+83	Can delete approval route master	21	delete_approvalroutemaster
+84	Can view approval route master	21	view_approvalroutemaster
+85	Can add request detail master	22	add_requestdetailmaster
+86	Can change request detail master	22	change_requestdetailmaster
+87	Can delete request detail master	22	delete_requestdetailmaster
+88	Can view request detail master	22	view_requestdetailmaster
+89	Can add column type	23	add_columntype
+90	Can change column type	23	change_columntype
+91	Can delete column type	23	delete_columntype
+92	Can view column type	23	view_columntype
+93	Can add approval type	24	add_approvaltype
+94	Can change approval type	24	change_approvaltype
+95	Can delete approval type	24	delete_approvaltype
+96	Can view approval type	24	view_approvaltype
 \.
 
 
@@ -928,6 +1128,12 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 16	token_blacklist	outstandingtoken
 17	core	approvalroutecomment
 18	core	requeststatus
+19	core	choices
+20	core	approvalclass
+21	core	approvalroutemaster
+22	core	requestdetailmaster
+23	core	columntype
+24	core	approvaltype
 \.
 
 
@@ -973,6 +1179,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 35	core	0002_auto_20211026_1745	2021-10-26 08:45:51.102135+00
 36	core	0003_request_status	2021-10-26 08:47:27.345651+00
 37	core	0004_rename_business_unit_cd_businessunit_business_unit_id	2021-10-26 08:58:28.34386+00
+38	core	0002_approvalclass_approvalroutemaster_approvaltype_choices_columntype_requestdetailmaster	2021-10-28 07:53:52.925167+00
 \.
 
 
@@ -983,6 +1190,14 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 yigkgqjbcblyj2kpe7pu8lmemsyrdilg	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mSuEQ:hq6EKgyBgorOQ5MCJ2sRGsU0xMe0_OWc9hyLLCR9Lz8	2021-10-06 04:51:42.239745+00
 ihx16sdmo21hminnfw3eisnykee4dcha	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mV27a:jRpvK8lAur5PUTtuPD_StdV9imefYq1NXX6tNs7s5f4	2021-10-12 01:41:26.094011+00
+\.
+
+
+--
+-- Data for Name: m_approval_class; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_approval_class (created, modified, approval_class_id, approval_class_nm) FROM stdin;
 \.
 
 
@@ -1003,6 +1218,22 @@ COPY public.m_approval_post (created, modified, approval_post_cd, approval_post_
 
 COPY public.m_business_unit (created, modified, business_unit_id, business_unit_nm) FROM stdin;
 2021-10-26 08:52:48.869+00	2021-10-26 08:52:52.346+00	01	事業部1
+\.
+
+
+--
+-- Data for Name: m_choices; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_choices (created, modified, choices_type_id, choice_no, choice_name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_column_type; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_column_type (created, modified, column_type_id, column_type_nm) FROM stdin;
 \.
 
 
@@ -1051,6 +1282,22 @@ COPY public.m_emp_user_permissions (id, user_id, permission_id) FROM stdin;
 
 
 --
+-- Data for Name: m_request_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_request_detail (created, modified, request_column_id, required, max_length, column_nm, notes, approval_type_id, column_type_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_request_detail_choices_type; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_request_detail_choices_type (id, requestdetailmaster_id, choices_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: m_request_status; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
@@ -1065,6 +1312,22 @@ COPY public.m_request_status (created, modified, status_id, status_nm) FROM stdi
 
 COPY public.m_segment (created, modified, segment_id, segment_nm) FROM stdin;
 2021-10-26 08:54:37.912+00	2021-10-26 08:54:41.625+00	100	セグメント100
+\.
+
+
+--
+-- Data for Name: mm_approval_route; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.mm_approval_route (id, created, modified, judge_cd, "order", notification, required_num_approvals, approval_post_id, approval_type_id, department_id, division_id, emp_id, segment_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: mm_approval_type; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.mm_approval_type (created, modified, approval_type_id, approval_type_nm, can_read, approval_class_id, division_id, segment_id) FROM stdin;
 \.
 
 
@@ -1154,7 +1417,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 72, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 96, true);
 
 
 --
@@ -1168,14 +1431,28 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 18, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 24, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 37, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 38, true);
+
+
+--
+-- Name: m_request_detail_choices_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.m_request_detail_choices_type_id_seq', 1, false);
+
+
+--
+-- Name: mm_approval_route_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.mm_approval_route_id_seq', 1, false);
 
 
 --
@@ -1330,6 +1607,14 @@ ALTER TABLE ONLY public.django_session
 
 
 --
+-- Name: m_approval_class m_approval_class_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_approval_class
+    ADD CONSTRAINT m_approval_class_pkey PRIMARY KEY (approval_class_id);
+
+
+--
 -- Name: m_approval_post m_approval_post_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -1343,6 +1628,22 @@ ALTER TABLE ONLY public.m_approval_post
 
 ALTER TABLE ONLY public.m_business_unit
     ADD CONSTRAINT m_business_unit_pkey PRIMARY KEY (business_unit_id);
+
+
+--
+-- Name: m_choices m_choices_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_choices
+    ADD CONSTRAINT m_choices_pkey PRIMARY KEY (choices_type_id);
+
+
+--
+-- Name: m_column_type m_column_type_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_column_type
+    ADD CONSTRAINT m_column_type_pkey PRIMARY KEY (column_type_id);
 
 
 --
@@ -1362,6 +1663,30 @@ ALTER TABLE ONLY public.m_division
 
 
 --
+-- Name: m_request_detail_choices_type m_request_detail_choices_requestdetailmaster_id_c_0a994816_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail_choices_type
+    ADD CONSTRAINT m_request_detail_choices_requestdetailmaster_id_c_0a994816_uniq UNIQUE (requestdetailmaster_id, choices_id);
+
+
+--
+-- Name: m_request_detail_choices_type m_request_detail_choices_type_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail_choices_type
+    ADD CONSTRAINT m_request_detail_choices_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: m_request_detail m_request_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail
+    ADD CONSTRAINT m_request_detail_pkey PRIMARY KEY (request_column_id);
+
+
+--
 -- Name: m_request_status m_request_status_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -1375,6 +1700,22 @@ ALTER TABLE ONLY public.m_request_status
 
 ALTER TABLE ONLY public.m_segment
     ADD CONSTRAINT m_segment_pkey PRIMARY KEY (segment_id);
+
+
+--
+-- Name: mm_approval_route mm_approval_route_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mm_approval_type mm_approval_type_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_type
+    ADD CONSTRAINT mm_approval_type_pkey PRIMARY KEY (approval_type_id);
 
 
 --
@@ -1554,6 +1895,13 @@ CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session U
 
 
 --
+-- Name: m_approval_class_approval_class_id_2e95ca75_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_approval_class_approval_class_id_2e95ca75_like ON public.m_approval_class USING btree (approval_class_id varchar_pattern_ops);
+
+
+--
 -- Name: m_approval_post_approval_post_cd_2fcf98d8_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -1565,6 +1913,20 @@ CREATE INDEX m_approval_post_approval_post_cd_2fcf98d8_like ON public.m_approval
 --
 
 CREATE INDEX m_business_unit_business_unit_cd_29f642a3_like ON public.m_business_unit USING btree (business_unit_id varchar_pattern_ops);
+
+
+--
+-- Name: m_choices_choices_type_id_b31ee416_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_choices_choices_type_id_b31ee416_like ON public.m_choices USING btree (choices_type_id varchar_pattern_ops);
+
+
+--
+-- Name: m_column_type_column_type_id_71400c85_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_column_type_column_type_id_71400c85_like ON public.m_column_type USING btree (column_type_id varchar_pattern_ops);
 
 
 --
@@ -1589,6 +1951,69 @@ CREATE INDEX m_emp_emp_cd_68c49e31_like ON public.m_emp USING btree (emp_cd varc
 
 
 --
+-- Name: m_request_detail_approval_type_id_c469b8c0; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_approval_type_id_c469b8c0 ON public.m_request_detail USING btree (approval_type_id);
+
+
+--
+-- Name: m_request_detail_approval_type_id_c469b8c0_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_approval_type_id_c469b8c0_like ON public.m_request_detail USING btree (approval_type_id varchar_pattern_ops);
+
+
+--
+-- Name: m_request_detail_choices_requestdetailmaster_id_b48c3459_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_choices_requestdetailmaster_id_b48c3459_like ON public.m_request_detail_choices_type USING btree (requestdetailmaster_id varchar_pattern_ops);
+
+
+--
+-- Name: m_request_detail_choices_type_choices_id_927379bb; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_choices_type_choices_id_927379bb ON public.m_request_detail_choices_type USING btree (choices_id);
+
+
+--
+-- Name: m_request_detail_choices_type_choices_id_927379bb_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_choices_type_choices_id_927379bb_like ON public.m_request_detail_choices_type USING btree (choices_id varchar_pattern_ops);
+
+
+--
+-- Name: m_request_detail_choices_type_requestdetailmaster_id_b48c3459; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_choices_type_requestdetailmaster_id_b48c3459 ON public.m_request_detail_choices_type USING btree (requestdetailmaster_id);
+
+
+--
+-- Name: m_request_detail_column_type_id_13481145; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_column_type_id_13481145 ON public.m_request_detail USING btree (column_type_id);
+
+
+--
+-- Name: m_request_detail_column_type_id_13481145_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_column_type_id_13481145_like ON public.m_request_detail USING btree (column_type_id varchar_pattern_ops);
+
+
+--
+-- Name: m_request_detail_request_column_id_a9909e8d_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_request_column_id_a9909e8d_like ON public.m_request_detail USING btree (request_column_id varchar_pattern_ops);
+
+
+--
 -- Name: m_request_status_status_id_b88e49fa_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -1600,6 +2025,132 @@ CREATE INDEX m_request_status_status_id_b88e49fa_like ON public.m_request_status
 --
 
 CREATE INDEX m_segment_segment_cd_75427e7d_like ON public.m_segment USING btree (segment_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_route_approval_post_id_f53fdd68; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_approval_post_id_f53fdd68 ON public.mm_approval_route USING btree (approval_post_id);
+
+
+--
+-- Name: mm_approval_route_approval_post_id_f53fdd68_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_approval_post_id_f53fdd68_like ON public.mm_approval_route USING btree (approval_post_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_route_approval_type_id_a7bce788; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_approval_type_id_a7bce788 ON public.mm_approval_route USING btree (approval_type_id);
+
+
+--
+-- Name: mm_approval_route_approval_type_id_a7bce788_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_approval_type_id_a7bce788_like ON public.mm_approval_route USING btree (approval_type_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_route_department_id_eef96e0d; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_department_id_eef96e0d ON public.mm_approval_route USING btree (department_id);
+
+
+--
+-- Name: mm_approval_route_department_id_eef96e0d_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_department_id_eef96e0d_like ON public.mm_approval_route USING btree (department_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_route_division_id_488626e2; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_division_id_488626e2 ON public.mm_approval_route USING btree (division_id);
+
+
+--
+-- Name: mm_approval_route_division_id_488626e2_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_division_id_488626e2_like ON public.mm_approval_route USING btree (division_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_route_emp_id_f2e0b3fe; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_emp_id_f2e0b3fe ON public.mm_approval_route USING btree (emp_id);
+
+
+--
+-- Name: mm_approval_route_segment_id_c57491ad; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_segment_id_c57491ad ON public.mm_approval_route USING btree (segment_id);
+
+
+--
+-- Name: mm_approval_route_segment_id_c57491ad_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_route_segment_id_c57491ad_like ON public.mm_approval_route USING btree (segment_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_type_approval_class_id_2a9c16a1; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_approval_class_id_2a9c16a1 ON public.mm_approval_type USING btree (approval_class_id);
+
+
+--
+-- Name: mm_approval_type_approval_class_id_2a9c16a1_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_approval_class_id_2a9c16a1_like ON public.mm_approval_type USING btree (approval_class_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_type_approval_type_id_c4e9d805_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_approval_type_id_c4e9d805_like ON public.mm_approval_type USING btree (approval_type_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_type_division_id_f92f5eae; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_division_id_f92f5eae ON public.mm_approval_type USING btree (division_id);
+
+
+--
+-- Name: mm_approval_type_division_id_f92f5eae_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_division_id_f92f5eae_like ON public.mm_approval_type USING btree (division_id varchar_pattern_ops);
+
+
+--
+-- Name: mm_approval_type_segment_id_7f9c5308; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_segment_id_7f9c5308 ON public.mm_approval_type USING btree (segment_id);
+
+
+--
+-- Name: mm_approval_type_segment_id_7f9c5308_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX mm_approval_type_segment_id_7f9c5308_like ON public.mm_approval_type USING btree (segment_id varchar_pattern_ops);
 
 
 --
@@ -1857,6 +2408,110 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_request_detail m_request_detail_approval_type_id_c469b8c0_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail
+    ADD CONSTRAINT m_request_detail_approval_type_id_c469b8c0_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_request_detail_choices_type m_request_detail_cho_choices_id_927379bb_fk_m_choices; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail_choices_type
+    ADD CONSTRAINT m_request_detail_cho_choices_id_927379bb_fk_m_choices FOREIGN KEY (choices_id) REFERENCES public.m_choices(choices_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_request_detail_choices_type m_request_detail_cho_requestdetailmaster__b48c3459_fk_m_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail_choices_type
+    ADD CONSTRAINT m_request_detail_cho_requestdetailmaster__b48c3459_fk_m_request FOREIGN KEY (requestdetailmaster_id) REFERENCES public.m_request_detail(request_column_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_request_detail m_request_detail_column_type_id_13481145_fk_m_column_; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail
+    ADD CONSTRAINT m_request_detail_column_type_id_13481145_fk_m_column_ FOREIGN KEY (column_type_id) REFERENCES public.m_column_type(column_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_route mm_approval_route_approval_post_id_f53fdd68_fk_m_approva; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_approval_post_id_f53fdd68_fk_m_approva FOREIGN KEY (approval_post_id) REFERENCES public.m_approval_post(approval_post_cd) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_route mm_approval_route_approval_type_id_a7bce788_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_approval_type_id_a7bce788_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_route mm_approval_route_department_id_eef96e0d_fk_m_departm; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_department_id_eef96e0d_fk_m_departm FOREIGN KEY (department_id) REFERENCES public.m_department(department_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_route mm_approval_route_division_id_488626e2_fk_m_divisio; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_division_id_488626e2_fk_m_divisio FOREIGN KEY (division_id) REFERENCES public.m_division(division_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_route mm_approval_route_emp_id_f2e0b3fe_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_emp_id_f2e0b3fe_fk_m_emp_id FOREIGN KEY (emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_route mm_approval_route_segment_id_c57491ad_fk_m_segment_segment_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_route
+    ADD CONSTRAINT mm_approval_route_segment_id_c57491ad_fk_m_segment_segment_id FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_type mm_approval_type_approval_class_id_2a9c16a1_fk_m_approva; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_type
+    ADD CONSTRAINT mm_approval_type_approval_class_id_2a9c16a1_fk_m_approva FOREIGN KEY (approval_class_id) REFERENCES public.m_approval_class(approval_class_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_type mm_approval_type_division_id_f92f5eae_fk_m_division_division_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_type
+    ADD CONSTRAINT mm_approval_type_division_id_f92f5eae_fk_m_division_division_id FOREIGN KEY (division_id) REFERENCES public.m_division(division_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: mm_approval_type mm_approval_type_segment_id_7f9c5308_fk_m_segment_segment_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.mm_approval_type
+    ADD CONSTRAINT mm_approval_type_segment_id_7f9c5308_fk_m_segment_segment_id FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
