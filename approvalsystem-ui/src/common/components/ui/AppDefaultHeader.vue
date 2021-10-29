@@ -37,7 +37,12 @@ export default class AppDefaultHeader extends Vue {
   <v-app-bar app fixed dense color="#93B5C6">
     <div class="text-h6 txt-white">{{ contents.title }}</div>
     <v-spacer />
-    <v-btn v-if="loggedIn" color="grey" class="mr-3" to="/dashboard">
+    <v-btn
+      v-if="loggedIn && $route.path !== '/dashboard'"
+      color="grey"
+      class="mr-3"
+      to="/dashboard"
+    >
       {{ contents.BACK }}
     </v-btn>
     <div v-if="loggedIn" class="txt-white mr-3">
