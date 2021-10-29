@@ -15,6 +15,11 @@ export default class AppDefaultHeader extends Vue {
   }
   //#endregion
 
+  get loggedIn(): boolean {
+    const loggedIn = localStorage.getItem('vue-token')
+    return !!loggedIn
+  }
+
   async handleLogout() {
     const [err, res] = await this.$api.authen.doLogout()
     if (!err && res) {
@@ -32,10 +37,10 @@ export default class AppDefaultHeader extends Vue {
   <v-app-bar app fixed dense color="#93B5C6">
     <div class="text-h6 txt-white">{{ contents.title }}</div>
     <v-spacer />
-    <v-btn color="grey" class="mr-3" to="/dashboard">
+    <v-btn v-if="loggedIn" color="grey" class="mr-3" to="/dashboard">
       {{ contents.BACK }}
     </v-btn>
-    <div class="txt-white mr-3">
+    <div v-if="loggedIn" class="txt-white mr-3">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="user__dropdown" v-bind="attrs" v-on="on">
