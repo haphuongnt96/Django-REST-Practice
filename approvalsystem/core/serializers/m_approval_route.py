@@ -3,8 +3,9 @@ from rest_framework import serializers
 
 from core.models import (
     ApprovalType, ApprovalClass, ApprovalRouteMaster,
-    Choices, RequestDetailMaster
+    Choice, RequestDetailMaster
 )
+from utils.serializers import RecursiveField
 from .organization import SegmentSerializer, DivisionSerializer
 
 
@@ -45,17 +46,45 @@ class ListApprovalTypeSerializer(serializers.Serializer):
 
 class ChoicesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Choices
+        model = Choice
         fields = [
-            'choices_type_id',
-            'choice_no',
+            'choice_id',
             'choice_nm',
         ]
 
 
+class ApprovalRouteMasterSerializer(serializers.ModelSerializer):
+    department_nm = serializers.CharField(read_only=True)
+    segment_nm = serializers.CharField(read_only=True)
+    division_nm = serializers.CharField(read_only=True)
+    approval_post_nm = serializers.CharField(read_only=True)
+    emp_nm = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = ApprovalRouteMaster
+        fields = [
+            'approval_type_id',
+            'judge_cd',
+            'department_id',
+            'department_nm',
+            'segment_id',
+            'segment_nm',
+            'division_id',
+            'division_nm',
+            'order',
+            'notification',
+            'approval_post_id',
+            'approval_post_nm',
+            'emp_id',
+            'emp_nm',
+            'required_num_approvals',
+        ]
+
+
 class RequestDetailMasterSerializer(serializers.ModelSerializer):
+    request_detail_children = RecursiveField(many=True)
     column_type_nm = serializers.CharField(read_only=True)
-    choices_type = ChoicesSerializer(many=True)
+    choices = ChoicesSerializer(many=True)
 
     class Meta:
         model = RequestDetailMaster
@@ -66,12 +95,14 @@ class RequestDetailMasterSerializer(serializers.ModelSerializer):
             'column_type_nm',
             'required',
             'max_length',
-            'choices_type',
+            'choices',
+            'request_detail_children',
         ]
 
 
 class DetailApprovalTypeSerializer(serializers.Serializer):
-    m_request_details = RequestDetailMasterSerializer(many=True)
+    m_request_details = RequestDetailMasterSerializer(many=True, source='m_request_details_fetchall')
+    m_approval_routes = ApprovalRouteMasterSerializer(many=True, source='m_approval_routes_fetchall')
 
     class Meta:
         model = ApprovalType
