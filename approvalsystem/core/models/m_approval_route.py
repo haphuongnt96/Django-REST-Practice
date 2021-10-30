@@ -135,6 +135,9 @@ class RequestDetailMaster(BaseModel):
     class Meta:
         db_table = 'm_request_detail'
 
+    def __str__(self):
+        return self.column_nm
+
 
 class Choice(BaseModel):
     request_column = models.ForeignKey(

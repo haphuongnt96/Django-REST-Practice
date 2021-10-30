@@ -26,12 +26,20 @@ class ChoiceInline(admin.TabularInline):
     model = Choice
 
 
+class RequestDetailMasterInline(admin.TabularInline):
+    model = RequestDetailMaster
+    show_change_link = True
+
+
 class ApprovalRouteAdmin(admin.ModelAdmin):
     inlines = [ApprovalRouteDetailInline]
 
 
 class ApprovalTypeAdmin(admin.ModelAdmin):
-    inlines = [ApprovalRouteMasterInline]
+    inlines = [
+        ApprovalRouteMasterInline,
+        RequestDetailMasterInline,
+    ]
 
 
 class RequestAdmin(admin.ModelAdmin):
