@@ -43,14 +43,11 @@ class ApprovalType(BaseModel):
         return self.approval_type_nm
 
     @property
-    def m_request_details_fetchall(self):
-        # filter only root request detail (parent_column == None)
-        queryset = self.m_request_details.filter(parent_column=None)
-        # join m_column_type table & prefetch m_choices
-        queryset = queryset.annotate(
-            column_type_nm=F('column_type__column_type_nm'),
-        ).prefetch_related('choices')
-        return queryset
+    def root_request_details(self):
+        """
+        Filter root request details
+        """
+        return self.m_request_details.filter(parent_column=None)
 
     @property
     def m_approval_routes_fetchall(self):
@@ -111,6 +108,12 @@ class ColumnType(BaseModel):
         return self.column_type_nm
 
 
+class RequestDetailMasterManager(models.Manager):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.annotate(column_type_nm=F('column_type__column_type_nm'))
+
+
 class RequestDetailMaster(BaseModel):
     approval_type = models.ForeignKey(
         ApprovalType, on_delete=models.SET_NULL,
@@ -132,11 +135,14 @@ class RequestDetailMaster(BaseModel):
     column_nm = models.CharField(max_length=30, blank=True)
     notes = models.CharField(max_length=50, blank=True)
 
+    objects = RequestDetailMasterManager()
+
     class Meta:
         db_table = 'm_request_detail'
+        ordering = ['request_column_id']
 
     def __str__(self):
-        return self.column_nm
+        return '{}. {}'.format(self.request_column_id, self.column_nm)
 
 
 class Choice(BaseModel):

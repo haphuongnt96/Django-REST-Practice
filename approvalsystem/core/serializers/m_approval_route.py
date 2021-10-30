@@ -96,12 +96,13 @@ class RequestDetailMasterSerializer(serializers.ModelSerializer):
             'required',
             'max_length',
             'choices',
+            'notes',
             'request_detail_children',
         ]
 
 
 class DetailApprovalTypeSerializer(serializers.Serializer):
-    m_request_details = RequestDetailMasterSerializer(many=True, source='m_request_details_fetchall')
+    m_request_details = RequestDetailMasterSerializer(many=True, source='root_request_details')
     m_approval_routes = ApprovalRouteMasterSerializer(many=True, source='m_approval_routes_fetchall')
 
     class Meta:

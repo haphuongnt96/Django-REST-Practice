@@ -55,7 +55,10 @@ class PropertyAdmin(admin.ModelAdmin):
 
 
 class RequestDetailMasterAdmin(admin.ModelAdmin):
-    inlines = [ChoiceInline]
+    inlines = [
+        ChoiceInline,
+        RequestDetailMasterInline,
+    ]
 
 
 admin.site.register(BusinessUnit)
