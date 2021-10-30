@@ -1,12 +1,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ApprovalSearchPopup from '@/modules/approval/components/ApprovalSearchPopup.vue'
+import CreateApplicationPopup from '@/modules/approval/components/CreateApplicationPopup.vue'
 import { Routes } from '@/router'
 
-@Component({ components: { ApprovalSearchPopup } })
+@Component({ components: { CreateApplicationPopup } })
 export default class DashboardSideBar extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  departmentName = ''
   isOpen = false
 
   //#region COMPUTED
@@ -16,11 +15,10 @@ export default class DashboardSideBar extends Vue {
   //#endregion
 
   //#region Methods
-  setDataSearch(value: { department: string }) {
-    this.departmentName = value.department
+  setDataSearch(approvalType: Approvals.ApprovalType) {
     this.$router.push({
       name: Routes.approval.name,
-      query: { departmentName: this.departmentName }
+      query: { approval_type_nm: approvalType.approval_type_nm }
     })
   }
   //#endregion
@@ -42,7 +40,7 @@ export default class DashboardSideBar extends Vue {
             >
               {{ contents.APPLICANT_CREATE_NEW }}
             </v-btn>
-            <ApprovalSearchPopup
+            <CreateApplicationPopup
               v-model="isOpen"
               v-if="isOpen"
               @setDataSearch="setDataSearch"
@@ -150,7 +148,7 @@ export default class DashboardSideBar extends Vue {
         </ul>
       </li>
       <li class="nav__menu--items">
-        <a href="#">{{ contents.APPROVER }}</a>
+        <a href="#">{{ contents.NOTIFIER }}</a>
         <ul class="nav__submenu">
           <li class="nav__submenu--items">
             <a href="#">

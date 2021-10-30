@@ -7,21 +7,38 @@ from django.conf import settings
 from utils.base_model import BaseModel
 
 from .request import Request
-from .organization import Department, Segment, Division
+from .organization import BusinessUnit, Department, Segment, Division
 
 
 class ApprovalRoute(BaseModel):
     request_id = models.ForeignKey(
-        Request, on_delete=models.CASCADE
+        Request, on_delete=models.CASCADE,
+        related_name= 'approvalroute'
     )
     approval_route_id = models.AutoField(primary_key=True)
     approval_type_cd = models.CharField(max_length=5)
     judgement_cd = models.CharField(
         max_length=1, null=True, blank=True
     )
-    request_emp_cd = models.ForeignKey(
+    request_emp = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         max_length=7, null=True, blank=True,
+    )
+    business_unit = models.ForeignKey(
+        BusinessUnit, on_delete=models.SET_NULL,
+        max_length=2, null=True, blank=True,
+    )
+    department = models.ForeignKey(
+        Department, on_delete=models.SET_NULL,
+        max_length=3, null=True, blank=True,
+    )
+    segment = models.ForeignKey(
+        Segment, on_delete=models.SET_NULL,
+        max_length=3, null=True, blank=True,
+    )
+    division = models.ForeignKey(
+        Division, on_delete=models.SET_NULL,
+        max_length=2, null=True, blank=True,
     )
 
     class Meta:

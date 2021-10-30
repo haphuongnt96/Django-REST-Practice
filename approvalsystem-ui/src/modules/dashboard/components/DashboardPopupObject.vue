@@ -132,6 +132,7 @@ export default class DashboardPopupObject extends Vue {
                       ></v-text-field>
                     </td>
                     <td class="inline__element">
+                      <!-- disabled="!valid" フォームが有効になるまでボタンを非活性  -->
                       <v-btn :disabled="!valid" class="mr-4">
                         {{ contents.FORM_SEARCH }}
                       </v-btn>

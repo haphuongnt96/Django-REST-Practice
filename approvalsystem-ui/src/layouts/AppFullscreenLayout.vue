@@ -1,7 +1,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import AppDefaultHeader from '@/common/components/ui/AppDefaultHeader.vue'
 
-@Component({ components: {} })
+@Component({ components: { AppDefaultHeader } })
 export default class AppFullscreenLayout extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
 }
@@ -9,6 +10,7 @@ export default class AppFullscreenLayout extends Vue {
 
 <template>
   <v-main>
+    <AppDefaultHeader />
     <v-layout column fill-height fill-width>
       <v-flex class="flex overflow-auto">
         <router-view></router-view>

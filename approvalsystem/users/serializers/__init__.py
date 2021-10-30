@@ -1,2 +1,1 @@
-from .users import UserDetailSerializer
-from .users import UserPassSerializer
+from .users import *
