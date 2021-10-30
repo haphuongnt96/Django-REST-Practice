@@ -1,0 +1,56 @@
+[
+  {
+    "model": "core.columntype",
+    "pk": "01",
+    "fields": {
+      "created": "2021-10-30T04:05:47.076Z",
+      "modified": "2021-10-30T09:38:25.230Z",
+      "column_type_nm": "header"
+    }
+  },
+  {
+    "model": "core.columntype",
+    "pk": "02",
+    "fields": {
+      "created": "2021-10-30T09:38:31.543Z",
+      "modified": "2021-10-30T09:39:13.909Z",
+      "column_type_nm": "text"
+    }
+  },
+  {
+    "model": "core.columntype",
+    "pk": "03",
+    "fields": {
+      "created": "2021-10-30T09:39:24.043Z",
+      "modified": "2021-10-30T09:39:24.043Z",
+      "column_type_nm": "number"
+    }
+  },
+  {
+    "model": "core.columntype",
+    "pk": "04",
+    "fields": {
+      "created": "2021-10-30T09:39:42.641Z",
+      "modified": "2021-10-30T09:39:42.641Z",
+      "column_type_nm": "radio"
+    }
+  },
+  {
+    "model": "core.columntype",
+    "pk": "05",
+    "fields": {
+      "created": "2021-10-30T09:39:55.823Z",
+      "modified": "2021-10-30T09:39:55.823Z",
+      "column_type_nm": "checkbox"
+    }
+  },
+  {
+    "model": "core.columntype",
+    "pk": "06",
+    "fields": {
+      "created": "2021-10-30T09:40:14.822Z",
+      "modified": "2021-10-30T09:40:14.823Z",
+      "column_type_nm": "selection"
+    }
+  }
+]
