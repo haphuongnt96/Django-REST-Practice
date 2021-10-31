@@ -48,3 +48,12 @@ export function getApproveTypes() {
     })
   )
 }
+
+export function getApproveTypeById(id: string) {
+  return transformData(
+    service.request<Approvals.GetAprrovalTypeResponse>({
+      method: 'get',
+      url: `api/approval_types/${id}`
+    })
+  )
+}

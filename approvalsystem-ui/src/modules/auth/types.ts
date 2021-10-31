@@ -6,5 +6,8 @@ declare namespace Auth {
     password: string
     access: string
     refresh: string
+    affiliations: Affiliation[]
   }
+
+  type Affiliation = Department.Department & Segment.Segment
 }

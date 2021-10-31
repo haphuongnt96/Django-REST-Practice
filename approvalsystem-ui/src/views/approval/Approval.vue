@@ -1,12 +1,11 @@
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator'
-import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
-import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequestHeader.vue'
+import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunction.vue'
 import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequestDetail.vue'
+import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequestHeader.vue'
+import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
-import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {
@@ -20,6 +19,7 @@ import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 })
 export default class Approval extends Vue {
   //#region Data
+  m_request_details: ApplicationForm.RequestDetail[] = []
   items: Approvals.ApprovalRouteResponse[] = []
   fixed = false
   //#endregion
@@ -29,17 +29,32 @@ export default class Approval extends Vue {
     const id = this.$route.query.id
     return id ? id.toString() : ''
   }
+
+  get approvalTypeId() {
+    const id = this.$route.query.approval_type_id
+    return id ? id.toString() : ''
+  }
   //#endregion
 
   //#region Hooks
-  async mounted() {
-    window.addEventListener('scroll', this.handleScroll)
-    if (this.approvalId) {
+  async created() {
+    if (this.approvalTypeId) {
+      const [err, res] = await this.$api.approval.getApproveTypeById('0001')
+      if (!err && res) {
+        const { m_approval_routes, m_request_details } = res
+        this.m_request_details = m_request_details
+        this.items = m_approval_routes
+      }
+    } else if (this.approvalId) {
       const [err, res] = await this.$api.approval.getApprovals(this.approvalId)
       if (!err && res) {
         this.items = res
       }
     }
+  }
+
+  async mounted() {
+    window.addEventListener('scroll', this.handleScroll)
   }
 
   //#endregion
@@ -74,16 +89,19 @@ export default class Approval extends Vue {
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
-        <ApprovalRequestDetail class="approval__detail" />
-        <div :style="{ width: '160px' }" ref="main-function">
+        <ApprovalRequestDetail
+          class="approval__detail"
+          :items="m_request_details"
+        />
+        <div ref="main-function" :style="{ width: '160px' }">
           <ApprovalMainFunction
-            @approval="updateApprovalStatus"
             :class="{ fixed }"
+            @approval="updateApprovalStatus"
           />
         </div>
       </v-container>
     </v-card>
-    <ApprovalSubFunction :commentCount="123" />
+    <ApprovalSubFunction :commentCount="9" />
   </v-container>
 </template>
 

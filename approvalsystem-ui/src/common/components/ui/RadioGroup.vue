@@ -6,8 +6,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component({})
 export default class RadioGroup extends Vue {
   //*===💧===💧===💧===💧===💧===💧===💧===💧===💧===💧===💧===💧Props
-  @Prop() items: string[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Prop() items: any[]
   @Prop() value: number
+  @Prop() itemText: string
+  @Prop() itemValue: string
   @Prop({ default: 2 }) itemsPerRow: number
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
   get current() {
@@ -25,9 +28,9 @@ export default class RadioGroup extends Vue {
     <div class="grid" :style="`--template-column: ${itemsPerRow}`">
       <v-radio
         v-for="item in items"
-        :key="item.value"
-        :value="item.value"
-        :label="item.text"
+        :key="item[itemValue]"
+        :value="item[itemValue]"
+        :label="item[itemText]"
       />
     </div>
   </v-radio-group>

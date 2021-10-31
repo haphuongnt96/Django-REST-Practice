@@ -1,6 +1,7 @@
 import config from '@/common/config'
 import RadioGroup from '@/common/components/ui/RadioGroup.vue'
-import { VSelect, VTextField } from 'vuetify/lib'
+import { VInput, VSelect, VTextField } from 'vuetify/lib'
+import { ColumnTypeName } from './enum'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
 
@@ -89,4 +90,106 @@ function mergeParentWithChildren(array: TableCell[]) {
     delete x.children
   })
   return [...noChild, ...parent, ...children]
+}
+
+export const childrenRow = (item: ApplicationForm.RequestDetail) => {
+  const component = {
+    [ColumnTypeName.SELECTION]: VSelect,
+    [ColumnTypeName.HEADER]: null,
+    [ColumnTypeName.TEXT]: VInput,
+    [ColumnTypeName.RADIO]: RadioGroup
+  }
+  const {
+    request_detail_children,
+    column_nm,
+    request_column_id,
+    column_type_nm,
+    notes,
+    choices
+  } = item
+  if (request_detail_children.length)
+    return [
+      [
+        {
+          text: `<span class="index--circle">${
+            +request_column_id - 1
+          }</span> ${column_nm}`,
+          style: { background: config.Colors.grey1, width: '15%' },
+          rowspan: request_detail_children.length
+        },
+        {
+          text: request_detail_children[0].column_nm,
+          style: { background: config.Colors.grey1, width: '20%' }
+        },
+        {
+          component: component[request_detail_children[0].column_type_nm],
+          style: { textAlign: 'center' },
+          choices
+        },
+        {
+          text: `※ ${notes}`,
+          className: 'fit-content',
+          style: { background: config.Colors.grey1, width: '12%' },
+          rowspan: request_detail_children.length
+        }
+      ],
+      ...request_detail_children.slice(1).map((x) => [
+        {
+          text: x.column_nm,
+          style: { background: config.Colors.grey1, width: '20%' }
+        },
+        {
+          component: component[column_type_nm],
+          style: { textAlign: 'center' },
+          choices
+        }
+      ])
+    ]
+  return [
+    {
+      text: `<span class="index--circle">${
+        +request_column_id - 1
+      }</span> ${column_nm}`,
+      style: { background: config.Colors.grey1, width: '20%' },
+      colspan: 2
+    },
+    {
+      component: component[column_type_nm],
+      style: { textAlign: 'center' },
+      choices
+    },
+    {
+      text: `※ ${notes}`,
+      className: 'fit-content',
+      style: { background: config.Colors.grey1, width: '12%' }
+    }
+  ]
+}
+
+export const drawTableElement = (item: ApplicationForm.RequestDetail) => {
+  return childrenRow(item)
+}
+
+export const drawTableHeader = (item: ApplicationForm.RequestDetail) => {
+  return {
+    text: item.column_nm,
+    colspan: 4,
+    style: { background: config.Colors.grey1 }
+  }
+}
+
+export const splitToTables = (items: ApplicationForm.RequestDetail[]) => {
+  const tables = {} as {
+    [key in string]: ApplicationForm.RequestDetail[]
+  }
+  items.reduce((acc, cur) => {
+    if (
+      cur.column_type_nm === ColumnTypeName.HEADER &&
+      !cur.request_detail_children.length
+    ) {
+      if (!acc[cur.column_nm]) acc[cur.column_nm] = [cur]
+      else acc[cur.column_nm].push(cur)
+    }
+    return acc
+  }, tables)
 }
