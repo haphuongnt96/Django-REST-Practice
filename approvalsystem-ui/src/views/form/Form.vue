@@ -1,7 +1,7 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import PropertyMasterRegistration from '@/static/forms/property-master-registration'
 import ListCheckbox from '@/common/components/ui/ListCheckbox.vue'
+import { drawTableElement, drawTableHeader } from '@/modules/form/helpers'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import RadioGroupCell from './RadioGroupCell.vue'
 //*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
 
@@ -9,57 +9,91 @@ import RadioGroupCell from './RadioGroupCell.vue'
   components: { ListCheckbox, RadioGroupCell }
 })
 export default class Form extends Vue {
+  //#region Prop
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  items: ApplicationForm.RequestDetail[]
+  //#endregion
+
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   formFields = []
+  drawTableElement = drawTableElement
+  drawTableHeader = drawTableHeader
 
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
-  get form() {
-    return PropertyMasterRegistration
-  }
 }
 </script>
 
 <template>
   <v-container fluid pa-0>
-    <template v-for="(table, tableIndex) in form.tables">
-      <template v-if="table.note">
-        <div v-html="table.note" :key="tableIndex"></div>
-      </template>
-      <v-simple-table v-else :key="tableIndex" :class="table.className">
+    <template v-for="item in items">
+      <v-simple-table :key="item.request_column_id">
         <thead>
           <th
-            v-for="header in table.headers"
-            :key="header.text"
-            :colspan="header.colspan"
-            :style="header.style"
+            :colspan="drawTableHeader(item).colspan"
+            :style="drawTableHeader(item).style"
           >
-            {{ header.text }}
+            {{ item.column_nm }}
           </th>
         </thead>
         <tbody>
-          <tr v-for="(row, i) in table.rows" :key="i">
-            <td
-              v-for="(cell, j) in row"
-              :key="i + j"
-              :style="cell.style"
-              :colspan="cell.colspan"
-              :rowspan="cell.rowspan"
-              :class="cell.className"
+          <template v-for="(row, i) in item.request_detail_children">
+            <tr v-if="!row.request_detail_children.length" :key="i">
+              <td
+                v-for="(cell, j) in drawTableElement(row)"
+                :key="i + j"
+                :style="cell.style"
+                :colspan="cell.colspan"
+                :rowspan="cell.rowspan"
+                :class="cell.className"
+              >
+                <component
+                  :is="cell.component"
+                  v-if="cell.component"
+                  dense
+                  hide-details="auto"
+                  outlined
+                  :items="cell.choices"
+                  item-text="choice_nm"
+                  item-value="choice_id"
+                />
+                <template v-else>
+                  <span v-html="cell.text" />
+                </template>
+              </td>
+            </tr>
+            <tr
+              v-for="(childRow, childRowIndex) in drawTableElement(row)"
+              v-else
+              :key="childRow.request_column_id"
             >
-              <component
-                dense
-                hide-details="auto"
-                v-if="cell.component"
-                :is="cell.component"
-                outlined
-                :label="cell.text"
-                :items="cell.items"
-              />
-              <template v-else>
-                <span v-html="cell.text" />
-              </template>
-            </td>
-          </tr>
+              <td
+                v-for="(cell, cellIndex) in childRow"
+                :key="childRowIndex + cellIndex"
+                :style="cell.style"
+                :colspan="cell.colspan"
+                :rowspan="cell.rowspan"
+                :class="cell.className"
+              >
+                <component
+                  :is="cell.component"
+                  v-if="cell.component"
+                  dense
+                  hide-details="auto"
+                  outlined
+                  :items="cell.choices"
+                  item-text="choice_nm"
+                  item-value="choice_id"
+                />
+                <template v-else>
+                  <span v-html="cell.text" />
+                </template>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </v-simple-table>
     </template>
