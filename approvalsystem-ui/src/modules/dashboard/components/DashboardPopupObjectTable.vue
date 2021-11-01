@@ -31,7 +31,7 @@ export default class DashboardPopupObjectTable extends Vue {
     { text: 'コード', align: 'center', value: 'property_id' },
     { text: '名称', align: 'center', value: 'property_nm' },
     { text: '住所', align: 'center', value: 'address' },
-    { text: '担当者', align: 'center', value: 'emp_cd.emp_nm' },
+    { text: '担当者', align: 'center', value: 'emp.emp_nm' },
     { text: '電話番号', align: 'center', value: 'tel_number' }
   ]
   // //#end

@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class PropertySerializer(serializers.ModelSerializer):
-    emp_cd = UserDetailSerializer(read_only=True)
+    emp = UserDetailSerializer(read_only=True)
 
     class Meta:
         model = Property
@@ -17,5 +17,5 @@ class PropertySerializer(serializers.ModelSerializer):
             'division_id',
             'address',
             'tel_number',
-            'emp_cd',
+            'emp',
         ]
