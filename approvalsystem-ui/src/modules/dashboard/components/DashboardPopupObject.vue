@@ -28,6 +28,9 @@ export default class DashboardPopupObject extends Vue {
     this.$emit('setObjectData', value)
     this.dialog = false
   }
+  getPropartyData() {
+    this.$refs.propertysearch.getpropartydata()
+  }
 }
 </script>
 
@@ -132,7 +135,11 @@ export default class DashboardPopupObject extends Vue {
                       ></v-text-field>
                     </td>
                     <td class="inline__element">
-                      <v-btn :disabled="!valid" class="mr-4">
+                      <v-btn
+                        :disabled="!valid"
+                        class="mr-4"
+                        @click="getPropartyData()"
+                      >
                         {{ contents.FORM_SEARCH }}
                       </v-btn>
                       <v-btn color="grey">
@@ -145,7 +152,7 @@ export default class DashboardPopupObject extends Vue {
             </v-form>
           </div>
           <div class="search__form-result">
-            <DashboardPopupObjectTable @applicationCotent="applicationCotent" />
+            <DashboardPopupObjectTable ref="propertysearch" />
           </div>
         </div>
       </v-card-text>

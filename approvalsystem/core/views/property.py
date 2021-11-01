@@ -12,4 +12,3 @@ from core.serializers import PropertySerializer
 class PropertyGetListAPI(ListAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
-

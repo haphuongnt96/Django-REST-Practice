@@ -15,4 +15,7 @@ class Property(BaseModel):
     division_id = models.ForeignKey(Division, on_delete=models.CASCADE)
     address = models.CharField(max_length=200)
     emp_cd = models.ForeignKey(User, on_delete=models.CASCADE)
-    tel_number = models.CharField(max_length=10)
+    tel_number = models.CharField(max_length=13)
+
+    def __str__(self):
+        return self.property_nm
