@@ -34,13 +34,6 @@ export default class AppDefaultHeader extends Vue {
       alert('logout fail')
     }
   }
-  //mounted時に行う処理でユーザー情報を取得する
-  async mounted() {
-    const [err, res] = await this.$api.authen.getUserInfo()
-    if (!err && res) {
-      this.user = res
-    }
-  }
 }
 </script>
 
