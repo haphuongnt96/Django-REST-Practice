@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from core.models import Property
+from users.serializers import UserDetailSerializer
+from django.utils.translation import gettext_lazy as _
 
 
 class PropertySerializer(serializers.ModelSerializer):
+    emp_cd = UserDetailSerializer(read_only=True)
+
     class Meta:
         model = Property
         fields = [
@@ -12,6 +16,6 @@ class PropertySerializer(serializers.ModelSerializer):
             'segment_id',
             'division_id',
             'address',
-            'emp_cd',
             'tel_number',
+            'emp_cd',
         ]

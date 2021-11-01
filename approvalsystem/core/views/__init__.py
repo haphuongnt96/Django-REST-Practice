@@ -9,3 +9,6 @@ from .approval_route_comment import (
 from .request import (
     RequestGetListAPI,
 )
+from .property import (
+    PropertyGetListAPI,
+)
