@@ -1,31 +1,16 @@
 # -*- coding: utf-8 -*-
-from rest_framework.generics import ListAPIView, UpdateAPIView, \
-    RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied, NotFound
-from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 
-from core.models import Request, ApprovalRoute, ApprovalRouteDetail
-from core.serializers import ApprovalRouteSerializer, \
-    UpdateStatusApprovalRouteDetailSerializer, SummaryApprovalRouteDetailSerializer
-
-
-class ApprovalRouteListAPI(ListAPIView):
-    queryset = ApprovalRoute.objects.order_by('-created').all()
-    serializer_class = ApprovalRouteSerializer
-
-    def get(self, request, *args, **kwargs):
-        request_id = kwargs['request_id']
-        get_object_or_404(Request, pk=request_id)
-        return super().list(request, *args, **kwargs)
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        request_id = self.kwargs['request_id']
-        return queryset.filter(request_id=request_id)
+from core.models import ApprovalRoute, ApprovalRouteDetail
+from core.serializers import (
+    UpdateStatusApprovalRouteDetailSerializer,
+    SummaryApprovalRouteDetailSerializer,
+)
 
 
 class ApprovalRequestAPI(APIView):

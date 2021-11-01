@@ -14,7 +14,7 @@
     "fields": {
       "created": "2021-10-30T09:38:31.543Z",
       "modified": "2021-10-30T09:39:13.909Z",
-      "column_type_nm": "text"
+      "column_type_nm": "input_text"
     }
   },
   {

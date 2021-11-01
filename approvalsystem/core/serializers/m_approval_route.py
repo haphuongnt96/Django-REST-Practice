@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+from django.db import models
+from django.db.models import F
 
 from core.models import (
     ApprovalType, ApprovalClass, ApprovalRouteMaster,
@@ -81,13 +83,38 @@ class ApprovalRouteMasterSerializer(serializers.ModelSerializer):
         ]
 
 
+class CustomListRequestDetailMasterSerializer(serializers.ListSerializer):
+    """
+    Custom ListSerializer for changing behavior of queryset (like filter, annotate..)
+    for model RequestDetailMaster (table m_request_detail)
+    """
+    def to_representation(self, data):
+        # annotate column_type_nm (join table m_column_type)
+        if isinstance(data, (models.Manager, models.QuerySet)):
+            data = data.annotate(
+                column_type_nm=F('column_type__column_type_nm')
+            ).prefetch_related('choices')
+
+        return super().to_representation(data)
+
+
+class RequestDetailChildrenSerializer(RecursiveField):
+    class Meta:
+        list_serializer_class = CustomListRequestDetailMasterSerializer
+
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
 class RequestDetailMasterSerializer(serializers.ModelSerializer):
-    request_detail_children = RecursiveField(many=True)
+    request_detail_children = RequestDetailChildrenSerializer(many=True)
     column_type_nm = serializers.CharField(read_only=True)
     choices = ChoicesSerializer(many=True)
 
     class Meta:
         model = RequestDetailMaster
+        list_serializer_class = CustomListRequestDetailMasterSerializer
         fields = [
             'request_column_id',
             'column_nm',
@@ -103,7 +130,6 @@ class RequestDetailMasterSerializer(serializers.ModelSerializer):
 
 class DetailApprovalTypeSerializer(serializers.Serializer):
     m_request_details = RequestDetailMasterSerializer(many=True, source='root_request_details')
-    m_approval_routes = ApprovalRouteMasterSerializer(many=True, source='m_approval_routes_fetchall')
 
     class Meta:
         model = ApprovalType
