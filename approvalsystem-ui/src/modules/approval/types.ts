@@ -76,4 +76,14 @@ declare namespace Approvals {
     segment_id: string
     segment_nm: string
   }
+
+  type RegisterRequest = {
+    request_column_id: string
+    request_column_val: string
+  }
+
+  type SendRequestParams = {
+    approval_type_id: string
+    request_details: RegisterRequest[]
+  }
 }

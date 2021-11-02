@@ -37,7 +37,7 @@ export default class ApprovalRequestDetail extends Vue {
 
 <template>
   <div>
-    <Form :items="items" />
+    <Form :items.sync="items" />
     <ApprovalRequestDetailUploader class="mt-5" @upload="upload" />
     <ApprovalRequestDetailFiles class="mt-5" :files="files" @remove="remove" />
   </div>

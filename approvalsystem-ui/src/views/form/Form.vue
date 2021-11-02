@@ -1,6 +1,8 @@
 <script lang="ts">
 import ListCheckbox from '@/common/components/ui/ListCheckbox.vue'
+import EventBus from '@/common/eventBus'
 import { drawTableElement, drawTableHeader } from '@/modules/form/helpers'
+import eventBus from '@/plugins/eventBus'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import RadioGroupCell from './RadioGroupCell.vue'
 //*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
@@ -24,6 +26,22 @@ export default class Form extends Vue {
   drawTableHeader = drawTableHeader
 
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
+  get forms() {
+    return this.items
+  }
+
+  set forms(value: ApplicationForm.RequestDetail[]) {
+    eventBus.$emit(EventBus.USER_INPUT_APPLICATION_FORM, value)
+  }
+
+  //#region Method
+  handleInput(value: string, item: ApplicationForm.RequestDetail) {
+    eventBus.$emit(EventBus.USER_INPUT_APPLICATION_FORM, {
+      request_column_id: item.request_column_id,
+      request_column_val: value
+    })
+  }
+  //#endregion
 }
 </script>
 
@@ -59,6 +77,7 @@ export default class Form extends Vue {
                   :items="cell.choices"
                   item-text="choice_nm"
                   item-value="choice_id"
+                  @change="(value) => handleInput(value, cell)"
                 />
                 <template v-else>
                   <span v-html="cell.text" />
@@ -79,6 +98,7 @@ export default class Form extends Vue {
                 :class="cell.className"
               >
                 <component
+                  v-model.lazy="cell.request_column_val"
                   :is="cell.component"
                   v-if="cell.component"
                   dense
@@ -87,6 +107,7 @@ export default class Form extends Vue {
                   :items="cell.choices"
                   item-text="choice_nm"
                   item-value="choice_id"
+                  @change="(value) => handleInput(value, cell)"
                 />
                 <template v-else>
                   <span v-html="cell.text" />

@@ -1,6 +1,6 @@
-import config from '@/common/config'
 import RadioGroup from '@/common/components/ui/RadioGroup.vue'
-import { VInput, VSelect, VTextField } from 'vuetify/lib'
+import config from '@/common/config'
+import { VSelect, VTextField } from 'vuetify/lib'
 import { ColumnTypeName } from './enum'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
@@ -70,7 +70,6 @@ export const rowIndexStatusRadios = (
 
 export const drawTable = (items: TableItem[]) => {
   const data = groupBy(flatArray(items), 'rowIndex')
-  console.log(data)
   return data
 }
 
@@ -96,7 +95,7 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
   const component = {
     [ColumnTypeName.SELECTION]: VSelect,
     [ColumnTypeName.HEADER]: null,
-    [ColumnTypeName.TEXT]: VInput,
+    [ColumnTypeName.INPUT_TEXT]: VTextField,
     [ColumnTypeName.RADIO]: RadioGroup
   }
   const {
@@ -124,7 +123,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
         {
           component: component[request_detail_children[0].column_type_nm],
           style: { textAlign: 'center' },
-          choices
+          choices,
+          request_column_id: item.request_column_id
         },
         {
           text: `※ ${notes}`,
@@ -141,7 +141,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
         {
           component: component[column_type_nm],
           style: { textAlign: 'center' },
-          choices
+          choices,
+          request_column_id: item.request_column_id
         }
       ])
     ]
@@ -156,7 +157,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
     {
       component: component[column_type_nm],
       style: { textAlign: 'center' },
-      choices
+      choices,
+      request_column_id: item.request_column_id
     },
     {
       text: `※ ${notes}`,

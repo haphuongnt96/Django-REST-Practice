@@ -6,6 +6,8 @@ import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequest
 import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
 import { Component, Vue } from 'vue-property-decorator'
+import eventBus from '@/plugins/eventBus'
+import EventBus from '@/common/eventBus'
 
 @Component({
   components: {
@@ -22,6 +24,7 @@ export default class Approval extends Vue {
   m_request_details: ApplicationForm.RequestDetail[] = []
   items: Approvals.ApprovalRouteResponse[] = []
   fixed = false
+  requests: Approvals.RegisterRequest[] = []
   //#endregion
 
   //#region Computed
@@ -55,6 +58,20 @@ export default class Approval extends Vue {
 
   async mounted() {
     window.addEventListener('scroll', this.handleScroll)
+    eventBus.$on(
+      EventBus.USER_INPUT_APPLICATION_FORM,
+      (value: Approvals.RegisterRequest) => {
+        const existed = this.requests.find(
+          (x) => x.request_column_id === value.request_column_id
+        )
+        if (existed) existed.request_column_val = value.request_column_val
+        else this.requests.push(value)
+      }
+    )
+  }
+
+  beforeDestroy() {
+    eventBus.$off(EventBus.USER_INPUT_APPLICATION_FORM)
   }
 
   //#endregion
@@ -79,6 +96,14 @@ export default class Approval extends Vue {
     if (!routeDetail) return
     routeDetail.approval_status = data.approval_status
   }
+
+  async saveDraft() {
+    const data = {
+      approval_type_id: this.approvalTypeId,
+      request_details: this.requests
+    }
+    const [err, res] = await this.$api.approval.sendRequest(data)
+  }
   //#endregion
 }
 </script>
@@ -91,12 +116,13 @@ export default class Approval extends Vue {
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
         <ApprovalRequestDetail
           class="approval__detail"
-          :items="m_request_details"
+          :items.sync="m_request_details"
         />
         <div ref="main-function" :style="{ width: '160px' }">
           <ApprovalMainFunction
             :class="{ fixed }"
             @approval="updateApprovalStatus"
+            @saveDraft="saveDraft"
           />
         </div>
       </v-container>

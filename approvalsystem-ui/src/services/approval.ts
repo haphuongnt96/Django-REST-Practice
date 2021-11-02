@@ -57,3 +57,13 @@ export function getApproveTypeById(id: string) {
     })
   )
 }
+
+export function sendRequest(data: Approvals.SendRequestParams) {
+  return transformData(
+    service.request<Approvals.GetAprrovalTypeResponse>({
+      method: 'post',
+      url: `api/requests`,
+      data
+    })
+  )
+}
