@@ -16,11 +16,11 @@ export default class DashboardPopupObject extends Vue {
     return this.$pageContents.DASHBOARD
   }
   selectStatus = [
-    { state: 'Florida', abbr: 'FL' },
-    { state: 'Georgia', abbr: 'GA' },
-    { state: 'Nebraska', abbr: 'NE' },
-    { state: 'California', abbr: 'CA' },
-    { state: 'New York', abbr: 'NY' }
+    { state: '大阪北支店', abbr: 'OK' },
+    { state: '大阪南支店', abbr: 'OM' },
+    { state: '京奈支店', abbr: 'KE' },
+    { state: '京都営業所', abbr: 'KY' },
+    { state: '神戸・西日本支店', abbr: 'KO' }
   ]
   //#endregion
   //handle call child function
@@ -28,11 +28,14 @@ export default class DashboardPopupObject extends Vue {
     this.$emit('setObjectData', value)
     this.dialog = false
   }
+  getPropartyData() {
+    this.$refs.propertysearch.getpropartydata()
+  }
 }
 </script>
 
 <template>
-  <v-dialog v-model="dialog" width="1000">
+  <v-dialog v-model="dialog" width="1400">
     <template v-slot:activator="{ on, attrs }">
       <v-btn color="grey" v-bind="attrs" v-on="on">
         {{ contents.FORM_SEARCH }}
@@ -41,7 +44,7 @@ export default class DashboardPopupObject extends Vue {
 
     <v-card class="pop-search">
       <v-card-title class="text-h5 grey lighten-2">
-        {{ contents.POPUP_SEARCH_TITLE }}
+        {{ contents.POPUP_BUKKEN_TITLE }}
       </v-card-title>
       <v-card-text>
         <div class="search__form">
@@ -132,8 +135,11 @@ export default class DashboardPopupObject extends Vue {
                       ></v-text-field>
                     </td>
                     <td class="inline__element">
-                      <!-- disabled="!valid" フォームが有効になるまでボタンを非活性  -->
-                      <v-btn :disabled="!valid" class="mr-4">
+                      <v-btn
+                        :disabled="!valid"
+                        class="mr-4"
+                        @click="getPropartyData()"
+                      >
                         {{ contents.FORM_SEARCH }}
                       </v-btn>
                       <v-btn color="grey">
@@ -146,7 +152,7 @@ export default class DashboardPopupObject extends Vue {
             </v-form>
           </div>
           <div class="search__form-result">
-            <DashboardPopupObjectTable @applicationCotent="applicationCotent" />
+            <DashboardPopupObjectTable ref="propertysearch" />
           </div>
         </div>
       </v-card-text>

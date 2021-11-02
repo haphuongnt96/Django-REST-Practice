@@ -7,52 +7,35 @@ export default class DashboardPopupObjectTable extends Vue {
   get contents() {
     return this.$pageContents.DASHBOARD
   }
+  items: Dashboard.DashboardPropertySearchTable[] = []
+  // 検索ボタン押下でデータを取得
+  async getpropartydata() {
+    const [err, res] = await this.$api.property.getPropertySearchRecord()
+    if (!err && res) {
+      //正常処理　swalはアラート用のライブラリ
+      this.items = res
+      console.log(res)
+    } else {
+      //バックエンド側でエラーが発生したときのメッセージ
+      this.$swal({
+        title: 'エラー',
+        text: err.response.data.message,
+        icon: 'error'
+      })
+    }
+  }
   //#endregion
   //dummy data for table
   //table header and set value
-  searchHeader = [
-    {
-      text: 'ID',
-      align: 'center',
-      sortable: false,
-      value: 'index'
-    },
-    {
-      text: '部署課名',
-      align: 'center',
-      value: 'department'
-    },
-    { text: '分類', align: 'center', value: 'category' },
-    { text: '申請内容', align: 'center', value: 'content' }
+  Header = [
+    { text: 'コード', align: 'center', value: 'property_id' },
+    { text: '名称', align: 'center', value: 'property_nm' },
+    { text: '住所', align: 'center', value: 'address' },
+    { text: '担当者', align: 'center', value: 'emp.emp_nm' },
+    { text: '電話番号', align: 'center', value: 'tel_number' }
   ]
   // //#end
   // //list applicants
-  searchResults = [
-    {
-      index: 1,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 2,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 3,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 4,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    }
-  ]
   //#end
   handleSelect(value) {
     this.$emit('applicationCotent', value)
@@ -63,8 +46,8 @@ export default class DashboardPopupObjectTable extends Vue {
 <template>
   <div class="dashboard__list">
     <v-data-table
-      :headers="searchHeader"
-      :items="searchResults"
+      :headers="Header"
+      :items="items"
       :items-per-page="15"
       :no-data-text="contents.TABLE_NO_DATA"
       @click:row="handleSelect"
