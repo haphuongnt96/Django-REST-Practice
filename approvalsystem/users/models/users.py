@@ -23,6 +23,12 @@ class UserManager(DjangoUserManager):
         user.save(using=self._db)
         return user
 
+    def create_user(self, emp_nm, password=None, **extra_fields):
+        # TODO: ユーザ作成時にエラーが出るので仮実装
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(emp_nm, password, **extra_fields)
+
     def create_superuser(self, emp_nm, password=None, **extra_fields):
         """Create superuser instance (used by `createsuperuser` cmd)."""
         extra_fields.setdefault("is_staff", True)
