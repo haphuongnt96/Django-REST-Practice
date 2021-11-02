@@ -223,6 +223,16 @@ uritemplate                   4.1.1
 urllib3                       1.26.7
 ```
 
+#### 2-2. Pythonパッケージをインストールする(開発用):
+```bash
+PS C:\work\approval-system\approvalsystem> pip install -r requirements/requirements-dev.txt
+Collecting pytest
+  Downloading pytest-6.2.5-py3-none-any.whl (280 kB)
+(省略)
+Successfully installed atomicwrites-1.4.0 attrs-21.2.0 colorama-0.4.4 coverage-6.0.2 iniconfig-1.1.1 pluggy-1.0.0 py-1.10.0 pytest-6.2.5 pytest-cov-3.0.0 pytest-html-3.1.1 pytest-metadata-1.11.0 pytest-mock-3.6.1 pytest-pythonpath-0.7.3 toml-0.10.2 tomli-1.2.2
+(省略)
+```
+
 #### 3. 「.env」ファイル作成
 
 ```bash
@@ -250,6 +260,30 @@ pyenv virtualenv 3.9.5 venv
 pyenv local venv
 pyenv activate venv
 ```
+
+#### 5. 単体テストを実行する (DB・認証などの初期化は`tests\conftest.py`で行っています)
+
+```bash
+PS C:\work\approval-system\approvalsystem> pytest
+※VSCodeのフラスコアイコンからでも実行・デバック可能
+```
+#### 5-1. pytest.ini のaddoptsを切り替えることによって、カバレッジが切り替え可能
+* デバック用
+```bash
+# debug unit test
+addopts = -s --reuse-db --no-migrations
+```
+* カバレッジ VSCode用（別途`Coverage Gutters`などのアドオンが必要）
+```bash
+# output coverage vscode(addon Coverage Gutters)
+addopts = --reuse-db --no-migrations --cov=. --cov-report=xml
+```
+* カバレッジ レポート出力用（HTML）
+```bash
+# output coverage html
+addopts = --reuse-db --no-migrations --capture=no --cov=. --cov-report=html
+```
+
 
 # フロントエンド
 
