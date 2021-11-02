@@ -385,6 +385,47 @@ CREATE TABLE public.m_emp (
 ALTER TABLE public.m_emp OWNER TO approval_user;
 
 --
+-- Name: m_emp_affiliation; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_emp_affiliation (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    emp_affiliation_id integer NOT NULL,
+    main_flg boolean NOT NULL,
+    business_unit_id character varying(2),
+    department_id character varying(3),
+    division_id character varying(2),
+    emp_id bigint,
+    segment_id character varying(3)
+);
+
+
+ALTER TABLE public.m_emp_affiliation OWNER TO approval_user;
+
+--
+-- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.m_emp_affiliation_emp_affiliation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.m_emp_affiliation_emp_affiliation_id_seq OWNER TO approval_user;
+
+--
+-- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.m_emp_affiliation_emp_affiliation_id_seq OWNED BY public.m_emp_affiliation.emp_affiliation_id;
+
+
+--
 -- Name: m_emp_groups; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -905,6 +946,13 @@ ALTER TABLE ONLY public.m_emp ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Name: m_emp_affiliation emp_affiliation_id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation ALTER COLUMN emp_affiliation_id SET DEFAULT nextval('public.m_emp_affiliation_emp_affiliation_id_seq'::regclass);
+
+
+--
 -- Name: m_emp_groups id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -1091,6 +1139,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 94	Can change approval type	24	change_approvaltype
 95	Can delete approval type	24	delete_approvaltype
 96	Can view approval type	24	view_approvaltype
+97	Can add emp affiliation	25	add_empaffiliation
+98	Can change emp affiliation	25	change_empaffiliation
+99	Can delete emp affiliation	25	delete_empaffiliation
+100	Can view emp affiliation	25	view_empaffiliation
 \.
 
 
@@ -1134,6 +1186,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 22	core	requestdetailmaster
 23	core	columntype
 24	core	approvaltype
+25	users	empaffiliation
 \.
 
 
@@ -1180,6 +1233,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 36	core	0003_request_status	2021-10-26 08:47:27.345651+00
 37	core	0004_rename_business_unit_cd_businessunit_business_unit_id	2021-10-26 08:58:28.34386+00
 38	core	0002_approvalclass_approvalroutemaster_approvaltype_choices_columntype_requestdetailmaster	2021-10-28 07:53:52.925167+00
+39	users	0002_empaffiliation	2021-11-02 06:31:07.399318+00
 \.
 
 
@@ -1262,6 +1316,14 @@ COPY public.m_division (created, modified, division_id, division_nm) FROM stdin;
 COPY public.m_emp (id, password, last_login, is_superuser, created, modified, email, is_staff, is_active, deleted_flg, emp_cd, emp_nm) FROM stdin;
 1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-09-28 01:41:26.087986+00	t	2021-09-22 03:43:00.644272+00	2021-09-27 10:58:35.037229+00	admin@example.com	t	t	f	0000001	あどみん
 2	pbkdf2_sha256$260000$1DZJ22YKKNTGSelK2Ti3CI$SKJPYqfH3bv3UH3AkkJeVpeMbWcdN5eZVvaJqxbN5Ps=	\N	f	2021-09-22 03:44:48.939363+00	2021-09-27 10:58:35.040219+00	ai@example.com	f	t	f	0000002	あいうえお
+\.
+
+
+--
+-- Data for Name: m_emp_affiliation; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_emp_affiliation (created, modified, emp_affiliation_id, main_flg, business_unit_id, department_id, division_id, emp_id, segment_id) FROM stdin;
 \.
 
 
@@ -1417,7 +1479,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 96, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 100, true);
 
 
 --
@@ -1431,14 +1493,21 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 24, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 25, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 38, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
+
+
+--
+-- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.m_emp_affiliation_emp_affiliation_id_seq', 1, false);
 
 
 --
@@ -1660,6 +1729,14 @@ ALTER TABLE ONLY public.m_department
 
 ALTER TABLE ONLY public.m_division
     ADD CONSTRAINT m_division_pkey PRIMARY KEY (division_id);
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_pkey PRIMARY KEY (emp_affiliation_id);
 
 
 --
@@ -1941,6 +2018,69 @@ CREATE INDEX m_department_department_cd_0bb8db7b_like ON public.m_department USI
 --
 
 CREATE INDEX m_division_division_cd_4f4969ee_like ON public.m_division USING btree (division_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_business_unit_id_bf18a7b3; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_business_unit_id_bf18a7b3 ON public.m_emp_affiliation USING btree (business_unit_id);
+
+
+--
+-- Name: m_emp_affiliation_business_unit_id_bf18a7b3_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_business_unit_id_bf18a7b3_like ON public.m_emp_affiliation USING btree (business_unit_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_department_id_d607f3e3; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_department_id_d607f3e3 ON public.m_emp_affiliation USING btree (department_id);
+
+
+--
+-- Name: m_emp_affiliation_department_id_d607f3e3_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_department_id_d607f3e3_like ON public.m_emp_affiliation USING btree (department_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_division_id_859848f6; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_division_id_859848f6 ON public.m_emp_affiliation USING btree (division_id);
+
+
+--
+-- Name: m_emp_affiliation_division_id_859848f6_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_division_id_859848f6_like ON public.m_emp_affiliation USING btree (division_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_emp_id_7a1570bb; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_emp_id_7a1570bb ON public.m_emp_affiliation USING btree (emp_id);
+
+
+--
+-- Name: m_emp_affiliation_segment_id_6fd06372; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_segment_id_6fd06372 ON public.m_emp_affiliation USING btree (segment_id);
+
+
+--
+-- Name: m_emp_affiliation_segment_id_6fd06372_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_segment_id_6fd06372_like ON public.m_emp_affiliation USING btree (segment_id varchar_pattern_ops);
 
 
 --
@@ -2408,6 +2548,46 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_business_unit_id_bf18a7b3_fk_m_busines; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_business_unit_id_bf18a7b3_fk_m_busines FOREIGN KEY (business_unit_id) REFERENCES public.m_business_unit(business_unit_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_department_id_d607f3e3_fk_m_departm; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_department_id_d607f3e3_fk_m_departm FOREIGN KEY (department_id) REFERENCES public.m_department(department_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_division_id_859848f6_fk_m_divisio; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_division_id_859848f6_fk_m_divisio FOREIGN KEY (division_id) REFERENCES public.m_division(division_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_emp_id_7a1570bb_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_emp_id_7a1570bb_fk_m_emp_id FOREIGN KEY (emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_segment_id_6fd06372_fk_m_segment_segment_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_segment_id_6fd06372_fk_m_segment_segment_id FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
