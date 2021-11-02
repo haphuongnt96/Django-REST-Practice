@@ -1,21 +1,28 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import ApprovalRequestDetailTable from '@/modules/approval/components/ApprovalRequestDetailTable.vue'
 import ApprovalRequestDetailUploader from '@/modules/approval/components/ApprovalRequestDetailUploader.vue'
 import ApprovalRequestDetailFiles from '@/modules/approval/components/ApprovalRequestDetailFiles.vue'
-import { format } from 'date-fns'
+import Form from '@/views/form/Form.vue'
 
 @Component({
   components: {
+    Form,
     ApprovalRequestDetailTable,
     ApprovalRequestDetailUploader,
     ApprovalRequestDetailFiles
   }
 })
 export default class ApprovalRequestDetail extends Vue {
+  //#region Prop
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  items: ApplicationForm.RequestDetail[]
+  //#endregion
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  format = format
-  items = [1, 2]
   files: File[] = []
 
   upload(files: File[]) {
@@ -30,7 +37,7 @@ export default class ApprovalRequestDetail extends Vue {
 
 <template>
   <div>
-    <ApprovalRequestDetailTable />
+    <Form :items="items" />
     <ApprovalRequestDetailUploader class="mt-5" @upload="upload" />
     <ApprovalRequestDetailFiles class="mt-5" :files="files" @remove="remove" />
   </div>

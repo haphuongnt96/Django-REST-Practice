@@ -19,6 +19,10 @@ export default class ApprovalRequestHeader extends Vue {
   get approvalType() {
     return this.$route.query.approval_type_nm
   }
+
+  get departmentName() {
+    return this.$route.query.department_nm
+  }
   //#endregion
 }
 </script>
@@ -29,11 +33,11 @@ export default class ApprovalRequestHeader extends Vue {
     <div class="d-flex flex-gap-8">
       <div class="d-flex align-center">
         <span class="mr-2">{{ contents.APP_CONTENT }}:</span>
-        <span class="text-body-1 txt-text-2">{{ contents.APP_TITLE }}</span>
+        <span class="text-body-1 txt-text-2">{{ approvalType }}</span>
       </div>
       <div>
         <span class="mr-2">{{ contents.DEPARTMENT_NAME }}:</span>
-        <span class="text-body-1 txt-text-2">{{ approvalType }}</span>
+        <span class="text-body-1 txt-text-2">{{ departmentName }}</span>
       </div>
       <div class="d-flex align-center">
         <span class="mr-2">{{ contents.APP_DATE }}:</span>
