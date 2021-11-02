@@ -1,2 +1,2 @@
 from .users import *
-from .em_affiliation import EmpAffiliationSerializer
+from .emp_affiliation import EmpAffiliationSerializer

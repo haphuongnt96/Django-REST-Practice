@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password, check_password
 import re
 
 from users.models import User
-from .em_affiliation import EmpAffiliationSerializer
+from .emp_affiliation import EmpAffiliationSerializer
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
