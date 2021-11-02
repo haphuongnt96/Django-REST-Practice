@@ -1,15 +1,17 @@
 import { transformData } from '@/common/helpers'
 import service from './base'
 
-export function getApprovals(id: string) {
+// リクエストIDから承認ルートを取得する
+export function getApprovals(requestId: string) {
   return transformData(
     service.request<Approvals.ApprovalRouteResponse[]>({
       method: 'get',
-      url: `api/requests/${id}/approval_routes`
+      url: `api/requests/${requestId}/approval_routes`
     })
   )
 }
 
+// 承認ルートIDから承認ルートの詳細情報を取得
 export function getApprovalRouteDetail(id: string) {
   return transformData(
     service.request<Approvals.ApprovalRouteDetailResponse[]>({
@@ -18,6 +20,8 @@ export function getApprovalRouteDetail(id: string) {
     })
   )
 }
+
+// 承認テーブルの更新
 export function postApprovalStatus(
   id: string,
   data: { approval_status: string }

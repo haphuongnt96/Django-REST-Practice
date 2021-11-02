@@ -594,10 +594,11 @@ Field="承認役職名","approval_post_nm","@VARCHAR(3)","NOT NULL",,"","",$0000
 Field="承認者社員コード","approval_emp_id","@VARCHAR(7)","NOT NULL",,"","",$FFFFFFFF,""
 Field="承認ステータス","approval_status_id","@VARCHAR(1)",,,"","",$FFFFFFFF,""
 Field="承認日","approval_date","@DATE",,,"","",$FFFFFFFF,""
+Field="カレント承認順フラグ","current_order_flg","@BOOLEAN",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211025144915
+ModifiedDateTime=20211101215254
 Position="MAIN",300,1150,905,421
 ZOrder=38
 
@@ -1055,7 +1056,7 @@ PName=t_notification_records
 LName=T_通知記録
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=950
 Top=2700
 Field="申請ID","request_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
@@ -1065,7 +1066,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211027191254
-Position="Main",950,2700
+Position="MAIN",950,2700
 ZOrder=63
 
 [Entity]
@@ -1073,7 +1074,7 @@ PName=m_notification_type
 LName=M_通知区分
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=0
 Top=2700
 Field="通知区分ID","notification_type_id","@VARCHAR(2)","NOT NULL",0,"","",$FFFFFFFF,""
@@ -1082,7 +1083,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211027191444
-Position="Main",0,2700
+Position="MAIN",0,2700
 ZOrder=64
 
 [Relation]

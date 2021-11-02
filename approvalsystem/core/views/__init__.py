@@ -12,3 +12,7 @@ from .request import (
 from .m_approval_route import (
     ApprovalTypeListAPI
 )
+
+from .property import (
+    PropertyGetListAPI,
+)

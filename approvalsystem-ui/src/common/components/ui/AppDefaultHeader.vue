@@ -20,13 +20,17 @@ export default class AppDefaultHeader extends Vue {
     return !!loggedIn
   }
 
+  //ログアウト処理
   async handleLogout() {
+    //backend側に/api/auth/logout/でログアウト処理をリクエスト
     const [err, res] = await this.$api.authen.doLogout()
     if (!err && res) {
+      //errがなければログイン画面に遷移してローカルストレージのtokenを削除
       this.$router.push({ name: 'authen' })
       localStorage.removeItem('vue-token')
       localStorage.removeItem('vue-token-reset')
     } else {
+      //エラーの場合出すメッセージ
       alert('logout fail')
     }
   }

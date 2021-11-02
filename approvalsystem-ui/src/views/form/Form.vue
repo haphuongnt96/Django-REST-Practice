@@ -26,13 +26,6 @@ export default class Form extends Vue {
   drawTableHeader = drawTableHeader
 
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
-  get forms() {
-    return this.items
-  }
-
-  set forms(value: ApplicationForm.RequestDetail[]) {
-    eventBus.$emit(EventBus.USER_INPUT_APPLICATION_FORM, value)
-  }
 
   //#region Method
   handleInput(value: string, item: ApplicationForm.RequestDetail) {
@@ -98,7 +91,6 @@ export default class Form extends Vue {
                 :class="cell.className"
               >
                 <component
-                  v-model.lazy="cell.request_column_val"
                   :is="cell.component"
                   v-if="cell.component"
                   dense
