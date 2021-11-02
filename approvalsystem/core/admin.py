@@ -5,7 +5,7 @@ from core.models import (
     Request, RequestStatus,
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
     ApprovalRouteMaster,
-    ApprovalType, ApprovalClass, Choices, RequestDetailMaster, ColumnType,
+    ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
     Property
 )
 
