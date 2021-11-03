@@ -74,3 +74,6 @@ class RequestDetail(BaseModel):
         null=True, related_name='request_details',
     )
     request_column_val = models.CharField(max_length=20, blank=True)
+
+    class Meta:
+        db_table = 't_request_detail'
