@@ -84,6 +84,8 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     approval_type_nm = serializers.SerializerMethodField(read_only=True)
     request_emp_id = serializers.CharField(read_only=True)
     request_emp_nm = serializers.CharField(read_only=True)
+    department_id = serializers.CharField(write_only=True, required=True)
+    department_nm = serializers.CharField(read_only=True)
     request_details = RequestDetailSerializer(many=True, write_only=True)
     approval_routes = DetailApprovalRouteSerializer(many=True, read_only=True)
     m_request_details = ExtendRequestDetailMasterSerializer(
@@ -102,6 +104,8 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             'approval_routes',
             'm_request_details',
             'created',
+            'department_id',
+            'department_nm',
         ]
 
     def get_approval_type_nm(self, instance):
@@ -123,6 +127,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         Custom create func for create nested serializer.
         """
         request_details = validated_data.pop('request_details', [])
+        department_id = validated_data.pop('department_id')
         request = Request.objects.create(**validated_data)
         # save request detail answer
         for request_detail in request_details:
@@ -132,7 +137,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         if self.context.get('request'):
             request_emp = self.context['request'].user
         # create approval route and assign default approval route details.
-        request.register_approval_route(request_emp=request_emp)
+        request.register_approval_route(request_emp=request_emp, department_id=department_id)
         return request
 
     def update(self, instance, validated_data):
@@ -154,6 +159,5 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         representation = super(DetailRequestSerializer, self).to_representation(instance)
         if representation['approval_routes']:
             approval_route = representation['approval_routes'][0]
-            representation['request_emp_id'] = approval_route.get('request_emp_id')
-            representation['request_emp_nm'] = approval_route.get('request_emp_nm')
+            representation.update(approval_route)
         return representation

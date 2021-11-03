@@ -29,7 +29,7 @@ class Request(BaseModel):
     class Meta:
         db_table = 't_reuqest'
 
-    def register_approval_route(self, request_emp=None, route_details: list = None):
+    def register_approval_route(self, request_emp, department_id, route_details: list = None):
         """
         Create approval route when register new request.
         """
@@ -48,6 +48,7 @@ class Request(BaseModel):
             request=self,
             approval_type=self.approval_type,
             request_emp=request_emp,
+            department_id=department_id,
         )
         ApprovalRouteDetail.objects.bulk_create([
             ApprovalRouteDetail(

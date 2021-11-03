@@ -16,7 +16,7 @@ class CustomListApprovalRouteDetailSerializer(serializers.ListSerializer):
     for model ApprovalRoute (table t_approval_route)
     """
     def to_representation(self, data):
-        if isinstance(data, models.Manager):
+        if isinstance(data, (models.Manager, models.QuerySet)):
             data = data.annotate(
                 approval_post_nm=F('approval_post__approval_post_nm'),
                 approval_emp_nm=F('approval_emp__emp_nm'),
@@ -33,6 +33,7 @@ class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ApprovalRouteDetail
+        list_serializer_class = CustomListApprovalRouteDetailSerializer
         fields = [
             'detail_no',
             'required_num_approvals',
@@ -53,7 +54,7 @@ class CustomListApprovalRouteSerializer(serializers.ListSerializer):
     for model ApprovalRoute (table t_approval_route)
     """
     def to_representation(self, data):
-        if isinstance(data, models.Manager):
+        if isinstance(data, (models.Manager, models.QuerySet)):
             data = data.annotate(
                 request_emp_nm=F('request_emp__emp_nm'),
                 business_unit_nm=F('business_unit__business_unit_nm'),
