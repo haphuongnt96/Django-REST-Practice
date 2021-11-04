@@ -8,6 +8,7 @@ from core.models import (
 )
 from core.serializers import (
     ListApprovalTypeSerializer,
+    DetailApprovalTypeSerializer,
 )
 
 
@@ -35,6 +36,7 @@ class ApprovalTypeListAPI(ListAPIView):
         return Response(serializer.data)
 
 
-# class ApprovalTypeDetailAPI(RetrieveAPIView):
-#     queryset = ApprovalType.objects.all()
-#     serializer_class =
+class ApprovalTypeDetailAPI(RetrieveAPIView):
+    queryset = ApprovalType.objects.all()
+    serializer_class = DetailApprovalTypeSerializer
+    lookup_field = 'approval_type_id'
