@@ -114,11 +114,11 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     @staticmethod
     def create_or_update_request_detail(request_detail: dict):
         request_detail_instance = RequestDetail.objects.update_or_create(
-            request_column_val=request_detail['request_column_val'],
+            request_id=request_detail['request_id'],
+            request_column_id=request_detail['request_column_id'],
             defaults={
-                'request_id': request_detail['request_id'],
-                'request_column_id': request_detail['request_column_id']
-            }
+                'request_column_val': request_detail['request_column_val'],
+            },
         )
         return request_detail_instance
 
