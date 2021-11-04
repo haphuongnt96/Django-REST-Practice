@@ -55,6 +55,23 @@ class ChoicesSerializer(serializers.ModelSerializer):
         ]
 
 
+class CustomListApprovalRouteMasterSerializer(serializers.ListSerializer):
+    """
+    Custom ListSerializer for changing behavior of queryset (like filter, annotate..)
+    for model RequestDetailMaster (table m_request_detail)
+    """
+    def to_representation(self, data):
+        if isinstance(data, (models.Manager, models.QuerySet)):
+            data = data.annotate(
+                department_nm=F('department__department_nm'),
+                segment_nm=F('segment__segment_nm'),
+                division_nm=F('division__division_nm'),
+                approval_post_nm=F('approval_post__approval_post_nm'),
+                emp_nm=F('emp__emp_nm'),
+            )
+        return super().to_representation(data)
+
+
 class ApprovalRouteMasterSerializer(serializers.ModelSerializer):
     department_nm = serializers.CharField(read_only=True)
     segment_nm = serializers.CharField(read_only=True)
@@ -64,6 +81,7 @@ class ApprovalRouteMasterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ApprovalRouteMaster
+        list_serializer_class = CustomListApprovalRouteMasterSerializer
         fields = [
             'approval_type_id',
             'judge_cd',
@@ -129,6 +147,7 @@ class RequestDetailMasterSerializer(serializers.ModelSerializer):
 
 
 class DetailApprovalTypeSerializer(serializers.Serializer):
+    m_approval_routes = ApprovalRouteMasterSerializer(many=True)
     m_request_details = RequestDetailMasterSerializer(many=True, source='root_request_details')
 
     class Meta:
