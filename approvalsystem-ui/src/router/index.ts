@@ -26,9 +26,14 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/dashboard/Dashboard.vue')
   },
   {
-    path: '/approval',
+    path: '/approval/:id',
     name: 'approval',
     component: () => import('@/views/approval/Approval.vue')
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: () => import('@/views/form/Form.vue')
   }
 ]
 

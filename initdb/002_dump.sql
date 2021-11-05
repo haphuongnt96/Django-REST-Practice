@@ -385,6 +385,47 @@ CREATE TABLE public.m_emp (
 ALTER TABLE public.m_emp OWNER TO approval_user;
 
 --
+-- Name: m_emp_affiliation; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_emp_affiliation (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    emp_affiliation_id integer NOT NULL,
+    main_flg boolean NOT NULL,
+    business_unit_id character varying(2),
+    department_id character varying(3),
+    division_id character varying(2),
+    emp_id bigint,
+    segment_id character varying(3)
+);
+
+
+ALTER TABLE public.m_emp_affiliation OWNER TO approval_user;
+
+--
+-- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.m_emp_affiliation_emp_affiliation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.m_emp_affiliation_emp_affiliation_id_seq OWNER TO approval_user;
+
+--
+-- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.m_emp_affiliation_emp_affiliation_id_seq OWNED BY public.m_emp_affiliation.emp_affiliation_id;
+
+
+--
 -- Name: m_emp_groups; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -409,6 +450,26 @@ CREATE TABLE public.m_emp_user_permissions (
 
 
 ALTER TABLE public.m_emp_user_permissions OWNER TO approval_user;
+
+--
+-- Name: m_property; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_property (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    property_id integer NOT NULL,
+    property_nm character varying(50) NOT NULL,
+    address character varying(200) NOT NULL,
+    tel_number character varying(13) NOT NULL,
+    department_id character varying(3) NOT NULL,
+    division_id character varying(2) NOT NULL,
+    emp_id bigint NOT NULL,
+    segment_id character varying(3) NOT NULL
+);
+
+
+ALTER TABLE public.m_property OWNER TO approval_user;
 
 --
 -- Name: m_request_detail; Type: TABLE; Schema: public; Owner: approval_user
@@ -905,6 +966,13 @@ ALTER TABLE ONLY public.m_emp ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Name: m_emp_affiliation emp_affiliation_id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation ALTER COLUMN emp_affiliation_id SET DEFAULT nextval('public.m_emp_affiliation_emp_affiliation_id_seq'::regclass);
+
+
+--
 -- Name: m_emp_groups id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -1091,6 +1159,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 94	Can change approval type	24	change_approvaltype
 95	Can delete approval type	24	delete_approvaltype
 96	Can view approval type	24	view_approvaltype
+97	Can add emp affiliation	25	add_empaffiliation
+98	Can change emp affiliation	25	change_empaffiliation
+99	Can delete emp affiliation	25	delete_empaffiliation
+100	Can view emp affiliation	25	view_empaffiliation
+101	Can add property	26	add_property
+102	Can change property	26	change_property
+103	Can delete property	26	delete_property
+104	Can view property	26	view_property
 \.
 
 
@@ -1134,6 +1210,8 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 22	core	requestdetailmaster
 23	core	columntype
 24	core	approvaltype
+25	users	empaffiliation
+26	core	property
 \.
 
 
@@ -1180,6 +1258,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 36	core	0003_request_status	2021-10-26 08:47:27.345651+00
 37	core	0004_rename_business_unit_cd_businessunit_business_unit_id	2021-10-26 08:58:28.34386+00
 38	core	0002_approvalclass_approvalroutemaster_approvaltype_choices_columntype_requestdetailmaster	2021-10-28 07:53:52.925167+00
+39	users	0002_empaffiliation	2021-11-02 06:31:07.399318+00
+40	core	0002_property	2021-11-02 06:43:59.056341+00
 \.
 
 
@@ -1266,6 +1346,14 @@ COPY public.m_emp (id, password, last_login, is_superuser, created, modified, em
 
 
 --
+-- Data for Name: m_emp_affiliation; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_emp_affiliation (created, modified, emp_affiliation_id, main_flg, business_unit_id, department_id, division_id, emp_id, segment_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: m_emp_groups; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
@@ -1278,6 +1366,14 @@ COPY public.m_emp_groups (id, user_id, group_id) FROM stdin;
 --
 
 COPY public.m_emp_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_property; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_property (created, modified, property_id, property_nm, address, tel_number, department_id, division_id, emp_id, segment_id) FROM stdin;
 \.
 
 
@@ -1417,7 +1513,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 96, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 104, true);
 
 
 --
@@ -1431,14 +1527,21 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 24, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 26, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 38, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
+
+
+--
+-- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.m_emp_affiliation_emp_affiliation_id_seq', 1, false);
 
 
 --
@@ -1660,6 +1763,22 @@ ALTER TABLE ONLY public.m_department
 
 ALTER TABLE ONLY public.m_division
     ADD CONSTRAINT m_division_pkey PRIMARY KEY (division_id);
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_pkey PRIMARY KEY (emp_affiliation_id);
+
+
+--
+-- Name: m_property m_property_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_property
+    ADD CONSTRAINT m_property_pkey PRIMARY KEY (property_id);
 
 
 --
@@ -1944,10 +2063,122 @@ CREATE INDEX m_division_division_cd_4f4969ee_like ON public.m_division USING btr
 
 
 --
+-- Name: m_emp_affiliation_business_unit_id_bf18a7b3; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_business_unit_id_bf18a7b3 ON public.m_emp_affiliation USING btree (business_unit_id);
+
+
+--
+-- Name: m_emp_affiliation_business_unit_id_bf18a7b3_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_business_unit_id_bf18a7b3_like ON public.m_emp_affiliation USING btree (business_unit_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_department_id_d607f3e3; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_department_id_d607f3e3 ON public.m_emp_affiliation USING btree (department_id);
+
+
+--
+-- Name: m_emp_affiliation_department_id_d607f3e3_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_department_id_d607f3e3_like ON public.m_emp_affiliation USING btree (department_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_division_id_859848f6; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_division_id_859848f6 ON public.m_emp_affiliation USING btree (division_id);
+
+
+--
+-- Name: m_emp_affiliation_division_id_859848f6_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_division_id_859848f6_like ON public.m_emp_affiliation USING btree (division_id varchar_pattern_ops);
+
+
+--
+-- Name: m_emp_affiliation_emp_id_7a1570bb; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_emp_id_7a1570bb ON public.m_emp_affiliation USING btree (emp_id);
+
+
+--
+-- Name: m_emp_affiliation_segment_id_6fd06372; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_segment_id_6fd06372 ON public.m_emp_affiliation USING btree (segment_id);
+
+
+--
+-- Name: m_emp_affiliation_segment_id_6fd06372_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_emp_affiliation_segment_id_6fd06372_like ON public.m_emp_affiliation USING btree (segment_id varchar_pattern_ops);
+
+
+--
 -- Name: m_emp_emp_cd_68c49e31_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
 CREATE INDEX m_emp_emp_cd_68c49e31_like ON public.m_emp USING btree (emp_cd varchar_pattern_ops);
+
+
+--
+-- Name: m_property_department_id_5b565865; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_department_id_5b565865 ON public.m_property USING btree (department_id);
+
+
+--
+-- Name: m_property_department_id_5b565865_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_department_id_5b565865_like ON public.m_property USING btree (department_id varchar_pattern_ops);
+
+
+--
+-- Name: m_property_division_id_5dc9e504; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_division_id_5dc9e504 ON public.m_property USING btree (division_id);
+
+
+--
+-- Name: m_property_division_id_5dc9e504_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_division_id_5dc9e504_like ON public.m_property USING btree (division_id varchar_pattern_ops);
+
+
+--
+-- Name: m_property_emp_id_375b22f6; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_emp_id_375b22f6 ON public.m_property USING btree (emp_id);
+
+
+--
+-- Name: m_property_segment_id_1ef3cda0; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_segment_id_1ef3cda0 ON public.m_property USING btree (segment_id);
+
+
+--
+-- Name: m_property_segment_id_1ef3cda0_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_property_segment_id_1ef3cda0_like ON public.m_property USING btree (segment_id varchar_pattern_ops);
 
 
 --
@@ -2408,6 +2639,78 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_users_user_id FOREIGN KEY (user_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_business_unit_id_bf18a7b3_fk_m_busines; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_business_unit_id_bf18a7b3_fk_m_busines FOREIGN KEY (business_unit_id) REFERENCES public.m_business_unit(business_unit_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_department_id_d607f3e3_fk_m_departm; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_department_id_d607f3e3_fk_m_departm FOREIGN KEY (department_id) REFERENCES public.m_department(department_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_division_id_859848f6_fk_m_divisio; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_division_id_859848f6_fk_m_divisio FOREIGN KEY (division_id) REFERENCES public.m_division(division_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_emp_id_7a1570bb_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_emp_id_7a1570bb_fk_m_emp_id FOREIGN KEY (emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_emp_affiliation m_emp_affiliation_segment_id_6fd06372_fk_m_segment_segment_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_emp_affiliation
+    ADD CONSTRAINT m_emp_affiliation_segment_id_6fd06372_fk_m_segment_segment_id FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_property m_property_department_id_5b565865_fk_m_department_department_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_property
+    ADD CONSTRAINT m_property_department_id_5b565865_fk_m_department_department_id FOREIGN KEY (department_id) REFERENCES public.m_department(department_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_property m_property_division_id_5dc9e504_fk_m_division_division_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_property
+    ADD CONSTRAINT m_property_division_id_5dc9e504_fk_m_division_division_id FOREIGN KEY (division_id) REFERENCES public.m_division(division_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_property m_property_emp_id_375b22f6_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_property
+    ADD CONSTRAINT m_property_emp_id_375b22f6_fk_m_emp_id FOREIGN KEY (emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_property m_property_segment_id_1ef3cda0_fk_m_segment_segment_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_property
+    ADD CONSTRAINT m_property_segment_id_1ef3cda0_fk_m_segment_segment_id FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

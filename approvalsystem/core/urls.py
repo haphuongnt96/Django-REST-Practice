@@ -7,6 +7,8 @@ from .views import (
     ApprovalRouteCommentListAPI,
     RequestGetListAPI,
     ApprovalTypeListAPI,
+    ApprovalTypeDetailAPI,
+    PropertyGetListAPI,
 )
 
 urlpatterns = [
@@ -22,4 +24,8 @@ urlpatterns = [
          RequestGetListAPI.as_view(), name='requests_list'),
     path('approval_types',
          ApprovalTypeListAPI.as_view(), name='approval_types'),
+    path('approval_types/<str:approval_type_id>',
+         ApprovalTypeDetailAPI.as_view(), name='approval_types.detail'),
+    path('property/get_list',
+          PropertyGetListAPI.as_view(), name='property_list'),
 ]

@@ -1,0 +1,445 @@
+[
+  {
+    "model": "core.approvaltype",
+    "pk": "0001",
+    "fields": {
+      "created": "2021-10-30T11:58:40.741Z",
+      "modified": "2021-10-30T16:33:39.076Z",
+      "approval_type_nm": "物件マスタ登録申請表",
+      "approval_class": null,
+      "can_read": "",
+      "segment": null,
+      "division": null
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0001",
+    "fields": {
+      "created": "2021-10-30T11:58:40.748Z",
+      "modified": "2021-10-30T12:16:23.874Z",
+      "approval_type": "0001",
+      "parent_column": null,
+      "column_type": "01",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "該当項目入力欄",
+      "notes": "変更・解約"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0002",
+    "fields": {
+      "created": "2021-10-30T12:03:25.065Z",
+      "modified": "2021-10-30T12:16:23.875Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "物件コード",
+      "notes": "新規・変更・解約"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0003",
+    "fields": {
+      "created": "2021-10-30T12:03:25.067Z",
+      "modified": "2021-10-30T12:16:23.877Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "物件名称",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0004",
+    "fields": {
+      "created": "2021-10-30T12:03:25.070Z",
+      "modified": "2021-10-30T12:16:23.878Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "物件カナ",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0005",
+    "fields": {
+      "created": "2021-10-30T12:03:25.073Z",
+      "modified": "2021-10-30T12:16:23.879Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "物件通称",
+      "notes": "新規・変更・解約"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0006",
+    "fields": {
+      "created": "2021-10-30T12:03:25.076Z",
+      "modified": "2021-10-30T12:16:23.882Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "06",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "担当部署",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0007",
+    "fields": {
+      "created": "2021-10-30T12:03:25.084Z",
+      "modified": "2021-10-30T12:16:23.884Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "06",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "担当部署（旧）",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0008",
+    "fields": {
+      "created": "2021-10-30T12:03:25.092Z",
+      "modified": "2021-10-30T12:16:23.886Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "会計年度開始月",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0009",
+    "fields": {
+      "created": "2021-10-30T12:12:29.235Z",
+      "modified": "2021-10-30T12:16:23.888Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "管理開始日",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0010",
+    "fields": {
+      "created": "2021-10-30T12:12:29.238Z",
+      "modified": "2021-10-30T12:16:23.890Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "管理終了日",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0011",
+    "fields": {
+      "created": "2021-10-30T12:12:29.240Z",
+      "modified": "2021-10-30T16:30:09.066Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "01",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "物件住所",
+      "notes": "新規"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0012",
+    "fields": {
+      "created": "2021-10-30T12:12:29.243Z",
+      "modified": "2021-10-30T12:18:55.129Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "04",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "管理",
+      "notes": "新規・変更・解約"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0013",
+    "fields": {
+      "created": "2021-10-30T12:12:29.245Z",
+      "modified": "2021-10-30T12:20:19.685Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "04",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "仲介重説申込",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0014",
+    "fields": {
+      "created": "2021-10-30T12:12:29.247Z",
+      "modified": "2021-10-30T12:16:23.896Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "担当課長",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0015",
+    "fields": {
+      "created": "2021-10-30T12:12:29.249Z",
+      "modified": "2021-10-30T12:16:23.897Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "担当課長（旧）",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0016",
+    "fields": {
+      "created": "2021-10-30T12:12:29.252Z",
+      "modified": "2021-10-30T12:16:23.899Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "フロント担当者",
+      "notes": "新規・変更・解約"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0017",
+    "fields": {
+      "created": "2021-10-30T12:12:29.255Z",
+      "modified": "2021-10-30T12:16:23.900Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "02",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "フロント担当者（旧）",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0018",
+    "fields": {
+      "created": "2021-10-30T12:12:29.257Z",
+      "modified": "2021-10-30T12:21:08.070Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "04",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "棟の有無",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0019",
+    "fields": {
+      "created": "2021-10-30T12:12:29.259Z",
+      "modified": "2021-10-30T12:21:29.651Z",
+      "approval_type": "0001",
+      "parent_column": "0001",
+      "column_type": "04",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "関連相合の有無",
+      "notes": "変更"
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0020",
+    "fields": {
+      "created": "2021-10-30T16:30:09.075Z",
+      "modified": "2021-10-30T16:30:09.075Z",
+      "approval_type": "0001",
+      "parent_column": "0011",
+      "column_type": "06",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "郵便番号",
+      "notes": ""
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0021",
+    "fields": {
+      "created": "2021-10-30T16:30:09.078Z",
+      "modified": "2021-10-30T16:30:09.078Z",
+      "approval_type": "0001",
+      "parent_column": "0011",
+      "column_type": "06",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "都道府県",
+      "notes": ""
+    }
+  },
+  {
+    "model": "core.requestdetailmaster",
+    "pk": "0022",
+    "fields": {
+      "created": "2021-10-30T16:30:09.081Z",
+      "modified": "2021-10-30T16:30:09.081Z",
+      "approval_type": "0001",
+      "parent_column": "0011",
+      "column_type": "06",
+      "required": false,
+      "max_length": 20,
+      "column_nm": "それ以降 ＊市区町村以降",
+      "notes": ""
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "00",
+    "fields": {
+      "created": "2021-10-30T12:18:55.131Z",
+      "modified": "2021-10-30T12:18:55.132Z",
+      "request_column": "0012",
+      "choice_nm": "マンション"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "01",
+    "fields": {
+      "created": "2021-10-30T12:18:55.133Z",
+      "modified": "2021-10-30T12:18:55.133Z",
+      "request_column": "0012",
+      "choice_nm": "ビル・施設"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "02",
+    "fields": {
+      "created": "2021-10-30T12:18:55.135Z",
+      "modified": "2021-10-30T12:18:55.135Z",
+      "request_column": "0012",
+      "choice_nm": "戸建"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "03",
+    "fields": {
+      "created": "2021-10-30T12:18:55.137Z",
+      "modified": "2021-10-30T12:18:55.137Z",
+      "request_column": "0012",
+      "choice_nm": "定期契約外"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "05",
+    "fields": {
+      "created": "2021-10-30T12:20:19.688Z",
+      "modified": "2021-10-30T12:20:19.688Z",
+      "request_column": "0013",
+      "choice_nm": "対象"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "06",
+    "fields": {
+      "created": "2021-10-30T12:20:19.690Z",
+      "modified": "2021-10-30T12:20:19.690Z",
+      "request_column": "0013",
+      "choice_nm": "対象以外"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "07",
+    "fields": {
+      "created": "2021-10-30T12:21:08.078Z",
+      "modified": "2021-10-30T12:21:08.078Z",
+      "request_column": "0018",
+      "choice_nm": "あり"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "08",
+    "fields": {
+      "created": "2021-10-30T12:21:08.083Z",
+      "modified": "2021-10-30T12:21:08.083Z",
+      "request_column": "0018",
+      "choice_nm": "なし"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "09",
+    "fields": {
+      "created": "2021-10-30T12:21:29.654Z",
+      "modified": "2021-10-30T12:21:29.654Z",
+      "request_column": "0019",
+      "choice_nm": "あり"
+    }
+  },
+  {
+    "model": "core.choice",
+    "pk": "10",
+    "fields": {
+      "created": "2021-10-30T12:21:29.656Z",
+      "modified": "2021-10-30T12:21:29.656Z",
+      "request_column": "0019",
+      "choice_nm": "あり"
+    }
+  }
+]

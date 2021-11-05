@@ -2,13 +2,18 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import User, EmpAffiliation
+
+
+class EmpAffiliationInline(admin.TabularInline):
+    model = EmpAffiliation
 
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """UI for User model."""
     ordering = ("email", )
+    inlines = [EmpAffiliationInline]
     list_display = (
         'emp_cd',
         'emp_nm',
