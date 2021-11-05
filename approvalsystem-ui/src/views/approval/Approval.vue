@@ -8,6 +8,10 @@ import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFuncti
 import { Component, Vue } from 'vue-property-decorator'
 import eventBus from '@/plugins/eventBus'
 import EventBus from '@/common/eventBus'
+import { Getter as G } from 'vuex-class'
+import { AuthD } from '@/store/typeD'
+import { format } from 'date-fns'
+import { ToastMessages } from '@/common/constant'
 
 @Component({
   components: {
@@ -20,18 +24,39 @@ import EventBus from '@/common/eventBus'
   }
 })
 export default class Approval extends Vue {
+  @G(...AuthD.getUser) user: Auth.User
+
   //#region Data
   m_request_details: ApplicationForm.RequestDetail[] = []
   requests: Approvals.RegisterRequest[] = []
   // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []
   fixed = false
+  formSummary: Approvals.FormSummary = {
+    emp_nm: '',
+    created: '',
+    approval_type_nm: '',
+    department_nm: ''
+  }
+  approval_types: Approvals.ApprovalType[] = []
   //#endregion
 
   //#region Computed
+  get userAffiliations() {
+    return this.user.affiliations || []
+  }
+
+  get departmentId() {
+    const departmentName = this.formSummary.department_nm
+    const department = this.userAffiliations.find(
+      (x) => x.department_nm === departmentName
+    )
+    return department ? department.department_id : ''
+  }
+
   get requestID() {
     // 遷移時にDashboardから渡されたリクエストIDを取得
-    const id = this.$route.params.id
+    const id = this.$route.query.id
     // 文字列にして返す
     return id ? id.toString() : ''
   }
@@ -40,22 +65,67 @@ export default class Approval extends Vue {
     const id = this.$route.query.approval_type_id
     return id ? id.toString() : ''
   }
+
+  get approveTypeName() {
+    const approvalType = this.approval_types.find(
+      (x) => x.approval_type_id === this.approvalTypeId
+    )
+    return approvalType ? approvalType.approval_type_nm : ''
+  }
+
+  get departmentNameRoute() {
+    const department = this.userAffiliations.find(
+      (x) => x.department_id == this.$route.query.department_id
+    )
+    return department ? department.department_nm : ''
+  }
   //#endregion
 
   //#region Hooks
   async created() {
     if (this.approvalTypeId) {
+      const [errTypes, resTypes] = await this.$api.approval.getApproveTypes()
+      if (!errTypes && resTypes) {
+        const { approval_types } = resTypes
+        this.approval_types = approval_types
+      }
       const [err, res] = await this.$api.approval.getApproveTypeById('0001')
       if (!err && res) {
         const { m_approval_routes, m_request_details } = res
         this.m_request_details = m_request_details
         this.items = m_approval_routes
       }
+      this.formSummary = {
+        emp_nm: this.user.emp_nm,
+        approval_type_nm: this.approveTypeName,
+        approval_type_id: this.approvalTypeId,
+        created: format(Date.now(), 'dd/MM/yyyy hh:mm'),
+        department_nm: this.departmentNameRoute
+      }
     } else if (this.requestID) {
       // リクエストIDから承認ルートテーブルから取得する
-      const [err, res] = await this.$api.approval.getApprovals(this.requestID)
+      const [err, res] = await this.$api.approval.getRequestFormData(
+        this.requestID
+      )
       if (!err && res) {
-        this.items = res
+        const {
+          approval_routes,
+          m_request_details,
+          request_emp_nm,
+          approval_type_nm,
+          approval_type_id,
+          department_nm,
+          created
+        } = res
+        this.formSummary = {
+          emp_nm: request_emp_nm,
+          approval_type_nm,
+          created,
+          approval_type_id,
+          department_nm
+        }
+        this.m_request_details = m_request_details
+        this.items = approval_routes
       }
     }
   }
@@ -108,10 +178,29 @@ export default class Approval extends Vue {
 
   async saveDraft() {
     const data = {
-      approval_type_id: this.approvalTypeId,
-      request_details: this.requests
+      approval_type_id: this.formSummary.approval_type_id || '',
+      request_details: this.requests,
+      department_id: this.departmentId
     }
-    const [err, res] = await this.$api.approval.sendRequest(data)
+    const [err, res] = this.requestID
+      ? await this.$api.approval.updateRequestFormData(this.requestID, data)
+      : await this.$api.approval.sendRequest(data)
+    if (!err && res) {
+      const { approval_routes, m_request_details, request_id } = res
+      this.items = approval_routes
+      this.m_request_details = m_request_details
+      if (this.requestID) return
+      const route = this.$router.resolve({
+        name: this.$route.name || '',
+        query: { id: request_id }
+      })
+      const { name, query } = route.route
+      if (name) this.$router.push({ name, query })
+      this.$toast.fire({
+        icon: 'success',
+        title: ToastMessages.APP_SAVE_SUCCESS
+      })
+    }
   }
   //#endregion
 }
@@ -121,7 +210,7 @@ export default class Approval extends Vue {
   <v-container fluid px-8>
     <ApprovalRoutes :items="items" class="mb-5" />
     <v-card class="pa-5 approval__container">
-      <ApprovalRequestHeader class="flex-grow-1" />
+      <ApprovalRequestHeader class="flex-grow-1" :formSummary="formSummary" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
         <ApprovalRequestDetail
           class="approval__detail"

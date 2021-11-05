@@ -19,6 +19,7 @@ export default class RadioGroup extends Vue {
 
   set current(value: number) {
     this.$emit('update:value', value)
+    this.$emit('change', value)
   }
 }
 </script>

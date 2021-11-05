@@ -86,4 +86,22 @@ declare namespace Approvals {
     approval_type_id: string
     request_details: RegisterRequest[]
   }
+
+  type SendRequestResponse = {
+    request_id: string
+    approval_type_id: string
+    approval_routes: ApprovalRouteResponse[]
+    request_emp_nm: string
+    approval_type_nm: string
+    created: string
+    department_nm: string
+  } & GetAprrovalTypeResponse
+
+  type FormSummary = {
+    emp_nm?: string
+    approval_type_nm?: string
+    created?: string
+    department_nm?: string
+    approval_type_id?: string
+  }
 }

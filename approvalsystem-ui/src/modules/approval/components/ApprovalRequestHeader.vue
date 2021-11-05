@@ -1,14 +1,17 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { format } from 'date-fns'
-import { Getter as G } from 'vuex-class'
-import { AuthD } from '@/store/typeD'
 
 @Component({
   components: {}
 })
 export default class ApprovalRequestHeader extends Vue {
-  @G(...AuthD.getUser) user: Auth.User
+  @Prop({
+    default: function () {
+      return {}
+    }
+  })
+  formSummary: Approvals.FormSummary
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   format = format
   //#region COMPUTED
@@ -17,11 +20,15 @@ export default class ApprovalRequestHeader extends Vue {
   }
 
   get approvalType() {
-    return this.$route.query.approval_type_nm
+    return this.formSummary.approval_type_nm
   }
 
   get departmentName() {
-    return this.$route.query.department_nm
+    return this.formSummary.department_nm
+  }
+
+  get userName() {
+    return this.formSummary.emp_nm
   }
   //#endregion
 }
@@ -47,7 +54,7 @@ export default class ApprovalRequestHeader extends Vue {
       </div>
       <div class="d-flex align-center">
         <span class="mr-2">{{ contents.REQUEST_USER_NAME }}:</span>
-        <span class="text-body-1 txt-text-2">{{ user.emp_nm }}</span>
+        <span class="text-body-1 txt-text-2">{{ userName }}</span>
       </div>
     </div>
   </div>

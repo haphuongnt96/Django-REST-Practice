@@ -124,7 +124,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
           component: component[request_detail_children[0].column_type_nm],
           style: { textAlign: 'center' },
           choices,
-          request_column_id: item.request_column_id
+          request_column_id: item.request_column_id,
+          request_column_val: item.request_column_val
         },
         {
           text: `※ ${notes}`,
@@ -142,7 +143,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
           component: component[column_type_nm],
           style: { textAlign: 'center' },
           choices,
-          request_column_id: item.request_column_id
+          request_column_id: item.request_column_id,
+          request_column_val: item.request_column_val
         }
       ])
     ]
@@ -158,7 +160,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
       component: component[column_type_nm],
       style: { textAlign: 'center' },
       choices,
-      request_column_id: item.request_column_id
+      request_column_id: item.request_column_id,
+      request_column_val: item.request_column_val
     },
     {
       text: `※ ${notes}`,
