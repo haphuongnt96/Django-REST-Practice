@@ -10,7 +10,8 @@ from .request import (
     RequestGetListAPI,
 )
 from .m_approval_route import (
-    ApprovalTypeListAPI
+    ApprovalTypeListAPI,
+    ApprovalTypeDetailAPI,
 )
 
 from .property import (
