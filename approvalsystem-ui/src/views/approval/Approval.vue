@@ -31,6 +31,7 @@ export default class Approval extends Vue {
   requests: Approvals.RegisterRequest[] = []
   // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[] = []
   fixed = false
   formSummary: Approvals.FormSummary = {
     emp_nm: '',
@@ -91,15 +92,15 @@ export default class Approval extends Vue {
       }
       const [err, res] = await this.$api.approval.getApproveTypeById('0001')
       if (!err && res) {
-        const { m_approval_routes, m_request_details } = res
+        const { approval_route_details, m_request_details } = res
         this.m_request_details = m_request_details
-        this.items = m_approval_routes
+        this.approval_route_details = approval_route_details
       }
       this.formSummary = {
         emp_nm: this.user.emp_nm,
         approval_type_nm: this.approveTypeName,
         approval_type_id: this.approvalTypeId,
-        created: format(Date.now(), 'dd/MM/yyyy hh:mm'),
+        created: '',
         department_nm: this.departmentNameRoute
       }
     } else if (this.requestID) {
@@ -208,7 +209,11 @@ export default class Approval extends Vue {
 
 <template>
   <v-container fluid px-8>
-    <ApprovalRoutes :items="items" class="mb-5" />
+    <ApprovalRoutes
+      :items="items"
+      :approval_route_details="approval_route_details"
+      class="mb-5"
+    />
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" :formSummary="formSummary" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">

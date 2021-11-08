@@ -19,6 +19,10 @@ export default class ApprovalRequestHeader extends Vue {
     return this.$pageContents.APPROVAL
   }
 
+  get createdAt() {
+    return this.formSummary.created
+  }
+
   get approvalType() {
     return this.formSummary.approval_type_nm
   }
@@ -46,10 +50,10 @@ export default class ApprovalRequestHeader extends Vue {
         <span class="mr-2">{{ contents.DEPARTMENT_NAME }}:</span>
         <span class="text-body-1 txt-text-2">{{ departmentName }}</span>
       </div>
-      <div class="d-flex align-center">
+      <div class="d-flex align-center" v-if="createdAt">
         <span class="mr-2">{{ contents.APP_DATE }}:</span>
         <span class="text-body-1 txt-text-2">
-          {{ format(Date.now(), 'dd/MM/yyyy hh:mm') }}
+          {{ createdAt | date('dd/MM/yyyy hh:mm') }}
         </span>
       </div>
       <div class="d-flex align-center">

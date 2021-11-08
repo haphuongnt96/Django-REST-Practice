@@ -19,6 +19,12 @@ export default class ApprovalRoutes extends Vue {
     }
   })
   items: Approvals.ApprovalRouteResponse[]
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
   //#endregion
 
   //#region Data
@@ -52,7 +58,10 @@ export default class ApprovalRoutes extends Vue {
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <ApprovalListRoutes :items="items" />
+            <ApprovalListRoutes
+              :items="items"
+              :approval_route_details="approval_route_details"
+            />
           </v-tab-item>
           <v-tab-item>
             <ApprovalAddApprover />

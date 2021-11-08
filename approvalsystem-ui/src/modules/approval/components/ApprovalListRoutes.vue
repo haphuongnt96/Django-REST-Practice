@@ -16,6 +16,12 @@ export default class ApprovalListRoutes extends Vue {
     }
   })
   items: Approvals.ApprovalRouteResponse[]
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
   //#endregion
 
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
@@ -37,43 +43,58 @@ export default class ApprovalListRoutes extends Vue {
 
 <template>
   <v-expansion-panels flat v-model="panel" multiple>
-    <v-expansion-panel v-for="(item, i) in items" :key="i">
-      <v-divider v-if="i" class="bg-pink-2 mb-2" />
-      <v-expansion-panel-header class="px-0">
-        承認状況: {{ item.approval_route_id }}
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <div class="d-box flex-gap-4">
-          <v-simple-table class="table__applicant">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-center">
-                    {{ '申請者' }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="text-center">
-                  <td>{{ item.request_emp_nm || 'データなし' }}</td>
-                </tr>
-                <tr class="text-center">
-                  <td>{{ item.created | date('yyyy/MM/dd') }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-          <div
-            v-for="(value, key) in routeDetailsGrouped(
-              item.approval_route_details
-            )"
-            :key="key"
-          >
+    <template v-if="items.length">
+      <v-expansion-panel v-for="(item, i) in items" :key="i">
+        <v-divider v-if="i" class="bg-pink-2 mb-2" />
+        <v-expansion-panel-header class="px-0">
+          承認状況: {{ item.approval_route_id }}
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div class="d-box flex-gap-4">
+            <v-simple-table class="table__applicant">
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      {{ '申請者' }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center">
+                    <td>{{ item.request_emp_nm || 'データなし' }}</td>
+                  </tr>
+                  <tr class="text-center">
+                    <td>{{ item.created | date('yyyy/MM/dd') }}</td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+            <div
+              v-for="(value, key) in routeDetailsGrouped(
+                item.approval_route_details
+              )"
+              :key="key"
+            >
+              <ApprovalRecord :header="key" :items="value" />
+            </div>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </template>
+    <template v-else>
+      <v-expansion-panel
+        v-for="(value, key) in routeDetailsGrouped(approval_route_details)"
+        :key="key"
+      >
+        <v-divider v-if="i" class="bg-pink-2 mb-2" />
+        <v-expansion-panel-content>
+          <div class="d-box flex-gap-4">
             <ApprovalRecord :header="key" :items="value" />
           </div>
-        </div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </template>
   </v-expansion-panels>
 </template>
 
