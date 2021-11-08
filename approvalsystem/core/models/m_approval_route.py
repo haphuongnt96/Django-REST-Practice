@@ -6,7 +6,6 @@ from django.core.validators import MaxValueValidator
 
 from utils.base_model import BaseModel
 
-from .approval_route import ApprovalPost
 from users.models.organization import Department, Segment, Division
 
 
