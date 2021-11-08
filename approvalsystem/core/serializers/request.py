@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.models import Request, RequestStatus
 from .approval_route import ApprovalRouteSerializer
-from .organization import BusinessUnitSerializer, DepartmentSerializer, SegmentSerializer, DivisionSerializer
+from users.serializers.organization import BusinessUnitSerializer, DepartmentSerializer, SegmentSerializer, DivisionSerializer
 
 
 class RequestStatusSerializer(serializers.ModelSerializer):

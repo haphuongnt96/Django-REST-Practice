@@ -6,7 +6,7 @@ from core.models import (
     Choice, RequestDetailMaster
 )
 from utils.serializers import RecursiveField
-from .organization import SegmentSerializer, DivisionSerializer
+from users.serializers.organization import SegmentSerializer, DivisionSerializer
 
 
 class ApprovalClassSerializer(serializers.ModelSerializer):

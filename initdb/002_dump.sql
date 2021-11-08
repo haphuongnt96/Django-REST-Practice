@@ -1130,6 +1130,22 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 106	Can change choice	27	change_choice
 107	Can delete choice	27	delete_choice
 108	Can view choice	27	view_choice
+109	Can add business unit	28	add_businessunit
+110	Can change business unit	28	change_businessunit
+111	Can delete business unit	28	delete_businessunit
+112	Can view business unit	28	view_businessunit
+113	Can add department	29	add_department
+114	Can change department	29	change_department
+115	Can delete department	29	delete_department
+116	Can view department	29	view_department
+117	Can add division	30	add_division
+118	Can change division	30	change_division
+119	Can delete division	30	delete_division
+120	Can view division	30	view_division
+121	Can add segment	31	add_segment
+122	Can change segment	31	change_segment
+123	Can delete segment	31	delete_segment
+124	Can view segment	31	view_segment
 \.
 
 
@@ -1176,6 +1192,10 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 25	users	empaffiliation
 26	core	property
 27	core	choice
+28	users	businessunit
+29	users	department
+30	users	division
+31	users	segment
 \.
 
 
@@ -1510,7 +1530,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 108, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 124, true);
 
 
 --
@@ -1524,7 +1544,7 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 27, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 31, true);
 
 
 --

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
 from core.models import ApprovalRoute, ApprovalRouteDetail
-from core.serializers.organization import BusinessUnitSerializer, DepartmentSerializer,\
+from users.serializers.organization import BusinessUnitSerializer, DepartmentSerializer,\
                                          SegmentSerializer, DivisionSerializer
 from users.serializers import UserDetailSerializer
 

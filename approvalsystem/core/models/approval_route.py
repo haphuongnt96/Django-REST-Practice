@@ -7,7 +7,7 @@ from django.conf import settings
 from utils.base_model import BaseModel
 
 from .request import Request
-from .organization import BusinessUnit, Department, Segment, Division
+from users.models.organization import BusinessUnit, Department, Segment, Division
 
 
 class ApprovalRoute(BaseModel):
