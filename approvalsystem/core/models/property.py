@@ -1,6 +1,6 @@
 from utils.base_model import BaseModel
 from django.db import models
-from .organization import Department, Segment, Division
+from users.models.organization import Department, Segment, Division
 from users.models import User
 
 
