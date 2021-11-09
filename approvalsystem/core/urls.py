@@ -14,7 +14,7 @@ from .views import (
 
 urlpatterns = [
     path('requests', RegisterRequestAPI.as_view(), name='request.register'),
-    path('requests/<str:request_id>',
+    path('requests/<int:request_id>',
          RetrieveUpdateRequestAPI.as_view(), name='request.detail'),
     path('requests/<int:request_id>/approval',
          ApprovalRequestAPI.as_view(), name='request.approval'),
