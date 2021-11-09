@@ -39,3 +39,10 @@ class DivisionSerializer(serializers.ModelSerializer):
             'division_id',
             'division_nm',
         ]
+
+
+class ListOrganizationSerializer(serializers.Serializer):
+    business_units = BusinessUnitSerializer(many=True)
+    departments = DepartmentSerializer(many=True)
+    segments = SegmentSerializer(many=True)
+    divisions = DivisionSerializer(many=True)
