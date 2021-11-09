@@ -13,7 +13,9 @@ from .m_approval_route import (
     ApprovalTypeListAPI,
     ApprovalTypeDetailAPI,
 )
-
 from .property import (
     PropertyGetListAPI,
+)
+from .application_contents import (
+    ApplicationContentsGetListAPI,
 )

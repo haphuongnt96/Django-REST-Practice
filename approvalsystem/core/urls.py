@@ -9,6 +9,7 @@ from .views import (
     ApprovalTypeListAPI,
     ApprovalTypeDetailAPI,
     PropertyGetListAPI,
+    ApplicationContentsGetListAPI,
 )
 
 urlpatterns = [
@@ -28,4 +29,6 @@ urlpatterns = [
          ApprovalTypeDetailAPI.as_view(), name='approval_types.detail'),
     path('property/get_list',
           PropertyGetListAPI.as_view(), name='property_list'),
+    path('application_contents/get_list',
+         ApplicationContentsGetListAPI.as_view(), name='application_contents'),
 ]
