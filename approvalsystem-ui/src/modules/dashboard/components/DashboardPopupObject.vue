@@ -152,7 +152,10 @@ export default class DashboardPopupObject extends Vue {
             </v-form>
           </div>
           <div class="search__form-result">
-            <DashboardPopupObjectTable ref="propertysearch" />
+            <DashboardPopupObjectTable
+              ref="propertysearch"
+              @applicationCotent="applicationCotent"
+            />
           </div>
         </div>
       </v-card-text>

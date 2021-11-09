@@ -97,7 +97,7 @@ export default class DashboardDetail extends Vue {
     this.formEmpName = data.emName
   }
   setObjectData(data) {
-    this.formObject = data.department
+    this.formObject = data.property_id
   }
   //#endregion  // 検索ボタン押下でDetailTableの検索を発火
   getDetailTable() {
