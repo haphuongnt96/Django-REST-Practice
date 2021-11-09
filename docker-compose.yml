@@ -6,6 +6,7 @@ services:
   # ################################################################################
   postgres:
     image: postgres:13
+    container_name: approval-system-postgres-1
     ports:
       - "5432:5432"
     healthcheck:
