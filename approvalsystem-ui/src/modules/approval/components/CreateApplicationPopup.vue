@@ -6,6 +6,7 @@ import { Component, Mixins } from 'vue-property-decorator'
 import { Getter as G } from 'vuex-class'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const debounce = require('lodash.debounce')
+type VForm = Vue & { validate: () => boolean; resetValidation: () => void }
 
 @Component({
   components: {
@@ -27,7 +28,7 @@ export default class CreateApplicationPopup extends Mixins(AppDialog) {
   appName = ''
   name = ''
   valid = false
-  rules = [(v: Auth.Affiliation) => !!v || 'Required']
+  rules = [(v: Auth.Affiliation) => !!v.department_id || 'Required']
   headers = [
     {
       text: 'ID',
@@ -97,7 +98,10 @@ export default class CreateApplicationPopup extends Mixins(AppDialog) {
 
   //#region Methods
   selectForm(approvalType: Approvals.ApprovalType) {
-    if (!this.valid) return
+    if (!this.valid) {
+      ;(this.$refs['form'] as VForm).validate()
+      return
+    }
     this.$emit('setDataSearch', { ...this.userDepartment, ...approvalType })
     this.isOpen = false
   }
@@ -111,7 +115,7 @@ export default class CreateApplicationPopup extends Mixins(AppDialog) {
 
 <template>
   <v-dialog v-model="isOpen" width="80%">
-    <v-form v-model="valid">
+    <v-form v-model="valid" ref="form">
       <v-card class="pa-5">
         <div
           :style="{ width: 'fit-content' }"

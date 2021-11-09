@@ -1,16 +1,6 @@
 import { transformData } from '@/common/helpers'
 import service from './base'
 
-// リクエストIDから承認ルートを取得する
-export function getApprovals(requestId: string) {
-  return transformData(
-    service.request<Approvals.ApprovalRouteResponse[]>({
-      method: 'get',
-      url: `api/requests/${requestId}/approval_routes`
-    })
-  )
-}
-
 // 承認ルートIDから承認ルートの詳細情報を取得
 export function getApprovalRouteDetail(id: string) {
   return transformData(
@@ -58,6 +48,38 @@ export function getApproveTypeById(id: string) {
     service.request<Approvals.GetAprrovalTypeResponse>({
       method: 'get',
       url: `api/approval_types/${id}`
+    })
+  )
+}
+
+export function sendRequest(data: Approvals.SendRequestParams) {
+  return transformData(
+    service.request<Approvals.SendRequestResponse>({
+      method: 'post',
+      url: `api/requests`,
+      data
+    })
+  )
+}
+
+export function getRequestFormData(id: string) {
+  return transformData(
+    service.request<Approvals.SendRequestResponse>({
+      method: 'get',
+      url: `api/requests/${id}`
+    })
+  )
+}
+
+export function updateRequestFormData(
+  id: string,
+  data: Approvals.SendRequestParams
+) {
+  return transformData(
+    service.request<Approvals.SendRequestResponse>({
+      method: 'put',
+      url: `api/requests/${id}`,
+      data
     })
   )
 }

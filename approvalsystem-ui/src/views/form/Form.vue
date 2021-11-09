@@ -1,6 +1,8 @@
 <script lang="ts">
 import ListCheckbox from '@/common/components/ui/ListCheckbox.vue'
+import EventBus from '@/common/eventBus'
 import { drawTableElement, drawTableHeader } from '@/modules/form/helpers'
+import eventBus from '@/plugins/eventBus'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import RadioGroupCell from './RadioGroupCell.vue'
 //*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
@@ -24,6 +26,16 @@ export default class Form extends Vue {
   drawTableHeader = drawTableHeader
 
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
+
+  //#region Method
+  handleInput(value: string, item: ApplicationForm.RequestDetail) {
+    console.log(value, item)
+    eventBus.$emit(EventBus.USER_INPUT_APPLICATION_FORM, {
+      request_column_id: item.request_column_id,
+      request_column_val: value
+    })
+  }
+  //#endregion
 }
 </script>
 
@@ -53,12 +65,14 @@ export default class Form extends Vue {
                 <component
                   :is="cell.component"
                   v-if="cell.component"
+                  :value="cell.request_column_val"
                   dense
                   hide-details="auto"
                   outlined
                   :items="cell.choices"
                   item-text="choice_nm"
                   item-value="choice_id"
+                  @change="(value) => handleInput(value, cell)"
                 />
                 <template v-else>
                   <span v-html="cell.text" />
@@ -81,12 +95,14 @@ export default class Form extends Vue {
                 <component
                   :is="cell.component"
                   v-if="cell.component"
+                  :value="cell.request_column_val"
                   dense
                   hide-details="auto"
                   outlined
                   :items="cell.choices"
                   item-text="choice_nm"
                   item-value="choice_id"
+                  @change="(value) => handleInput(value, cell)"
                 />
                 <template v-else>
                   <span v-html="cell.text" />

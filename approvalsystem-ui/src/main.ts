@@ -5,8 +5,6 @@ import store from './store'
 import '@/plugins'
 import '@/common/filter'
 import vuetify from '@/plugins/vuetify'
-import VueSweetalert2 from 'vue-sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css'
 import { Decorators } from '@/store/storeD'
 
 Vue.config.productionTip = false
@@ -20,5 +18,4 @@ new Vue({
     store.dispatch(Decorators.initApp, null, { root: true })
   }
 }).$mount('#app')
-Vue.use(VueSweetalert2)
 require('@/styles/main.scss')

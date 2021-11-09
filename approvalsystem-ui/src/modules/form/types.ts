@@ -7,6 +7,7 @@ declare namespace ApplicationForm {
     column_type_nm: ColumnTypeName
     max_length: number
     request_column_id: string
+    request_column_val: string
     request_detail_children: RequestDetail[]
     required: boolean
     notes: string
@@ -19,7 +20,7 @@ declare namespace ApplicationForm {
 
   enum ColumnTypeName {
     HEADER = 'header',
-    TEXT = 'text',
+    INPUT_TEXT = 'input_text',
     SELECTION = 'selection',
     RADIO = 'radio'
   }

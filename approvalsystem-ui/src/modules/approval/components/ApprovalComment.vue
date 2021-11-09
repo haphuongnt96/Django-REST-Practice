@@ -16,7 +16,6 @@ export default class ApprovalComment extends Vue {
   async mounted() {
     console.log('mounted')
     console.log(this)
-    console.log(this.$api.approval.getApprovals())
     // approval_route_idが取れない状態なので1で固定
     const [err, res] = await this.$api.approval.getApprovalRouteComment('1')
     if (!err && res) {
