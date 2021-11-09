@@ -47,8 +47,8 @@ WSGI_APPLICATION = 'wsgi.application'
 
 ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split(';') if os.getenv('ALLOWED_HOSTS') else []
 
-#すべてのアクセスを許可をしない(false)で設定
-CORS_ORIGIN_ALLOW_ALL = False
+#すべてのアクセスを許可をする(true)で設定
+CORS_ORIGIN_ALLOW_ALL = os.getenv('CORS_ORIGIN_ALLOW_ALL') == 'true'
 
 # Custom headers https://githubja.com/ottoyiu/django-cors-headers
 # ブラウザーに公開されるHTTPヘッダーのリスト

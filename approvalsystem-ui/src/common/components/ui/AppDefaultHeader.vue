@@ -1,28 +1,37 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Getter as G } from 'vuex-class'
+import { AuthD } from '@/store/typeD'
 
 @Component({ components: {} })
 export default class AppDefaultHeader extends Vue {
+  @G(...AuthD.getUser) user: Auth.User
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   profiles = [{ title: 'パスワード変更', path: '/change-pass' }]
-  user = {}
+
+  //#region Computed
   get contents() {
     return this.$pageContents.APP_HEADER
   }
+  //#endregion
+
+  get loggedIn(): boolean {
+    const loggedIn = localStorage.getItem('vue-token')
+    return !!loggedIn
+  }
+
+  //ログアウト処理
   async handleLogout() {
+    //backend側に/api/auth/logout/でログアウト処理をリクエスト
     const [err, res] = await this.$api.authen.doLogout()
     if (!err && res) {
+      //errがなければログイン画面に遷移してローカルストレージのtokenを削除
       this.$router.push({ name: 'authen' })
       localStorage.removeItem('vue-token')
       localStorage.removeItem('vue-token-reset')
     } else {
+      //エラーの場合出すメッセージ
       alert('logout fail')
-    }
-  }
-  async mounted() {
-    const [err, res] = await this.$api.authen.getUserInfo()
-    if (!err && res) {
-      this.user = res
     }
   }
 }
@@ -32,10 +41,15 @@ export default class AppDefaultHeader extends Vue {
   <v-app-bar app fixed dense color="#93B5C6">
     <div class="text-h6 txt-white">{{ contents.title }}</div>
     <v-spacer />
-    <v-btn color="grey" class="mr-3" to="/dashboard">
+    <v-btn
+      v-if="loggedIn && $route.path !== '/dashboard'"
+      color="grey"
+      class="mr-3"
+      to="/dashboard"
+    >
       {{ contents.BACK }}
     </v-btn>
-    <div class="txt-white mr-3">
+    <div v-if="loggedIn" class="txt-white mr-3">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="user__dropdown" v-bind="attrs" v-on="on">

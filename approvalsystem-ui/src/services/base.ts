@@ -1,3 +1,5 @@
+import { ToastMessages } from '@/common/constant'
+import Toast from '@/plugins/toast'
 import axios from 'axios'
 
 export const CancelToken = axios.CancelToken
@@ -46,7 +48,12 @@ service.interceptors.response.use(
     // refresh_tokeをローカルストレージから取得する
     const refreshToken = localStorage.getItem('vue-token-reset')
     //check reponse status to refresh accesstoken
-    if (err.response.status === 401 && !originalConfig._retry && refreshToken) {
+    if (
+      err.response &&
+      err.response.status === 401 &&
+      !originalConfig._retry &&
+      refreshToken
+    ) {
       // エラーが401　かつ　リトライをしていなくて　かつ　refreshutokenがある場合はリトライをTrueにする
       // 短時間期限のtokenが無効で、長時間期限のrefresh_tokenがあれば、それでtokenを再取得を試行する
       originalConfig._retry = true
@@ -87,6 +94,11 @@ service.interceptors.response.use(
         window.location.href = '/login'
       }
     }
+    Toast.fire({
+      icon: 'error',
+      title: ToastMessages.INTERNAL_ERROR
+    })
+    console.log(err)
     return Promise.reject(err)
   }
 )

@@ -5,8 +5,6 @@ import { Iconfont } from 'vuetify/types/services/icons'
 import '@mdi/font/css/materialdesignicons.css'
 import config from '@/common/config'
 
-const navbarBtnActive = '#00cf83'
-
 const iconfont: Iconfont = 'mdi'
 const opts = {
   icons: {

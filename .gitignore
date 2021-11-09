@@ -62,5 +62,10 @@ db.sqlite3
 
 # initdb
 *test.sql
+
+# vuejs env
 approvalsystem-ui/.env
 approvalsystem-ui/.env.production
+
+# vscode-workspace
+*.code-workspace

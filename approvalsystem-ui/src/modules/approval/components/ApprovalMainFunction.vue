@@ -1,7 +1,16 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Emit, Vue } from 'vue-property-decorator'
+
 @Component({ components: {} })
-export default class MainFunction extends Vue {
+export default class ApprovalMainFunction extends Vue {
+  fixed = false
+
+  //#region Emit
+  @Emit('saveDraft') saveDraft() {
+    return
+  }
+  //#endregion
+
   //#region COMPUTED
   get contents() {
     return this.$pageContents.APPROVAL
@@ -20,13 +29,16 @@ export default class MainFunction extends Vue {
   }
 
   //#endregion
+
+  //#region Hook
+  //#endregion
 }
 </script>
 
 <template>
   <div class="grid">
     <v-btn color="grey">{{ contents.APPLY }}</v-btn>
-    <v-btn color="grey">{{ contents.SAVE_DRAFT }}</v-btn>
+    <v-btn color="grey" @click="saveDraft">{{ contents.SAVE_DRAFT }}</v-btn>
     <v-btn color="grey">{{ contents.CANCEL_APP }}</v-btn>
     <v-btn color="grey">{{ contents.DELETE }}</v-btn>
     <v-btn color="grey" @click="handleApprove()">
@@ -35,6 +47,7 @@ export default class MainFunction extends Vue {
     <v-btn color="grey">{{ contents.DISAPPROVE }}</v-btn>
     <v-btn color="grey">{{ contents.CANCEL }}</v-btn>
     <v-btn color="grey">{{ contents.PRINT }}</v-btn>
+    <v-btn color="grey">{{ contents.COPY_FUNCTION }}</v-btn>
   </div>
 </template>
 
@@ -42,7 +55,12 @@ export default class MainFunction extends Vue {
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: min-content;
   grid-gap: 10px;
   height: -webkit-fill-available;
+}
+.fixed {
+  position: fixed;
+  top: 68px;
 }
 </style>

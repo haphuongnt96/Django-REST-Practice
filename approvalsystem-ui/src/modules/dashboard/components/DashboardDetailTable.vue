@@ -7,6 +7,8 @@ export default class DetailTable extends Vue {
   get contents() {
     return this.$pageContents.DASHBOARD
   }
+  request_id: ''
+  item: ''
   items: Dashboard.DashboardDetailTable[] = []
   // 検索ボタン押下でデータを取得
   async getdata() {
@@ -24,8 +26,14 @@ export default class DetailTable extends Vue {
       })
     }
   }
+  // 申請一覧のレコードクリック時に詳細画面に遷移する
+  clickRow(item) {
+    // クリックされたオブジェクトのrequest_idを取得して渡す
+    this.request_id = item.request_id
+    this.$router.push({ name: 'approval', params: { id: this.request_id } })
+  }
   //#endregion
-  //dummy data for table
+
   //table header and set value
   headers = [
     {
@@ -70,6 +78,7 @@ export default class DetailTable extends Vue {
           'disable-items-per-page': false
         }"
         class="dashboard__list--table"
+        @click:row="clickRow"
       ></v-data-table>
     </div>
   </div>

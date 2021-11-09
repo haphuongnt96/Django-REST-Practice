@@ -58,14 +58,3 @@ class Division(BaseModel):
 
     def __str__(self):
         return self.division_nm
-
-
-class BusinessUnit(BaseModel):
-    business_unit_id = models.CharField(primary_key=True, max_length=2)
-    business_unit_nm = models.CharField(max_length=10)
-
-    class Meta:
-        db_table = 'm_business_unit'
-
-    def __str__(self):
-        return self.business_unit_nm

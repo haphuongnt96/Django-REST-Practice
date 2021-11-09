@@ -16,7 +16,7 @@ dockerのpostgresからダンプデータを取り出し、dockerコンテナ再
 ### dockerコンテナに入る
 
 ```bash
-PS C:\work\approval-system> docker exec -it approval-system_postgres_1 /bin/bash
+PS C:\work\approval-system\approvalsystem> docker exec -it approval-system-postgres-1 /bin/bash
 ```
 
 ### postgresダンプ出力
@@ -29,5 +29,5 @@ PS C:\work\approval-system> docker exec -it approval-system_postgres_1 /bin/bash
 ### dockerコンテナからdump.sqlファイルを取り出す
 
 ```bash
-PS C:\work\approval-system> docker cp approval-system_postgres_1:/dump.sql ./initdb/002_dump.sql
+PS C:\work\approval-system\approvalsystem> docker cp approval-system-postgres-1:/dump.sql ../initdb/002_dump.sql
 ```
