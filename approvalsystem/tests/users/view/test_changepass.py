@@ -6,7 +6,7 @@ from users.views import ChangePassAPI as SUT
 
 
 @pytest.mark.django_db
-class TestUserInfoAPI():
+class TestChangePassAPI():
     @pytest.mark.parametrize(('data'), [{
             'oldPassword': 'aitest0987',
             'newPassword': 'aitest0987@',
