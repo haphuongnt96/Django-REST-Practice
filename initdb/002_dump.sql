@@ -1403,6 +1403,7 @@ COPY public.m_emp (id, password, last_login, is_superuser, created, modified, em
 --
 
 COPY public.m_emp_affiliation (created, modified, emp_affiliation_id, main_flg, business_unit_id, department_id, division_id, emp_id, segment_id) FROM stdin;
+2021-11-09 02:41:10.183+00	2021-11-09 02:41:14.029+00	1	t	01	100	01	1	100
 \.
 
 
@@ -1427,6 +1428,7 @@ COPY public.m_emp_user_permissions (id, user_id, permission_id) FROM stdin;
 --
 
 COPY public.m_property (created, modified, property_id, property_nm, address, tel_number, department_id, division_id, emp_id, segment_id) FROM stdin;
+2021-11-09 04:23:52.528+00	2021-11-09 04:23:55.783+00	1	ぶっけん	じゅうしょ	070	100	01	1	100
 \.
 
 
@@ -1500,8 +1502,8 @@ COPY public.mm_approval_type (created, modified, approval_type_id, approval_type
 --
 
 COPY public.t_approval_route (created, modified, approval_route_id, judgement_cd, request_emp_id, business_unit_id, department_id, division_id, segment_id, approval_type_id, request_id, request_dt) FROM stdin;
-2021-09-22 02:38:59.177+00	2021-09-22 02:39:03.113+00	1	\N	2	01	100	01	100	\N	\N	\N
-2021-09-22 02:39:59.177+00	2021-09-22 02:39:03.113+00	2	\N	2	01	100	01	100	\N	\N	\N
+2021-09-22 02:38:59.177+00	2021-09-22 02:39:03.113+00	1	\N	2	01	100	01	100	\N	1	\N
+2021-09-22 02:39:59.177+00	2021-09-22 02:39:03.113+00	2	\N	2	01	100	01	100	\N	1	\N
 \.
 
 
