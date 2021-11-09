@@ -44,6 +44,11 @@ declare namespace Approvals {
     segments: ApprovalSegment[]
   }
 
+  type GetAprrovalTypeResponse = {
+    m_approval_routes: ApprovalRouteResponse[]
+    m_request_details: ApplicationForm.RequestDetail[]
+  }
+
   type ApprovalClass = {
     approval_class_id: string
     approval_class_nm: string
@@ -60,9 +65,7 @@ declare namespace Approvals {
     approval_type_nm: string
     division_id: string
     division_nm: string
-    segment_id: string
-    segment_nm: string
-  }
+  } & Auth.Affiliation
 
   type ApprovalDivision = {
     division_id: string

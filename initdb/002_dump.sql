@@ -311,10 +311,9 @@ ALTER TABLE public.m_business_unit OWNER TO approval_user;
 CREATE TABLE public.m_choices (
     created timestamp with time zone NOT NULL,
     modified timestamp with time zone NOT NULL,
-    choices_type_id character varying(3) NOT NULL,
-    choice_no integer NOT NULL,
-    choice_name character varying(10) NOT NULL,
-    CONSTRAINT m_choices_choice_no_check CHECK ((choice_no >= 0))
+    choice_id character varying(2) NOT NULL,
+    choice_nm character varying(10) NOT NULL,
+    request_column_id character varying(4)
 );
 
 
@@ -481,49 +480,16 @@ CREATE TABLE public.m_request_detail (
     request_column_id character varying(4) NOT NULL,
     required boolean NOT NULL,
     max_length integer NOT NULL,
-    column_nm character varying(20) NOT NULL,
+    column_nm character varying(30) NOT NULL,
     notes character varying(50) NOT NULL,
     approval_type_id character varying(4),
     column_type_id character varying(2),
+    parent_column_id character varying(4),
     CONSTRAINT m_request_detail_max_length_check CHECK ((max_length >= 0))
 );
 
 
 ALTER TABLE public.m_request_detail OWNER TO approval_user;
-
---
--- Name: m_request_detail_choices_type; Type: TABLE; Schema: public; Owner: approval_user
---
-
-CREATE TABLE public.m_request_detail_choices_type (
-    id bigint NOT NULL,
-    requestdetailmaster_id character varying(4) NOT NULL,
-    choices_id character varying(3) NOT NULL
-);
-
-
-ALTER TABLE public.m_request_detail_choices_type OWNER TO approval_user;
-
---
--- Name: m_request_detail_choices_type_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
---
-
-CREATE SEQUENCE public.m_request_detail_choices_type_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.m_request_detail_choices_type_id_seq OWNER TO approval_user;
-
---
--- Name: m_request_detail_choices_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
---
-
-ALTER SEQUENCE public.m_request_detail_choices_type_id_seq OWNED BY public.m_request_detail_choices_type.id;
-
 
 --
 -- Name: m_request_status; Type: TABLE; Schema: public; Owner: approval_user
@@ -987,13 +953,6 @@ ALTER TABLE ONLY public.m_emp_user_permissions ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- Name: m_request_detail_choices_type id; Type: DEFAULT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.m_request_detail_choices_type ALTER COLUMN id SET DEFAULT nextval('public.m_request_detail_choices_type_id_seq'::regclass);
-
-
---
 -- Name: mm_approval_route id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -1167,6 +1126,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 102	Can change property	26	change_property
 103	Can delete property	26	delete_property
 104	Can view property	26	view_property
+105	Can add choice	27	add_choice
+106	Can change choice	27	change_choice
+107	Can delete choice	27	delete_choice
+108	Can view choice	27	view_choice
 \.
 
 
@@ -1212,6 +1175,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 24	core	approvaltype
 25	users	empaffiliation
 26	core	property
+27	core	choice
 \.
 
 
@@ -1260,6 +1224,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 38	core	0002_approvalclass_approvalroutemaster_approvaltype_choices_columntype_requestdetailmaster	2021-10-28 07:53:52.925167+00
 39	users	0002_empaffiliation	2021-11-02 06:31:07.399318+00
 40	core	0002_property	2021-11-02 06:43:59.056341+00
+41	core	0003_auto_20211104_0643	2021-11-08 01:55:45.184651+00
 \.
 
 
@@ -1305,7 +1270,17 @@ COPY public.m_business_unit (created, modified, business_unit_id, business_unit_
 -- Data for Name: m_choices; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.m_choices (created, modified, choices_type_id, choice_no, choice_name) FROM stdin;
+COPY public.m_choices (created, modified, choice_id, choice_nm, request_column_id) FROM stdin;
+2021-10-30 12:18:55.131+00	2021-10-30 12:18:55.132+00	00	マンション	0012
+2021-10-30 12:18:55.133+00	2021-10-30 12:18:55.133+00	01	ビル・施設	0012
+2021-10-30 12:18:55.135+00	2021-10-30 12:18:55.135+00	02	戸建	0012
+2021-10-30 12:18:55.137+00	2021-10-30 12:18:55.137+00	03	定期契約外	0012
+2021-10-30 12:20:19.688+00	2021-10-30 12:20:19.688+00	05	対象	0013
+2021-10-30 12:20:19.69+00	2021-10-30 12:20:19.69+00	06	対象以外	0013
+2021-10-30 12:21:08.078+00	2021-10-30 12:21:08.078+00	07	あり	0018
+2021-10-30 12:21:08.083+00	2021-10-30 12:21:08.083+00	08	なし	0018
+2021-10-30 12:21:29.654+00	2021-10-30 12:21:29.654+00	09	あり	0019
+2021-10-30 12:21:29.656+00	2021-10-30 12:21:29.656+00	10	あり	0019
 \.
 
 
@@ -1314,6 +1289,12 @@ COPY public.m_choices (created, modified, choices_type_id, choice_no, choice_nam
 --
 
 COPY public.m_column_type (created, modified, column_type_id, column_type_nm) FROM stdin;
+2021-10-30 04:05:47.076+00	2021-10-30 09:38:25.23+00	01	header
+2021-10-30 09:38:31.543+00	2021-10-30 09:39:13.909+00	02	text
+2021-10-30 09:39:24.043+00	2021-10-30 09:39:24.043+00	03	number
+2021-10-30 09:39:42.641+00	2021-10-30 09:39:42.641+00	04	radio
+2021-10-30 09:39:55.823+00	2021-10-30 09:39:55.823+00	05	checkbox
+2021-10-30 09:40:14.822+00	2021-10-30 09:40:14.823+00	06	selection
 \.
 
 
@@ -1381,15 +1362,29 @@ COPY public.m_property (created, modified, property_id, property_nm, address, te
 -- Data for Name: m_request_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.m_request_detail (created, modified, request_column_id, required, max_length, column_nm, notes, approval_type_id, column_type_id) FROM stdin;
-\.
-
-
---
--- Data for Name: m_request_detail_choices_type; Type: TABLE DATA; Schema: public; Owner: approval_user
---
-
-COPY public.m_request_detail_choices_type (id, requestdetailmaster_id, choices_id) FROM stdin;
+COPY public.m_request_detail (created, modified, request_column_id, required, max_length, column_nm, notes, approval_type_id, column_type_id, parent_column_id) FROM stdin;
+2021-10-30 11:58:40.748+00	2021-10-30 12:16:23.874+00	0001	f	20	該当項目入力欄	変更・解約	0001	01	\N
+2021-10-30 12:03:25.065+00	2021-10-30 12:16:23.875+00	0002	f	20	物件コード	新規・変更・解約	0001	02	0001
+2021-10-30 12:03:25.067+00	2021-10-30 12:16:23.877+00	0003	f	20	物件名称	新規	0001	02	0001
+2021-10-30 12:03:25.07+00	2021-10-30 12:16:23.878+00	0004	f	20	物件カナ	新規	0001	02	0001
+2021-10-30 12:03:25.073+00	2021-10-30 12:16:23.879+00	0005	f	20	物件通称	新規・変更・解約	0001	02	0001
+2021-10-30 12:03:25.076+00	2021-10-30 12:16:23.882+00	0006	f	20	担当部署	変更	0001	06	0001
+2021-10-30 12:03:25.084+00	2021-10-30 12:16:23.884+00	0007	f	20	担当部署（旧）	新規	0001	06	0001
+2021-10-30 12:03:25.092+00	2021-10-30 12:16:23.886+00	0008	f	20	会計年度開始月	新規	0001	02	0001
+2021-10-30 12:12:29.235+00	2021-10-30 12:16:23.888+00	0009	f	20	管理開始日	新規	0001	02	0001
+2021-10-30 12:12:29.238+00	2021-10-30 12:16:23.89+00	0010	f	20	管理終了日	新規	0001	02	0001
+2021-10-30 12:12:29.24+00	2021-10-30 16:30:09.066+00	0011	f	20	物件住所	新規	0001	01	0001
+2021-10-30 12:12:29.243+00	2021-10-30 12:18:55.129+00	0012	f	20	管理	新規・変更・解約	0001	04	0001
+2021-10-30 12:12:29.245+00	2021-10-30 12:20:19.685+00	0013	f	20	仲介重説申込	変更	0001	04	0001
+2021-10-30 12:12:29.247+00	2021-10-30 12:16:23.896+00	0014	f	20	担当課長	変更	0001	02	0001
+2021-10-30 12:12:29.249+00	2021-10-30 12:16:23.897+00	0015	f	20	担当課長（旧）	変更	0001	02	0001
+2021-10-30 12:12:29.252+00	2021-10-30 12:16:23.899+00	0016	f	20	フロント担当者	新規・変更・解約	0001	02	0001
+2021-10-30 12:12:29.255+00	2021-10-30 12:16:23.9+00	0017	f	20	フロント担当者（旧）	変更	0001	02	0001
+2021-10-30 12:12:29.257+00	2021-10-30 12:21:08.07+00	0018	f	20	棟の有無	変更	0001	04	0001
+2021-10-30 12:12:29.259+00	2021-10-30 12:21:29.651+00	0019	f	20	関連相合の有無	変更	0001	04	0001
+2021-10-30 16:30:09.075+00	2021-10-30 16:30:09.075+00	0020	f	20	郵便番号		0001	06	0011
+2021-10-30 16:30:09.078+00	2021-10-30 16:30:09.078+00	0021	f	20	都道府県		0001	06	0011
+2021-10-30 16:30:09.081+00	2021-10-30 16:30:09.081+00	0022	f	20	それ以降 ＊市区町村以降		0001	06	0011
 \.
 
 
@@ -1424,6 +1419,7 @@ COPY public.mm_approval_route (id, created, modified, judge_cd, "order", notific
 --
 
 COPY public.mm_approval_type (created, modified, approval_type_id, approval_type_nm, can_read, approval_class_id, division_id, segment_id) FROM stdin;
+2021-10-30 11:58:40.741+00	2021-10-30 16:33:39.076+00	0001	物件マスタ登録申請表		\N	\N	\N
 \.
 
 
@@ -1492,6 +1488,7 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 3	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzMjkwMDI5MywianRpIjoiMjYyYzJjNDM0OTM2NDk1MTk0MjVhZjdmNDY3M2JmNTciLCJ1c2VyX2lkIjoxfQ.Lzkjos4OSSGp72UKUK8RtFp034CB8lL3YCG0nJciZxE	\N	2021-09-29 07:24:53+00	\N	262c2c43493649519425af7f4673bf57
 4	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNTMxNDEyMCwianRpIjoiM2QxZTEzNTVhNWZhNDdkZjgzZjhiNDQ3NjA3MjFjMjAiLCJ1c2VyX2lkIjoxfQ.niYZ3S-QZDJiIUzujbWBx7kDR7z1gALR503-nkKeZ2s	\N	2021-10-27 05:55:20+00	\N	3d1e1355a5fa47df83f8b44760721c20
 5	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNTMyNDYyNywianRpIjoiNGRkYTgxNjMzMTZhNDRhMzg1N2EyODQ3YTdiODVhNmEiLCJ1c2VyX2lkIjoxfQ.RSSd0YzTAcnUEqTIISps1_OZf-X5EvSJrhL60hoAU0g	\N	2021-10-27 08:50:27+00	\N	4dda8163316a44a3857a2847a7b85a6a
+6	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjQyMjA3NiwianRpIjoiNTk3NzRjMTkwNTk2NDgzYTkyMjJlZmQxMjVkYjdiY2UiLCJ1c2VyX2lkIjoxfQ.ysi8WjXAwkmD-Qyf9r8dSaIDiyiflIOwnmn8rAF-nug	2021-11-08 01:41:16.75172+00	2021-11-09 01:41:16+00	1	59774c190596483a9222efd125db7bce
 \.
 
 
@@ -1513,7 +1510,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 104, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 108, true);
 
 
 --
@@ -1527,14 +1524,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 26, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 27, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 41, true);
 
 
 --
@@ -1542,13 +1539,6 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
 --
 
 SELECT pg_catalog.setval('public.m_emp_affiliation_emp_affiliation_id_seq', 1, false);
-
-
---
--- Name: m_request_detail_choices_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
---
-
-SELECT pg_catalog.setval('public.m_request_detail_choices_type_id_seq', 1, false);
 
 
 --
@@ -1597,7 +1587,7 @@ SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 5, tr
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 5, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 6, true);
 
 
 --
@@ -1738,7 +1728,7 @@ ALTER TABLE ONLY public.m_business_unit
 --
 
 ALTER TABLE ONLY public.m_choices
-    ADD CONSTRAINT m_choices_pkey PRIMARY KEY (choices_type_id);
+    ADD CONSTRAINT m_choices_pkey PRIMARY KEY (choice_id);
 
 
 --
@@ -1779,22 +1769,6 @@ ALTER TABLE ONLY public.m_emp_affiliation
 
 ALTER TABLE ONLY public.m_property
     ADD CONSTRAINT m_property_pkey PRIMARY KEY (property_id);
-
-
---
--- Name: m_request_detail_choices_type m_request_detail_choices_requestdetailmaster_id_c_0a994816_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.m_request_detail_choices_type
-    ADD CONSTRAINT m_request_detail_choices_requestdetailmaster_id_c_0a994816_uniq UNIQUE (requestdetailmaster_id, choices_id);
-
-
---
--- Name: m_request_detail_choices_type m_request_detail_choices_type_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.m_request_detail_choices_type
-    ADD CONSTRAINT m_request_detail_choices_type_pkey PRIMARY KEY (id);
 
 
 --
@@ -2035,10 +2009,24 @@ CREATE INDEX m_business_unit_business_unit_cd_29f642a3_like ON public.m_business
 
 
 --
--- Name: m_choices_choices_type_id_b31ee416_like; Type: INDEX; Schema: public; Owner: approval_user
+-- Name: m_choices_choice_id_10c3b1d7_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX m_choices_choices_type_id_b31ee416_like ON public.m_choices USING btree (choices_type_id varchar_pattern_ops);
+CREATE INDEX m_choices_choice_id_10c3b1d7_like ON public.m_choices USING btree (choice_id varchar_pattern_ops);
+
+
+--
+-- Name: m_choices_request_column_id_75744d4c; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_choices_request_column_id_75744d4c ON public.m_choices USING btree (request_column_id);
+
+
+--
+-- Name: m_choices_request_column_id_75744d4c_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_choices_request_column_id_75744d4c_like ON public.m_choices USING btree (request_column_id varchar_pattern_ops);
 
 
 --
@@ -2196,34 +2184,6 @@ CREATE INDEX m_request_detail_approval_type_id_c469b8c0_like ON public.m_request
 
 
 --
--- Name: m_request_detail_choices_requestdetailmaster_id_b48c3459_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX m_request_detail_choices_requestdetailmaster_id_b48c3459_like ON public.m_request_detail_choices_type USING btree (requestdetailmaster_id varchar_pattern_ops);
-
-
---
--- Name: m_request_detail_choices_type_choices_id_927379bb; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX m_request_detail_choices_type_choices_id_927379bb ON public.m_request_detail_choices_type USING btree (choices_id);
-
-
---
--- Name: m_request_detail_choices_type_choices_id_927379bb_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX m_request_detail_choices_type_choices_id_927379bb_like ON public.m_request_detail_choices_type USING btree (choices_id varchar_pattern_ops);
-
-
---
--- Name: m_request_detail_choices_type_requestdetailmaster_id_b48c3459; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX m_request_detail_choices_type_requestdetailmaster_id_b48c3459 ON public.m_request_detail_choices_type USING btree (requestdetailmaster_id);
-
-
---
 -- Name: m_request_detail_column_type_id_13481145; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -2235,6 +2195,20 @@ CREATE INDEX m_request_detail_column_type_id_13481145 ON public.m_request_detail
 --
 
 CREATE INDEX m_request_detail_column_type_id_13481145_like ON public.m_request_detail USING btree (column_type_id varchar_pattern_ops);
+
+
+--
+-- Name: m_request_detail_parent_column_id_11b6cbe9; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_parent_column_id_11b6cbe9 ON public.m_request_detail USING btree (parent_column_id);
+
+
+--
+-- Name: m_request_detail_parent_column_id_11b6cbe9_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_request_detail_parent_column_id_11b6cbe9_like ON public.m_request_detail USING btree (parent_column_id varchar_pattern_ops);
 
 
 --
@@ -2642,6 +2616,14 @@ ALTER TABLE ONLY public.django_admin_log
 
 
 --
+-- Name: m_choices m_choices_request_column_id_75744d4c_fk_m_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_choices
+    ADD CONSTRAINT m_choices_request_column_id_75744d4c_fk_m_request FOREIGN KEY (request_column_id) REFERENCES public.m_request_detail(request_column_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: m_emp_affiliation m_emp_affiliation_business_unit_id_bf18a7b3_fk_m_busines; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -2722,27 +2704,19 @@ ALTER TABLE ONLY public.m_request_detail
 
 
 --
--- Name: m_request_detail_choices_type m_request_detail_cho_choices_id_927379bb_fk_m_choices; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.m_request_detail_choices_type
-    ADD CONSTRAINT m_request_detail_cho_choices_id_927379bb_fk_m_choices FOREIGN KEY (choices_id) REFERENCES public.m_choices(choices_type_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: m_request_detail_choices_type m_request_detail_cho_requestdetailmaster__b48c3459_fk_m_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.m_request_detail_choices_type
-    ADD CONSTRAINT m_request_detail_cho_requestdetailmaster__b48c3459_fk_m_request FOREIGN KEY (requestdetailmaster_id) REFERENCES public.m_request_detail(request_column_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: m_request_detail m_request_detail_column_type_id_13481145_fk_m_column_; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.m_request_detail
     ADD CONSTRAINT m_request_detail_column_type_id_13481145_fk_m_column_ FOREIGN KEY (column_type_id) REFERENCES public.m_column_type(column_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: m_request_detail m_request_detail_parent_column_id_11b6cbe9_fk_m_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_request_detail
+    ADD CONSTRAINT m_request_detail_parent_column_id_11b6cbe9_fk_m_request FOREIGN KEY (parent_column_id) REFERENCES public.m_request_detail(request_column_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
