@@ -3,6 +3,9 @@ declare namespace Dashboard {
     type DashboardPropertySearchTable = {
         request_value: []
     }
+    type DashboardApplicationContentsSearchTable = {
+        request_value: []
+    }
     type DashboardDetailSerchTable = {
         request_value: []
     }

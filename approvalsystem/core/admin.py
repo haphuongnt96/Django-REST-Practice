@@ -6,7 +6,7 @@ from core.models import (
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
     ApprovalRouteMaster,
     ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
-    Property
+    Property, ApplicationContents, ApplicationClassification
 )
 
 
@@ -61,6 +61,14 @@ class RequestDetailMasterAdmin(admin.ModelAdmin):
     ]
 
 
+class ApplicationContentsAdmin(admin.ModelAdmin):
+    model = ApplicationContents
+
+
+class ApplicationClassificationAdmin(admin.ModelAdmin):
+    model = ApplicationClassification
+
+
 admin.site.register(BusinessUnit)
 admin.site.register(Department)
 admin.site.register(Segment)
@@ -74,3 +82,5 @@ admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster, RequestDetailMasterAdmin)
 admin.site.register(ColumnType)
 admin.site.register(Property)
+admin.site.register(ApplicationContents)
+admin.site.register(ApplicationClassification)

@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 class ApplicationClassificationSerializer(serializers.ModelSerializer):
     
     class Meta:
-        models = ApplicationClassification
+        model = ApplicationClassification
         fields = [
             'applicationclassification_id',
             'applicationclassification_nm',
@@ -14,15 +14,15 @@ class ApplicationClassificationSerializer(serializers.ModelSerializer):
 
 
 class ApplicationContentsSerializer(serializers.ModelSerializer):
-    applicationcontents = ApplicationClassificationSerializer(read_only=True)
+    applicationclassification = ApplicationClassificationSerializer(read_only=True)
 
     class Meta:
-        models = ApplicationContents
+        model = ApplicationContents
         fields = [
             'applicationcontents_id',
             'applicationcontents_nm',
             'department',
             'segment',
             'division',
-            'applicationcontents',
+            'applicationclassification',
         ]

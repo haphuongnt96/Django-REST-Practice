@@ -28,6 +28,9 @@ export default class DashboardDetailPopup extends Vue {
     this.$emit('setDataSearch', value)
     this.dialog = false
   }
+  getApplicationContentsData() {
+    this.$refs.applicationcontentssearch.getapplicationcontentsdata()
+  }
 }
 </script>
 
@@ -96,7 +99,11 @@ export default class DashboardDetailPopup extends Vue {
                         hide-details="auto"
                         required
                       ></v-text-field>
-                      <v-btn :disabled="!valid" class="mr-4">
+                      <v-btn
+                        :disabled="!valid"
+                        class="mr-4"
+                        @click="getApplicationContentsData()"
+                      >
                         {{ contents.FORM_SEARCH }}
                       </v-btn>
                     </v-form>
@@ -108,6 +115,7 @@ export default class DashboardDetailPopup extends Vue {
           <div class="search__form-result">
             <DashboardDetailSearchTable
               @applicationCotent="applicationCotent"
+              ref="applicationcontentssearch"
             />
           </div>
         </div>

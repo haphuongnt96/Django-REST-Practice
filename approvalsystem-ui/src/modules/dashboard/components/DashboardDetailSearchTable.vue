@@ -7,6 +7,23 @@ export default class DashboardDetailSearchTable extends Vue {
   get contents() {
     return this.$pageContents.DASHBOARD
   }
+  items: Dashboard.DashboardApplicationContentsSearchTable[] = []
+  // 検索ボタン押下でデータを取得
+  async getapplicationcontentsdata() {
+    const [err, res] =
+      await this.$api.application_contents.getApplicationContentsSearchRecord()
+    if (!err && res) {
+      //正常処理　swalはアラート用のライブラリ
+      this.items = res
+    } else {
+      //バックエンド側でエラーが発生したときのメッセージ
+      this.$swal({
+        title: 'エラー',
+        text: err.response.data.message,
+        icon: 'error'
+      })
+    }
+  }
   //#endregion
   //dummy data for table
   //table header and set value
@@ -15,15 +32,19 @@ export default class DashboardDetailSearchTable extends Vue {
       text: 'ID',
       align: 'center',
       sortable: false,
-      value: 'index'
+      value: 'applicationcontents_id'
     },
     {
       text: '部署課名',
       align: 'center',
       value: 'department'
     },
-    { text: '分類', align: 'center', value: 'category' },
-    { text: '申請内容', align: 'center', value: 'content' }
+    {
+      text: '分類',
+      align: 'center',
+      value: 'applicationclassification.applicationclassification_nm'
+    },
+    { text: '申請内容', align: 'center', value: 'applicationcontents_nm' }
   ]
   // //#end
   // //list applicants
@@ -64,7 +85,7 @@ export default class DashboardDetailSearchTable extends Vue {
   <div class="dashboard__list">
     <v-data-table
       :headers="searchHeader"
-      :items="searchResults"
+      :items="items"
       :items-per-page="15"
       :no-data-text="contents.TABLE_NO_DATA"
       @click:row="handleSelect"
