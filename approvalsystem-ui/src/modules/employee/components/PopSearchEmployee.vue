@@ -37,6 +37,14 @@ export default class PopSearchEmployee extends Vue {
     this.setData(employee)
     this.dialog = false
   }
+
+  // 検索ボタン押下でDetailTableの検索を発火
+  getDetailTable() {
+    // TODO: 部と課は各一覧取得実装後に取得
+    const detailtable: PopSearchEmployeeTable = this.$refs
+      .detailtable as PopSearchEmployeeTable
+    detailtable.getdata(this.name, '', '')
+  }
   //#endregion
 }
 </script>
@@ -97,7 +105,11 @@ export default class PopSearchEmployee extends Vue {
                         hide-details="auto"
                         required
                       ></v-text-field>
-                      <v-btn :disabled="!valid" class="mr-4">
+                      <v-btn
+                        :disabled="!valid"
+                        class="mr-4"
+                        @click="getDetailTable()"
+                      >
                         {{ contents.FORM_SEARCH }}
                       </v-btn>
                     </v-form>
@@ -107,7 +119,7 @@ export default class PopSearchEmployee extends Vue {
             </table>
           </div>
           <div class="search__form-result">
-            <PopSearchEmployeeTable @select="select" />
+            <PopSearchEmployeeTable ref="detailtable" @select="select" />
           </div>
         </div>
       </v-card-text>

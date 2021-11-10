@@ -5,9 +5,10 @@ from rest_framework_simplejwt.views import (
 )
 
 from .views import (
-    TokenRevokeView, UserInfoAPI, ChangePassAPI,
+    TokenRevokeView, UserInfoAPI, ChangePassAPI, UserListAPI,
     EmpAffiliationListAPI, OrganizationListAPI,
 )
+
 
 urlpatterns = [
     path('auth/login/', TokenObtainPairView.as_view(), name='token.login'),
@@ -16,6 +17,9 @@ urlpatterns = [
 
     path('user/info/', UserInfoAPI.as_view(), name='user.info'),
     path('user/changepass/', ChangePassAPI.as_view(), name='user.passchange'),
+    path('user/get_list/', UserListAPI.as_view(), name='user.list'),
+
     path('emp_affiliations', EmpAffiliationListAPI.as_view(), name='em_affiliations.list'),
     path('organizations', OrganizationListAPI.as_view(), name='organizations.list'),
+
 ]
