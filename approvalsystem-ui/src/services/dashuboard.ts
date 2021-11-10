@@ -10,3 +10,12 @@ export function getDashuboardSerchRecord() {
     })
   )
 }
+//　お知らせの取得
+export function getDashuboardNotification() {
+  return transformData(
+    service.request<Dashboard.DashboardNotification[]>({
+      method: 'get',
+      url: 'api/notification/get_list'
+    })
+  )
+}

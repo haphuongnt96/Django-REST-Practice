@@ -6,7 +6,7 @@ from core.models import (
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
     ApprovalRouteMaster,
     ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
-    Property
+    Property, Notification
 )
 
 
@@ -54,6 +54,10 @@ class PropertyAdmin(admin.ModelAdmin):
     model = Property
 
 
+class NotificationAdmin(admin.ModelAdmin):
+    model = Notification
+
+
 class RequestDetailMasterAdmin(admin.ModelAdmin):
     inlines = [
         ChoiceInline,
@@ -74,3 +78,4 @@ admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster, RequestDetailMasterAdmin)
 admin.site.register(ColumnType)
 admin.site.register(Property)
+admin.site.register(Notification)

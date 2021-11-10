@@ -3,7 +3,7 @@ from core.models import Notification
 from django.utils.translation import gettext_lazy as _
 
 
-class NotificationUnitSerializer(serializers.ModelSerializer):
+class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = [

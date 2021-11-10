@@ -17,3 +17,7 @@ from .m_approval_route import (
 from .property import (
     PropertyGetListAPI,
 )
+
+from .notification import (
+    NotificationGetListAPI,
+)

@@ -9,5 +9,8 @@ declare namespace Dashboard {
     type DashboardDetailTable = {
         items: []
         request_id: string
-      }
+    }
+    type DashboardNotification = {
+        notifications: []
+    }
 }
