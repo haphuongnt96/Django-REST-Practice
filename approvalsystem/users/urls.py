@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import TokenRevokeView, UserInfoAPI, ChangePassAPI
+from .views import TokenRevokeView, UserInfoAPI, UserListAPI, ChangePassAPI
 
 urlpatterns = [
     path('auth/login/', TokenObtainPairView.as_view(), name='token.login'),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('auth/logout/', TokenRevokeView.as_view(), name='token.logout'),
 
     path('user/info/', UserInfoAPI.as_view(), name='user.info'),
+    path('user/get_list/', UserListAPI.as_view(), name='user.list'),
     path('user/changepass/', ChangePassAPI.as_view(), name='user.passchange')
 ]
