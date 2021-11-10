@@ -19,7 +19,6 @@ export default class Notification extends Vue {
     const [err, res] = await this.$api.dashboard.getDashuboardNotification()
     if (!err && res) {
       this.notifications = res
-      console.log(res)
     }
   }
 }
