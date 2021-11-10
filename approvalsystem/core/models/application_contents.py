@@ -1,3 +1,4 @@
+from django import db
 from utils.base_model import BaseModel
 from django.db import models
 from users.models.organization import Department, Segment, Division
@@ -9,6 +10,12 @@ class ApplicationClassification(BaseModel):
     """
     applicationclassification_id = models.IntegerField(primary_key=True)
     applicationclassification_nm = models.CharField(max_length=20)
+
+    class Meta:
+        db_table = 'm_application_classification'
+    
+    def __str__(self):
+        return self.applicationclassification_nm
 
 
 class ApplicationContents(BaseModel):
@@ -22,4 +29,9 @@ class ApplicationContents(BaseModel):
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     applicationclassification = models.ForeignKey(ApplicationClassification, on_delete=models.CASCADE)
 
+    class Meta:
+        db_table = 'm_application_contents'
+
+    def __str__(self):
+        return self.applicationcontents_nm
 
