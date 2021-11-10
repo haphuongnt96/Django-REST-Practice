@@ -262,15 +262,16 @@ Comment=
 TableOption=
 Page=MAIN
 Left=1950
-Top=2650
+Top=2600
 Field="申請ID","request_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
 Field="申請ステータスID","status_id","@VARCHAR(1)","NOT NULL",,"","",$FFFFFFFF,""
 Field="申請タイトル","request_title","@VARCHAR(50)",,,"","",$FFFFFFFF,""
+Field="削除フラグ","delete_flg","@BOOLEAN",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211025144300
-Position="MAIN",1950,2650,725,138
+ModifiedDateTime=20211108131511
+Position="MAIN",1950,2600,725,183
 ZOrder=19
 
 [Entity]

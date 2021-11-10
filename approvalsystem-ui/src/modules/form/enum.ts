@@ -5,7 +5,7 @@ export enum CellComponent {
 
 export enum ColumnTypeName {
   HEADER = 'header',
-  TEXT = 'text',
+  INPUT_TEXT = 'input_text',
   SELECTION = 'selection',
   RADIO = 'radio'
 }

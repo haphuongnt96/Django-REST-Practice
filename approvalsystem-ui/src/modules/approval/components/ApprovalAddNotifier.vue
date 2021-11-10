@@ -48,9 +48,9 @@ export default class ApprovalAddNotifier extends Vue {
       <div class="d-flex align-center flex-gap-2">
         <div>{{ contents.ADD_NOTIFIERS }}</div>
         <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
-          <span>{{ employee.emID }}</span>
+          <span>{{ employee.emp_cd }}</span>
           <v-divider vertical class="mx-2" />
-          <span>{{ employee.emName }}</span>
+          <span>{{ employee.emp_nm }}</span>
         </div>
       </div>
       <PopSearchEmployee @setData="setEmployee" />

@@ -6,59 +6,61 @@ from django.conf import settings
 
 from utils.base_model import BaseModel
 
+from users.models.organization import BusinessUnit, Department, Segment, Division
 from .request import Request
-from .organization import BusinessUnit, Department, Segment, Division
+from .m_approval_route import ApprovalType
 
 
 class ApprovalRoute(BaseModel):
-    request_id = models.ForeignKey(
+    request = models.ForeignKey(
         Request, on_delete=models.CASCADE,
-        related_name= 'approvalroute'
+        null=True, related_name='approval_routes'
     )
     approval_route_id = models.AutoField(primary_key=True)
-    approval_type_cd = models.CharField(max_length=5)
+    approval_type = models.ForeignKey(
+        ApprovalType, on_delete=models.SET_NULL,
+        null=True, related_name='approval_routes',
+    )
     judgement_cd = models.CharField(
         max_length=1, null=True, blank=True
     )
     request_emp = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-        max_length=7, null=True, blank=True,
+        null=True, blank=True,
     )
     business_unit = models.ForeignKey(
         BusinessUnit, on_delete=models.SET_NULL,
-        max_length=2, null=True, blank=True,
+        null=True, blank=True,
     )
     department = models.ForeignKey(
         Department, on_delete=models.SET_NULL,
-        max_length=3, null=True, blank=True,
+        null=True, blank=True,
     )
     segment = models.ForeignKey(
         Segment, on_delete=models.SET_NULL,
-        max_length=3, null=True, blank=True,
+        null=True, blank=True,
     )
     division = models.ForeignKey(
         Division, on_delete=models.SET_NULL,
-        max_length=2, null=True, blank=True,
+        null=True, blank=True,
+    )
+    request_dt = models.DateTimeField(
+        null=True, blank=True, editable=False
     )
 
     class Meta:
         db_table = 't_approval_route'
 
-    @property
-    def request_emp_nm(self) -> str:
-        emp_nm = self.request_emp_cd.emp_nm \
-            if self.request_emp_cd else ''
-        return emp_nm
-
 
 class ApprovalPost(BaseModel):
-    approval_post_cd = models.CharField(
+    approval_post_id = models.CharField(
         max_length=3, primary_key=True,
     )
     approval_post_nm = models.CharField(max_length=10)
 
     class Meta:
         db_table = 'm_approval_post'
+        ordering = ['-created']
 
     def __str__(self):
         return self.approval_post_nm
@@ -70,21 +72,21 @@ class ApprovalRouteDetail(BaseModel):
         approved = '1', 'Approved'
         rejected = '2', 'Rejected'
 
-    approval_route_id = models.ForeignKey(
+    approval_route = models.ForeignKey(
         ApprovalRoute, on_delete=models.CASCADE,
         related_name='approval_route_details'
     )
     detail_no = models.AutoField(primary_key=True)
 
-    department_cd = models.ForeignKey(
+    department = models.ForeignKey(
         Department, on_delete=models.SET_NULL,
         max_length=3, null=True, blank=True
     )
-    segment_cd = models.ForeignKey(
+    segment = models.ForeignKey(
         Segment, on_delete=models.SET_NULL,
         max_length=3, null=True, blank=True
     )
-    division_cd = models.ForeignKey(
+    division = models.ForeignKey(
         Division, on_delete=models.SET_NULL,
         max_length=1, null=True, blank=True
     )
@@ -96,10 +98,10 @@ class ApprovalRouteDetail(BaseModel):
     notification = models.CharField(
         max_length=1, null=True, blank=True
     )
-    approval_post_cd = models.ForeignKey(
+    approval_post = models.ForeignKey(
         ApprovalPost, on_delete=models.CASCADE, max_length=3
     )
-    approval_emp_cd = models.ForeignKey(
+    approval_emp = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         max_length=7, null=True,
     )
@@ -121,13 +123,3 @@ class ApprovalRouteDetail(BaseModel):
         elif self.approval_status == self.StatusChoices.not_verified:
             self.approval_date = None
         return super().save(*args, **kwargs)
-
-    @property
-    def approval_post_nm(self) -> str:
-        return self.approval_post_cd.approval_post_nm
-
-    @property
-    def approval_emp_nm(self) -> str:
-        emp_nm = self.approval_emp_cd.emp_nm \
-            if self.approval_emp_cd else ''
-        return emp_nm

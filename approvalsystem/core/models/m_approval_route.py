@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.db.models import F
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 
 from utils.base_model import BaseModel
 
-from .approval_route import ApprovalPost
-from .organization import Department, Segment, Division
+from users.models.organization import Department, Segment, Division
 
 
 class ApprovalClass(BaseModel):
@@ -49,17 +47,6 @@ class ApprovalType(BaseModel):
         """
         return self.m_request_details.filter(parent_column=None)
 
-    @property
-    def m_approval_routes_fetchall(self):
-        queryset = self.m_approval_routes.annotate(
-            department_nm=F('department__department_nm'),
-            segment_nm=F('segment__segment_nm'),
-            division_nm=F('division__division_nm'),
-            approval_post_nm=F('approval_post__approval_post_nm'),
-            emp_nm=F('emp__emp_nm'),
-        )
-        return queryset
-
 
 class ApprovalRouteMaster(BaseModel):
     approval_type = models.ForeignKey(
@@ -86,7 +73,7 @@ class ApprovalRouteMaster(BaseModel):
     )
 
     approval_post = models.ForeignKey(
-        ApprovalPost, on_delete=models.SET_NULL, null=True,
+        'core.ApprovalPost', on_delete=models.SET_NULL, null=True,
     )
     emp = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
@@ -95,6 +82,19 @@ class ApprovalRouteMaster(BaseModel):
 
     class Meta:
         db_table = 'mm_approval_route'
+
+    def get_approval_route_detail(self):
+        """
+        Get necessary data for creating t_approval_route_detail
+        """
+        result = {
+            'order': self.order,
+            'notification': self.notification,
+            'approval_post': self.approval_post,
+            'approval_emp': self.emp,
+            'required_num_approvals': self.required_num_approvals,
+        }
+        return result
 
 
 class ColumnType(BaseModel):
@@ -106,12 +106,6 @@ class ColumnType(BaseModel):
 
     def __str__(self):
         return self.column_type_nm
-
-
-class RequestDetailMasterManager(models.Manager):
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.annotate(column_type_nm=F('column_type__column_type_nm'))
 
 
 class RequestDetailMaster(BaseModel):
@@ -134,8 +128,6 @@ class RequestDetailMaster(BaseModel):
     )
     column_nm = models.CharField(max_length=30, blank=True)
     notes = models.CharField(max_length=50, blank=True)
-
-    objects = RequestDetailMasterManager()
 
     class Meta:
         db_table = 'm_request_detail'

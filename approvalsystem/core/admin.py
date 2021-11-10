@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from core.models import (
     Department, Segment, Division, BusinessUnit,
     Request, RequestStatus,
@@ -46,6 +45,7 @@ class RequestAdmin(admin.ModelAdmin):
     inlines = [ApprovalRouteInline]
 
 
+
 class RequestStatusAdmin(admin.ModelAdmin):
     model = RequestStatus
 
@@ -53,11 +53,11 @@ class RequestStatusAdmin(admin.ModelAdmin):
 class PropertyAdmin(admin.ModelAdmin):
     model = Property
 
-
+    
 class NotificationAdmin(admin.ModelAdmin):
     model = Notification
 
-
+    
 class RequestDetailMasterAdmin(admin.ModelAdmin):
     inlines = [
         ChoiceInline,
