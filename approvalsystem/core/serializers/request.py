@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 
-from core.models import Request, RequestStatus, RequestDetail
-from users.serializers.organization import BusinessUnitSerializer, DepartmentSerializer, SegmentSerializer, DivisionSerializer
+from core.models import Request, RequestStatus, RequestDetail, ApprovalRouteDetail
 from .approval_route import ApprovalRouteSerializer, DetailApprovalRouteSerializer
 from .m_approval_route import RequestDetailMasterSerializer
 
@@ -79,6 +78,25 @@ class ExtendRequestDetailMasterSerializer(RequestDetailMasterSerializer):
         return representation
 
 
+class RegisterApprovalRouteDetailSerializer(serializers.ModelSerializer):
+    approval_emp_id = serializers.IntegerField(required=True)
+    approval_post_nm = serializers.CharField(required=True)
+    order = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = ApprovalRouteDetail
+        fields = [
+            'approval_emp_id',
+            'approval_post_nm',
+            'order'
+        ]
+
+
+class NotificationRecordsSerializer(serializers.Serializer):
+    emp_id = serializers.IntegerField(required=True)
+    notification_post_nm = serializers.CharField(required=True)
+
+
 class DetailRequestSerializer(serializers.ModelSerializer):
     approval_type_id = serializers.CharField()
     approval_type_nm = serializers.SerializerMethodField(read_only=True)
@@ -87,6 +105,8 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     department_id = serializers.CharField(write_only=True, required=True)
     department_nm = serializers.CharField(read_only=True)
     request_details = RequestDetailSerializer(many=True, write_only=True)
+    approval_route_details = RegisterApprovalRouteDetailSerializer(many=True, write_only=True)
+    notification_records = NotificationRecordsSerializer(many=True)
     approval_routes = DetailApprovalRouteSerializer(many=True, read_only=True)
     m_request_details = ExtendRequestDetailMasterSerializer(
         many=True, read_only=True,
@@ -106,6 +126,8 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             'created',
             'department_id',
             'department_nm',
+            'approval_route_details',
+            'notification_records',
         ]
 
     def get_approval_type_nm(self, instance):
