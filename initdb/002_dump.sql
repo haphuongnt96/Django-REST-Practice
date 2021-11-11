@@ -736,7 +736,8 @@ CREATE TABLE public.t_notification_record (
     modified timestamp with time zone NOT NULL,
     emp_id bigint NOT NULL,
     notification_type_id character varying(2) NOT NULL,
-    request_id integer
+    request_id integer,
+    confirm_dt timestamp with time zone
 );
 
 
@@ -1372,6 +1373,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 42	core	0002_auto_20211109_1106	2021-11-09 02:06:45.664545+00
 43	core	0002_alter_request_table	2021-11-11 04:12:53.703316+00
 44	core	0003_notificationrecord_notificationtype	2021-11-11 04:16:13.677236+00
+45	core	0002_notificationrecord_confirm_dt	2021-11-11 08:21:23.720256+00
 \.
 
 
@@ -1623,7 +1625,7 @@ COPY public.t_approval_route_detail (created, modified, detail_no, required_num_
 -- Data for Name: t_notification_record; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_notification_record (id, created, modified, emp_id, notification_type_id, request_id) FROM stdin;
+COPY public.t_notification_record (id, created, modified, emp_id, notification_type_id, request_id, confirm_dt) FROM stdin;
 \.
 
 
@@ -1714,7 +1716,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 34, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 44, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 45, true);
 
 
 --
