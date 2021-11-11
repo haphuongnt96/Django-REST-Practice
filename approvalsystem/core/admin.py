@@ -5,7 +5,8 @@ from core.models import (
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
     ApprovalRouteMaster,
     ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
-    Property
+    Property,
+    NotificationType, NotificationRecord
 )
 
 
@@ -60,7 +61,6 @@ class RequestDetailMasterAdmin(admin.ModelAdmin):
         RequestDetailMasterInline,
     ]
 
-
 admin.site.register(BusinessUnit)
 admin.site.register(Department)
 admin.site.register(Segment)
@@ -74,3 +74,5 @@ admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster, RequestDetailMasterAdmin)
 admin.site.register(ColumnType)
 admin.site.register(Property)
+admin.site.register(NotificationType)
+admin.site.register(NotificationRecord)
