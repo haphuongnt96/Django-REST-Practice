@@ -27,7 +27,7 @@ class Request(BaseModel):
     request_title = models.CharField(max_length=50)
 
     class Meta:
-        db_table = 't_reuqest'
+        db_table = 't_request'
 
     def register_approval_route(self, request_emp, department_id, route_details: list = None):
         """
