@@ -1298,12 +1298,10 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 6	2021-11-11 04:23:39.332247+00	03	03:差戻	1	[{"added": {}}]	34	1
 7	2021-11-11 04:23:46.395636+00	04	04:申請取消	1	[{"added": {}}]	34	1
 8	2021-11-11 04:23:53.383676+00	09	09:コメント有	1	[{"added": {}}]	34	1
-9	2021-11-11 08:39:28.367709+00	1	Request object (1)	3		12	1
-10	2021-11-11 08:40:07.669857+00	1	Request object (1)	1	[{"added": {}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (1)"}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (2)"}}]	12	1
-11	2021-11-11 08:40:27.897585+00	2	Request object (2)	1	[{"added": {}}]	12	1
-12	2021-11-11 08:41:01.792964+00	1	Request object (1):0000001 - あどみん:02:最終承認済	1	[{"added": {}}]	33	1
-13	2021-11-11 08:41:16.72025+00	2	Request object (2):0000001 - あどみん:02:最終承認済	1	[{"added": {}}]	33	1
-14	2021-11-11 08:43:59.308635+00	2	Request object (2)	2	[{"added": {"name": "approval route", "object": "ApprovalRoute object (3)"}}]	12	1
+9	2021-11-11 16:39:41.632879+00	1	Request object (1)	3		12	1
+10	2021-11-11 16:40:05.201597+00	1	Request object (1)	1	[{"added": {}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (1)"}}]	12	1
+11	2021-11-11 16:40:31.72207+00	2	Request object (2)	1	[{"added": {}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (2)"}}]	12	1
+12	2021-11-11 16:40:50.805143+00	1	Request object (1):0000001 - あどみん:02:最終承認済	1	[{"added": {}}]	33	1
 \.
 
 
@@ -1401,6 +1399,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 44	core	0003_notificationrecord_notificationtype	2021-11-11 04:16:13.677236+00
 45	core	0002_notificationrecord_confirm_dt	2021-11-11 08:21:23.720256+00
 46	core	0002_news	2021-11-11 12:35:04.490807+00
+47	core	0002_alter_notificationrecord_confirm_dt	2021-11-11 16:35:35.891122+00
 \.
 
 
@@ -1628,9 +1627,8 @@ COPY public.mm_approval_type (created, modified, approval_type_id, approval_type
 --
 
 COPY public.t_approval_route (created, modified, approval_route_id, judgement_cd, request_emp_id, business_unit_id, department_id, division_id, segment_id, approval_type_id, request_id, request_dt) FROM stdin;
-2021-11-11 08:40:07.665356+00	2021-11-11 08:40:07.665356+00	1	\N	1	01	100	01	100	0001	1	\N
-2021-11-11 08:40:07.667857+00	2021-11-11 08:40:07.667857+00	2	\N	2	01	100	01	100	0001	1	\N
-2021-11-11 08:43:59.305631+00	2021-11-11 08:43:59.305631+00	3	\N	1	01	100	01	100	0001	2	\N
+2021-11-11 16:40:05.197598+00	2021-11-11 16:40:05.197598+00	1	\N	1	01	100	01	100	0001	1	\N
+2021-11-11 16:40:31.719428+00	2021-11-11 16:40:31.719428+00	2	\N	2	01	100	01	100	0001	2	\N
 \.
 
 
@@ -1655,8 +1653,7 @@ COPY public.t_approval_route_detail (created, modified, detail_no, required_num_
 --
 
 COPY public.t_notification_record (id, created, modified, emp_id, notification_type_id, request_id, confirm_dt) FROM stdin;
-1	2021-11-11 08:41:01.788969+00	2021-11-11 08:41:01.78947+00	1	02	1	\N
-2	2021-11-11 08:41:16.717256+00	2021-11-11 08:41:16.717256+00	1	02	2	\N
+1	2021-11-11 16:40:50.802153+00	2021-11-11 16:40:50.802153+00	1	02	1	\N
 \.
 
 
@@ -1665,8 +1662,8 @@ COPY public.t_notification_record (id, created, modified, emp_id, notification_t
 --
 
 COPY public.t_request (created, modified, request_id, request_title, status_id, approval_type_id) FROM stdin;
-2021-11-11 08:40:07.662873+00	2021-11-11 08:40:07.662873+00	1	申請タイトル	1	0001
-2021-11-11 08:40:27.895114+00	2021-11-11 08:43:59.303634+00	2	テストテスト	1	0001
+2021-11-11 16:40:05.194096+00	2021-11-11 16:40:05.194096+00	1	テスト申請	1	0001
+2021-11-11 16:40:31.717351+00	2021-11-11 16:40:31.717351+00	2	テストテスト	1	0001
 \.
 
 
@@ -1689,9 +1686,8 @@ COPY public.token_blacklist_blacklistedtoken (id, blacklisted_at, token_id) FROM
 4	2021-10-26 08:50:27.45527+00	4
 5	2021-10-26 08:57:05.659839+00	5
 6	2021-11-09 02:02:00.389888+00	8
-7	2021-11-11 08:41:25.739401+00	10
-8	2021-11-11 08:41:26.246902+00	11
-9	2021-11-11 08:41:35.3143+00	12
+7	2021-11-11 16:40:58.546469+00	10
+8	2021-11-11 16:40:59.15447+00	11
 \.
 
 
@@ -1709,10 +1705,8 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 7	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjUwOTcxNCwianRpIjoiZTRiNjE0NTYzZGY0NGMwNjhiOTVjOGM2MTBmMTIzNWEiLCJ1c2VyX2lkIjoxfQ.ZlADyJcXnEs6QYak126K0IUak4rJaiqiJ2ionmRwh8U	2021-11-09 02:01:54.525317+00	2021-11-10 02:01:54+00	1	e4b614563df44c068b95c8c610f1235a
 8	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM2NDIzNjE0LCJqdGkiOiJhNTgyM2ZjNTViYjA0YTBmOThhYjI4M2NmNWU5ZTM3NCIsInVzZXJfaWQiOjF9.5EoyLHQdYzsLC3c-neaP5xIk8cOcEL-OUAW034ORxLo	\N	2021-11-09 02:06:54+00	\N	a5823fc55bb04a0f98ab283cf5e9e374
 9	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjUwOTcyNiwianRpIjoiODhkOGQ5ZDFhODcwNDk2N2I2Njc3Y2M1Yjc5OTQwMmUiLCJ1c2VyX2lkIjoxfQ.ke9lnYI8mF66CzveFdgKSXIRZM8yfPMkbL6cRhvdpbI	2021-11-09 02:02:06.587675+00	2021-11-10 02:02:06+00	1	88d8d9d1a8704967b6677cc5b799402e
-10	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjcwNTkzOCwianRpIjoiNmJiMjQzZmFjYWFlNDA2OWE1YmRkMGUwNjc3NWVjMjQiLCJ1c2VyX2lkIjoxfQ.g53qQolcaNtqKCZsvVPtO94IlYxKUkwIZtB15Pw5wa8	\N	2021-11-12 08:32:18+00	\N	6bb243facaae4069a5bdd0e06775ec24
-11	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjcwNjQ4NSwianRpIjoiNWYzZjJhMDlhNjQzNDRlNzgyZDYxYmY4MWI5NDQwZDciLCJ1c2VyX2lkIjoxfQ.6bElx_WhcAlPxRMUWa7hUtqwsDWFxAW1WrnX1bl9m-c	\N	2021-11-12 08:41:25+00	\N	5f3f2a09a64344e782d61bf81b9440d7
-12	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM2NjIwMzg2LCJqdGkiOiI5NDUxZjk4NTMwYzY0ZTFjOWUwNmI5NTI0MTY0ZjhmMiIsInVzZXJfaWQiOjF9.1CXtiawturVH3vmOL08jEtIug7Ck-DHlelnKvmCJY18	\N	2021-11-11 08:46:26+00	\N	9451f98530c64e1c9e06b9524164f8f2
-13	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjcwNjUwMywianRpIjoiZjgwMzRhZTgyMmY2NDhiNTkyZGIxYjBkNjg4MDEyN2UiLCJ1c2VyX2lkIjoxfQ.2E8j0YQs0Iyc1E8MqEE1u9cl4ltccKeU_wBjjuuiI8U	2021-11-11 08:41:43.121789+00	2021-11-12 08:41:43+00	1	f8034ae822f648b592db1b0d6880127e
+10	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjczNDY5NSwianRpIjoiNWE1ZWUxMDE0MGY0NGFhYThlZjZlNTdjYjI1NTBhYWMiLCJ1c2VyX2lkIjoxfQ.LfvbuekvJktEQaFeyU4RW6UJyGZ1HYt11Nf5vYNuBfo	\N	2021-11-12 16:31:35+00	\N	5a5ee10140f44aaa8ef6e57cb2550aac
+11	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjczNTI1OCwianRpIjoiNmVmYjdjNDM4MTk3NDA1NmE0MTM5ZmIxMDc4MjAwZjgiLCJ1c2VyX2lkIjoxfQ.JeiJ0yMzT4-3EfyEbK944VpCP9DtMtpIB8rcWzN2B0w	\N	2021-11-12 16:40:58+00	\N	6efb7c4381974056a4139fb1078200f8
 \.
 
 
@@ -1741,7 +1735,7 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 140, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 14, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 12, true);
 
 
 --
@@ -1755,7 +1749,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 35, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 46, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 47, true);
 
 
 --
@@ -1776,7 +1770,7 @@ SELECT pg_catalog.setval('public.mm_approval_route_id_seq', 1, false);
 -- Name: t_approval_route_approval_route_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_approval_route_approval_route_id_seq', 3, true);
+SELECT pg_catalog.setval('public.t_approval_route_approval_route_id_seq', 2, true);
 
 
 --
@@ -1797,7 +1791,7 @@ SELECT pg_catalog.setval('public.t_approval_route_detail_detail_no_seq', 1, fals
 -- Name: t_notification_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_notification_record_id_seq', 2, true);
+SELECT pg_catalog.setval('public.t_notification_record_id_seq', 1, true);
 
 
 --
@@ -1818,14 +1812,14 @@ SELECT pg_catalog.setval('public.t_reuqest_request_id_seq', 2, true);
 -- Name: token_blacklist_blacklistedtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 9, true);
+SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 8, true);
 
 
 --
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 13, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 11, true);
 
 
 --
