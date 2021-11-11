@@ -8,6 +8,7 @@ from .views import (
     TokenRevokeView, UserInfoAPI, ChangePassAPI,
     EmpAffiliationListAPI, OrganizationListAPI,
 )
+from .views import TokenRevokeView, UserInfoAPI, UserListAPI, ChangePassAPI
 
 urlpatterns = [
     path('auth/login/', TokenObtainPairView.as_view(), name='token.login'),
@@ -18,4 +19,6 @@ urlpatterns = [
     path('user/changepass/', ChangePassAPI.as_view(), name='user.passchange'),
     path('emp_affiliations', EmpAffiliationListAPI.as_view(), name='em_affiliations.list'),
     path('organizations', OrganizationListAPI.as_view(), name='organizations.list'),
+    path('user/get_list/', UserListAPI.as_view(), name='user.list'),
+    path('user/changepass/', ChangePassAPI.as_view(), name='user.passchange')
 ]

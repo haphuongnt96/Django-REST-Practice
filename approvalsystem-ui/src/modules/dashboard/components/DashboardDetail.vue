@@ -85,16 +85,16 @@ export default class DashboardDetail extends Vue {
     this.applicantContent = value.department
   }
   setDataApplicant(data) {
-    this.applicantEmpCode = data.emID
-    this.applicantEmpName = data.emName
+    this.applicantEmpCode = data.emp_cd
+    this.applicantEmpName = data.emp_nm
   }
   setDataNoti(data) {
-    this.notiEmpCode = data.emID
-    this.notiEmpName = data.emName
+    this.notiEmpCode = data.emp_cd
+    this.notiEmpName = data.emp_nm
   }
   setDataForm(data) {
-    this.formEmpCode = data.emID
-    this.formEmpName = data.emName
+    this.formEmpCode = data.emp_cd
+    this.formEmpName = data.emp_nm
   }
   setObjectData(data) {
     this.formObject = data.property_nm

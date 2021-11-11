@@ -713,6 +713,22 @@ ALTER SEQUENCE public.t_approval_route_detail_detail_no_seq OWNED BY public.t_ap
 
 
 --
+-- Name: t_request; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.t_request (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    request_id integer NOT NULL,
+    request_title character varying(50) NOT NULL,
+    status_id character varying(1),
+    approval_type_id character varying(4)
+);
+
+
+ALTER TABLE public.t_request OWNER TO approval_user;
+
+--
 -- Name: t_request_detail; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -750,22 +766,6 @@ ALTER SEQUENCE public.t_request_detail_id_seq OWNED BY public.t_request_detail.i
 
 
 --
--- Name: t_reuqest; Type: TABLE; Schema: public; Owner: approval_user
---
-
-CREATE TABLE public.t_reuqest (
-    created timestamp with time zone NOT NULL,
-    modified timestamp with time zone NOT NULL,
-    request_id integer NOT NULL,
-    request_title character varying(50) NOT NULL,
-    status_id character varying(1),
-    approval_type_id character varying(4)
-);
-
-
-ALTER TABLE public.t_reuqest OWNER TO approval_user;
-
---
 -- Name: t_reuqest_request_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
 --
 
@@ -784,7 +784,7 @@ ALTER TABLE public.t_reuqest_request_id_seq OWNER TO approval_user;
 -- Name: t_reuqest_request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_reuqest.request_id;
+ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_request.request_id;
 
 
 --
@@ -1020,17 +1020,17 @@ ALTER TABLE ONLY public.t_approval_route_detail ALTER COLUMN detail_no SET DEFAU
 
 
 --
+-- Name: t_request request_id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('public.t_reuqest_request_id_seq'::regclass);
+
+
+--
 -- Name: t_request_detail id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request_detail ALTER COLUMN id SET DEFAULT nextval('public.t_request_detail_id_seq'::regclass);
-
-
---
--- Name: t_reuqest request_id; Type: DEFAULT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_reuqest ALTER COLUMN request_id SET DEFAULT nextval('public.t_reuqest_request_id_seq'::regclass);
 
 
 --
@@ -1297,6 +1297,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 40	core	0002_property	2021-11-02 06:43:59.056341+00
 41	core	0003_auto_20211104_0643	2021-11-08 01:55:45.184651+00
 42	core	0002_auto_20211109_1106	2021-11-09 02:06:45.664545+00
+43	core	0002_alter_request_table	2021-11-11 04:12:53.703316+00
 \.
 
 
@@ -1531,19 +1532,19 @@ COPY public.t_approval_route_detail (created, modified, detail_no, required_num_
 
 
 --
--- Data for Name: t_request_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
+-- Data for Name: t_request; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_request_detail (id, created, modified, request_column_val, request_id, request_column_id) FROM stdin;
+COPY public.t_request (created, modified, request_id, request_title, status_id, approval_type_id) FROM stdin;
+2021-09-22 03:46:24.386+00	2021-09-22 03:46:27.946+00	1	申請タイトル	1	\N
 \.
 
 
 --
--- Data for Name: t_reuqest; Type: TABLE DATA; Schema: public; Owner: approval_user
+-- Data for Name: t_request_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_reuqest (created, modified, request_id, request_title, status_id, approval_type_id) FROM stdin;
-2021-09-22 03:46:24.386+00	2021-09-22 03:46:27.946+00	1	申請タイトル	1	\N
+COPY public.t_request_detail (id, created, modified, request_column_val, request_id, request_column_id) FROM stdin;
 \.
 
 
@@ -1617,7 +1618,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 32, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 42, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 43, true);
 
 
 --
@@ -1937,10 +1938,10 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_reuqest t_reuqest_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_reuqest_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_reuqest
+ALTER TABLE ONLY public.t_request
     ADD CONSTRAINT t_reuqest_pkey PRIMARY KEY (request_id);
 
 
@@ -2659,28 +2660,28 @@ CREATE INDEX t_request_detail_request_id_cb49d5d2 ON public.t_request_detail USI
 -- Name: t_reuqest_approval_type_id_0c5c6523; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523 ON public.t_reuqest USING btree (approval_type_id);
+CREATE INDEX t_reuqest_approval_type_id_0c5c6523 ON public.t_request USING btree (approval_type_id);
 
 
 --
 -- Name: t_reuqest_approval_type_id_0c5c6523_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523_like ON public.t_reuqest USING btree (approval_type_id varchar_pattern_ops);
+CREATE INDEX t_reuqest_approval_type_id_0c5c6523_like ON public.t_request USING btree (approval_type_id varchar_pattern_ops);
 
 
 --
 -- Name: t_reuqest_status_id_7484f8ec; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec ON public.t_reuqest USING btree (status_id);
+CREATE INDEX t_reuqest_status_id_7484f8ec ON public.t_request USING btree (status_id);
 
 
 --
 -- Name: t_reuqest_status_id_7484f8ec_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec_like ON public.t_reuqest USING btree (status_id varchar_pattern_ops);
+CREATE INDEX t_reuqest_status_id_7484f8ec_like ON public.t_request USING btree (status_id varchar_pattern_ops);
 
 
 --
@@ -2970,7 +2971,7 @@ ALTER TABLE ONLY public.t_approval_route_comment
 --
 
 ALTER TABLE ONLY public.t_approval_route_comment
-    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3058,7 +3059,7 @@ ALTER TABLE ONLY public.t_approval_route
 --
 
 ALTER TABLE ONLY public.t_approval_route
-    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3082,22 +3083,22 @@ ALTER TABLE ONLY public.t_request_detail
 --
 
 ALTER TABLE ONLY public.t_request_detail
-    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: t_reuqest t_reuqest_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_reuqest_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_reuqest
+ALTER TABLE ONLY public.t_request
     ADD CONSTRAINT t_reuqest_approval_type_id_0c5c6523_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: t_reuqest t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_reuqest
+ALTER TABLE ONLY public.t_request
     ADD CONSTRAINT t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
 
 
