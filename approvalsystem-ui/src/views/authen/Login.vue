@@ -1,18 +1,26 @@
 <script lang="ts">
+import { AuthD } from '@/store/typeD'
 import { Vue, Component } from 'vue-property-decorator'
+import { Action as A } from 'vuex-class'
+
 @Component({})
 export default class Login extends Vue {
+  @A(...AuthD.fetchCurrentUser) fetchCurrentUser: () => Auth.User
+  //#region Data
   emp_cd = ''
   password = ''
   isEmError = false
   isPassError = false
   isValidation = false
+  //#endregion
+
   async handleSubmit() {
     const [err, res] = await this.$api.authen.doLogin({
       emp_cd: this.emp_cd,
       password: this.password
     })
     if (!err && res) {
+      this.fetchCurrentUser()
       localStorage.setItem('vue-token', res.access)
       localStorage.setItem('vue-token-reset', res.refresh)
       this.$router.push({ name: 'dashboard' })

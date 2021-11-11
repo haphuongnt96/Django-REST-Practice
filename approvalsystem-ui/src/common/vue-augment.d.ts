@@ -3,6 +3,7 @@ import $api from '@/services'
 import $pageContents from '@/static/pageContent'
 import $config from '@/common/config'
 import $toast from '@/plugins/toast'
+import CONSTANTS from '@/common/constant'
 declare module 'vue/types/vue' {
   interface Vue {
     $Routes: typeof Routes
@@ -10,5 +11,6 @@ declare module 'vue/types/vue' {
     $pageContents: typeof $pageContents
     $config: typeof $config
     $toast: typeof $toast
+    $constants: typeof CONSTANTS
   }
 }

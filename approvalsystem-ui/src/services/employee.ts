@@ -9,7 +9,7 @@ export function searchEmployeeAffiliations(
   }
 ) {
   return transformData(
-    service.request<Employee.EmployeeAffiliation[]>({
+    service.request<Employee.SearchUsers>({
       method: 'get',
       url: 'api/emp_affiliations',
       params
