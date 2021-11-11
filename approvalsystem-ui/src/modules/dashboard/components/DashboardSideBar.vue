@@ -37,8 +37,7 @@ export default class DashboardSideBar extends Vue {
    */
   async getApplicantNotifications() {
     const [err, res] = await this.$api.dashboard.getApplicantNotifications(
-      // this.user.emp_id
-      1 // TODO
+      this.user.id
     )
     if (!err && res) {
       this.applicantNotifications = res
