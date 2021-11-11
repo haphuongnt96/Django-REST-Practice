@@ -451,6 +451,21 @@ CREATE TABLE public.m_emp_user_permissions (
 ALTER TABLE public.m_emp_user_permissions OWNER TO approval_user;
 
 --
+-- Name: m_news; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_news (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    news_id integer NOT NULL,
+    news character varying(200) NOT NULL,
+    delete_flag boolean NOT NULL
+);
+
+
+ALTER TABLE public.m_news OWNER TO approval_user;
+
+--
 -- Name: m_notification_type; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -1263,6 +1278,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 134	Can change notification type	34	change_notificationtype
 135	Can delete notification type	34	delete_notificationtype
 136	Can view notification type	34	view_notificationtype
+137	Can add news	35	add_news
+138	Can change news	35	change_news
+139	Can delete news	35	delete_news
+140	Can view news	35	view_news
 \.
 
 
@@ -1321,6 +1340,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 32	core	requestdetail
 33	core	notificationrecord
 34	core	notificationtype
+35	core	news
 \.
 
 
@@ -1374,6 +1394,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 43	core	0002_alter_request_table	2021-11-11 04:12:53.703316+00
 44	core	0003_notificationrecord_notificationtype	2021-11-11 04:16:13.677236+00
 45	core	0002_notificationrecord_confirm_dt	2021-11-11 08:21:23.720256+00
+46	core	0002_news	2021-11-11 12:35:04.490807+00
 \.
 
 
@@ -1498,6 +1519,14 @@ COPY public.m_emp_groups (id, user_id, group_id) FROM stdin;
 --
 
 COPY public.m_emp_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_news; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_news (created, modified, news_id, news, delete_flag) FROM stdin;
 \.
 
 
@@ -1695,7 +1724,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 136, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 140, true);
 
 
 --
@@ -1709,14 +1738,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 8, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 34, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 35, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 45, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 46, true);
 
 
 --
@@ -1960,6 +1989,14 @@ ALTER TABLE ONLY public.m_division
 
 ALTER TABLE ONLY public.m_emp_affiliation
     ADD CONSTRAINT m_emp_affiliation_pkey PRIMARY KEY (emp_affiliation_id);
+
+
+--
+-- Name: m_news m_news_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_news
+    ADD CONSTRAINT m_news_pkey PRIMARY KEY (news_id);
 
 
 --

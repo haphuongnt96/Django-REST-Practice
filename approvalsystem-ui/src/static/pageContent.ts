@@ -85,6 +85,7 @@ const AUTHEN = {
   NOT_CHANGE_PASS: '「現在のパスワード」と同一のものは使用できません'
 }
 const DASHBOARD = {
+  NEWS: 'お知らせ',
   DASH_TITLE: 'ログイン',
   APPLICANT: '申請者',
   NOTIFIER: '通知者',

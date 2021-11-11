@@ -1,26 +1,36 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { VTextMarquee } from 'vue-text-marquee'
+
 @Component({
   components: {
     VTextMarquee
   }
 })
-export default class Notification extends Vue {
+export default class News extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
+  news: Dashboard.DashboardNews[] = []
   //#region COMPUTED
   get contents() {
     return this.$pageContents.DASHBOARD
   }
-  //#endregion
+
+  async created() {
+    const [err, res] = await this.$api.dashboard.getDashuboardNews()
+    if (!err && res) {
+      this.news = res
+    }
+  }
 }
 </script>
 
 <template>
-  <div class="approval__notification">
-    <div class="float-left approval__notification_title">お知らせ</div>
+  <div class="approval__news">
+    <div class="float-left approval__news_title">
+      {{ contents.NEWS }}
+    </div>
     <VTextMarquee :speed="40">
-      *2022 年4月1日12時から13時までメンテナンス作行のため、利用できません。*
+      <span v-for="issue in news" :key="issue.news_id">{{ issue.news }}</span>
     </VTextMarquee>
   </div>
 </template>
