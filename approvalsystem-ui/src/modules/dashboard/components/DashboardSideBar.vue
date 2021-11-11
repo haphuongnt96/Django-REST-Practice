@@ -16,10 +16,10 @@ export default class DashboardSideBar extends Vue {
 
   //#region Methods
   setDataSearch(approvalType: Approvals.ApprovalType) {
-    const { approval_type_nm, approval_type_id, department_nm } = approvalType
+    const { approval_type_id, department_id } = approvalType
     this.$router.push({
       name: Routes.approval.name,
-      query: { approval_type_nm, approval_type_id, department_nm }
+      query: { approval_type_id, department_id }
     })
   }
   //#endregion

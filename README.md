@@ -19,6 +19,7 @@
 - [インストール手順](docs/110_INSTALL.md)
 - [VSCode拡張機能](docs/120_EXTENSION.md)
 - [テストデータdumpファイル作成手順](docs/200_dumpファイル作成手順.md)（テストユーザはこちらに記載されています）
+- [migrate手順](docs/201_migrate手順.md)
 
 ## 開発標準
 

@@ -1,30 +1,99 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
+from django.db import models
+from django.db.models import F
 
 from core.models import ApprovalRoute, ApprovalRouteDetail
 from users.serializers.organization import BusinessUnitSerializer, DepartmentSerializer,\
                                          SegmentSerializer, DivisionSerializer
 from users.serializers import UserDetailSerializer
 
+
+class CustomListApprovalRouteDetailSerializer(serializers.ListSerializer):
+    """
+    Custom ListSerializer for changing behavior of queryset (like filter, annotate..)
+    for model ApprovalRoute (table t_approval_route)
+    """
+    def to_representation(self, data):
+        if isinstance(data, (models.Manager, models.QuerySet)):
+            data = data.annotate(
+                approval_post_nm=F('approval_post__approval_post_nm'),
+                approval_emp_nm=F('approval_emp__emp_nm'),
+            )
+        return super().to_representation(data)
+
+
 class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
+    """
+    Serializer in detail model t_approval_route_detail.
+    """
+    approval_post_nm = serializers.CharField(read_only=True)
+    approval_emp_nm = serializers.CharField(read_only=True)
 
     class Meta:
         model = ApprovalRouteDetail
+        list_serializer_class = CustomListApprovalRouteDetailSerializer
         fields = [
             'detail_no',
-            'department_cd',
-            'segment_cd',
-            'division_cd',
             'required_num_approvals',
             'order',
             'notification',
-            'approval_post_cd',
+            'approval_post_id',
             'approval_post_nm',
-            'approval_emp_cd',
+            'approval_emp_id',
             'approval_emp_nm',
             'approval_status',
             'approval_date',
+        ]
+
+
+class CustomListApprovalRouteSerializer(serializers.ListSerializer):
+    """
+    Custom ListSerializer for changing behavior of queryset (like filter, annotate..)
+    for model ApprovalRoute (table t_approval_route)
+    """
+    def to_representation(self, data):
+        if isinstance(data, (models.Manager, models.QuerySet)):
+            data = data.annotate(
+                request_emp_nm=F('request_emp__emp_nm'),
+                business_unit_nm=F('business_unit__business_unit_nm'),
+                department_nm=F('department__department_nm'),
+                segment_nm=F('segment__segment_nm'),
+                division_nm=F('division__division_nm'),
+            )
+        return super().to_representation(data)
+
+
+class DetailApprovalRouteSerializer(serializers.ModelSerializer):
+    """
+    Serializer in detail model t_approval_route
+    """
+    approval_route_details = ApprovalRouteDetailSerializer(many=True)
+    request_emp_nm = serializers.CharField(read_only=True)
+    business_unit_nm = serializers.CharField(read_only=True)
+    department_nm = serializers.CharField(read_only=True)
+    segment_nm = serializers.CharField(read_only=True)
+    division_nm = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = ApprovalRoute
+        list_serializer_class = CustomListApprovalRouteSerializer
+        fields = [
+            'approval_route_id',
+            'judgement_cd',
+            'request_emp_id',
+            'request_emp_nm',
+            'business_unit_id',
+            'business_unit_nm',
+            'department_id',
+            'department_nm',
+            'segment_id',
+            'segment_nm',
+            'division_id',
+            'division_nm',
+            'request_dt',
+            'approval_route_details',
         ]
 
 
@@ -41,7 +110,7 @@ class ApprovalRouteSerializer(serializers.ModelSerializer):
         fields = [
             'request_id',
             'approval_route_id',
-            'approval_type_cd',
+            'approval_type_id',
             'judgement_cd',
             'business_unit',
             'department',

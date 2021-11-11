@@ -47,6 +47,7 @@ declare namespace Approvals {
   type GetAprrovalTypeResponse = {
     m_approval_routes: ApprovalRouteResponse[]
     m_request_details: ApplicationForm.RequestDetail[]
+    approval_route_details: ApprovalRouteDetailResponse[]
   }
 
   type ApprovalClass = {
@@ -75,5 +76,33 @@ declare namespace Approvals {
   type ApprovalSegment = {
     segment_id: string
     segment_nm: string
+  }
+
+  type RegisterRequest = {
+    request_column_id: string
+    request_column_val: string
+  }
+
+  type SendRequestParams = {
+    approval_type_id: string
+    request_details: RegisterRequest[]
+  }
+
+  type SendRequestResponse = {
+    request_id: string
+    approval_type_id: string
+    approval_routes: ApprovalRouteResponse[]
+    request_emp_nm: string
+    approval_type_nm: string
+    created: string
+    department_nm: string
+  } & GetAprrovalTypeResponse
+
+  type FormSummary = {
+    emp_nm?: string
+    approval_type_nm?: string
+    created?: string
+    department_nm?: string
+    approval_type_id?: string
   }
 }

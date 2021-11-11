@@ -2,6 +2,7 @@
 declare namespace Auth {
   type User = {
     //email?? usernameのまちがい？
+    emp_nm: string
     email: string
     password: string
     access: string

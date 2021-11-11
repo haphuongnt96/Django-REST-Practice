@@ -1,11 +1,12 @@
 from django.urls import path
 
 from .views import (
-    ApprovalRouteListAPI,
     CountSummaryApprovalRouteDetailAPI,
     ApprovalRequestAPI,
     ApprovalRouteCommentListAPI,
     RequestGetListAPI,
+    RegisterRequestAPI,
+    RetrieveUpdateRequestAPI,
     ApprovalTypeListAPI,
     ApprovalTypeDetailAPI,
     PropertyGetListAPI,
@@ -13,8 +14,9 @@ from .views import (
 )
 
 urlpatterns = [
-    path('requests/<int:request_id>/approval_routes',
-         ApprovalRouteListAPI.as_view(), name='request.approval_routes'),
+    path('requests', RegisterRequestAPI.as_view(), name='request.register'),
+    path('requests/<int:request_id>',
+         RetrieveUpdateRequestAPI.as_view(), name='request.detail'),
     path('requests/<int:request_id>/approval',
          ApprovalRequestAPI.as_view(), name='request.approval'),
     path('approval_route_details/summary/count',
