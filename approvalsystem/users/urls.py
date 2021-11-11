@@ -21,5 +21,4 @@ urlpatterns = [
 
     path('emp_affiliations', EmpAffiliationListAPI.as_view(), name='em_affiliations.list'),
     path('organizations', OrganizationListAPI.as_view(), name='organizations.list'),
-
 ]
