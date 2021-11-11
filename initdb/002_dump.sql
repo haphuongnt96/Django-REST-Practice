@@ -451,6 +451,20 @@ CREATE TABLE public.m_emp_user_permissions (
 ALTER TABLE public.m_emp_user_permissions OWNER TO approval_user;
 
 --
+-- Name: m_notification_type; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_notification_type (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    notification_type_id character varying(2) NOT NULL,
+    notification_type_nm character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.m_notification_type OWNER TO approval_user;
+
+--
 -- Name: m_property; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -713,6 +727,60 @@ ALTER SEQUENCE public.t_approval_route_detail_detail_no_seq OWNED BY public.t_ap
 
 
 --
+-- Name: t_notification_record; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.t_notification_record (
+    id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    emp_id bigint NOT NULL,
+    notification_type_id character varying(2) NOT NULL,
+    request_id integer,
+    confirm_dt timestamp with time zone
+);
+
+
+ALTER TABLE public.t_notification_record OWNER TO approval_user;
+
+--
+-- Name: t_notification_record_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.t_notification_record_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.t_notification_record_id_seq OWNER TO approval_user;
+
+--
+-- Name: t_notification_record_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.t_notification_record_id_seq OWNED BY public.t_notification_record.id;
+
+
+--
+-- Name: t_request; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.t_request (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    request_id integer NOT NULL,
+    request_title character varying(50) NOT NULL,
+    status_id character varying(1),
+    approval_type_id character varying(4)
+);
+
+
+ALTER TABLE public.t_request OWNER TO approval_user;
+
+--
 -- Name: t_request_detail; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -750,22 +818,6 @@ ALTER SEQUENCE public.t_request_detail_id_seq OWNED BY public.t_request_detail.i
 
 
 --
--- Name: t_reuqest; Type: TABLE; Schema: public; Owner: approval_user
---
-
-CREATE TABLE public.t_reuqest (
-    created timestamp with time zone NOT NULL,
-    modified timestamp with time zone NOT NULL,
-    request_id integer NOT NULL,
-    request_title character varying(50) NOT NULL,
-    status_id character varying(1),
-    approval_type_id character varying(4)
-);
-
-
-ALTER TABLE public.t_reuqest OWNER TO approval_user;
-
---
 -- Name: t_reuqest_request_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
 --
 
@@ -784,7 +836,7 @@ ALTER TABLE public.t_reuqest_request_id_seq OWNER TO approval_user;
 -- Name: t_reuqest_request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_reuqest.request_id;
+ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_request.request_id;
 
 
 --
@@ -1020,17 +1072,24 @@ ALTER TABLE ONLY public.t_approval_route_detail ALTER COLUMN detail_no SET DEFAU
 
 
 --
+-- Name: t_notification_record id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notification_record ALTER COLUMN id SET DEFAULT nextval('public.t_notification_record_id_seq'::regclass);
+
+
+--
+-- Name: t_request request_id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('public.t_reuqest_request_id_seq'::regclass);
+
+
+--
 -- Name: t_request_detail id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request_detail ALTER COLUMN id SET DEFAULT nextval('public.t_request_detail_id_seq'::regclass);
-
-
---
--- Name: t_reuqest request_id; Type: DEFAULT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_reuqest ALTER COLUMN request_id SET DEFAULT nextval('public.t_reuqest_request_id_seq'::regclass);
 
 
 --
@@ -1196,6 +1255,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 126	Can change request detail	32	change_requestdetail
 127	Can delete request detail	32	delete_requestdetail
 128	Can view request detail	32	view_requestdetail
+129	Can add notification record	33	add_notificationrecord
+130	Can change notification record	33	change_notificationrecord
+131	Can delete notification record	33	delete_notificationrecord
+132	Can view notification record	33	view_notificationrecord
+133	Can add notification type	34	add_notificationtype
+134	Can change notification type	34	change_notificationtype
+135	Can delete notification type	34	delete_notificationtype
+136	Can view notification type	34	view_notificationtype
 \.
 
 
@@ -1207,6 +1274,11 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 1	2021-09-22 03:44:48.945851+00	2	parkhyunwook@planaria.co.jp	1	[{"added": {}}]	14	1
 2	2021-09-22 03:45:19.662532+00	2	parkhyunwook@planaria.co.jp	2	[{"changed": {"fields": ["First name", "Last name"]}}]	14	1
 3	2021-09-22 04:51:42.204241+00	2	ai@example.com	2	[{"changed": {"fields": ["password"]}}]	14	1
+4	2021-11-11 04:23:28.011156+00	01	01:不在	1	[{"added": {}}]	34	1
+5	2021-11-11 04:23:32.402559+00	02	02:最終承認済	1	[{"added": {}}]	34	1
+6	2021-11-11 04:23:39.332247+00	03	03:差戻	1	[{"added": {}}]	34	1
+7	2021-11-11 04:23:46.395636+00	04	04:申請取消	1	[{"added": {}}]	34	1
+8	2021-11-11 04:23:53.383676+00	09	09:コメント有	1	[{"added": {}}]	34	1
 \.
 
 
@@ -1247,6 +1319,8 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 30	users	division
 31	users	segment
 32	core	requestdetail
+33	core	notificationrecord
+34	core	notificationtype
 \.
 
 
@@ -1297,6 +1371,9 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 40	core	0002_property	2021-11-02 06:43:59.056341+00
 41	core	0003_auto_20211104_0643	2021-11-08 01:55:45.184651+00
 42	core	0002_auto_20211109_1106	2021-11-09 02:06:45.664545+00
+43	core	0002_alter_request_table	2021-11-11 04:12:53.703316+00
+44	core	0003_notificationrecord_notificationtype	2021-11-11 04:16:13.677236+00
+45	core	0002_notificationrecord_confirm_dt	2021-11-11 08:21:23.720256+00
 \.
 
 
@@ -1307,6 +1384,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 yigkgqjbcblyj2kpe7pu8lmemsyrdilg	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mSuEQ:hq6EKgyBgorOQ5MCJ2sRGsU0xMe0_OWc9hyLLCR9Lz8	2021-10-06 04:51:42.239745+00
 ihx16sdmo21hminnfw3eisnykee4dcha	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mV27a:jRpvK8lAur5PUTtuPD_StdV9imefYq1NXX6tNs7s5f4	2021-10-12 01:41:26.094011+00
+spdp6uqocyi05kvh6jlmgycgx7ffj28t	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1ml1bf:81TVjf8PYBYgpE3SRBtA7wHUQ_vyUVh-LqOvMWgiz7Y	2021-11-25 04:22:35.220068+00
 \.
 
 
@@ -1393,8 +1471,8 @@ COPY public.m_division (created, modified, division_id, division_nm) FROM stdin;
 --
 
 COPY public.m_emp (id, password, last_login, is_superuser, created, modified, email, is_staff, is_active, deleted_flg, emp_cd, emp_nm) FROM stdin;
-1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-09-28 01:41:26.087986+00	t	2021-09-22 03:43:00.644272+00	2021-09-27 10:58:35.037229+00	admin@example.com	t	t	f	0000001	あどみん
 2	pbkdf2_sha256$260000$1DZJ22YKKNTGSelK2Ti3CI$SKJPYqfH3bv3UH3AkkJeVpeMbWcdN5eZVvaJqxbN5Ps=	\N	f	2021-09-22 03:44:48.939363+00	2021-09-27 10:58:35.040219+00	ai@example.com	f	t	f	0000002	あいうえお
+1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-11-11 04:22:35.208566+00	t	2021-09-22 03:43:00.644272+00	2021-09-27 10:58:35.037229+00	admin@example.com	t	t	f	0000001	あどみん
 \.
 
 
@@ -1420,6 +1498,19 @@ COPY public.m_emp_groups (id, user_id, group_id) FROM stdin;
 --
 
 COPY public.m_emp_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: m_notification_type; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_notification_type (created, modified, notification_type_id, notification_type_nm) FROM stdin;
+2021-11-11 04:23:28.009153+00	2021-11-11 04:23:28.009153+00	01	不在
+2021-11-11 04:23:32.40056+00	2021-11-11 04:23:32.40056+00	02	最終承認済
+2021-11-11 04:23:39.330241+00	2021-11-11 04:23:39.330241+00	03	差戻
+2021-11-11 04:23:46.39364+00	2021-11-11 04:23:46.39364+00	04	申請取消
+2021-11-11 04:23:53.381169+00	2021-11-11 04:23:53.381169+00	09	コメント有
 \.
 
 
@@ -1531,19 +1622,27 @@ COPY public.t_approval_route_detail (created, modified, detail_no, required_num_
 
 
 --
--- Data for Name: t_request_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
+-- Data for Name: t_notification_record; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_request_detail (id, created, modified, request_column_val, request_id, request_column_id) FROM stdin;
+COPY public.t_notification_record (id, created, modified, emp_id, notification_type_id, request_id, confirm_dt) FROM stdin;
 \.
 
 
 --
--- Data for Name: t_reuqest; Type: TABLE DATA; Schema: public; Owner: approval_user
+-- Data for Name: t_request; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_reuqest (created, modified, request_id, request_title, status_id, approval_type_id) FROM stdin;
+COPY public.t_request (created, modified, request_id, request_title, status_id, approval_type_id) FROM stdin;
 2021-09-22 03:46:24.386+00	2021-09-22 03:46:27.946+00	1	申請タイトル	1	\N
+\.
+
+
+--
+-- Data for Name: t_request_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.t_request_detail (id, created, modified, request_column_val, request_id, request_column_id) FROM stdin;
 \.
 
 
@@ -1596,28 +1695,28 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 128, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 136, true);
 
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 3, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 8, true);
 
 
 --
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 32, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 34, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 42, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 45, true);
 
 
 --
@@ -1653,6 +1752,13 @@ SELECT pg_catalog.setval('public.t_approval_route_comment_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.t_approval_route_detail_detail_no_seq', 1, false);
+
+
+--
+-- Name: t_notification_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.t_notification_record_id_seq', 1, false);
 
 
 --
@@ -1857,6 +1963,14 @@ ALTER TABLE ONLY public.m_emp_affiliation
 
 
 --
+-- Name: m_notification_type m_notification_type_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_notification_type
+    ADD CONSTRAINT m_notification_type_pkey PRIMARY KEY (notification_type_id);
+
+
+--
 -- Name: m_property m_property_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -1929,6 +2043,14 @@ ALTER TABLE ONLY public.t_approval_route
 
 
 --
+-- Name: t_notification_record t_notification_record_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notification_record
+    ADD CONSTRAINT t_notification_record_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: t_request_detail t_request_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -1937,10 +2059,10 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_reuqest t_reuqest_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_reuqest_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_reuqest
+ALTER TABLE ONLY public.t_request
     ADD CONSTRAINT t_reuqest_pkey PRIMARY KEY (request_id);
 
 
@@ -2219,6 +2341,13 @@ CREATE INDEX m_emp_affiliation_segment_id_6fd06372_like ON public.m_emp_affiliat
 --
 
 CREATE INDEX m_emp_emp_cd_68c49e31_like ON public.m_emp USING btree (emp_cd varchar_pattern_ops);
+
+
+--
+-- Name: m_notification_type_notification_type_id_3020fb9f_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_notification_type_notification_type_id_3020fb9f_like ON public.m_notification_type USING btree (notification_type_id varchar_pattern_ops);
 
 
 --
@@ -2635,6 +2764,34 @@ CREATE INDEX t_approval_route_segment_id_65a5c02f_like ON public.t_approval_rout
 
 
 --
+-- Name: t_notification_record_emp_id_a7f24d32; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_notification_record_emp_id_a7f24d32 ON public.t_notification_record USING btree (emp_id);
+
+
+--
+-- Name: t_notification_record_notification_type_id_1ea1f225; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_notification_record_notification_type_id_1ea1f225 ON public.t_notification_record USING btree (notification_type_id);
+
+
+--
+-- Name: t_notification_record_notification_type_id_1ea1f225_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_notification_record_notification_type_id_1ea1f225_like ON public.t_notification_record USING btree (notification_type_id varchar_pattern_ops);
+
+
+--
+-- Name: t_notification_record_request_id_9cbb0ffd; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_notification_record_request_id_9cbb0ffd ON public.t_notification_record USING btree (request_id);
+
+
+--
 -- Name: t_request_detail_request_column_id_4d50586f; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -2659,28 +2816,28 @@ CREATE INDEX t_request_detail_request_id_cb49d5d2 ON public.t_request_detail USI
 -- Name: t_reuqest_approval_type_id_0c5c6523; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523 ON public.t_reuqest USING btree (approval_type_id);
+CREATE INDEX t_reuqest_approval_type_id_0c5c6523 ON public.t_request USING btree (approval_type_id);
 
 
 --
 -- Name: t_reuqest_approval_type_id_0c5c6523_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523_like ON public.t_reuqest USING btree (approval_type_id varchar_pattern_ops);
+CREATE INDEX t_reuqest_approval_type_id_0c5c6523_like ON public.t_request USING btree (approval_type_id varchar_pattern_ops);
 
 
 --
 -- Name: t_reuqest_status_id_7484f8ec; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec ON public.t_reuqest USING btree (status_id);
+CREATE INDEX t_reuqest_status_id_7484f8ec ON public.t_request USING btree (status_id);
 
 
 --
 -- Name: t_reuqest_status_id_7484f8ec_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec_like ON public.t_reuqest USING btree (status_id varchar_pattern_ops);
+CREATE INDEX t_reuqest_status_id_7484f8ec_like ON public.t_request USING btree (status_id varchar_pattern_ops);
 
 
 --
@@ -2970,7 +3127,7 @@ ALTER TABLE ONLY public.t_approval_route_comment
 --
 
 ALTER TABLE ONLY public.t_approval_route_comment
-    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3058,7 +3215,7 @@ ALTER TABLE ONLY public.t_approval_route
 --
 
 ALTER TABLE ONLY public.t_approval_route
-    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3067,6 +3224,30 @@ ALTER TABLE ONLY public.t_approval_route
 
 ALTER TABLE ONLY public.t_approval_route
     ADD CONSTRAINT t_approval_route_segment_id_65a5c02f_fk_m_segment_segment_id FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_notification_record t_notification_recor_notification_type_id_1ea1f225_fk_m_notific; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notification_record
+    ADD CONSTRAINT t_notification_recor_notification_type_id_1ea1f225_fk_m_notific FOREIGN KEY (notification_type_id) REFERENCES public.m_notification_type(notification_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_notification_record t_notification_recor_request_id_9cbb0ffd_fk_t_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notification_record
+    ADD CONSTRAINT t_notification_recor_request_id_9cbb0ffd_fk_t_request FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_notification_record t_notification_record_emp_id_a7f24d32_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notification_record
+    ADD CONSTRAINT t_notification_record_emp_id_a7f24d32_fk_m_emp_id FOREIGN KEY (emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3082,22 +3263,22 @@ ALTER TABLE ONLY public.t_request_detail
 --
 
 ALTER TABLE ONLY public.t_request_detail
-    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_reuqest(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: t_reuqest t_reuqest_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_reuqest_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_reuqest
+ALTER TABLE ONLY public.t_request
     ADD CONSTRAINT t_reuqest_approval_type_id_0c5c6523_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: t_reuqest t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_reuqest
+ALTER TABLE ONLY public.t_request
     ADD CONSTRAINT t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
 
 
