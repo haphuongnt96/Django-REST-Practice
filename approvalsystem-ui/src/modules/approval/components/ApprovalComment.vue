@@ -1,9 +1,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Getter as G } from 'vuex-class'
+import { AuthD } from '@/store/typeD'
 @Component({
   components: {}
 })
 export default class ApprovalComment extends Vue {
+  @G(...AuthD.getUser) user: Auth.User
   //#region Prop
   @Prop() isOpen: boolean
   //#endregion
@@ -12,15 +15,13 @@ export default class ApprovalComment extends Vue {
   items = []
   snackbar = false
   //#endregion
+  comment = ''
 
   async mounted() {
-    console.log('mounted')
-    console.log(this)
     // approval_route_idが取れない状態なので1で固定
     const [err, res] = await this.$api.approval.getApprovalRouteComment('1')
     if (!err && res) {
       this.items = res
-      console.log(res)
     }
   }
 
@@ -35,6 +36,39 @@ export default class ApprovalComment extends Vue {
 
   get contents() {
     return this.$pageContents.APPROVAL
+  }
+
+  // 申請一覧のレコードクリック時に詳細画面に遷移する
+  async saveComment(item) {
+    // クリックされたオブジェクトのrequest_idを取得して渡す
+    this.request_id = item.request_id
+    const [err, res] = await this.$api.approval.postApprovalRouteComment('1', {
+      request_id: 1, //TODO: 申請IDを取得する。
+      approval_route_id: 1, //TODO: 承認ルートIDを取得する。
+      ins_emp_id: this.user.id,
+      comment_no: this.items[0].comment_no + 1,
+      comment: this.comment
+    })
+    if (!err && res) {
+      //emit data to ApprovalRoute for update approvalStatus
+      // 参考中：ApprovalMainFunction
+      // this.$emit('approval', res)
+      this.$swal({
+        title: 'コメントを登録しました。',
+        icon: 'success',
+        value: true
+      })
+      this.comment = ''
+      const [err, res] = await this.$api.approval.getApprovalRouteComment('1')
+      if (!err && res) {
+        this.items = res
+      }
+    } else {
+      this.$swal({
+        title: 'コメント登録に失敗しました。',
+        icon: 'error'
+      })
+    }
   }
   //#endregion
   //handle call child function
@@ -58,11 +92,13 @@ export default class ApprovalComment extends Vue {
           outlined
           hide-details="auto"
           dense
+          v-model="comment"
+          name="comment"
           value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
         ></v-textarea>
         <div class="d-flex">
           <v-spacer />
-          <v-btn color="secondary">
+          <v-btn color="secondary" @click="saveComment">
             {{ contents.COMMENT_SAVE }}
           </v-btn>
         </div>
