@@ -11,11 +11,11 @@ export function getDashuboardSerchRecord() {
   )
 }
 //　お知らせの取得
-export function getDashuboardNotification() {
+export function getDashuboardNews() {
   return transformData(
-    service.request<Dashboard.DashboardNotification[]>({
+    service.request<Dashboard.DashboardNews[]>({
       method: 'get',
-      url: 'api/notification/get_list'
+      url: 'api/news/get_list'
     })
   )
 }

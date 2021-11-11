@@ -7,18 +7,19 @@ import { VTextMarquee } from 'vue-text-marquee'
     VTextMarquee
   }
 })
-export default class Notification extends Vue {
+export default class News extends Vue {
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  notifications: DashboardNotification.notifications[] = []
+  news: Dashboard.DashboardNews[] = []
   //#region COMPUTED
   get contents() {
     return this.$pageContents.DASHBOARD
   }
 
   async created() {
-    const [err, res] = await this.$api.dashboard.getDashuboardNotification()
+    const [err, res] = await this.$api.dashboard.getDashuboardNews()
     if (!err && res) {
-      this.notifications = res
+      this.news = res
+      console.log(this.news)
     }
   }
 }
@@ -27,11 +28,11 @@ export default class Notification extends Vue {
 <template>
   <div class="approval__notification">
     <div class="float-left approval__notification_title">
-      {{ contents.NOTIFICATION }}
+      {{ contents.NEWS }}
     </div>
     <VTextMarquee :speed="40">
-      {{ notifications[0].notification }}
-      {{ notifications[1].notification }}
+      {{ news[0].news }}
+      {{ news[1].news }}
     </VTextMarquee>
   </div>
 </template>

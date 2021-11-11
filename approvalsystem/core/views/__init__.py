@@ -18,6 +18,6 @@ from .property import (
     PropertyGetListAPI,
 )
 
-from .notification import (
-    NotificationGetListAPI,
+from .news import (
+    NewsGetListAPI,
 )
