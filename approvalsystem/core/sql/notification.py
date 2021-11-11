@@ -33,6 +33,8 @@ def get_request_emp_notification(emp_id: int, notification_type_id: str) -> RawQ
                 ON t_notification_record.notification_type_id = m_notification_type.notification_type_id 
         WHERE
             t_notification_record.notification_type_id = %(notification_type_id)s 
+        AND t_notification_record.confirm_dt IS NULL
+        ORDER BY t_request.request_id
 	''', {'emp_id': emp_id, 'notification_type_id': notification_type_id})
 
     return queryset
