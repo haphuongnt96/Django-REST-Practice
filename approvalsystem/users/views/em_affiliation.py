@@ -22,6 +22,14 @@ class EmpAffiliationListAPI(ListAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
+        business_unit_id = self.request.query_params.get('business_unit_id')
+        if business_unit_id:
+            queryset = queryset.filter(business_unit_id=business_unit_id)
+
+        department_id = self.request.query_params.get('department_id')
+        if department_id:
+            queryset = queryset.filter(department_id=department_id)
+
         segment_id = self.request.query_params.get('segment_id')
         if segment_id:
             queryset = queryset.filter(segment_id=segment_id)
