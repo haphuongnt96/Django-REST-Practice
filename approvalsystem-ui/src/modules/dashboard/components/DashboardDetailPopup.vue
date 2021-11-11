@@ -97,7 +97,7 @@ export default class DashboardDetailPopup extends Vue {
                         required
                       ></v-text-field>
                       <v-btn :disabled="!valid" class="mr-4">
-                        {{ contents.FORM_SEARCH }}
+                        {{ contents.POPUP_SEARCH_SEARCH }}
                       </v-btn>
                     </v-form>
                   </td>

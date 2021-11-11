@@ -140,7 +140,7 @@ export default class DashboardPopupObject extends Vue {
                         class="mr-4"
                         @click="getPropartyData()"
                       >
-                        {{ contents.FORM_SEARCH }}
+                        {{ contents.POPUP_SEARCH_SEARCH }}
                       </v-btn>
                       <v-btn color="grey">
                         {{ contents.BUTTON_CLEAR }}
