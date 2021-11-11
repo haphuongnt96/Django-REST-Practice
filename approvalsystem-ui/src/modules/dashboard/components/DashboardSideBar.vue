@@ -10,6 +10,7 @@ export default class DashboardSideBar extends Vue {
   @G(...AuthD.getUser) user: Auth.User
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   isOpen = false
+  items: Dashboard.DashboardSideRequestNotifications[] = []
 
   // 申請者承認通知件数
   applicantApprovalCnt = 0
@@ -20,6 +21,14 @@ export default class DashboardSideBar extends Vue {
   get contents() {
     this.getApplicantNotifications()
     return this.$pageContents.DASHBOARD
+  }
+  //申請者の通知数を取得
+  async created() {
+    const [err, res] =
+      await this.$api.dashboard.getDashuboardSideRequestNotification()
+    if (!err && res) {
+      this.items = res
+    }
   }
   //#endregion
 
@@ -74,9 +83,11 @@ export default class DashboardSideBar extends Vue {
           <li class="nav__submenu--items">
             <a href="#">
               {{ contents.APPLICANT_APPLYING }}
-
+              {{ items[0].Applying }}
               <span class="noti-number">
-                <span class="blue-noti">1</span>
+                <div v-if="items[0].Applying !== Null">
+                  <span class="blue-noti">{{ items[0].applying }}</span>
+                </div>
                 <v-icon class="cta ring-anmation">mdi-email</v-icon>
               </span>
             </a>
@@ -86,6 +97,9 @@ export default class DashboardSideBar extends Vue {
             <a href="#">
               {{ contents.APPLICANT_REMAND }}
               <span class="noti-number">
+                <div v-if="items[0].Denial !== Nul">
+                  <span class="red-noti">{{ items[0].remand }}</span>
+                </div>
                 <v-icon class="cta">mdi-alert-decagram</v-icon>
               </span>
             </a>
@@ -95,6 +109,9 @@ export default class DashboardSideBar extends Vue {
             <a href="#">
               {{ contents.APPLICANT_DRAFT }}
               <span class="noti-number">
+                <div v-if="items[0].draft !== Null">
+                  <span class="blue-noti">{{ items[0].draft }}</span>
+                </div>
                 <v-icon class="cta">mdi-account-edit</v-icon>
               </span>
 

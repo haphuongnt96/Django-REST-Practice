@@ -14,6 +14,7 @@ from .views import (
     ApprovalTypeGetListAPI,
     NewsGetListAPI,
     NotificationApplicantAPI,
+    RequestNotificationCountAPI,
 )
 
 urlpatterns = [
@@ -48,4 +49,6 @@ urlpatterns = [
     # 通知
     path('notification/applicant/<int:emp_id>', 
           NotificationApplicantAPI.as_view(), name='notification.applicant'),
+    path('request_notifications/get_count',
+          RequestNotificationCountAPI.as_view(), name='get_request_notifications_count'),
 ]

@@ -25,3 +25,7 @@ from .news import (
     NewsGetListAPI,
 )
 from .notification import *
+
+from .request_notification_count import (
+    RequestNotificationCountAPI,
+)

@@ -19,6 +19,15 @@ export function getDashuboardNews() {
     })
   )
 }
+// 申請者の状況数を取得する
+export function getDashuboardSideRequestNotification() {
+  return transformData(
+    service.request<Dashboard.DashboardSideRequestNotifications[]>({
+      method: 'get',
+      url: 'api/request_notifications/get_count'
+    })
+  )
+}
 
 /**
  * 申請者通知リストを取得する。

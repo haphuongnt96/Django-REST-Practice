@@ -17,4 +17,7 @@ declare namespace Dashboard {
   type DashboardApprovalTypeSearchTable = {
     request_value: []
   }
+    type DashboardSideRequestNotifications = {
+        items: []
+    }
 }

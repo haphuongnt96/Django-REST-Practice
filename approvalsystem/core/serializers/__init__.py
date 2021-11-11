@@ -7,3 +7,4 @@ from .property import *
 from .approval_type import *
 from .news import *
 from .notification import *
+from .get_request_notification_count import *
