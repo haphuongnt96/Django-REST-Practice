@@ -1,6 +1,10 @@
 <script lang="ts">
-import { Component, Emit, Vue } from 'vue-property-decorator'
+import { Component, Emit, Vue, Watch } from 'vue-property-decorator'
 import PopSearchEmployeeTable from '@/modules/employee/components/PopSearchEmployeeTable.vue'
+import CONSTANTS from '@/common/constant'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const debounce = require('lodash.debounce')
+
 @Component({
   components: {
     PopSearchEmployeeTable
@@ -8,16 +12,18 @@ import PopSearchEmployeeTable from '@/modules/employee/components/PopSearchEmplo
 })
 export default class PopSearchEmployee extends Vue {
   //#region Data
-  name = ''
+  debounceEmployeeNmChanged = debounce(this.employeeNmChanged, 800)
   valid = true
   dialog = false
-  selectStatus = [
-    { state: 'Florida', abbr: 'FL' },
-    { state: 'Georgia', abbr: 'GA' },
-    { state: 'Nebraska', abbr: 'NE' },
-    { state: 'California', abbr: 'CA' },
-    { state: 'New York', abbr: 'NY' }
-  ]
+  searchParams: Employee.SearchEmployees = {
+    limit: CONSTANTS.VTABLE_DATA_CONFIG.ITEMS_PER_PAGE,
+    offset: CONSTANTS.VTABLE_DATA_CONFIG.OFFSET,
+    emp_nm: ''
+  }
+  employees: Employee.EmployeeAffiliation[] = []
+  totalItems = 0
+  departments: Department.Department[] = []
+  segments: Segment.Segment[] = []
   //#endregion
 
   //#region Emit
@@ -32,18 +38,46 @@ export default class PopSearchEmployee extends Vue {
   }
   //#endregion
 
+  //#region Hook
+  created() {
+    this.getOrganizations()
+    this.searchEmployee()
+  }
+  //#endregion
+
+  //#region Watch
+  @Watch('searchParams', { deep: true }) onSearchParamsUpdated() {
+    this.searchEmployee()
+  }
+  //#endregion
+
   //#region Methods
+  async searchEmployee() {
+    const [err, res] = await this.$api.employee.searchEmployeeAffiliations(
+      this.searchParams
+    )
+    if (!err && res) {
+      this.totalItems = res.count
+      this.employees = res.results
+    }
+  }
+
+  async getOrganizations() {
+    const [err, res] = await this.$api.organization.getOrganizations()
+    if (!err && res) {
+      const { departments, segments } = res
+      this.departments = departments
+      this.segments = segments
+    }
+  }
+
   select(employee: Employee.Employee) {
     this.setData(employee)
     this.dialog = false
   }
 
-  // 検索ボタン押下でDetailTableの検索を発火
-  getDetailTable() {
-    // TODO: 部と課は各一覧取得実装後に取得
-    const detailtable: PopSearchEmployeeTable = this.$refs
-      .detailtable as PopSearchEmployeeTable
-    detailtable.getdata(this.name, '', '')
+  employeeNmChanged(value: string) {
+    this.searchParams.emp_nm = value
   }
   //#endregion
 }
@@ -70,23 +104,27 @@ export default class PopSearchEmployee extends Vue {
                   <td>{{ contents.POPUP_APPLICANT_CATE1 }}</td>
                   <td>
                     <v-select
-                      :items="selectStatus"
+                      v-model="searchParams.department_id"
+                      :items="departments"
                       :label="contents.POPUP_APPLICANT_CATE_PL1"
-                      item-text="state"
-                      item-value="abbr"
+                      item-text="department_nm"
+                      item-value="department_id"
                       dense
                       outlined
                       hide-details="auto"
+                      clearable
                     />
                   </td>
                   <td>{{ contents.POPUP_APPLICANT_CATE2 }}</td>
                   <td>
                     <v-select
-                      :items="selectStatus"
+                      v-model="searchParams.segment_id"
+                      :items="segments"
                       :label="contents.POPUP_APPLICANT_CATE_PL2"
-                      item-text="state"
-                      item-value="abbr"
+                      item-text="segment_nm"
+                      item-value="segment_id"
                       dense
+                      clearable
                       outlined
                       hide-details="auto"
                     />
@@ -99,11 +137,11 @@ export default class PopSearchEmployee extends Vue {
                       v-model="valid"
                     >
                       <v-text-field
-                        v-model="name"
                         dense
                         outlined
                         hide-details="auto"
                         required
+                        @input="employeeNmChanged"
                       ></v-text-field>
                       <v-btn
                         :disabled="!valid"
@@ -119,7 +157,12 @@ export default class PopSearchEmployee extends Vue {
             </table>
           </div>
           <div class="search__form-result">
-            <PopSearchEmployeeTable ref="detailtable" @select="select" />
+            <PopSearchEmployeeTable
+              :searchParams.sync="searchParams"
+              :totalItems="totalItems"
+              :items="employees"
+              @select="select"
+            />
           </div>
         </div>
       </v-card-text>

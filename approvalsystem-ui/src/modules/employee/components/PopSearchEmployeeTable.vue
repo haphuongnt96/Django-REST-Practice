@@ -1,33 +1,13 @@
 <script lang="ts">
-import { Component, Emit, Vue } from 'vue-property-decorator'
-import { GetUserListRequestParams } from 'src/services/interfaces/aip_interfaces'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component({ components: {} })
 export default class PopSearchEmployeeTable extends Vue {
   //#region Data
-  items: Employee.Employee[] = []
+  @Prop() items: Employee.EmployeeAffiliation[]
+  @Prop() searchParams: Employee.SearchEmployees
+  @Prop() totalItems: number
   //#endregion
-
-  // 検索ボタン押下でデータを取得
-  async getdata(emp_nm: string, department_id: string, division_id: string) {
-    const data: GetUserListRequestParams = {
-      emp_nm: emp_nm,
-      department_id: department_id,
-      division_id: division_id
-    }
-    const [err, res] = await this.$api.authen.getUserList(data)
-    if (!err && res) {
-      //正常処理　swalはアラート用のライブラリ
-      this.items = res
-    } else {
-      //バックエンド側でエラーが発生したときのメッセージ
-      this.$swal({
-        title: 'エラー',
-        text: err.response.data.message,
-        icon: 'error'
-      })
-    }
-  }
 
   //#region Emit
   @Emit('select') select(employee: Employee.Employee) {
@@ -38,6 +18,25 @@ export default class PopSearchEmployeeTable extends Vue {
   //#region COMPUTED
   get contents() {
     return this.$pageContents.DASHBOARD
+  }
+
+  get options() {
+    const { limit, offset } = this.searchParams
+    return {
+      page: offset / limit + 1,
+      itemsPerPage: limit
+    }
+  }
+
+  set options(value: Vuetify.VDataTable) {
+    const { itemsPerPage, page } = value
+    this.$emit('update:searchParams', {
+      ...this.searchParams,
+      ...{
+        limit: value.itemsPerPage,
+        offset: (page - 1) * itemsPerPage
+      }
+    })
   }
   //#endregion
 
@@ -63,12 +62,11 @@ export default class PopSearchEmployeeTable extends Vue {
   <v-data-table
     :headers="headers"
     :items="items"
-    :items-per-page="15"
-    :no-data-text="contents.TABLE_NO_DATA"
+    :options.sync="options"
+    :server-items-length="totalItems"
+    :items-per-page="$constants.VTABLE_DATA_CONFIG.ITEMS_PER_PAGE"
+    :no-data-text="$constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA"
     @click:row="select"
-    :footer-props="{
-      'disable-items-per-page': true
-    }"
   >
     <template v-slot:item.index="{ index }">
       {{ index + 1 }}

@@ -11,7 +11,7 @@ import EventBus from '@/common/eventBus'
 import { Getter as G } from 'vuex-class'
 import { AuthD } from '@/store/typeD'
 import { format } from 'date-fns'
-import { ToastMessages } from '@/common/constant'
+import { TOAST_MESSAGES } from '@/common/constant'
 
 @Component({
   components: {
@@ -199,7 +199,7 @@ export default class Approval extends Vue {
       if (name) this.$router.push({ name, query })
       this.$toast.fire({
         icon: 'success',
-        title: ToastMessages.APP_SAVE_SUCCESS
+        title: TOAST_MESSAGES.APP_SAVE_SUCCESS
       })
     }
   }

@@ -1,4 +1,4 @@
-import { ToastMessages } from '@/common/constant'
+import { TOAST_MESSAGES } from '@/common/constant'
 import Toast from '@/plugins/toast'
 import axios from 'axios'
 
@@ -96,7 +96,7 @@ service.interceptors.response.use(
     }
     Toast.fire({
       icon: 'error',
-      title: ToastMessages.INTERNAL_ERROR
+      title: TOAST_MESSAGES.INTERNAL_ERROR
     })
     console.log(err)
     return Promise.reject(err)
