@@ -23,11 +23,11 @@ def get_request_notification_count(request_user):
 				request.status_id,
 				MAX(route.approval_route_id) as last_approval_id
 			FROM
-				t_reuqest as request
+				t_request as request
 				LEFT OUTER JOIN
 					t_approval_route as route
 				ON
-					request.request_id = route.request_id_id
+					request.request_id = route.request_id
 			WHERE
 				route.request_emp_id = %(request_user)s
 				AND (request.status_id = '1' OR request.status_id = '2' OR request.status_id = '8')
