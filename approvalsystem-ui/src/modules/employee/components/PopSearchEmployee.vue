@@ -148,7 +148,7 @@ export default class PopSearchEmployee extends Vue {
                         class="mr-4"
                         @click="getDetailTable()"
                       >
-                        {{ contents.FORM_SEARCH }}
+                        {{ contents.POPUP_SEARCH_SEARCH }}
                       </v-btn>
                     </v-form>
                   </td>
