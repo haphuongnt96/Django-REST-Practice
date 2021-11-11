@@ -82,7 +82,7 @@ export default class DashboardDetail extends Vue {
   }
 
   setDataSearch(value) {
-    this.applicantContent = value.department
+    this.applicantContent = value.approval_type_nm
   }
   setDataApplicant(data) {
     this.applicantEmpCode = data.emp_cd
