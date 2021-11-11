@@ -5,7 +5,7 @@ from core.models import (
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
     ApprovalRouteMaster,
     ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
-    Property, News
+    Property, News,
     NotificationType, NotificationRecord
 )
 
@@ -78,3 +78,6 @@ admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster, RequestDetailMasterAdmin)
 admin.site.register(ColumnType)
 admin.site.register(Property)
+admin.site.register(News, NewsAdmin)
+admin.site.register(NotificationType)
+admin.site.register(NotificationRecord)

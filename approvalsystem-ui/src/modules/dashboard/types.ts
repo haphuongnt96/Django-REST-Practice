@@ -11,6 +11,7 @@ declare namespace Dashboard {
     request_id: string
   }
   type DashboardNews = {
-    news: []
+    news_id: number
+    news: string
   }
 }

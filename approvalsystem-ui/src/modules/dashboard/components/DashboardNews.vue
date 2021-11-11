@@ -19,20 +19,18 @@ export default class News extends Vue {
     const [err, res] = await this.$api.dashboard.getDashuboardNews()
     if (!err && res) {
       this.news = res
-      console.log(this.news)
     }
   }
 }
 </script>
 
 <template>
-  <div class="approval__notification">
-    <div class="float-left approval__notification_title">
+  <div class="approval__news">
+    <div class="float-left approval__news_title">
       {{ contents.NEWS }}
     </div>
     <VTextMarquee :speed="40">
-      {{ news[0].news }}
-      {{ news[1].news }}
+      <span v-for="issue in news" :key="issue.news_id">{{ issue.news }}</span>
     </VTextMarquee>
   </div>
 </template>
