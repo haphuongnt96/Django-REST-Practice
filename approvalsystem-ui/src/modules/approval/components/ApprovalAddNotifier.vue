@@ -1,37 +1,49 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import mock from '@/static/add-notifier'
-import PopSearchEmployee from '@/modules/employee/components/PopSearchEmployee.vue'
+import ApprovalAddEmployee from '@/modules/approval/components/ApprovalAddEmployee.vue'
+import { Mutation as M } from 'vuex-class'
+import { ApprovalRequestD } from '@/store/typeD'
 
 @Component({
-  components: { PopSearchEmployee }
+  components: { ApprovalAddEmployee }
 })
 export default class ApprovalAddNotifier extends Vue {
+  @M(...ApprovalRequestD.setListNotifies) setListNotifies: (
+    notifiers: Approvals.NotificationRecords[]
+  ) => void
   //#region Data
-  notifiers = mock.listNotifiers
-  positionSearch = ''
-  employee = {} as Employee.Employee
+  notifiers: Approvals.NotificationRecords[] = []
 
   //#endregion
 
   //#region Methods
-  setEmployee(item: Employee.Employee) {
-    this.employee = item
+  addNotify(record: Approvals.RegisterApprovalRecord) {
+    this.notifiers.push({
+      emp_id: record.approval_emp_id,
+      notification_post_nm: record.record_nm
+    })
+    this.updateVuexState()
+  }
+
+  removeRecord(item: Approvals.NotificationRecords) {
+    const index = this.notifiers.findIndex((x) => x.emp_id === item.emp_id)
+    this.notifiers.splice(index, 1)
+    this.updateVuexState()
+  }
+
+  updateVuexState() {
+    this.setListNotifies(this.notifiers)
   }
   //#endregion
 
   //#region Computed
   get headers() {
     return [
-      { text: this.contents.POSITION, value: 'position' },
-      { text: this.contents.NAME, value: 'name' },
-      { text: this.contents.CONFIRMED_DATE, value: 'date' }
+      { text: this.contents.POSITION, value: 'emp_id' },
+      { text: this.contents.NAME, value: 'notification_post_nm' },
+      { text: this.contents.CONFIRMED_DATE, value: 'date' },
+      { text: '', value: 'action', width: '200', align: 'center' }
     ]
-  }
-  get items() {
-    return this.notifiers.filter((x) =>
-      x.position.includes(this.positionSearch)
-    )
   }
 
   get contents() {
@@ -44,35 +56,20 @@ export default class ApprovalAddNotifier extends Vue {
 <template>
   <v-container fluid px-0>
     <div class="text-h5 txt-text-1 mb-2">{{ contents.LIST_OF_NOTIFIERS }}</div>
-    <div class="d-flex align-center flex-gap-8 mb-3">
-      <div class="d-flex align-center flex-gap-2">
-        <div>{{ contents.ADD_NOTIFIERS }}</div>
-        <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
-          <span>{{ employee.emp_cd }}</span>
-          <v-divider vertical class="mx-2" />
-          <span>{{ employee.emp_nm }}</span>
-        </div>
-      </div>
-      <PopSearchEmployee @setData="setEmployee" />
-      <div class="d-flex align-center flex-gap-2">
-        {{ contents.POSITION_NAME }}
-        <v-text-field
-          outlined
-          dense
-          hide-details="auto"
-          v-model="positionSearch"
-        />
-      </div>
-      <v-spacer />
-      <v-btn color="secondary">{{ contents.ADD }}</v-btn>
-    </div>
+    <ApprovalAddEmployee @addRecord="addNotify" />
     <v-data-table
       :headers="headers"
-      :items="items"
-      :no-data-text="contents.TABLE_NO_DATA"
+      :items="notifiers"
+      :items-per-page="$constants.VTABLE_DATA_CONFIG.ITEMS_PER_PAGE"
+      :no-data-text="$constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA"
     >
       <template v-slot:item.date="{ item }">
         {{ item.date | date }}
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon small :color="$config.Colors.red2" @click="removeRecord(item)">
+          mdi-close
+        </v-icon>
       </template>
     </v-data-table>
   </v-container>

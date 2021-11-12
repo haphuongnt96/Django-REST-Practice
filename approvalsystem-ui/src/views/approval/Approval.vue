@@ -1,17 +1,16 @@
 <script lang="ts">
+import { TOAST_MESSAGES } from '@/common/constant'
+import EventBus from '@/common/eventBus'
 import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunction.vue'
 import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequestDetail.vue'
 import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequestHeader.vue'
 import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
-import { Component, Vue } from 'vue-property-decorator'
 import eventBus from '@/plugins/eventBus'
-import EventBus from '@/common/eventBus'
+import { ApprovalRequestD, AuthD } from '@/store/typeD'
+import { Component, Vue } from 'vue-property-decorator'
 import { Getter as G } from 'vuex-class'
-import { AuthD } from '@/store/typeD'
-import { format } from 'date-fns'
-import { TOAST_MESSAGES } from '@/common/constant'
 
 @Component({
   components: {
@@ -25,6 +24,10 @@ import { TOAST_MESSAGES } from '@/common/constant'
 })
 export default class Approval extends Vue {
   @G(...AuthD.getUser) user: Auth.User
+  @G(...ApprovalRequestD.getListApprovers)
+  approvals: Approvals.RegisterApprovalRouteDetail[]
+  @G(...ApprovalRequestD.getListNotifies)
+  notifies: Approvals.NotificationRecords[]
 
   //#region Data
   m_request_details: ApplicationForm.RequestDetail[] = []
@@ -181,7 +184,9 @@ export default class Approval extends Vue {
     const data = {
       approval_type_id: this.formSummary.approval_type_id || '',
       request_details: this.requests,
-      department_id: this.departmentId
+      department_id: this.departmentId,
+      approval_route_details: this.approvals,
+      notification_records: this.notifies
     }
     const [err, res] = this.requestID
       ? await this.$api.approval.updateRequestFormData(this.requestID, data)

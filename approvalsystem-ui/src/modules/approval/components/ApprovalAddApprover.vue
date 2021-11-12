@@ -1,17 +1,19 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import PopSearchEmployee from '@/modules/employee/components/PopSearchEmployee.vue'
-import CurrencyInput from '@/common/components/ui/CurrencyInput.vue'
+import ApprovalAddEmployee from '@/modules/approval/components/ApprovalAddEmployee.vue'
+import { Mutation as M } from 'vuex-class'
+import { ApprovalRequestD } from '@/store/typeD'
 
 @Component({
-  components: { PopSearchEmployee, CurrencyInput }
+  components: { ApprovalAddEmployee }
 })
 export default class ApprovalAddApprover extends Vue {
+  @M(...ApprovalRequestD.setListApprovers) setListApprovers: (
+    approvers: Approvals.RegisterApprovalRouteDetail[]
+  ) => void
+
   //#region Data
   approvers: Approvals.RegisterApprovalRouteDetail[] = []
-  order = ''
-  approval_post_nm = ''
-  employee = {} as Employee.EmployeeAffiliation
   drag = false
   dragOptions = {
     animation: 200,
@@ -22,33 +24,15 @@ export default class ApprovalAddApprover extends Vue {
 
   //#endregion
 
-  //#region Methods
-  setEmployee(item: Employee.EmployeeAffiliation) {
-    this.employee = item
-  }
-
-  addApprover() {
-    this.approvers.push(this.selectedEmployee)
-    this.resetSelectedEmployee()
-  }
-
-  resetSelectedEmployee() {
-    this.employee = {} as Employee.EmployeeAffiliation
-    this.order = ''
-    this.approval_post_nm = ''
-  }
-
-  removeEmployee(employee: Employee.EmployeeAffiliation) {
-    const index = this.approvers.findIndex(
-      (x) => x.approval_emp_id === employee.emp_id
-    )
-    this.approvers.splice(index, 1)
-  }
-  //#endregion
-
   //#region Computed
   get headers() {
     return [
+      {
+        text: 'No',
+        align: 'center',
+        sortable: false,
+        value: 'index'
+      },
       { text: this.contents.POSITION, value: 'approval_post_nm' },
       { text: this.contents.NAME, value: 'emp_nm' },
       { text: '', value: 'action', width: '200' }
@@ -59,14 +43,40 @@ export default class ApprovalAddApprover extends Vue {
   get contents() {
     return { ...this.$pageContents.APPROVAL_TABS, ...this.$pageContents.COMMON }
   }
+  //#endregion
 
-  get selectedEmployee() {
-    return {
-      approval_emp_id: this.employee.emp_id,
-      order: +this.order,
-      approval_post_nm: this.approval_post_nm,
-      emp_nm: this.employee.emp_nm
-    }
+  //#region Methods
+
+  addApprover(record: Approvals.RegisterApprovalRecord) {
+    const insertBeforeIndex = this.approvers.findIndex(
+      (x) => x.order > record.order
+    )
+    const index =
+      insertBeforeIndex > -1 ? insertBeforeIndex - 1 : this.approvers.length
+    this.approvers.splice(index, 0, {
+      ...record,
+      ...{ approval_post_nm: record.record_nm }
+    })
+    this.reorderApprovers()
+    this.updateVuexState()
+  }
+
+  reorderApprovers() {
+    this.approvers.forEach((x, i) => {
+      x.order = i + 1
+    })
+  }
+
+  removeEmployee(employee: Employee.EmployeeAffiliation) {
+    const index = this.approvers.findIndex(
+      (x) => x.approval_emp_id === employee.emp_id
+    )
+    this.approvers.splice(index, 1)
+    this.updateVuexState()
+  }
+
+  updateVuexState() {
+    this.setListApprovers(this.approvers)
   }
   //#endregion
 }
@@ -75,40 +85,17 @@ export default class ApprovalAddApprover extends Vue {
 <template>
   <v-container fluid px-0>
     <div class="text-h5 txt-text-1 mb-2">{{ contents.LIST_OF_APPROVER }}</div>
-    <div class="d-flex align-center flex-gap-8 mb-3">
-      <div class="d-flex align-center flex-gap-2">
-        <div>{{ contents.ADD_APPROVERS }}</div>
-        <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
-          <span>{{ employee.emp_id }}</span>
-          <v-divider vertical class="mx-2" />
-          <span>{{ employee.emp_nm }}</span>
-        </div>
-      </div>
-      <PopSearchEmployee @setData="setEmployee" />
-      <div class="d-flex align-center flex-gap-2">
-        {{ contents.POSITION_NAME }}
-        <v-text-field
-          outlined
-          dense
-          hide-details="auto"
-          v-model="approval_post_nm"
-        />
-      </div>
-      <div class="d-flex align-center flex-gap-2">
-        {{ contents.INSERT_ORDER }}
-        <CurrencyInput v-model="order" />
-      </div>
-      <v-spacer />
-      <v-btn color="secondary" @click="addApprover">{{ contents.ADD }}</v-btn>
-    </div>
+    <ApprovalAddEmployee @addRecord="addApprover" :allowOrder="true" />
     <v-data-table
       :headers="headers"
       :items="approvers"
-      :no-data-text="contents.TABLE_NO_DATA"
+      :items-per-page="$constants.VTABLE_DATA_CONFIG.ITEMS_PER_PAGE"
+      :no-data-text="$constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA"
+      disable-sort
     >
       <template v-slot:body="props">
         <draggable
-          :list="props.items"
+          v-model="approvers"
           tag="tbody"
           :component-data="{
             tag: 'tr',
@@ -118,8 +105,10 @@ export default class ApprovalAddApprover extends Vue {
           @start="drag = true"
           @end="drag = false"
           v-bind="dragOptions"
+          item-key="order"
         >
           <tr v-for="(item, index) in props.items" :key="index">
+            <td>{{ index + 1 }}</td>
             <td>{{ item.approval_post_nm }}</td>
             <td>{{ item.emp_nm }}</td>
             <td class="text-center">
