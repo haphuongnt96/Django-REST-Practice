@@ -29,7 +29,7 @@ urlpatterns = [
 
     path('approval_route_details/summary/count',
          CountSummaryApprovalRouteDetailAPI.as_view(), name='approval_route_details.summary.count'),
-    path('approval_routes/<int:approval_route_id>/approval_route_comment',
+    path('approval_routes/<int:request_id>/approval_route_comment',
          ApprovalRouteCommentListAPI.as_view(), name='request.approval_route_comment'),
     path('approval_routes/<int:request_id>/create/approval_route_comment',
          ApprovalRouteCommentAPI.as_view(), name='request.approval_route_comment.save'),
