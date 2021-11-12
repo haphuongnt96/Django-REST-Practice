@@ -104,7 +104,7 @@ export default class DashboardDetailPopup extends Vue {
                         class="mr-4"
                         @click="getApplicationFormData()"
                       >
-                        {{ contents.FORM_SEARCH }}
+                        {{ contents.POPUP_SEARCH_SEARCH }}
                       </v-btn>
                     </v-form>
                   </td>
