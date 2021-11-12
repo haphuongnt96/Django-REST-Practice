@@ -5,7 +5,8 @@ from core.models import (
     ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
     ApprovalRouteMaster,
     ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
-    Property, ApplicationContents, ApplicationClassification
+    Property, News,
+    NotificationType, NotificationRecord
 )
 
 
@@ -54,19 +55,15 @@ class PropertyAdmin(admin.ModelAdmin):
     model = Property
 
     
+class NewsAdmin(admin.ModelAdmin):
+    model = News
+
+    
 class RequestDetailMasterAdmin(admin.ModelAdmin):
     inlines = [
         ChoiceInline,
         RequestDetailMasterInline,
     ]
-
-
-class ApplicationContentsAdmin(admin.ModelAdmin):
-    model = ApplicationContents
-
-
-class ApplicationClassificationAdmin(admin.ModelAdmin):
-    model = ApplicationClassification
 
 
 admin.site.register(BusinessUnit)
@@ -82,5 +79,6 @@ admin.site.register(ApprovalClass)
 admin.site.register(RequestDetailMaster, RequestDetailMasterAdmin)
 admin.site.register(ColumnType)
 admin.site.register(Property)
-admin.site.register(ApplicationContents)
-admin.site.register(ApplicationClassification)
+admin.site.register(News, NewsAdmin)
+admin.site.register(NotificationType)
+admin.site.register(NotificationRecord)

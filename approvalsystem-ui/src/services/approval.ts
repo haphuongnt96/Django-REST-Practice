@@ -34,6 +34,26 @@ export function getApprovalRouteComment(id: string) {
   )
 }
 
+// 承認テーブルの更新
+export function postApprovalRouteComment(
+  id: string,
+  data: {
+    request_id: string
+    approval_route_id: string
+    ins_emp_id: string
+    comment_no: string
+    comment: string
+  }
+) {
+  return transformData(
+    service.request<Approvals.ApprovalRouteCommentResponse[]>({
+      method: 'post',
+      url: `api/approval_routes/${id}/create/approval_route_comment`,
+      data
+    })
+  )
+}
+
 export function getApproveTypes() {
   return transformData(
     service.request<Approvals.GetAprrovalTypesResponse>({

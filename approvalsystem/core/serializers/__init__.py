@@ -5,4 +5,5 @@ from users.models.organization import *
 from .m_approval_route import *
 from .property import *
 from .application_form import *
-
+from .news import *
+from .notification import *

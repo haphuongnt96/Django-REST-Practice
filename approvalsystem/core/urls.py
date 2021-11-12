@@ -4,6 +4,7 @@ from .views import (
     CountSummaryApprovalRouteDetailAPI,
     ApprovalRequestAPI,
     ApprovalRouteCommentListAPI,
+    ApprovalRouteCommentAPI,
     RequestGetListAPI,
     RegisterRequestAPI,
     RetrieveUpdateRequestAPI,
@@ -11,6 +12,7 @@ from .views import (
     ApprovalTypeDetailAPI,
     PropertyGetListAPI,
     ApplicationGetListAPI,
+    NewsGetListAPI,
 )
 
 urlpatterns = [
@@ -23,6 +25,8 @@ urlpatterns = [
          CountSummaryApprovalRouteDetailAPI.as_view(), name='approval_route_details.summary.count'),
     path('approval_routes/<int:approval_route_id>/approval_route_comment',
          ApprovalRouteCommentListAPI.as_view(), name='request.approval_route_comment'),
+    path('approval_routes/<int:request_id>/create/approval_route_comment',
+            ApprovalRouteCommentAPI.as_view(), name='request.approval_route_comment.save'),
     path('requests/get_list',
          RequestGetListAPI.as_view(), name='requests_list'),
     path('approval_types',
@@ -33,4 +37,6 @@ urlpatterns = [
          PropertyGetListAPI.as_view(), name='property_list'),
     path('application_form/get_list',
          ApplicationGetListAPI.as_view(), name='application_form'),
+    path('news/get_list',
+          NewsGetListAPI.as_view(), name='news_list'), 
 ]

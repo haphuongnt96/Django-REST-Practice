@@ -4,4 +4,5 @@ from .approval_route_comment import *
 from .m_approval_route import *
 from .property import *
 from .application_contents import *
-
+from .news import *
+from .notification import *
