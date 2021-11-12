@@ -15,8 +15,8 @@ def get_request_notification_count(request_user):
 		c.execute('''
 		SELECT
 			COUNT(status_count.status_id = '1' or Null) as draft,
-			COUNT(status_count.status_id = '2' or Null) as Applying,
-			COUNT(status_count.status_id = '8' or Null) as Remand
+			COUNT(status_count.status_id = '2' or Null) as applying,
+			COUNT(status_count.status_id = '8' or Null) as remand
 		FROM
 			(SELECT
 				request.request_id,

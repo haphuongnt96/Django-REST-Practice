@@ -18,6 +18,8 @@ declare namespace Dashboard {
     request_value: []
   }
     type DashboardSideRequestNotifications = {
-        items: []
+      applying: number
+      remand: number
+      draft: number
     }
 }

@@ -27,7 +27,7 @@ export default class DashboardSideBar extends Vue {
     const [err, res] =
       await this.$api.dashboard.getDashuboardSideRequestNotification()
     if (!err && res) {
-      this.items = res
+      this.items = res[0]
     }
   }
   //#endregion
@@ -83,10 +83,9 @@ export default class DashboardSideBar extends Vue {
           <li class="nav__submenu--items">
             <a href="#">
               {{ contents.APPLICANT_APPLYING }}
-              {{ items[0].Applying }}
               <span class="noti-number">
-                <div v-if="items[0].Applying !== Null">
-                  <span class="blue-noti">{{ items[0].applying }}</span>
+                <div v-if="items['applying'] !== 0">
+                  <span class="blue-noti">{{ items['applying'] }}</span>
                 </div>
                 <v-icon class="cta ring-anmation">mdi-email</v-icon>
               </span>
@@ -97,8 +96,8 @@ export default class DashboardSideBar extends Vue {
             <a href="#">
               {{ contents.APPLICANT_REMAND }}
               <span class="noti-number">
-                <div v-if="items[0].Denial !== Nul">
-                  <span class="red-noti">{{ items[0].remand }}</span>
+                <div v-if="items['remand'] !== 0">
+                  <span class="red-noti">{{ items['remand'] }}</span>
                 </div>
                 <v-icon class="cta">mdi-alert-decagram</v-icon>
               </span>
@@ -109,8 +108,8 @@ export default class DashboardSideBar extends Vue {
             <a href="#">
               {{ contents.APPLICANT_DRAFT }}
               <span class="noti-number">
-                <div v-if="items[0].draft !== Null">
-                  <span class="blue-noti">{{ items[0].draft }}</span>
+                <div v-if="items['draft'] !== 0">
+                  <span class="blue-noti">{{ items['draft'] }}</span>
                 </div>
                 <v-icon class="cta">mdi-account-edit</v-icon>
               </span>
