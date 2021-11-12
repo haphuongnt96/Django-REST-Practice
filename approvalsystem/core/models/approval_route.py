@@ -56,7 +56,7 @@ class ApprovalPost(BaseModel):
     approval_post_id = models.CharField(
         max_length=3, primary_key=True,
     )
-    approval_post_nm = models.CharField(max_length=10)
+    approval_post_nm = models.CharField(max_length=10, unique=True)
 
     class Meta:
         db_table = 'm_approval_post'
@@ -77,20 +77,6 @@ class ApprovalRouteDetail(BaseModel):
         related_name='approval_route_details'
     )
     detail_no = models.AutoField(primary_key=True)
-
-    department = models.ForeignKey(
-        Department, on_delete=models.SET_NULL,
-        max_length=3, null=True, blank=True
-    )
-    segment = models.ForeignKey(
-        Segment, on_delete=models.SET_NULL,
-        max_length=3, null=True, blank=True
-    )
-    division = models.ForeignKey(
-        Division, on_delete=models.SET_NULL,
-        max_length=1, null=True, blank=True
-    )
-
     required_num_approvals = models.IntegerField(
         null=True, blank=True
     )
@@ -112,6 +98,8 @@ class ApprovalRouteDetail(BaseModel):
     approval_date = models.DateField(
         null=True, blank=True, editable=False
     )
+    current_order_flg = models.BooleanField(default=False)
+    default_flg = models.BooleanField(default=False)
 
     class Meta:
         db_table = 't_approval_route_detail'

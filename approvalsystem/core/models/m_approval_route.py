@@ -93,6 +93,7 @@ class ApprovalRouteMaster(BaseModel):
             'approval_post': self.approval_post,
             'approval_emp': self.emp,
             'required_num_approvals': self.required_num_approvals,
+            'default_flg': True,
         }
         return result
 

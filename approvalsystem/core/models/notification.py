@@ -28,7 +28,7 @@ class NotificationRecord(BaseModel):
     """
     T_通知記録
     """
-    request = models.ForeignKey(Request, on_delete=models.CASCADE, null=True, related_name='notification_record',
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, null=True, related_name='notification_records',
                                 verbose_name='request/申請')
     emp = models.ForeignKey(User, on_delete=models.CASCADE,
                             verbose_name='emp/社員')

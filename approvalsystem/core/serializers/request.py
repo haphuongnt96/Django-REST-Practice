@@ -1,9 +1,14 @@
 from rest_framework import serializers
 from django.utils import timezone
 
-from core.models import Request, RequestStatus, RequestDetail, ApprovalRouteDetail
+from core.models import (
+    Request, RequestStatus, RequestDetail, NotificationRecord,
+    ApprovalRouteDetail, ApprovalPost,
+)
+from users.models import EmpAffiliation
 from .approval_route import ApprovalRouteSerializer, DetailApprovalRouteSerializer
 from .m_approval_route import RequestDetailMasterSerializer
+from .notification import DetailNotificationRecordSerializer
 
 
 class RequestStatusSerializer(serializers.ModelSerializer):
@@ -79,6 +84,7 @@ class ExtendRequestDetailMasterSerializer(RequestDetailMasterSerializer):
 
 
 class RegisterApprovalRouteDetailSerializer(serializers.ModelSerializer):
+    approval_route_id = serializers.IntegerField()
     approval_emp_id = serializers.IntegerField(required=True)
     approval_post_nm = serializers.CharField(required=True)
     order = serializers.IntegerField(required=True)
@@ -92,11 +98,6 @@ class RegisterApprovalRouteDetailSerializer(serializers.ModelSerializer):
         ]
 
 
-class NotificationRecordsSerializer(serializers.Serializer):
-    emp_id = serializers.IntegerField(required=True)
-    notification_post_nm = serializers.CharField(required=True)
-
-
 class DetailRequestSerializer(serializers.ModelSerializer):
     approval_type_id = serializers.CharField()
     approval_type_nm = serializers.SerializerMethodField(read_only=True)
@@ -106,7 +107,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     department_nm = serializers.CharField(read_only=True)
     request_details = RequestDetailSerializer(many=True, write_only=True)
     approval_route_details = RegisterApprovalRouteDetailSerializer(many=True, write_only=True)
-    notification_records = NotificationRecordsSerializer(many=True)
+    notification_records = DetailNotificationRecordSerializer(many=True)
     approval_routes = DetailApprovalRouteSerializer(many=True, read_only=True)
     m_request_details = ExtendRequestDetailMasterSerializer(
         many=True, read_only=True,
@@ -150,7 +151,12 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         """
         request_details = validated_data.pop('request_details', [])
         department_id = validated_data.pop('department_id')
+        approval_route_details = validated_data.pop('approval_route_details', [])
+        notification_records = validated_data.pop('notification_records', [])
+
+        # create request
         request = Request.objects.create(**validated_data)
+
         # save request detail answer
         for request_detail in request_details:
             request_detail['request_id'] = request.request_id
@@ -158,8 +164,27 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         request_emp = None
         if self.context.get('request'):
             request_emp = self.context['request'].user
-        # create approval route and assign default approval route details.
-        request.register_approval_route(request_emp=request_emp, department_id=department_id)
+
+        # retrieve approval_route_detail data by emp_affiliation
+        # get or create approval_post by approval_post_nm
+        for approval_route_detail in approval_route_details:
+            approval_post_nm = approval_route_detail.pop('approval_post_nm')
+            approval_post = ApprovalPost.objects.get_or_create(
+                approval_post_nm=approval_post_nm
+            )
+            approval_route_detail['approval_post'] = approval_post
+        # create approval route and assign approval route details.
+        request.register_approval_route(
+            request_emp=request_emp,
+            department_id=department_id,
+            route_details=approval_route_details,
+        )
+
+        # assign notification record
+        for notification_record in notification_records:
+            notification_record['request'] = request
+        NotificationRecord.objects.bulk_create(notification_records)
+
         return request
 
     def update(self, instance, validated_data):
@@ -167,11 +192,28 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         Custom update func for update nested serializer.
         """
         request_details = validated_data.pop('request_details', [])
+        approval_route_details = validated_data.pop('approval_route_details', [])
+        notification_records = validated_data.pop('notification_records', [])
+
         for request_detail in request_details:
             request_detail['request_id'] = instance.request_id
             self.create_or_update_request_detail(request_detail)
         instance.modified = timezone.now()
         instance.save()
+
+        route_detail_ids = []
+        for approval_route_detail in approval_route_details:
+            approval_post_nm = approval_route_detail.pop('approval_post_nm')
+            approval_post = ApprovalPost.objects.get_or_create(
+                approval_post_nm=approval_post_nm
+            )
+            approval_route_detail['approval_post'] = approval_post
+
+            route_detail_record = ApprovalRouteDetail.objects.update_or_create(
+                **approval_route_detail,
+            )
+
+
         return instance
 
     def to_representation(self, instance):
