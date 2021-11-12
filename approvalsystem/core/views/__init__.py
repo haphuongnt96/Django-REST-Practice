@@ -20,6 +20,7 @@ from .property import (
 )
 from .application_form import (
     ApplicationGetListAPI,
+)
 from .news import (
     NewsGetListAPI,
 )
