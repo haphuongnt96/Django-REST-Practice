@@ -11,7 +11,7 @@ const debounce = require('lodash.debounce')
 export default class CurrencyInput extends Vue {
   //*===👜===👜===👜===👜===👜===👜===👜===👜===👜===👜===👜===👜Props
 
-  @Prop() value: string | string | null
+  @Prop() value: string
   @Prop({ default: true }) dense: boolean
   @Prop({ default: 'auto' }) hideDetails: boolean
   @Prop({ default: false }) allowNegativeNumber: boolean
@@ -27,11 +27,6 @@ export default class CurrencyInput extends Vue {
   @Prop({ default: false }) readonly: boolean
 
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  deboundSave = debounce(this.onSave, 1000)
-  emits = { onSave: 'onSave', onBlur: 'onBlur' }
-  isUpdated = false
-  floatValue: number | string | null = null
-  formatValue: number | string | null = null
 
   get distractionFree() {
     return {
@@ -54,39 +49,22 @@ export default class CurrencyInput extends Vue {
     return this.value
   }
 
-  set valueLocal(value: string | number | null) {
-    if (!value && value !== 0) return
+  set valueLocal(value: string) {
+    this.$emit('input', value)
+  }
+
+  get formatValue() {
     const formatter = new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 0
     })
-    const newValue = value.toString().replace(/\$\s?|(,*)/g, '')
-    if (isNaN(+newValue)) return
-    this.floatValue = +newValue
-    this.formatValue =
-      formatter.format(this.floatValue) === '0'
-        ? 0
-        : formatter.format(this.floatValue)
+    return this.value === '' ? '' : formatter.format(+this.value)
   }
 
   //*===👀===👀===👀===👀===👀===👀===👀===👀===👀===👀===👀===👀Watchers
-  @Watch('value', { immediate: true }) onValueUpdate() {
-    this.valueLocal = this.value
-  }
 
   //*===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊===🌊Methods
 
   //* Process data and emit so parent can save
-  onSave() {
-    this.isUpdated = true
-    this.$emit('input', this.floatValue)
-  }
-
-  onBlur() {
-    if (this.isUpdated) {
-      this.$emit(this.emits.onBlur, this.floatValue)
-      this.isUpdated = false
-    }
-  }
 
   watchE(e: KeyboardEvent) {
     if (e.key === '-' && !this.allowNegativeNumber) {
@@ -96,7 +74,6 @@ export default class CurrencyInput extends Vue {
 
   onInput(value: string) {
     this.valueLocal = value
-    this.deboundSave()
   }
 }
 </script>
@@ -118,6 +95,5 @@ export default class CurrencyInput extends Vue {
     :maxlength="19"
     @input="onInput"
     @keydown.native="watchE"
-    @blur="onBlur"
   ></v-text-field>
 </template>

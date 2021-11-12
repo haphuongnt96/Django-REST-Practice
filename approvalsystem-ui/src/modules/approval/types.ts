@@ -106,14 +106,22 @@ declare namespace Approvals {
     approval_type_id?: string
   }
 
+  type RegisterApprovalRecord = {
+    approval_emp_id: number
+    record_nm: string
+    order: number
+    emp_nm: string
+  }
+
   type RegisterApprovalRouteDetail = {
     approval_emp_id: number
     approval_post_nm: string
     order: number
+    emp_nm: string
   }
 
   type NotificationRecords = {
-    emp_id: string
+    emp_id: number
     notification_post_nm: string
   }
 }
