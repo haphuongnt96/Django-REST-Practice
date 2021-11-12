@@ -22,3 +22,4 @@ from .property import (
 from .news import (
     NewsGetListAPI,
 )
+from .notification import *

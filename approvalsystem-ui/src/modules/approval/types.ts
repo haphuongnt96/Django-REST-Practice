@@ -105,4 +105,12 @@ declare namespace Approvals {
     department_nm?: string
     approval_type_id?: string
   }
+
+  /**
+   * 通知記録
+   */
+  type NotificationRecord = {
+    // 申請ID
+    request_id: string
+  }
 }
