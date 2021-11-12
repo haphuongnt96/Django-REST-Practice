@@ -19,7 +19,7 @@ const opts = {
     themes: {
       light: {
         primary: '#206fea', // a color that is not in the material colors palette
-        secondary: config.Colors.blue1, // a color that is not in the material colors palette
+        secondary: '#6699d5', // a color that is not in the material colors palette
         accent: '#b71c1b',
         white: '#ffffff',
         subtoolbar: '#3b6eb4',
