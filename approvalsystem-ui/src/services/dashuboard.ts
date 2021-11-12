@@ -19,3 +19,18 @@ export function getDashuboardNews() {
     })
   )
 }
+
+/**
+ * 申請者通知リストを取得する。
+ *
+ * @param empId ログイン者の社員ID
+ * @returns 申請者の通知リスト
+ */
+export function getApplicantNotifications(empId: number) {
+  return transformData(
+    service.request<Approvals.NotificationRecord[]>({
+      method: 'get',
+      url: `api/notification/applicant/${empId}`
+    })
+  )
+}

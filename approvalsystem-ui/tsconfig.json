@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
+    // target: トランスパイルするECMAScriptのバージョン
     "target": "esnext",
-    "module": "esnext",
+    // strict: 厳格なチェックオプションの有効
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
+    // module: JSのモジュールパターン
+    "module": "esnext",
+    // moduleResolution: 相対パスではないモジュールはnode_modules配下を探す
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "esModuleInterop": true,
