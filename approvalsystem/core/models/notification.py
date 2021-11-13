@@ -32,14 +32,19 @@ class NotificationRecord(BaseModel):
                                 verbose_name='request/申請')
     emp = models.ForeignKey(User, on_delete=models.CASCADE,
                             verbose_name='emp/社員')
-    notification_type = models.ForeignKey(NotificationType, on_delete=models.CASCADE,
-                                          verbose_name='notification_type/通知区分')
+    notification_type = models.ForeignKey(
+        NotificationType, on_delete=models.CASCADE, verbose_name='notification_type/通知区分',
+        null=True, blank=True
+    )
     confirm_dt = models.DateTimeField(null=True, blank=True, editable=True,
                                       verbose_name='confirm_dt/確認日時')
     
     class Meta:
         db_table = 't_notification_record'
         verbose_name_plural = 't_notification_record/T_通知記録'
+        unique_together = [
+            ('request', 'emp')
+        ]
 
     def __str__(self) -> str:
         

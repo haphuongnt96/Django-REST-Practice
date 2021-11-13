@@ -3,8 +3,8 @@ from django.db import models
 from django.db.models import F
 
 from core.models import NotificationRecord, NotificationType, Request
-from core.serializers import RequestSerializer
 from users.serializers import UserDetailSerializer
+from .request import RequestSerializer
 
 
 class NotificationTypeSerializer(serializers.ModelSerializer):
@@ -48,24 +48,6 @@ class CustomListNotificationRecordSerializer(serializers.ListSerializer):
                 notification_type_nm=F('notification_type__notification_type_nm'),
             )
         return super().to_representation(data)
-
-
-class DetailNotificationRecordSerializer(serializers.ModelSerializer):
-    """
-    Serializer of model NotificationRecord. Used in api get request detail.
-    """
-    emp_id = serializers.IntegerField(required=True)
-    emp_nm = serializers.CharField(read_only=True)
-    notification_type_nm = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = NotificationRecord
-        fields = [
-            'emp_id',
-            'emp_nm',
-            'notification_type_id',
-            'notification_type_nm',
-        ]
 
 
 class NotificationRequestSerializer(serializers.ModelSerializer):

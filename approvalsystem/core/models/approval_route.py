@@ -65,6 +65,16 @@ class ApprovalPost(BaseModel):
     def __str__(self):
         return self.approval_post_nm
 
+    def save(self, **kwargs):
+        if not self.approval_post_id:
+            max_id = ApprovalPost.objects.aggregate(max_id=models.Max('approval_post_id'))['max_id']
+            if not max_id:
+                max_id = 0
+            else:
+                max_id = int(max_id)
+            self.approval_post_id = str(max_id + 1).zfill(3)
+        return super().save(**kwargs)
+
 
 class ApprovalRouteDetail(BaseModel):
     class StatusChoices(models.TextChoices):
@@ -103,6 +113,9 @@ class ApprovalRouteDetail(BaseModel):
 
     class Meta:
         db_table = 't_approval_route_detail'
+        unique_together = [
+            ('approval_route', 'approval_emp'),
+        ]
 
     def save(self, *args, **kwargs):
         if self.approval_status != self.StatusChoices.not_verified and \

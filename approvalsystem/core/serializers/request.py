@@ -1,14 +1,13 @@
 from rest_framework import serializers
 from django.utils import timezone
+from django.db.models import Q
 
 from core.models import (
     Request, RequestStatus, RequestDetail, NotificationRecord,
     ApprovalRouteDetail, ApprovalPost,
 )
-from users.models import EmpAffiliation
 from .approval_route import ApprovalRouteSerializer, DetailApprovalRouteSerializer
 from .m_approval_route import RequestDetailMasterSerializer
-from .notification import DetailNotificationRecordSerializer
 
 
 class RequestStatusSerializer(serializers.ModelSerializer):
@@ -84,17 +83,39 @@ class ExtendRequestDetailMasterSerializer(RequestDetailMasterSerializer):
 
 
 class RegisterApprovalRouteDetailSerializer(serializers.ModelSerializer):
-    approval_route_id = serializers.IntegerField()
     approval_emp_id = serializers.IntegerField(required=True)
-    approval_post_nm = serializers.CharField(required=True)
+    approval_post_nm = serializers.CharField(required=True, max_length=10)
     order = serializers.IntegerField(required=True)
 
     class Meta:
         model = ApprovalRouteDetail
         fields = [
+            'detail_no',
             'approval_emp_id',
             'approval_post_nm',
-            'order'
+            'order',
+        ]
+
+
+class RegisterNotificationRecordSerializer(serializers.ModelSerializer):
+    """
+    Serializer of model NotificationRecord. Used in api get request detail.
+    """
+    emp_id = serializers.IntegerField(required=True)
+    emp_nm = serializers.CharField(read_only=True)
+    notification_type_nm = serializers.CharField(read_only=True)
+
+    class Meta:
+        # avoid ImportError - circle import dependence
+        from .notification import CustomListNotificationRecordSerializer
+
+        model = NotificationRecord
+        list_serializer_class = CustomListNotificationRecordSerializer
+        fields = [
+            'emp_id',
+            'emp_nm',
+            'notification_type_id',
+            'notification_type_nm',
         ]
 
 
@@ -107,7 +128,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     department_nm = serializers.CharField(read_only=True)
     request_details = RequestDetailSerializer(many=True, write_only=True)
     approval_route_details = RegisterApprovalRouteDetailSerializer(many=True, write_only=True)
-    notification_records = DetailNotificationRecordSerializer(many=True)
+    notification_records = RegisterNotificationRecordSerializer(many=True)
     approval_routes = DetailApprovalRouteSerializer(many=True, read_only=True)
     m_request_details = ExtendRequestDetailMasterSerializer(
         many=True, read_only=True,
@@ -165,25 +186,45 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         if self.context.get('request'):
             request_emp = self.context['request'].user
 
-        # retrieve approval_route_detail data by emp_affiliation
-        # get or create approval_post by approval_post_nm
+        # remove duplicate approval_emp from approval_route_details
+        distinct_approval_emp_ids = set(
+            request.approval_type.m_approval_routes.values_list('emp_id', flat=True).distinct()
+        )
+        register_route_details_data = []
         for approval_route_detail in approval_route_details:
-            approval_post_nm = approval_route_detail.pop('approval_post_nm')
-            approval_post = ApprovalPost.objects.get_or_create(
+            approval_emp_id = approval_route_detail['approval_emp_id']
+            if approval_emp_id in distinct_approval_emp_ids:
+                continue
+            # get or create approval post by approval_post_nm
+            approval_post_nm = approval_route_detail['approval_post_nm']
+            approval_post, created = ApprovalPost.objects.get_or_create(
                 approval_post_nm=approval_post_nm
             )
             approval_route_detail['approval_post'] = approval_post
+            distinct_approval_emp_ids.add(approval_emp_id)
+            register_route_details_data.append(approval_route_detail)
         # create approval route and assign approval route details.
         request.register_approval_route(
             request_emp=request_emp,
             department_id=department_id,
-            route_details=approval_route_details,
+            route_details=register_route_details_data,
         )
 
         # assign notification record
+        distinct_notification_emp_ids = set()
+        register_notification_records_data = []
         for notification_record in notification_records:
+            notification_emp_id = notification_record['emp_id']
+            if notification_emp_id in distinct_notification_emp_ids:
+                continue
             notification_record['request'] = request
-        NotificationRecord.objects.bulk_create(notification_records)
+            distinct_notification_emp_ids.add(notification_emp_id)
+            register_notification_records_data.append(notification_record)
+
+        NotificationRecord.objects.bulk_create([
+            NotificationRecord(**notification_record)
+            for notification_record in notification_records
+        ])
 
         return request
 
@@ -195,24 +236,67 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         approval_route_details = validated_data.pop('approval_route_details', [])
         notification_records = validated_data.pop('notification_records', [])
 
+        # save request detail answer
         for request_detail in request_details:
             request_detail['request_id'] = instance.request_id
             self.create_or_update_request_detail(request_detail)
         instance.modified = timezone.now()
         instance.save()
 
-        route_detail_ids = []
-        for approval_route_detail in approval_route_details:
-            approval_post_nm = approval_route_detail.pop('approval_post_nm')
-            approval_post = ApprovalPost.objects.get_or_create(
+        # create or update approval route details
+        latest_approval_route = instance.approval_routes.order_by('-created').all()[0]
+        approval_route_detail_ids = set()
+        for approval_route_detail_data in approval_route_details:
+            # get or create approval post by approval_post_nm
+            approval_post_nm = approval_route_detail_data.pop('approval_post_nm')
+            approval_post, created = ApprovalPost.objects.get_or_create(
                 approval_post_nm=approval_post_nm
             )
-            approval_route_detail['approval_post'] = approval_post
+            approval_emp_id = approval_route_detail_data['approval_emp_id']
+            order = approval_route_detail_data['order']
+            approval_route_detail_data['approval_post'] = approval_post
+            approval_route_detail = ApprovalRouteDetail.objects.filter(
+                approval_route=latest_approval_route,
+                approval_emp_id=approval_emp_id
+            ).first()
+            if approval_route_detail:
+                if approval_route_detail.approval_status in (
+                        ApprovalRouteDetail.StatusChoices.approved,
+                        ApprovalRouteDetail.StatusChoices.rejected,
+                ):
+                    continue
+                approval_route_detail.approval_post = approval_post
+                approval_route_detail.order = order
+                approval_route_detail.save()
+            else:
+                approval_route_detail = ApprovalRouteDetail.objects.create(
+                    approval_route=latest_approval_route,
+                    approval_post=approval_post,
+                    approval_emp_id=approval_emp_id,
+                    order=order
+                )
+            approval_route_detail_ids.add(approval_route_detail.detail_no)
 
-            route_detail_record = ApprovalRouteDetail.objects.update_or_create(
-                **approval_route_detail,
+        ApprovalRouteDetail.objects.filter(
+            Q(approval_route=latest_approval_route),
+            Q(default_flg=False),
+            ~Q(detail_no__in=approval_route_detail_ids),
+        ).delete()
+
+        notification_emp_ids = set()
+        for notification_record in notification_records:
+            notification_emp_id = notification_record['emp_id']
+            notification, created = NotificationRecord.objects.update_or_create(
+                request=instance,
+                emp_id=notification_emp_id,
+                defaults={},
             )
+            notification_emp_ids.add(notification.emp_id)
 
+        NotificationRecord.objects.filter(
+            Q(request=instance),
+            ~Q(emp_id__in=notification_emp_ids),
+        ).delete()
 
         return instance
 
