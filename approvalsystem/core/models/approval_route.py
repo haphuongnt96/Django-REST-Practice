@@ -113,6 +113,7 @@ class ApprovalRouteDetail(BaseModel):
 
     class Meta:
         db_table = 't_approval_route_detail'
+        ordering = ['order']
         unique_together = [
             ('approval_route', 'approval_emp'),
         ]

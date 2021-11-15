@@ -194,7 +194,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         for notifier in notifiers:
             notifier['request'] = request
             Notifier.objects.update_or_create(
-                *notifier, defaults={}
+                **notifier, defaults={}
             )
 
         return request
@@ -257,14 +257,14 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         notify_emp_ids = set()
         for notifier_data in notifiers:
             notifier_data['request'] = instance
-            notifier_obj, created = NotificationRecord.objects.update_or_create(
-                *notifier_data, defaults={},
+            notifier_obj, created = Notifier.objects.update_or_create(
+                **notifier_data, defaults={},
             )
             notify_emp_ids.add(notifier_obj.notify_emp_id)
 
-        NotificationRecord.objects.filter(
+        Notifier.objects.filter(
             Q(request=instance),
-            ~Q(emp_id__in=notify_emp_ids),
+            ~Q(notify_emp_id__in=notify_emp_ids),
         ).delete()
 
         return instance

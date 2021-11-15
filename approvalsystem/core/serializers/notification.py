@@ -44,12 +44,13 @@ class CustomListNotifierSerializer(serializers.ListSerializer):
     def to_representation(self, data):
         if isinstance(data, (models.Manager, models.QuerySet)):
             data = data.annotate(
-                notifier_em_nm=F('emp__notifier_em_nm'),
+                notify_em_nm=F('notify_emp__emp_nm'),
             )
         return super().to_representation(data)
 
 
 class NotifierSerializer(serializers.ModelSerializer):
+    notify_emp_id = serializers.IntegerField()
     notify_emp_nm = serializers.CharField(read_only=True)
 
     class Meta:
