@@ -27,7 +27,7 @@ export default class Approval extends Vue {
   @G(...AuthD.getUser) user: Auth.User
 
   //#region Data
-  m_request_details: ApplicationForm.RequestDetail[] = []
+  m_request_details: ApprovalType.RequestDetail[] = []
   requests: Approvals.RegisterRequest[] = []
   // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []

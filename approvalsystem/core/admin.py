@@ -65,6 +65,7 @@ class RequestDetailMasterAdmin(admin.ModelAdmin):
         RequestDetailMasterInline,
     ]
 
+
 admin.site.register(BusinessUnit)
 admin.site.register(Department)
 admin.site.register(Segment)

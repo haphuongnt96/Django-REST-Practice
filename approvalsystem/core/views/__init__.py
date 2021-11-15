@@ -18,7 +18,9 @@ from .m_approval_route import (
 from .property import (
     PropertyGetListAPI,
 )
-
+from .approval_type import (
+    ApprovalTypeGetListAPI,
+)
 from .news import (
     NewsGetListAPI,
 )
