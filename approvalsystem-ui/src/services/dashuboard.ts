@@ -28,7 +28,7 @@ export function getDashuboardNews() {
  */
 export function getApplicantNotifications(empId: number) {
   return transformData(
-    service.request<Approvals.NotificationRecord[]>({
+    service.request<Approvals.NotificationRecords[]>({
       method: 'get',
       url: `api/notification/applicant/${empId}`
     })

@@ -5,7 +5,7 @@ export const namespace = 'approvalRequest' // ! Important to set correctly
 const scope = { namespace }
 
 export interface State {
-  listApprovers: Approvals.RegisterApprovalRouteDetail[]
+  listApprovers: Approvals.ApprovalRouteDetailResponse[]
   listNotifies: Approvals.NotificationRecords[]
 }
 

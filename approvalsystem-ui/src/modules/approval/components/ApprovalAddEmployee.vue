@@ -2,17 +2,26 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import PopSearchEmployee from '@/modules/employee/components/PopSearchEmployee.vue'
 import CurrencyInput from '@/common/components/ui/CurrencyInput.vue'
+import { ValidationObserver } from 'vee-validate'
 
 @Component({
   components: { PopSearchEmployee, CurrencyInput }
 })
 export default class ApprovalAddEmployee extends Vue {
   @Prop() allowOrder: boolean
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
 
   //#region Data
+  valid = false
   order = ''
   record_nm = ''
   employee = {} as Employee.EmployeeAffiliation
+  isSubmited = false
 
   //#endregion
 
@@ -23,6 +32,9 @@ export default class ApprovalAddEmployee extends Vue {
   //#endregion
 
   //#region Computed
+  get disabledIds() {
+    return this.approval_route_details.map((x) => x.approval_emp_id)
+  }
 
   get contents() {
     return { ...this.$pageContents.APPROVAL_TABS, ...this.$pageContents.COMMON }
@@ -36,6 +48,10 @@ export default class ApprovalAddEmployee extends Vue {
       emp_nm: this.employee.emp_nm
     }
   }
+
+  get observer() {
+    return this.$refs.observer as InstanceType<typeof ValidationObserver>
+  }
   //#endregion
 
   //#region Methods
@@ -47,9 +63,14 @@ export default class ApprovalAddEmployee extends Vue {
     this.employee = {} as Employee.EmployeeAffiliation
     this.order = ''
     this.record_nm = ''
+    this.observer.reset()
+    this.isSubmited = false
   }
 
-  handleAddRecord() {
+  async handleAddRecord() {
+    this.isSubmited = true
+    const valid = await this.observer.validate()
+    if (!valid) return
     this.addRecord()
     this.reset()
   }
@@ -58,27 +79,39 @@ export default class ApprovalAddEmployee extends Vue {
 </script>
 
 <template>
-  <div class="d-flex align-center flex-gap-8 mb-3">
-    <div class="d-flex align-center flex-gap-2">
-      <div>{{ contents.ADD_APPROVERS }}</div>
-      <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
-        <span>{{ employee.emp_id }}</span>
-        <v-divider vertical class="mx-2" />
-        <span>{{ employee.emp_nm }}</span>
+  <ValidationObserver ref="observer">
+    <div class="d-flex align-center flex-gap-8 mb-3">
+      <div class="d-flex align-center flex-gap-2 wrap">
+        <div>{{ contents.ADD_APPROVERS }}</div>
+        <div>
+          <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
+            <span>{{ employee.emp_id }}</span>
+            <v-divider vertical class="mx-2" />
+            <span>{{ employee.emp_nm }}</span>
+          </div>
+          <div
+            v-if="isSubmited && !employee.emp_id"
+            class="v-messages error--text"
+          >
+            Required
+          </div>
+        </div>
       </div>
+      <PopSearchEmployee :disabledIds="disabledIds" @setData="setEmployee" />
+      <div class="d-flex align-center flex-gap-2">
+        {{ contents.POSITION_NAME }}
+        <TextField v-model="record_nm" :rules="'required'" />
+      </div>
+      <div class="d-flex align-center flex-gap-2" v-if="allowOrder">
+        {{ contents.INSERT_ORDER }}
+        <CurrencyInput v-model="order" :rules="'required'" />
+      </div>
+      <v-spacer />
+      <v-btn color="secondary" @click="handleAddRecord">
+        {{ contents.ADD }}
+      </v-btn>
     </div>
-    <PopSearchEmployee @setData="setEmployee" />
-    <div class="d-flex align-center flex-gap-2">
-      {{ contents.POSITION_NAME }}
-      <v-text-field outlined dense hide-details="auto" v-model="record_nm" />
-    </div>
-    <div class="d-flex align-center flex-gap-2" v-if="allowOrder">
-      {{ contents.INSERT_ORDER }}
-      <CurrencyInput v-model="order" />
-    </div>
-    <v-spacer />
-    <v-btn color="secondary" @click="handleAddRecord">{{ contents.ADD }}</v-btn>
-  </div>
+  </ValidationObserver>
 </template>
 
 <style lang="scss" scoped>
@@ -94,7 +127,19 @@ export default class ApprovalAddEmployee extends Vue {
   }
 }
 
+::v-deep {
+  .employee__summary {
+    .theme--light.v-input--is-disabled input {
+      color: white !important;
+    }
+  }
+}
+
 hr {
   background: white;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }
 </style>

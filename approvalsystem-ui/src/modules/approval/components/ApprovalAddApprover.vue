@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import ApprovalAddEmployee from '@/modules/approval/components/ApprovalAddEmployee.vue'
 import { Mutation as M } from 'vuex-class'
 import { ApprovalRequestD } from '@/store/typeD'
@@ -9,11 +9,17 @@ import { ApprovalRequestD } from '@/store/typeD'
 })
 export default class ApprovalAddApprover extends Vue {
   @M(...ApprovalRequestD.setListApprovers) setListApprovers: (
-    approvers: Approvals.RegisterApprovalRouteDetail[]
+    approvers: Approvals.ApprovalRouteDetailResponse[]
   ) => void
 
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
+
   //#region Data
-  approvers: Approvals.RegisterApprovalRouteDetail[] = []
   drag = false
   dragOptions = {
     animation: 200,
@@ -25,12 +31,21 @@ export default class ApprovalAddApprover extends Vue {
   //#endregion
 
   //#region Computed
+  get approvers() {
+    return this.approval_route_details
+  }
+
+  set approvers(value: Approvals.ApprovalRouteDetailResponse[]) {
+    value.forEach((x, i) => {
+      x.order = i + 1
+    })
+    this.setListApprovers(value)
+  }
+
   get headers() {
     return [
       {
         text: 'No',
-        align: 'center',
-        sortable: false,
         value: 'index'
       },
       { text: this.contents.POSITION, value: 'approval_post_nm' },
@@ -43,6 +58,12 @@ export default class ApprovalAddApprover extends Vue {
   get contents() {
     return { ...this.$pageContents.APPROVAL_TABS, ...this.$pageContents.COMMON }
   }
+
+  get disabledRow() {
+    return (item: Approvals.ApprovalRouteDetailResponse) => {
+      return item.default_flg
+    }
+  }
   //#endregion
 
   //#region Methods
@@ -53,18 +74,18 @@ export default class ApprovalAddApprover extends Vue {
     )
     const index =
       insertBeforeIndex > -1 ? insertBeforeIndex - 1 : this.approvers.length
-    this.approvers.splice(index, 0, {
-      ...record,
-      ...{ approval_post_nm: record.record_nm }
-    })
-    this.reorderApprovers()
-    this.updateVuexState()
-  }
-
-  reorderApprovers() {
-    this.approvers.forEach((x, i) => {
-      x.order = i + 1
-    })
+    const newRecord = {
+      approval_route_id: '',
+      approval_post_nm: record.record_nm,
+      order: record.order,
+      notification: '',
+      approval_post_cd: '',
+      approval_emp_id: record.approval_emp_id,
+      approval_emp_nm: record.emp_nm,
+      approval_status: false,
+      approval_date: ''
+    }
+    this.approvers.splice(index, 0, newRecord)
   }
 
   removeEmployee(employee: Employee.EmployeeAffiliation) {
@@ -72,11 +93,6 @@ export default class ApprovalAddApprover extends Vue {
       (x) => x.approval_emp_id === employee.emp_id
     )
     this.approvers.splice(index, 1)
-    this.updateVuexState()
-  }
-
-  updateVuexState() {
-    this.setListApprovers(this.approvers)
   }
   //#endregion
 }
@@ -85,7 +101,11 @@ export default class ApprovalAddApprover extends Vue {
 <template>
   <v-container fluid px-0>
     <div class="text-h5 txt-text-1 mb-2">{{ contents.LIST_OF_APPROVER }}</div>
-    <ApprovalAddEmployee @addRecord="addApprover" :allowOrder="true" />
+    <ApprovalAddEmployee
+      :approval_route_details="approval_route_details"
+      @addRecord="addApprover"
+      :allowOrder="true"
+    />
     <v-data-table
       :headers="headers"
       :items="approvers"
@@ -102,22 +122,33 @@ export default class ApprovalAddApprover extends Vue {
             type: 'transition-group',
             name: !drag ? 'flip-list' : null
           }"
+          draggable=".draggable"
           @start="drag = true"
           @end="drag = false"
           v-bind="dragOptions"
           item-key="order"
         >
-          <tr v-for="(item, index) in props.items" :key="index">
+          <tr class="v-data-table__empty-wrapper" v-if="!approvers.length">
+            <td class="text-center" colspan="4">
+              {{ $constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA }}
+            </td>
+          </tr>
+          <tr
+            :class="[disabledRow(item) ? 'disabled' : 'draggable']"
+            v-for="(item, index) in props.items"
+            :key="index"
+          >
             <td>{{ index + 1 }}</td>
             <td>{{ item.approval_post_nm }}</td>
-            <td>{{ item.emp_nm }}</td>
+            <td>{{ item.approval_emp_nm }}</td>
             <td class="text-center">
               <v-icon
+                v-if="!item.default_flg"
                 small
                 :color="$config.Colors.red2"
                 @click="removeEmployee(item)"
               >
-                mdi-close
+                mdi-trash-can-outline
               </v-icon>
             </td>
           </tr>
@@ -142,5 +173,13 @@ export default class ApprovalAddApprover extends Vue {
 
 hr {
   background: white;
+}
+
+tr {
+  &.disabled {
+    background: $blue-2;
+    color: white;
+    pointer-events: none;
+  }
 }
 </style>
