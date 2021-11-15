@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db.models import Q
 
 from core.models import (
-    Request, RequestStatus, RequestDetail, NotificationRecord,
+    Request, RequestStatus, RequestDetail, NotificationRecord, Notifier,
     ApprovalRouteDetail, ApprovalPost,
 )
 from .approval_route import ApprovalRouteSerializer, DetailApprovalRouteSerializer
@@ -97,29 +97,9 @@ class RegisterApprovalRouteDetailSerializer(serializers.ModelSerializer):
         ]
 
 
-class RegisterNotificationRecordSerializer(serializers.ModelSerializer):
-    """
-    Serializer of model NotificationRecord. Used in api get request detail.
-    """
-    emp_id = serializers.IntegerField(required=True)
-    emp_nm = serializers.CharField(read_only=True)
-    notification_type_nm = serializers.CharField(read_only=True)
-
-    class Meta:
-        # avoid ImportError - circle import dependence
-        from .notification import CustomListNotificationRecordSerializer
-
-        model = NotificationRecord
-        list_serializer_class = CustomListNotificationRecordSerializer
-        fields = [
-            'emp_id',
-            'emp_nm',
-            'notification_type_id',
-            'notification_type_nm',
-        ]
-
-
 class DetailRequestSerializer(serializers.ModelSerializer):
+    from .notification import NotifierSerializer
+
     approval_type_id = serializers.CharField()
     approval_type_nm = serializers.SerializerMethodField(read_only=True)
     request_emp_id = serializers.CharField(read_only=True)
@@ -128,7 +108,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     department_nm = serializers.CharField(read_only=True)
     request_details = RequestDetailSerializer(many=True, write_only=True)
     approval_route_details = RegisterApprovalRouteDetailSerializer(many=True, write_only=True)
-    notification_records = RegisterNotificationRecordSerializer(many=True)
+    notifiers = NotifierSerializer(many=True)
     approval_routes = DetailApprovalRouteSerializer(many=True, read_only=True)
     m_request_details = ExtendRequestDetailMasterSerializer(
         many=True, read_only=True,
@@ -149,7 +129,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             'department_id',
             'department_nm',
             'approval_route_details',
-            'notification_records',
+            'notifiers',
         ]
 
     def get_approval_type_nm(self, instance):
@@ -173,7 +153,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         request_details = validated_data.pop('request_details', [])
         department_id = validated_data.pop('department_id')
         approval_route_details = validated_data.pop('approval_route_details', [])
-        notification_records = validated_data.pop('notification_records', [])
+        notifiers = validated_data.pop('notifiers', [])
 
         # create request
         request = Request.objects.create(**validated_data)
@@ -210,21 +190,12 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             route_details=register_route_details_data,
         )
 
-        # assign notification record
-        distinct_notification_emp_ids = set()
-        register_notification_records_data = []
-        for notification_record in notification_records:
-            notification_emp_id = notification_record['emp_id']
-            if notification_emp_id in distinct_notification_emp_ids:
-                continue
-            notification_record['request'] = request
-            distinct_notification_emp_ids.add(notification_emp_id)
-            register_notification_records_data.append(notification_record)
-
-        NotificationRecord.objects.bulk_create([
-            NotificationRecord(**notification_record)
-            for notification_record in notification_records
-        ])
+        # assign notify emp
+        for notifier in notifiers:
+            notifier['request'] = request
+            Notifier.objects.update_or_create(
+                *notifier, defaults={}
+            )
 
         return request
 
@@ -234,7 +205,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         """
         request_details = validated_data.pop('request_details', [])
         approval_route_details = validated_data.pop('approval_route_details', [])
-        notification_records = validated_data.pop('notification_records', [])
+        notifiers = validated_data.pop('notifiers', [])
 
         # save request detail answer
         for request_detail in request_details:
@@ -283,19 +254,17 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             ~Q(detail_no__in=approval_route_detail_ids),
         ).delete()
 
-        notification_emp_ids = set()
-        for notification_record in notification_records:
-            notification_emp_id = notification_record['emp_id']
-            notification, created = NotificationRecord.objects.update_or_create(
-                request=instance,
-                emp_id=notification_emp_id,
-                defaults={},
+        notify_emp_ids = set()
+        for notifier_data in notifiers:
+            notifier_data['request'] = instance
+            notifier_obj, created = NotificationRecord.objects.update_or_create(
+                *notifier_data, defaults={},
             )
-            notification_emp_ids.add(notification.emp_id)
+            notify_emp_ids.add(notifier_obj.notify_emp_id)
 
         NotificationRecord.objects.filter(
             Q(request=instance),
-            ~Q(emp_id__in=notification_emp_ids),
+            ~Q(emp_id__in=notify_emp_ids),
         ).delete()
 
         return instance

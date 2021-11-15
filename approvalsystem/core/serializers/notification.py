@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.db import models
 from django.db.models import F
 
-from core.models import NotificationRecord, NotificationType, Request
+from core.models import NotificationRecord, NotificationType, Request, Notifier
 from users.serializers import UserDetailSerializer
 from .request import RequestSerializer
 
@@ -36,18 +36,30 @@ class NotificationRecordSerializer(serializers.ModelSerializer):
         ]
 
 
-class CustomListNotificationRecordSerializer(serializers.ListSerializer):
+class CustomListNotifierSerializer(serializers.ListSerializer):
     """
     Custom ListSerializer for changing behavior of queryset (like filter, annotate..)
-    for model NotificationRecord (table t_notification_records)
+    for model Notifier (table t_notifier)
     """
     def to_representation(self, data):
         if isinstance(data, (models.Manager, models.QuerySet)):
             data = data.annotate(
-                emp_nm=F('emp__emp_nm'),
-                notification_type_nm=F('notification_type__notification_type_nm'),
+                notifier_em_nm=F('emp__notifier_em_nm'),
             )
         return super().to_representation(data)
+
+
+class NotifierSerializer(serializers.ModelSerializer):
+    notify_emp_nm = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Notifier
+        list_serializer_class = CustomListNotifierSerializer
+        fields = [
+            'notify_emp_id',
+            'notify_emp_nm',
+            'confirm_dt',
+        ]
 
 
 class NotificationRequestSerializer(serializers.ModelSerializer):
