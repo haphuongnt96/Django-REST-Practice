@@ -14,7 +14,6 @@ export default class DashboardPopupObjectTable extends Vue {
     if (!err && res) {
       //正常処理　swalはアラート用のライブラリ
       this.items = res
-      console.log(res)
     } else {
       //バックエンド側でエラーが発生したときのメッセージ
       this.$swal({
