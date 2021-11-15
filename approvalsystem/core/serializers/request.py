@@ -196,7 +196,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             if approval_emp_id in distinct_approval_emp_ids:
                 continue
             # get or create approval post by approval_post_nm
-            approval_post_nm = approval_route_detail['approval_post_nm']
+            approval_post_nm = approval_route_detail.pop('approval_post_nm')
             approval_post, created = ApprovalPost.objects.get_or_create(
                 approval_post_nm=approval_post_nm
             )
