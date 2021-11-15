@@ -133,14 +133,22 @@ export default class Approval extends Vue {
       const [comment_err, comment_res] =
         await this.$api.approval.getApprovalRouteComment(this.requestID)
       if (!comment_err && comment_res) {
-        this.commentCount = comment_res.length
+        if (comment_res.length === 0) {
+          this.commentCount = '無'
+        } else {
+          this.commentCount = '有'
+        }
       }
     }
     // requestIDが取れるまでに臨時運用(requestIDが正常に取れてから削除予定)
     const [comment_err, comment_res] =
-      await this.$api.approval.getApprovalRouteComment('1')
+      await this.$api.approval.getApprovalRouteComment('2')
     if (!comment_err && comment_res) {
-      this.commentCount = comment_res.length
+      if (comment_res.length === 0) {
+        this.commentCount = '無'
+      } else {
+        this.commentCount = '有'
+      }
     }
   }
 
