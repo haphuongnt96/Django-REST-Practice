@@ -5,7 +5,10 @@ from core.serializers import ApprovalClassSerializer
 from django.utils.translation import gettext_lazy as _
 
 
-class ApplicationFormSerializer(serializers.ModelSerializer):
+class ApprovalTypeSerializer(serializers.ModelSerializer):
+    """
+    承認種類のシリアライザ
+    """
     approval_class = ApprovalClassSerializer(read_only=True)
     segment = SegmentSerializer(read_only=True)
     division = DivisionSerializer(read_only=True)    

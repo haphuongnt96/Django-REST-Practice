@@ -7,14 +7,14 @@ export default class DashboardDetailSearchTable extends Vue {
   get contents() {
     return this.$pageContents.DASHBOARD
   }
-  items: Dashboard.DashboardApplicationFormSearchTable[] = []
+  approvalTypes: Dashboard.DashboardApprovalTypeSearchTable[] = []
   // 検索ボタン押下でデータを取得
-  async getapplicationformdata() {
+  async getApprovalTypeSearch() {
     const [err, res] =
-      await this.$api.application_form.getApplicationFormSearchRecord()
+      await this.$api.approvaltype.getApprovalTypeSearchRecord()
     if (!err && res) {
       //正常処理　swalはアラート用のライブラリ
-      this.items = res
+      this.approvalTypes = res
       console.log(res)
     } else {
       //バックエンド側でエラーが発生したときのメッセージ
@@ -52,34 +52,6 @@ export default class DashboardDetailSearchTable extends Vue {
     }
   ]
   // //#end
-  // //list applicants
-  searchResults = [
-    {
-      index: 1,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 2,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 3,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 4,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    }
-  ]
-  //#end
   handleSelect(value) {
     this.$emit('applicationCotent', value)
   }
@@ -90,7 +62,7 @@ export default class DashboardDetailSearchTable extends Vue {
   <div class="dashboard__list">
     <v-data-table
       :headers="Header"
-      :items="items"
+      :items="approvalTypes"
       :items-per-page="15"
       :no-data-text="contents.TABLE_NO_DATA"
       @click:row="handleSelect"

@@ -46,7 +46,7 @@ declare namespace Approvals {
 
   type GetAprrovalTypeResponse = {
     m_approval_routes: ApprovalRouteResponse[]
-    m_request_details: ApplicationForm.RequestDetail[]
+    m_request_details: ApprovalType.RequestDetail[]
     approval_route_details: ApprovalRouteDetailResponse[]
   }
 

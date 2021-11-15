@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-declare namespace ApplicationForm {
+declare namespace ApprovalType {
   type RequestDetail = {
     choices: Choice[]
     column_nm: string

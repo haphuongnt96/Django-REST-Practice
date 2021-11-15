@@ -18,8 +18,8 @@ from .m_approval_route import (
 from .property import (
     PropertyGetListAPI,
 )
-from .application_form import (
-    ApplicationGetListAPI,
+from .approval_type import (
+    ApprovalTypeGetListAPI,
 )
 from .news import (
     NewsGetListAPI,

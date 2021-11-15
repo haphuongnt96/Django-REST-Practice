@@ -28,8 +28,8 @@ export default class DashboardDetailPopup extends Vue {
     this.$emit('setDataSearch', value)
     this.dialog = false
   }
-  getApplicationFormData() {
-    this.$refs.applicationformsearch.getapplicationformdata()
+  getApprovalType() {
+    this.$refs.getApprovalTypeSearch.getApprovalTypeSearch()
   }
 }
 </script>
@@ -102,7 +102,7 @@ export default class DashboardDetailPopup extends Vue {
                       <v-btn
                         :disabled="!valid"
                         class="mr-4"
-                        @click="getApplicationFormData()"
+                        @click="getApprovalType()"
                       >
                         {{ contents.POPUP_SEARCH_SEARCH }}
                       </v-btn>
@@ -114,7 +114,7 @@ export default class DashboardDetailPopup extends Vue {
           </div>
           <div class="search__form-result">
             <DashboardDetailSearchTable
-              ref="applicationformsearch"
+              ref="getApprovalTypeSearch"
               @applicationCotent="applicationCotent"
             />
           </div>

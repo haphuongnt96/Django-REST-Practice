@@ -10,14 +10,23 @@ from users.models.organization import Department, Segment, Division
 
 
 class ApprovalClass(BaseModel):
+    """
+    M_承認分類
+    """
     approval_class_id = models.CharField(max_length=1, primary_key=True)
     approval_class_nm = models.CharField(max_length=10)
 
     class Meta:
         db_table = 'm_approval_class'
 
+    def __str__(self) -> str:
+        return "{}:{}".format(self.approval_class_id, self.approval_class_nm)
+
 
 class ApprovalType(BaseModel):
+    """
+    MM_承認種類
+    """
     approval_type_id = models.CharField(max_length=4, primary_key=True)
     approval_type_nm = models.CharField(max_length=30, blank=True)
     approval_class = models.ForeignKey(
@@ -37,8 +46,8 @@ class ApprovalType(BaseModel):
     class Meta:
         db_table = 'mm_approval_type'
 
-    def __str__(self):
-        return self.approval_type_nm
+    def __str__(self) -> str:
+        return "{}:{}".format(self.approval_type_id, self.approval_type_nm)
 
     @property
     def root_request_details(self):
@@ -49,6 +58,9 @@ class ApprovalType(BaseModel):
 
 
 class ApprovalRouteMaster(BaseModel):
+    """
+    MM_承認ルート
+    """
     approval_type = models.ForeignKey(
         ApprovalType, on_delete=models.CASCADE,
         related_name='m_approval_routes'
@@ -98,6 +110,9 @@ class ApprovalRouteMaster(BaseModel):
 
 
 class ColumnType(BaseModel):
+    """
+    M_項目タイプ
+    """
     column_type_id = models.CharField(max_length=2, primary_key=True)
     column_type_nm = models.CharField(max_length=10, blank=True)
 
@@ -109,6 +124,9 @@ class ColumnType(BaseModel):
 
 
 class RequestDetailMaster(BaseModel):
+    """
+    T_申請明細
+    """
     approval_type = models.ForeignKey(
         ApprovalType, on_delete=models.SET_NULL,
         null=True, related_name='m_request_details'
@@ -138,6 +156,9 @@ class RequestDetailMaster(BaseModel):
 
 
 class Choice(BaseModel):
+    """
+    M_選択肢
+    """
     request_column = models.ForeignKey(
         RequestDetailMaster, on_delete=models.CASCADE,
         null=True, related_name='choices',

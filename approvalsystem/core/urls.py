@@ -11,7 +11,7 @@ from .views import (
     ApprovalTypeListAPI,
     ApprovalTypeDetailAPI,
     PropertyGetListAPI,
-    ApplicationGetListAPI,
+    ApprovalTypeGetListAPI,
     NewsGetListAPI,
     NotificationApplicantAPI,
 )
@@ -36,13 +36,13 @@ urlpatterns = [
          ApprovalTypeListAPI.as_view(), name='approval_types'),
     path('approval_types/<str:approval_type_id>',
          ApprovalTypeDetailAPI.as_view(), name='approval_types.detail'),
-  　# 物件選択
+    # 物件選択
     path('property/get_list',
          PropertyGetListAPI.as_view(), name='property_list'),
-  　# 申請内容選択
-    path('application_form/get_list',
-         ApplicationGetListAPI.as_view(), name='application_form'),
-  　# お知らせ
+    # 申請内容選択
+    path('approval_types_select/get_list',
+         ApprovalTypeGetListAPI.as_view(), name='approval_types'),
+    # お知らせ
     path('news/get_list',
           NewsGetListAPI.as_view(), name='news_list'), 
     # 通知

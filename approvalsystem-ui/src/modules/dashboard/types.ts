@@ -14,7 +14,7 @@ declare namespace Dashboard {
     news_id: number
     news: string
   }
-  type DashboardApplicationContentsSearchTable = {
+  type DashboardApprovalTypeSearchTable = {
     request_value: []
   }
 }
