@@ -3,6 +3,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import ApprovalAddEmployee from '@/modules/approval/components/ApprovalAddEmployee.vue'
 import { Mutation as M } from 'vuex-class'
 import { ApprovalRequestD } from '@/store/typeD'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const orderBy = require('lodash.orderby')
 
 @Component({
   components: { ApprovalAddEmployee }
@@ -32,12 +34,12 @@ export default class ApprovalAddApprover extends Vue {
 
   //#region Computed
   get approvers() {
-    return this.approval_route_details
+    return orderBy(this.approval_route_details, 'order')
   }
 
   set approvers(value: Approvals.ApprovalRouteDetailResponse[]) {
     value.forEach((x, i) => {
-      x.order = i + 1
+      if (x) x.order = i + 1
     })
     this.setListApprovers(value)
   }

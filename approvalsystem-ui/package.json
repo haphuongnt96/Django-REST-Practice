@@ -17,6 +17,7 @@
         "lodash.findindex": "^4.6.0",
         "lodash.groupby": "^4.6.0",
         "lodash.merge": "^4.6.2",
+        "lodash.orderby": "^4.6.0",
         "moment": "^2.29.1",
         "sass-loader": "^10.1.1",
         "vee-validate": "^3.3.7",
