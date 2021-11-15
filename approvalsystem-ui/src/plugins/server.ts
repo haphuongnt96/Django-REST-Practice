@@ -55,7 +55,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '山田 太郎',
               approval_status: false,
               approval_date: Date.now()
@@ -68,7 +68,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '山田 太郎',
               approval_status: false,
               approval_date: Date.now()
@@ -81,7 +81,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '山田 太郎',
               approval_status: false,
               approval_date: Date.now()
@@ -94,7 +94,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '山田 太郎',
               approval_status: false,
               approval_date: Date.now()
@@ -107,7 +107,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '山田 太郎',
               approval_status: false,
               approval_date: Date.now()
@@ -120,7 +120,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '武藤 敬司',
               approval_status: false,
               approval_date: Date.now()
@@ -133,7 +133,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '蝶野 正洋',
               approval_status: false,
               approval_date: Date.now()
@@ -146,7 +146,7 @@ export function makeServer({ environment = 'development' } = {}) {
               order: 0,
               notification: '',
               approval_post_cd: '',
-              approval_emp_cd: 0,
+              approval_emp_id: 0,
               approval_emp_nm: '蝶野 正洋',
               approval_status: true,
               approval_date: Date.now()

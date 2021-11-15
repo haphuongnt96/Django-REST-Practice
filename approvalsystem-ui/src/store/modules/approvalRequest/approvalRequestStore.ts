@@ -13,7 +13,7 @@ export const approvalRequestStore: Module<State, StoreState> = {
     listNotifies: []
   },
   getters: {
-    [Getters.getListApprovers](state): Approvals.RegisterApprovalRouteDetail[] {
+    [Getters.getListApprovers](state): Approvals.ApprovalRouteDetailResponse[] {
       return state.listApprovers
     },
 

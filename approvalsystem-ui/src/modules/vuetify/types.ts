@@ -4,4 +4,6 @@ declare namespace Vuetify {
     itemsPerPage: number
     page: number
   }
+
+  type VForm = Vue & { validate: () => boolean; resetValidation: () => void }
 }

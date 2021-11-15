@@ -2,6 +2,7 @@
 declare namespace Approvals {
   type ApprovalRouteResponse = {
     approval_route_details: ApprovalRouteDetailResponse[]
+    notification_records: NotificationRecords[]
     approval_route_id: string
     approval_type_cd: string
     created: string
@@ -14,16 +15,17 @@ declare namespace Approvals {
 
   type ApprovalRouteDetailResponse = {
     approval_route_id: string
-    detail_no: number
+    detail_no?: number
     approval_post_nm: string
-    required_num_approvals: number
+    required_num_approvals?: number
     order: number
     notification: string
     approval_post_cd: string
-    approval_emp_cd: number
+    approval_emp_id: number
     approval_emp_nm: string
     approval_status: boolean
     approval_date: string
+    default_flg?: boolean
   }
 
   type ApprovalRouteCommentResponse = {
@@ -48,6 +50,7 @@ declare namespace Approvals {
     m_approval_routes: ApprovalRouteResponse[]
     m_request_details: ApplicationForm.RequestDetail[]
     approval_route_details: ApprovalRouteDetailResponse[]
+    notification_records: NotificationRecords[]
   }
 
   type ApprovalClass = {
@@ -113,15 +116,10 @@ declare namespace Approvals {
     emp_nm: string
   }
 
-  type RegisterApprovalRouteDetail = {
-    approval_emp_id: number
-    approval_post_nm: string
-    order: number
-    emp_nm: string
-  }
-
   type NotificationRecords = {
     emp_id: number
-    notification_post_nm: string
+    emp_nm: string
+    notification_type_id: string
+    notification_type_nm: string
   }
 }

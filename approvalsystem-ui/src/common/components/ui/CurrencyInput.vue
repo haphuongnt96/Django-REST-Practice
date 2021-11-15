@@ -1,7 +1,5 @@
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const debounce = require('lodash.debounce')
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 //*===🎯===🎯===🎯===🎯===🎯===🎯===🎯===🎯===🎯===🎯===🎯===🎯Main
 
@@ -15,7 +13,6 @@ export default class CurrencyInput extends Vue {
   @Prop({ default: true }) dense: boolean
   @Prop({ default: 'auto' }) hideDetails: boolean
   @Prop({ default: false }) allowNegativeNumber: boolean
-  @Prop() errorMessages: string
   @Prop() label: string
   @Prop({ default: false }) loading: string
   @Prop() disabled: string
@@ -25,6 +22,7 @@ export default class CurrencyInput extends Vue {
   @Prop({ default: 255 }) maxLength: number
   @Prop() min: number
   @Prop({ default: false }) readonly: boolean
+  @Prop() rules: string
 
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
 
@@ -73,27 +71,29 @@ export default class CurrencyInput extends Vue {
   }
 
   onInput(value: string) {
-    this.valueLocal = value
+    this.valueLocal = value.toString().replace(/\$\s?|(,*)/g, '')
   }
 }
 </script>
 
 <template>
-  <v-text-field
-    v-currency="format"
-    :value="formatValue"
-    :error-messages="errorMessages"
-    :title="title || label"
-    :label="label"
-    :loading="loading"
-    :dense="dense"
-    :hide-details="hideDetails"
-    :disabled="disabled || loading"
-    :outlined="outlined"
-    :readonly="readonly"
-    :min="min"
-    :maxlength="19"
-    @input="onInput"
-    @keydown.native="watchE"
-  ></v-text-field>
+  <ValidationProvider :rules="rules" v-slot="{ errors }">
+    <v-text-field
+      v-currency="format"
+      :value="formatValue"
+      :error-messages="errors[0]"
+      :title="title || label"
+      :label="label"
+      :loading="loading"
+      :dense="dense"
+      :hide-details="hideDetails"
+      :disabled="disabled || loading"
+      :outlined="outlined"
+      :readonly="readonly"
+      :min="min"
+      :maxlength="19"
+      @input="onInput"
+      @keydown.native="watchE"
+    ></v-text-field>
+  </ValidationProvider>
 </template>

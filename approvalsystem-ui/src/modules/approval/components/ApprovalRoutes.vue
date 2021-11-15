@@ -2,8 +2,10 @@
 import ApprovalListRoutes from '@/modules/approval/components/ApprovalListRoutes.vue'
 import ApprovalAddApprover from '@/modules/approval/components/ApprovalAddApprover.vue'
 import ApprovalAddNotifier from '@/modules/approval/components/ApprovalAddNotifier.vue'
-
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Getter as G } from 'vuex-class'
+import { ApprovalRequestD } from '@/store/typeD'
+
 @Component({
   components: {
     ApprovalListRoutes,
@@ -12,6 +14,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   }
 })
 export default class ApprovalRoutes extends Vue {
+  @G(...ApprovalRequestD.getListApprovers)
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
   //#region Prop
   @Prop({
     default: function () {
@@ -19,12 +23,6 @@ export default class ApprovalRoutes extends Vue {
     }
   })
   items: Approvals.ApprovalRouteResponse[]
-  @Prop({
-    default: function () {
-      return []
-    }
-  })
-  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
   //#endregion
 
   //#region Data
@@ -64,7 +62,9 @@ export default class ApprovalRoutes extends Vue {
             />
           </v-tab-item>
           <v-tab-item>
-            <ApprovalAddApprover />
+            <ApprovalAddApprover
+              :approval_route_details="approval_route_details"
+            />
           </v-tab-item>
           <v-tab-item>
             <ApprovalAddNotifier />

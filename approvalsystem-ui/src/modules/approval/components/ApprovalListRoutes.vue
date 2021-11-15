@@ -49,7 +49,7 @@ export default class ApprovalListRoutes extends Vue {
         <v-expansion-panel-header class="px-0">
           承認状況: {{ item.approval_route_id }}
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
+        <v-expansion-panel-content class="px-1 py-2">
           <div class="d-box flex-gap-4">
             <v-simple-table class="table__applicant">
               <template v-slot:default>

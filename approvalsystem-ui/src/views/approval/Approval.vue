@@ -10,7 +10,7 @@ import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFuncti
 import eventBus from '@/plugins/eventBus'
 import { ApprovalRequestD, AuthD } from '@/store/typeD'
 import { Component, Vue } from 'vue-property-decorator'
-import { Getter as G } from 'vuex-class'
+import { Getter as G, Mutation as M } from 'vuex-class'
 
 @Component({
   components: {
@@ -25,9 +25,15 @@ import { Getter as G } from 'vuex-class'
 export default class Approval extends Vue {
   @G(...AuthD.getUser) user: Auth.User
   @G(...ApprovalRequestD.getListApprovers)
-  approvals: Approvals.RegisterApprovalRouteDetail[]
+  approvals: Approvals.ApprovalRouteDetailResponse[]
   @G(...ApprovalRequestD.getListNotifies)
   notifies: Approvals.NotificationRecords[]
+  @M(...ApprovalRequestD.setListApprovers) setListApprovers: (
+    approvers: Approvals.ApprovalRouteDetailResponse[]
+  ) => void
+  @M(...ApprovalRequestD.setListNotifies) setListNotifies: (
+    notifiers: Approvals.NotificationRecords[]
+  ) => void
 
   //#region Data
   m_request_details: ApplicationForm.RequestDetail[] = []
@@ -95,9 +101,14 @@ export default class Approval extends Vue {
       }
       const [err, res] = await this.$api.approval.getApproveTypeById('0001')
       if (!err && res) {
-        const { approval_route_details, m_request_details } = res
+        const {
+          approval_route_details,
+          m_request_details,
+          notification_records
+        } = res
         this.m_request_details = m_request_details
-        this.approval_route_details = approval_route_details
+        this.setListApprovers(approval_route_details)
+        this.setListNotifies(notification_records)
       }
       this.formSummary = {
         emp_nm: this.user.emp_nm,
@@ -119,6 +130,8 @@ export default class Approval extends Vue {
           approval_type_nm,
           approval_type_id,
           department_nm,
+          notification_records,
+          approval_route_details,
           created
         } = res
         this.formSummary = {
@@ -130,6 +143,8 @@ export default class Approval extends Vue {
         }
         this.m_request_details = m_request_details
         this.items = approval_routes
+        this.setListApprovers(approval_route_details)
+        this.setListNotifies(notification_records)
       }
     }
   }
@@ -186,12 +201,16 @@ export default class Approval extends Vue {
       request_details: this.requests,
       department_id: this.departmentId,
       approval_route_details: this.approvals,
-      notification_records: this.notifies
+      notification_records: this.notifies || []
     }
     const [err, res] = this.requestID
       ? await this.$api.approval.updateRequestFormData(this.requestID, data)
       : await this.$api.approval.sendRequest(data)
     if (!err && res) {
+      this.$toast.fire({
+        icon: 'success',
+        title: TOAST_MESSAGES.APP_SAVE_SUCCESS
+      })
       const { approval_routes, m_request_details, request_id } = res
       this.items = approval_routes
       this.m_request_details = m_request_details
@@ -202,10 +221,6 @@ export default class Approval extends Vue {
       })
       const { name, query } = route.route
       if (name) this.$router.push({ name, query })
-      this.$toast.fire({
-        icon: 'success',
-        title: TOAST_MESSAGES.APP_SAVE_SUCCESS
-      })
     }
   }
   //#endregion
@@ -214,11 +229,7 @@ export default class Approval extends Vue {
 
 <template>
   <v-container fluid px-8>
-    <ApprovalRoutes
-      :items="items"
-      :approval_route_details="approval_route_details"
-      class="mb-5"
-    />
+    <ApprovalRoutes :items="items" class="mb-5" />
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" :formSummary="formSummary" />
       <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">

@@ -7,6 +7,7 @@ export default class PopSearchEmployeeTable extends Vue {
   @Prop() items: Employee.EmployeeAffiliation[]
   @Prop() searchParams: Employee.SearchEmployees
   @Prop() totalItems: number
+  @Prop() disabledIds: number[]
   //#endregion
 
   //#region Emit
@@ -38,6 +39,12 @@ export default class PopSearchEmployeeTable extends Vue {
       }
     })
   }
+
+  get disabledRow() {
+    return (item: Employee.EmployeeAffiliation) => {
+      return this.disabledIds.includes(item.emp_id)
+    }
+  }
   //#endregion
 
   headers = [
@@ -50,9 +57,9 @@ export default class PopSearchEmployeeTable extends Vue {
     {
       text: '所属',
       align: 'center',
-      value: 'affiliations[0].department_nm'
+      value: 'department_nm'
     },
-    { text: '社員コード', align: 'center', value: 'emp_cd' },
+    { text: '社員コード', align: 'center', value: 'emp_id' },
     { text: '社員名', align: 'center', value: 'emp_nm' }
   ]
 }
@@ -66,12 +73,35 @@ export default class PopSearchEmployeeTable extends Vue {
     :server-items-length="totalItems"
     :items-per-page="$constants.VTABLE_DATA_CONFIG.ITEMS_PER_PAGE"
     :no-data-text="$constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA"
-    @click:row="select"
   >
-    <template v-slot:item.index="{ index }">
-      {{ index + 1 }}
+    <template v-slot:body="props">
+      <tr
+        :class="{ disabled: disabledRow(item) }"
+        v-for="(item, index) in props.items"
+        :key="index"
+        @click="select(item)"
+      >
+        <td>{{ index + 1 }}</td>
+        <td>{{ item.department_nm }}</td>
+        <td>{{ item.emp_id }}</td>
+        <td>
+          {{ item.emp_nm }}
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+td {
+  text-align: center;
+}
+
+tr {
+  &.disabled {
+    background: $blue-2;
+    color: white;
+    pointer-events: none;
+  }
+}
+</style>

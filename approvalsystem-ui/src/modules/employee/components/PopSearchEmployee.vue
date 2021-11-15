@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Component, Emit, Vue, Watch } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator'
 import PopSearchEmployeeTable from '@/modules/employee/components/PopSearchEmployeeTable.vue'
 import CONSTANTS from '@/common/constant'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -11,6 +11,10 @@ const debounce = require('lodash.debounce')
   }
 })
 export default class PopSearchEmployee extends Vue {
+  //#region Prop
+  @Prop() disabledIds: number[]
+  //#endregion
+
   //#region Data
   debounceEmployeeNmChanged = debounce(this.employeeNmChanged, 800)
   valid = true
@@ -158,6 +162,7 @@ export default class PopSearchEmployee extends Vue {
           </div>
           <div class="search__form-result">
             <PopSearchEmployeeTable
+              :disabledIds="disabledIds"
               :searchParams.sync="searchParams"
               :totalItems="totalItems"
               :items="employees"
