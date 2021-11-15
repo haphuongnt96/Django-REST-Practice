@@ -201,7 +201,7 @@ export default class Approval extends Vue {
       request_details: this.requests,
       department_id: this.departmentId,
       approval_route_details: this.approvals,
-      notification_records: this.notifies
+      notification_records: this.notifies || []
     }
     const [err, res] = this.requestID
       ? await this.$api.approval.updateRequestFormData(this.requestID, data)
