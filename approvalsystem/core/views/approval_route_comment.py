@@ -9,34 +9,33 @@ from django.utils.translation import gettext_lazy as _
 
 from ..sql.get_approval_comment import get_approval_comment
 
-from core.models import ApprovalRoute, ApprovalRouteComment
+from core.models import Request, ApprovalRouteComment
 from core.serializers import ApprovalRouteCommentSerializer, CreateApprovalRouteCommentSerializer
 
 
 class ApprovalRouteCommentListAPI(ListAPIView):
+    """
+    申請IDに対するコメントを取得する。
+    """
     serializer_class = ApprovalRouteCommentSerializer
 
     def get(self, request, *args, **kwargs):
-        approval_route_id = kwargs['approval_route_id']
-        get_object_or_404(ApprovalRoute, pk=approval_route_id)
+        request_id = kwargs['request_id']
 
         return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
-        approval_route_id = self.kwargs['approval_route_id']
-        queryset = get_approval_comment(approval_route_id)
+        request_id = self.kwargs['request_id']
+        queryset = get_approval_comment(request_id)
 
         return queryset
 
 class ApprovalRouteCommentAPI(APIView):
+    """
+    申請IDに対してコメントを保存する。
+    """
     def post(self, request, *args, **kwargs):
         request_id = kwargs['request_id']
-        try:
-            approval_route = ApprovalRoute.objects.filter(request_id=request_id).latest('created')
-        except ApprovalRoute.DoesNotExist:
-            raise NotFound(
-                _('Invalid request_id or does not exist Approval Routes.')
-            )
         approval_route_comment_serializer = CreateApprovalRouteCommentSerializer(
             data=request.data
         )

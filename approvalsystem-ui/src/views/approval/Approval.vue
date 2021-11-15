@@ -40,6 +40,7 @@ export default class Approval extends Vue {
     department_nm: ''
   }
   approval_types: Approvals.ApprovalType[] = []
+  commentCount = '0'
   //#endregion
 
   //#region Computed
@@ -127,6 +128,26 @@ export default class Approval extends Vue {
         }
         this.m_request_details = m_request_details
         this.items = approval_routes
+      }
+      // comment件数取得
+      const [comment_err, comment_res] =
+        await this.$api.approval.getApprovalRouteComment(this.requestID)
+      if (!comment_err && comment_res) {
+        if (comment_res.length === 0) {
+          this.commentCount = '無'
+        } else {
+          this.commentCount = '有'
+        }
+      }
+    }
+    // requestIDが取れるまでに臨時運用(requestIDが正常に取れてから削除予定)
+    const [comment_err, comment_res] =
+      await this.$api.approval.getApprovalRouteComment('2')
+    if (!comment_err && comment_res) {
+      if (comment_res.length === 0) {
+        this.commentCount = '無'
+      } else {
+        this.commentCount = '有'
       }
     }
   }
@@ -230,7 +251,7 @@ export default class Approval extends Vue {
         </div>
       </v-container>
     </v-card>
-    <ApprovalSubFunction :commentCount="9" />
+    <ApprovalSubFunction :commentCount="commentCount" />
   </v-container>
 </template>
 

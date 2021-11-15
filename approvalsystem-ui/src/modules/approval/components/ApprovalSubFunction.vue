@@ -49,7 +49,7 @@ export default class ApprovalSubFunction extends Vue {
           :value="!!commentCount"
         >
           <v-btn
-            :color="$config.Colors.pink2"
+            :color="$config.Colors.pink4"
             @click.stop="handleOpenComments"
             dark
             fab
