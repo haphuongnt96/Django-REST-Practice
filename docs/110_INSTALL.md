@@ -95,7 +95,7 @@ PS C:\work\approval-system\approvalsystem> pyenv --version
 pyenv 2.64.10
 ```
 
-# virtualenvを使用してpython環境を準備します
+# 仮想環境を使用してpython環境を準備します
 
 #### 1. ローカルで実行するための仮想環境を作成する:
 
@@ -103,48 +103,24 @@ pyenvにpython3.9.5をインストールする。
 
 ```bash
 
-PS C:\work\approval-system\approvalsystem> pyenv install 3.9.5
+PS C:\work\approval-system\approvalsystem> pyenv install 3.9.2
 
 Windows PowerShell
 Copyright (C) Microsoft Corporation. All rights reserved.
 :: [Info] ::  Mirror: https://www.python.org/ftp/python
-:: [Downloading] ::  3.9.5 ...
-:: [Downloading] ::  From https://www.python.org/ftp/python/3.9.5/python-3.9.5-amd64-webinstall.exe      
-:: [Downloading] ::  To   C:\Users\parkh\.pyenv\pyenv-win\install_cache\python-3.9.5-amd64-webinstall.exe
-:: [Installing] ::  3.9.5 ...
-:: [Info] :: completed! 3.9.5
+:: [Downloading] ::  3.9.2 ...
+:: [Downloading] ::  From https://www.python.org/ftp/python/3.9.2/python-3.9.2-amd64-webinstall.exe      
+:: [Downloading] ::  To   C:\Users\parkh\.pyenv\pyenv-win\install_cache\python-3.9.2-amd64-webinstall.exe
+:: [Installing] ::  3.9.2 ...
+:: [Info] :: completed! 3.9.2
 ```
 
 python3.9.5を使うように切り替える。
 
 ```bash
-PS C:\work\approval-system\approvalsystem> pyenv local 3.9.5
+PS C:\work\approval-system\approvalsystem> pyenv local 3.9.2
 PS C:\work\approval-system\approvalsystem> python --version
-Python 3.9.5
-```
-
-pipでvenvをインストールする。
-
-```
-PS C:\work\approval-system\approvalsystem> python -m pip install virtualenv
-Collecting virtualenv
-  Downloading virtualenv-20.7.2-py2.py3-none-any.whl (5.3 MB)
-     |████████████████████████████████| 5.3 MB 6.8 MB/s
-Collecting distlib<1,>=0.3.1
-  Downloading distlib-0.3.2-py2.py3-none-any.whl (338 kB)
-     |████████████████████████████████| 338 kB 6.4 MB/s
-Collecting platformdirs<3,>=2
-  Downloading platformdirs-2.3.0-py3-none-any.whl (13 kB)
-Collecting backports.entry-points-selectable>=1.0.4
-  Downloading backports.entry_points_selectable-1.1.0-py2.py3-none-any.whl (6.2 kB)
-Collecting six<2,>=1.9.0
-  Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
-Collecting filelock<4,>=3.0.0
-  Using cached filelock-3.0.12-py3-none-any.whl (7.6 kB)
-Installing collected packages: six, platformdirs, filelock, distlib, backports.entry-points-selectable, virtualenv
-Successfully installed backports.entry-points-selectable-1.1.0 distlib-0.3.2 filelock-3.0.12 platformdirs-2.3.0 six-1.16.0 virtualenv-20.7.2
-WARNING: You are using pip version 21.1.1; however, version 21.2.4 is available.
-You should consider upgrading via the 'C:\Users\parkh\.pyenv\pyenv-win\versions\3.9.5\python.exe -m pip install --upgrade pip' command.
+Python 3.9.2
 ```
 
 venvで仮想環境を作成する。
@@ -153,7 +129,7 @@ venvで仮想環境を作成する。
 PS C:\work\approval-system\approvalsystem> python -m venv venv
 ```
 
-Note: このようなエラーが出たときは`pyenv global 3.9.5`と実行する。
+Note: このようなエラーが出たときは`pyenv global 3.9.2`と実行する。
 
 ```
 No global python version has been set yet. Please set the global version by typing:
@@ -255,8 +231,8 @@ PS C:\work\approval-system\approvalsystem> python manage.py runserver
 
 ```bash
 
-pyenv install 3.9.5
-pyenv virtualenv 3.9.5 venv
+pyenv install 3.9.2
+pyenv virtualenv 3.9.2 venv
 pyenv local venv
 pyenv activate venv
 ```
