@@ -29,7 +29,6 @@ export default class Form extends Vue {
 
   //#region Method
   handleInput(value: string, item: ApplicationForm.RequestDetail) {
-    console.log(value, item)
     eventBus.$emit(EventBus.USER_INPUT_APPLICATION_FORM, {
       request_column_id: item.request_column_id,
       request_column_val: value

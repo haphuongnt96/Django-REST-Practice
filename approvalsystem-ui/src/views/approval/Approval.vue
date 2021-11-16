@@ -101,14 +101,10 @@ export default class Approval extends Vue {
       }
       const [err, res] = await this.$api.approval.getApproveTypeById('0001')
       if (!err && res) {
-        const {
-          approval_route_details,
-          m_request_details,
-          notification_records
-        } = res
+        const { approval_route_details, m_request_details, notifiers } = res
         this.m_request_details = m_request_details
         this.setListApprovers(approval_route_details)
-        this.setListNotifies(notification_records)
+        this.setListNotifies(notifiers)
       }
       this.formSummary = {
         emp_nm: this.user.emp_nm,
@@ -130,7 +126,7 @@ export default class Approval extends Vue {
           approval_type_nm,
           approval_type_id,
           department_nm,
-          notification_records,
+          notifiers,
           approval_route_details,
           created
         } = res
@@ -144,7 +140,7 @@ export default class Approval extends Vue {
         this.m_request_details = m_request_details
         this.items = approval_routes
         this.setListApprovers(approval_route_details)
-        this.setListNotifies(notification_records)
+        this.setListNotifies(notifiers)
       }
     }
   }
@@ -200,8 +196,8 @@ export default class Approval extends Vue {
       approval_type_id: this.formSummary.approval_type_id || '',
       request_details: this.requests,
       department_id: this.departmentId,
-      approval_route_details: this.approvals,
-      notification_records: this.notifies || []
+      approval_route_details: this.approvals.filter((x) => !x.default_flg),
+      notifiers: this.notifies || []
     }
     const [err, res] = this.requestID
       ? await this.$api.approval.updateRequestFormData(this.requestID, data)

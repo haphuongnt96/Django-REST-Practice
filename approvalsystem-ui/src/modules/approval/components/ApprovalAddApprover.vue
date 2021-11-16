@@ -39,7 +39,7 @@ export default class ApprovalAddApprover extends Vue {
 
   set approvers(value: Approvals.ApprovalRouteDetailResponse[]) {
     value.forEach((x, i) => {
-      if (x) x.order = i + 1
+      if (x) x.order = i
     })
     this.setListApprovers(value)
   }
@@ -52,7 +52,7 @@ export default class ApprovalAddApprover extends Vue {
       },
       { text: this.contents.POSITION, value: 'approval_post_nm' },
       { text: this.contents.NAME, value: 'emp_nm' },
-      { text: '', value: 'action', width: '200' }
+      { text: '', value: 'action', width: '80' }
       // { text: this.contents.CONFIRMED_DATE, value: 'date' }
     ]
   }
@@ -63,7 +63,7 @@ export default class ApprovalAddApprover extends Vue {
 
   get disabledRow() {
     return (item: Approvals.ApprovalRouteDetailResponse) => {
-      return item.default_flg
+      return item && item.default_flg
     }
   }
   //#endregion
@@ -88,6 +88,7 @@ export default class ApprovalAddApprover extends Vue {
       approval_date: ''
     }
     this.approvers.splice(index, 0, newRecord)
+    this.approvers = [...this.approvers]
   }
 
   removeEmployee(employee: Employee.EmployeeAffiliation) {
@@ -95,6 +96,7 @@ export default class ApprovalAddApprover extends Vue {
       (x) => x.approval_emp_id === employee.emp_id
     )
     this.approvers.splice(index, 1)
+    this.approvers = [...this.approvers]
   }
   //#endregion
 }
@@ -130,11 +132,11 @@ export default class ApprovalAddApprover extends Vue {
           v-bind="dragOptions"
           item-key="order"
         >
-          <tr class="v-data-table__empty-wrapper" v-if="!approvers.length">
+          <!-- <tr class="v-data-table__empty-wrapper" v-if="!approvers.length">
             <td class="text-center" colspan="4">
               {{ $constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA }}
             </td>
-          </tr>
+          </tr> -->
           <tr
             :class="[disabledRow(item) ? 'disabled' : 'draggable']"
             v-for="(item, index) in props.items"

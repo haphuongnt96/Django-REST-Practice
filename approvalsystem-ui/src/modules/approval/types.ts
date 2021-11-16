@@ -50,7 +50,7 @@ declare namespace Approvals {
     m_approval_routes: ApprovalRouteResponse[]
     m_request_details: ApplicationForm.RequestDetail[]
     approval_route_details: ApprovalRouteDetailResponse[]
-    notification_records: NotificationRecords[]
+    notifiers: NotificationRecords[]
   }
 
   type ApprovalClass = {
@@ -117,8 +117,8 @@ declare namespace Approvals {
   }
 
   type NotificationRecords = {
-    emp_id: number
-    emp_nm: string
+    notify_emp_id: number
+    notify_emp_nm: string
     notification_type_id: string
     notification_type_nm: string
   }
