@@ -833,10 +833,10 @@ ALTER SEQUENCE public.t_request_detail_id_seq OWNED BY public.t_request_detail.i
 
 
 --
--- Name: t_reuqest_request_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+-- Name: t_request_request_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
 --
 
-CREATE SEQUENCE public.t_reuqest_request_id_seq
+CREATE SEQUENCE public.t_request_request_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -845,13 +845,13 @@ CREATE SEQUENCE public.t_reuqest_request_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_reuqest_request_id_seq OWNER TO approval_user;
+ALTER TABLE public.t_request_request_id_seq OWNER TO approval_user;
 
 --
--- Name: t_reuqest_request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+-- Name: t_request_request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_request.request_id;
+ALTER SEQUENCE public.t_request_request_id_seq OWNED BY public.t_request.request_id;
 
 
 --
@@ -1097,7 +1097,7 @@ ALTER TABLE ONLY public.t_notification_record ALTER COLUMN id SET DEFAULT nextva
 -- Name: t_request request_id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('public.t_reuqest_request_id_seq'::regclass);
+ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('public.t_request_request_id_seq'::regclass);
 
 
 --
@@ -1802,10 +1802,10 @@ SELECT pg_catalog.setval('public.t_request_detail_id_seq', 1, false);
 
 
 --
--- Name: t_reuqest_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+-- Name: t_request_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_reuqest_request_id_seq', 2, true);
+SELECT pg_catalog.setval('public.t_request_request_id_seq', 2, true);
 
 
 --
@@ -2100,11 +2100,11 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_request t_reuqest_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_request_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_reuqest_pkey PRIMARY KEY (request_id);
+    ADD CONSTRAINT t_request_pkey PRIMARY KEY (request_id);
 
 
 --
@@ -2854,31 +2854,31 @@ CREATE INDEX t_request_detail_request_id_cb49d5d2 ON public.t_request_detail USI
 
 
 --
--- Name: t_reuqest_approval_type_id_0c5c6523; Type: INDEX; Schema: public; Owner: approval_user
+-- Name: t_request_approval_type_id_0c5c6523; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523 ON public.t_request USING btree (approval_type_id);
-
-
---
--- Name: t_reuqest_approval_type_id_0c5c6523_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523_like ON public.t_request USING btree (approval_type_id varchar_pattern_ops);
+CREATE INDEX t_request_approval_type_id_0c5c6523 ON public.t_request USING btree (approval_type_id);
 
 
 --
--- Name: t_reuqest_status_id_7484f8ec; Type: INDEX; Schema: public; Owner: approval_user
+-- Name: t_request_approval_type_id_0c5c6523_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec ON public.t_request USING btree (status_id);
+CREATE INDEX t_request_approval_type_id_0c5c6523_like ON public.t_request USING btree (approval_type_id varchar_pattern_ops);
 
 
 --
--- Name: t_reuqest_status_id_7484f8ec_like; Type: INDEX; Schema: public; Owner: approval_user
+-- Name: t_request_status_id_7484f8ec; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec_like ON public.t_request USING btree (status_id varchar_pattern_ops);
+CREATE INDEX t_request_status_id_7484f8ec ON public.t_request USING btree (status_id);
+
+
+--
+-- Name: t_request_status_id_7484f8ec_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_request_status_id_7484f8ec_like ON public.t_request USING btree (status_id varchar_pattern_ops);
 
 
 --
@@ -3164,11 +3164,11 @@ ALTER TABLE ONLY public.t_approval_route_comment
 
 
 --
--- Name: t_approval_route_comment t_approval_route_com_request_id_8cbe311f_fk_t_reuqest; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_approval_route_comment t_approval_route_com_request_id_8cbe311f_fk_t_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_approval_route_comment
-    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_request FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3252,11 +3252,11 @@ ALTER TABLE ONLY public.t_approval_route
 
 
 --
--- Name: t_approval_route t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_approval_route t_approval_route_request_id_524eafc6_fk_t_request_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_approval_route
-    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_request_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3300,27 +3300,27 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_request_detail t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request_detail t_request_detail_request_id_cb49d5d2_fk_t_request_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request_detail
-    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_request_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: t_request t_reuqest_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_reuqest_approval_type_id_0c5c6523_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: t_request t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_request_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_approval_type_id_0c5c6523_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_request t_request_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request
+    ADD CONSTRAINT t_request_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
