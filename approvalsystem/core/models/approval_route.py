@@ -16,13 +16,17 @@ class ApprovalRoute(BaseModel):
         Request, on_delete=models.CASCADE,
         null=True, related_name='approval_routes'
     )
-    approval_route_id = models.AutoField(primary_key=True)
+    approval_route_id = models.AutoField(
+        primary_key=True,
+        verbose_name='approval_route_id/承認ルートID'
+    )
     approval_type = models.ForeignKey(
         ApprovalType, on_delete=models.SET_NULL,
         null=True, related_name='approval_routes',
     )
     judgement_cd = models.CharField(
-        max_length=1, null=True, blank=True
+        max_length=1, null=True, blank=True,
+        verbose_name='judgement_cd/判定コード'
     )
     request_emp = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
@@ -45,22 +49,30 @@ class ApprovalRoute(BaseModel):
         null=True, blank=True,
     )
     request_dt = models.DateTimeField(
-        null=True, blank=True, editable=False
+        null=True, blank=True, editable=False,
+        verbose_name='request_dt/申請日時'
     )
 
     class Meta:
         db_table = 't_approval_route'
+        verbose_name_plural = 't_approval_route/T_承認ルート'
+
 
 
 class ApprovalPost(BaseModel):
     approval_post_id = models.CharField(
         max_length=3, primary_key=True,
+        verbose_name='approval_post_id/承認役職ID'
     )
-    approval_post_nm = models.CharField(max_length=10)
+    approval_post_nm = models.CharField(
+        max_length=10,
+        verbose_name='approval_post_nm/承認役職名'
+    )
 
     class Meta:
         db_table = 'm_approval_post'
         ordering = ['-created']
+        verbose_name_plural = 'm_approval_post/M_承認役職'
 
     def __str__(self):
         return self.approval_post_nm
