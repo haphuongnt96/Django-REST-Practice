@@ -19,22 +19,26 @@ export default class ApprovalAddNotifier extends Vue {
   //#region Methods
   addNotify(record: Approvals.RegisterApprovalRecord) {
     this.notifiers.push({
-      emp_id: record.approval_emp_id,
-      emp_nm: record.emp_nm,
+      notify_emp_id: record.approval_emp_id,
+      notify_emp_nm: record.emp_nm,
       notification_type_nm: record.record_nm,
       notification_type_id: ''
     })
+    this.notifiers = [...this.notifiers]
   }
 
   removeRecord(item: Approvals.NotificationRecords) {
-    const index = this.notifiers.findIndex((x) => x.emp_id === item.emp_id)
+    const index = this.notifiers.findIndex(
+      (x) => x.notify_emp_id === item.notify_emp_id
+    )
     this.notifiers.splice(index, 1)
+    this.notifiers = [...this.notifiers]
   }
   //#endregion
 
   //#region Computed
   get notifiers() {
-    return this.listNotifiers
+    return this.listNotifiers || []
   }
 
   set notifiers(value: Approvals.NotificationRecords[]) {
@@ -43,10 +47,10 @@ export default class ApprovalAddNotifier extends Vue {
 
   get headers() {
     return [
-      { text: this.contents.POSITION, value: 'notification_type_nm:null' },
-      { text: this.contents.NAME, value: 'emp_nm' },
+      { text: this.contents.POSITION, value: 'notification_type_nm' },
+      { text: this.contents.NAME, value: 'notify_emp_nm' },
       { text: this.contents.CONFIRMED_DATE, value: 'date' },
-      { text: '', value: 'action', width: '200', align: 'center' }
+      { text: '', value: 'action', width: '80', align: 'center' }
     ]
   }
 

@@ -1,6 +1,8 @@
 <script lang="ts">
+import eventBus from '@/plugins/eventBus'
+import EventBus from '@/common/eventBus'
 import ApprovalRecord from '@/modules/approval/components/ApprovalRecord.vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -28,6 +30,15 @@ export default class ApprovalListRoutes extends Vue {
 
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   panel = [0]
+
+  //#region Watch
+  @Watch('items', { deep: true }) onItemsUpdated() {
+    this.$nextTick(() => {
+      this.panel = [0]
+    })
+  }
+  //#endregion
+
   //#region Computed
 
   get contents() {

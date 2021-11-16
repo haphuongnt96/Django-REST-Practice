@@ -1,11 +1,22 @@
-import Vue from 'vue'
-import { ValidationObserver, ValidationProvider, extend } from 'vee-validate'
+import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
 import { required } from 'vee-validate/dist/rules'
+import Vue from 'vue'
 
 // Add a rule.
 extend('required', {
   ...required,
   message: 'Required'
+})
+
+extend('min_value', {
+  validate(value, args) {
+    return value >= args.length
+  },
+  message: (value, args) => {
+    console.log(args)
+    return `順位は${+args.length + 1}以降にしてください！`
+  },
+  params: ['length']
 })
 
 // Register it globally

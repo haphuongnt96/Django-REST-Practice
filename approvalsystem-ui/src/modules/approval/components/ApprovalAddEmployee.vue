@@ -3,6 +3,8 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import PopSearchEmployee from '@/modules/employee/components/PopSearchEmployee.vue'
 import CurrencyInput from '@/common/components/ui/CurrencyInput.vue'
 import { ValidationObserver } from 'vee-validate'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const orderBy = require('lodash.orderby')
 
 @Component({
   components: { PopSearchEmployee, CurrencyInput }
@@ -47,6 +49,16 @@ export default class ApprovalAddEmployee extends Vue {
       record_nm: this.record_nm,
       emp_nm: this.employee.emp_nm
     }
+  }
+
+  get minOrder() {
+    const defaultApprovals = orderBy(
+      this.approval_route_details,
+      'order',
+      'desc'
+    ) as Approvals.ApprovalRouteDetailResponse[]
+    const defaultApproval = defaultApprovals.find((x) => x.default_flg)
+    return defaultApproval ? defaultApproval.order + 1 : 0
   }
 
   get observer() {
@@ -104,7 +116,10 @@ export default class ApprovalAddEmployee extends Vue {
       </div>
       <div class="d-flex align-center flex-gap-2" v-if="allowOrder">
         {{ contents.INSERT_ORDER }}
-        <CurrencyInput v-model="order" :rules="'required'" />
+        <CurrencyInput
+          v-model="order"
+          :rules="`required|min_value:${minOrder}`"
+        />
       </div>
       <v-spacer />
       <v-btn color="secondary" @click="handleAddRecord">
