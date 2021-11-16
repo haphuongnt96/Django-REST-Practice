@@ -3,6 +3,7 @@ from django.db import models
 from django.apps import apps
 
 from utils.base_model import BaseModel
+from commons.constants import RequestStatus as RequestStatusEnum
 from .m_approval_route import ApprovalType, RequestDetailMaster
 
 
@@ -16,6 +17,14 @@ class RequestStatus(BaseModel):
     def __str__(self):
         return self.status_nm
 
+    @classmethod
+    def get_status_choices(cls):
+        status_choices = [
+            (status.status_id, status.status_nm)
+            for status in cls.objects.all()
+        ]
+        return status_choices
+
 
 class Request(BaseModel):
     request_id = models.AutoField(primary_key=True)
@@ -23,7 +32,10 @@ class Request(BaseModel):
         ApprovalType, on_delete=models.SET_NULL,
         null=True, related_name='requests'
     )
-    status = models.ForeignKey(RequestStatus, on_delete=models.SET_NULL, max_length=1,  null=True, blank=True)
+    status = models.ForeignKey(
+        RequestStatus, on_delete=models.SET_NULL, max_length=1,  null=True,
+        default=RequestStatusEnum.DRAFT.value
+    )
     request_title = models.CharField(max_length=50)
 
     class Meta:

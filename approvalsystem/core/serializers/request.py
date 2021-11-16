@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from django.utils import timezone
-from django.db.models import Q
+from django.db.models import Q, ObjectDoesNotExist
 
 from core.models import (
-    Request, RequestStatus, RequestDetail, NotificationRecord, Notifier,
-    ApprovalRouteDetail, ApprovalPost,
+    Request, RequestStatus, RequestDetail, Notifier,
+    ApprovalRouteDetail, ApprovalPost, ApprovalType
 )
+from commons.constants import RequestStatus as RequestStatusEnum
 from .approval_route import ApprovalRouteSerializer, DetailApprovalRouteSerializer
 from .m_approval_route import RequestDetailMasterSerializer
 
@@ -113,6 +114,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     m_request_details = ExtendRequestDetailMasterSerializer(
         many=True, read_only=True,
     )
+    status_id = serializers.ChoiceField(choices=RequestStatus.get_status_choices())
 
     class Meta:
         model = Request
@@ -130,7 +132,21 @@ class DetailRequestSerializer(serializers.ModelSerializer):
             'department_nm',
             'approval_route_details',
             'notifiers',
+            'status_id',
         ]
+
+    def validate_approval_type_id(self, approval_type_id):
+        try:
+            approval_type = ApprovalType.objects.get(pk=approval_type_id)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError('Approval_type invalid.')
+        self.context.update({
+            'approval_type': approval_type
+        })
+        return approval_type_id
+
+    def validate(self, attrs):
+        return attrs
 
     def get_approval_type_nm(self, instance):
         return instance.approval_type.approval_type_nm

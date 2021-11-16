@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class NotificationType(Enum):
     """
     通知区分
@@ -14,4 +15,13 @@ class NotificationType(Enum):
     CANCELLATION = '04'
     # コメント有
     COMMENT = '09'
-    
+
+
+class RequestStatus(Enum):
+    """
+    依頼ステータス区分
+    """
+    # 下書き
+    DRAFT = '1'
+    # 申請中
+    APPLYING = '2'
