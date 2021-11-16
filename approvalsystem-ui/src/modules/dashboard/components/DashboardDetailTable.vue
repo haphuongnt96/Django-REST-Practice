@@ -38,27 +38,32 @@ export default class DetailTable extends Vue {
     {
       text: '番号',
       align: 'center',
+      width: '10%',
       //sortable: false,
       value: 'request_id'
     },
     {
       text: '件名',
       align: 'center',
+      width: '45%',
       value: 'request_title'
     },
     {
       text: '申請部署名',
       align: 'center',
+      width: '15%',
       value: 'approvalroute[0].department.department_nm'
     },
     {
       text: '申請者',
       align: 'center',
+      width: '15%',
       value: 'approvalroute[0].request_emp.emp_nm'
     },
     {
       text: '状況',
       align: 'center',
+      width: '15%',
       value: 'status.status_nm'
     }
   ]
