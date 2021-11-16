@@ -13,11 +13,18 @@ class ApprovalClass(BaseModel):
     """
     M_承認分類
     """
-    approval_class_id = models.CharField(max_length=1, primary_key=True)
-    approval_class_nm = models.CharField(max_length=10)
+    approval_class_id = models.CharField(
+        max_length=1, primary_key=True,
+        verbose_name='approval_class_id/承認分類ID'
+    )
+    approval_class_nm = models.CharField(
+        max_length=10,
+        verbose_name='approval_class_id/承認分類名'
+    )
 
     class Meta:
         db_table = 'm_approval_class'
+        verbose_name_plural = 'm_approval_class/M_承認分類'
 
     def __str__(self) -> str:
         return "{}:{}".format(self.approval_class_id, self.approval_class_nm)
@@ -27,8 +34,14 @@ class ApprovalType(BaseModel):
     """
     MM_承認種類
     """
-    approval_type_id = models.CharField(max_length=4, primary_key=True)
-    approval_type_nm = models.CharField(max_length=30, blank=True)
+    approval_type_id = models.CharField(
+        max_length=4, primary_key=True,
+        verbose_name='approval_type_id/承認種類ID'
+    )
+    approval_type_nm = models.CharField(
+        max_length=30, blank=True,
+        verbose_name='approval_type_nm/承認種類名'
+    )
     approval_class = models.ForeignKey(
         ApprovalClass, on_delete=models.SET_NULL,
         null=True, blank=True
@@ -45,6 +58,7 @@ class ApprovalType(BaseModel):
 
     class Meta:
         db_table = 'mm_approval_type'
+        verbose_name_plural = 'mm_approval_type/MM_承認種類'
 
     def __str__(self) -> str:
         return "{}:{}".format(self.approval_type_id, self.approval_type_nm)
@@ -95,6 +109,7 @@ class ApprovalRouteMaster(BaseModel):
     class Meta:
         db_table = 'mm_approval_route'
 
+
     def get_approval_route_detail(self):
         """
         Get necessary data for creating t_approval_route_detail
@@ -110,14 +125,12 @@ class ApprovalRouteMaster(BaseModel):
 
 
 class ColumnType(BaseModel):
-    """
-    M_項目タイプ
-    """
     column_type_id = models.CharField(max_length=2, primary_key=True)
     column_type_nm = models.CharField(max_length=10, blank=True)
 
     class Meta:
         db_table = 'm_column_type'
+        verbose_name_plural = 'm_column_type/M_項目タイプ'
 
     def __str__(self):
         return self.column_type_nm
@@ -131,7 +144,10 @@ class RequestDetailMaster(BaseModel):
         ApprovalType, on_delete=models.SET_NULL,
         null=True, related_name='m_request_details'
     )
-    request_column_id = models.CharField(max_length=4, primary_key=True)
+    request_column_id = models.CharField(
+        max_length=4, primary_key=True,
+        verbose_name='request_column_id/申請明細ID'
+    )
     parent_column = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='request_detail_children'
@@ -140,16 +156,27 @@ class RequestDetailMaster(BaseModel):
         ColumnType, on_delete=models.SET_NULL,
         null=True, related_name='m_request_details'
     )
-    required = models.BooleanField(default=False)
-    max_length = models.PositiveIntegerField(
-        validators=[MaxValueValidator(20)], default=20
+    required = models.BooleanField(
+        default=False,
+        verbose_name='required/必須'
     )
-    column_nm = models.CharField(max_length=30, blank=True)
-    notes = models.CharField(max_length=50, blank=True)
+    max_length = models.PositiveIntegerField(
+        validators=[MaxValueValidator(20)], default=20,
+        verbose_name='max_length/サイズ'
+    )
+    column_nm = models.CharField(
+        max_length=30,
+        blank=True,verbose_name='column_nm/項目名'
+    )
+    notes = models.CharField(
+        max_length=50,
+        blank=True,verbose_name='notes/注釈'
+    )
 
     class Meta:
         db_table = 'm_request_detail'
         ordering = ['request_column_id']
+        verbose_name_plural = 'm_request_detail/M_申請明細'
 
     def __str__(self):
         return '{}. {}'.format(self.request_column_id, self.column_nm)

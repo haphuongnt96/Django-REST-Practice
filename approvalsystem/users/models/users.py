@@ -64,10 +64,10 @@ class User(
     emp_cd = models.CharField(
         max_length=7, unique=True,
         validators=[validate_emp_cd],
-        verbose_name=_('Employee code')
+        verbose_name='Employee code/社員コード'
     )
     emp_nm = models.CharField(
-        verbose_name=_('Employee name'),
+        verbose_name='Employee name/社員名',
         max_length=10,
     )
     deleted_flg = models.BooleanField(default=False)
@@ -76,6 +76,7 @@ class User(
         blank=True,
         null=True,
         unique=True,
+        verbose_name='email/Eメール',
     )
     is_staff = models.BooleanField(
         verbose_name=_('Staff status'),
@@ -102,8 +103,7 @@ class User(
 
     class Meta:
         db_table = 'm_emp'
-        verbose_name = _("User")
-        verbose_name_plural = _("Users")
+        verbose_name_plural = 'Users/ユーザー'   
 
     def save(self, *args, **kwargs):
         self.emp_cd = self.emp_cd.zfill(7)
@@ -125,7 +125,7 @@ class User(
 class AlphabetTypePasswordValidator:
     """
     大・小英数字記号のうち3種類以上必須
-    """ 
+    """
     special_characters = '!?@#$%&*,.+_=\-~'
     error_message = f'「英小文字」「英大文字」「数字」「記号」の中で3種類上、8文字以上30文字以内で入力してください' \
                     f' 使用可能記号： "{special_characters}".'
