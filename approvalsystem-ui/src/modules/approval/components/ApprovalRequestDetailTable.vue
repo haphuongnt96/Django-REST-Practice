@@ -29,7 +29,7 @@ export default class ApprovalRequestDetailTable extends Vue {
           <v-text-field
             dense
             outlined
-            placeholder="Placeholder"
+            placeholder="input here.."
             hide-details="auto"
           />
         </td>
