@@ -44,7 +44,7 @@ class Request(BaseModel):
 
     class Meta:
         db_table = 't_request'
-        verbose_name_plural = 't_request/M_申請'
+        verbose_name_plural = 't_request/T_申請'
 
     def register_approval_route(self, request_emp, department_id, route_details: list = None):
         """
