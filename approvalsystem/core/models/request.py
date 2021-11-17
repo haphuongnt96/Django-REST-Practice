@@ -95,3 +95,20 @@ class RequestDetail(BaseModel):
 
     class Meta:
         db_table = 't_request_detail'
+        verbose_name_plural = 't_request_detail/T_申請明細'
+
+
+class RequestDetailHist(BaseModel):
+    request = models.ForeignKey(
+        Request, on_delete=models.CASCADE,
+        null=True, related_name='request_detail_hists',
+    )
+    request_column = models.ForeignKey(
+        RequestDetailMaster, on_delete=models.CASCADE,
+        null=True, related_name='request_detail_hists',
+    )
+    request_column_val = models.CharField(max_length=20, blank=True)
+
+    class Meta:
+        db_table = 't_request_detail_hist'
+        verbose_name_plural = 't_request_detail_hist/T_申請明細履歴'
