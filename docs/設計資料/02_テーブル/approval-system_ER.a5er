@@ -256,7 +256,7 @@ Position="MAIN",950,1850,860,431
 ZOrder=18
 
 [Entity]
-PName=t_reuqest
+PName=t_request
 LName=T_申請
 Comment=
 TableOption=
@@ -270,7 +270,7 @@ Field="削除フラグ","delete_flg","@BOOLEAN",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211108131511
+ModifiedDateTime=20211117152512
 Position="MAIN",1950,2600,725,183
 ZOrder=19
 
@@ -280,8 +280,8 @@ LName=T_申請明細
 Comment=
 TableOption=
 Page=MAIN
-Left=2850
-Top=2450
+Left=3000
+Top=2500
 Field="申請ID","request_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
 Field="申請項目ID","request_column_id","@VARCHAR(4)","NOT NULL",1,"","",$FFFFFFFF,""
 Field="申請項目値","request_column_val","@VARCHAR(20)",,,"","",$FFFFFFFF,""
@@ -289,7 +289,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20210916133738
-Position="MAIN",2850,2450,915,151
+Position="MAIN",3000,2500,915,151
 ZOrder=20
 
 [Entity]
@@ -321,18 +321,18 @@ Comment=
 TableOption=
 Page=MAIN
 Left=2800
-Top=2150
+Top=2100
 Field="項目タイプID","column_type_id","@VARCHAR(2)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="項目タイプ名","column_type_nm","@VARCHAR(10)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211012140749
-Position="MAIN",2800,2150,828,143
+Position="MAIN",2800,2100,828,143
 ZOrder=23
 
 [Relation]
-Entity1=t_reuqest
+Entity1=t_request
 Entity2=t_approval_route
 RelationType1=1
 RelationType2=3
@@ -475,7 +475,7 @@ Width=468
 Height=347
 
 [Relation]
-Entity1=t_reuqest
+Entity1=t_request
 Entity2=t_request_detail
 RelationType1=1
 RelationType2=3
@@ -542,7 +542,7 @@ ZOrder=35
 
 [Entity]
 PName=m_emp_affiliation
-LName=T_社員所属関連
+LName=M_社員所属関連
 Comment=
 TableOption=
 Page=MAIN
@@ -557,7 +557,7 @@ Field="主フラグ","main_flg","@BOOLEAN","NOT NULL",,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20211026162002
+ModifiedDateTime=20211117145118
 Position="MAIN",1200,450,863,302
 ZOrder=36
 
@@ -944,19 +944,19 @@ LName=M_申請ステータス
 Comment=
 TableOption=
 Page=MAIN
-Left=2900
-Top=2700
+Left=2750
+Top=2300
 Field="申請ステータスID","status_id","@VARCHAR(1)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="申請ステータス名","status_nm","@VARCHAR(5)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211025144827
-Position="MAIN",2900,2700,710,121
+Position="MAIN",2750,2300,710,121
 ZOrder=57
 
 [Relation]
-Entity1=t_reuqest
+Entity1=t_request
 Entity2=m_reqeust_status
 RelationType1=1
 RelationType2=3
@@ -1109,7 +1109,7 @@ TermPos2=R
 ZOrder=65
 
 [Relation]
-Entity1=t_reuqest
+Entity1=t_request
 Entity2=t_notification_records
 RelationType1=2
 RelationType2=3
@@ -1134,7 +1134,7 @@ PName=t_notifier
 LName=T_通知者
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=850
 Top=2400
 Field="申請ID","request_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
@@ -1144,11 +1144,11 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20211115155750
-Position="Main",850,2400
+Position="MAIN",850,2400
 ZOrder=67
 
 [Relation]
-Entity1=t_reuqest
+Entity1=t_request
 Entity2=t_notifier
 RelationType1=2
 RelationType2=3
@@ -1167,3 +1167,42 @@ Bar3=950
 TermPos1=R
 TermPos2=R
 ZOrder=68
+
+[Entity]
+PName=t_request_detail_hist
+LName=T_申請明細履歴
+Comment=
+TableOption=
+Page=Main
+Left=3000
+Top=2700
+Field="申請ID","request_id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="申請項目ID","request_column_id","@VARCHAR(4)",,1,"","",$FFFFFFFF,""
+Field="申請項目値","request_column_val","@VARCHAR(20)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20211117153311
+Position="Main",3000,2700
+ZOrder=69
+
+[Relation]
+Entity1=t_request
+Entity2=t_request_detail_hist
+RelationType1=2
+RelationType2=3
+Fields1=request_id
+Fields2=request_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,9500,500,4983,R,R,""
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=950
+Bar2=50
+Bar3=498
+TermPos1=R
+TermPos2=R
+ZOrder=70
