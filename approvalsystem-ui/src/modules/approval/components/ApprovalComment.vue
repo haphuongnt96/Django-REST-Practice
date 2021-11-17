@@ -94,7 +94,7 @@ export default class ApprovalComment extends Vue {
           dense
           v-model="comment"
           name="comment"
-          value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+          value="コメントを入力してください。"
         ></v-textarea>
         <div class="d-flex">
           <v-spacer />

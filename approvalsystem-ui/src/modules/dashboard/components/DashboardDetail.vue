@@ -82,7 +82,7 @@ export default class DashboardDetail extends Vue {
   }
 
   setDataSearch(value) {
-    this.applicantContent = value.department
+    this.applicantContent = value.approval_type_nm
   }
   setDataApplicant(data) {
     this.applicantEmpCode = data.emp_cd
@@ -123,7 +123,7 @@ export default class DashboardDetail extends Vue {
                   background-color="#eee"
                   outlined
                   v-model="applicantContent"
-                  placeholder="input here ..."
+                  placeholder=""
                   hide-details="auto"
                 />
               </td>
@@ -141,7 +141,7 @@ export default class DashboardDetail extends Vue {
                 <v-text-field
                   dense
                   outlined
-                  placeholder="input here ..."
+                  placeholder=""
                   hide-details="auto"
                 />
               </td>
@@ -194,7 +194,7 @@ export default class DashboardDetail extends Vue {
                 <v-text-field
                   dense
                   outlined
-                  placeholder="input here ..."
+                  placeholder=""
                   hide-details="auto"
                 />
               </td>
@@ -272,7 +272,7 @@ export default class DashboardDetail extends Vue {
                 <v-text-field
                   dense
                   outlined
-                  placeholder="input here ..."
+                  placeholder=""
                   hide-details="auto"
                 />
               </td>
@@ -287,7 +287,7 @@ export default class DashboardDetail extends Vue {
                   dense
                   outlined
                   v-model="formObject"
-                  placeholder="input here ..."
+                  placeholder=""
                   hide-details="auto"
                   disabled
                   background-color="#eee"
@@ -387,7 +387,7 @@ export default class DashboardDetail extends Vue {
                 <v-text-field
                   dense
                   outlined
-                  placeholder="input here ..."
+                  placeholder=""
                   hide-details="auto"
                 />
               </td>

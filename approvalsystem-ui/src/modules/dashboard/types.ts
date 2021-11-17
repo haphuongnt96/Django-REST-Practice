@@ -14,4 +14,12 @@ declare namespace Dashboard {
     news_id: number
     news: string
   }
+  type DashboardApprovalTypeSearchTable = {
+    request_value: []
+  }
+    type DashboardSideRequestNotifications = {
+      applying: number
+      remand: number
+      draft: number
+    }
 }

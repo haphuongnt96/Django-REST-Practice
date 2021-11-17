@@ -7,6 +7,7 @@ from .models import User, EmpAffiliation
 
 class EmpAffiliationInline(admin.TabularInline):
     model = EmpAffiliation
+    
 
 
 @admin.register(User)

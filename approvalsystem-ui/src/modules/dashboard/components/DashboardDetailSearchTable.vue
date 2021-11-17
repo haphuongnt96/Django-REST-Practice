@@ -7,53 +7,51 @@ export default class DashboardDetailSearchTable extends Vue {
   get contents() {
     return this.$pageContents.DASHBOARD
   }
+  approvalTypes: Dashboard.DashboardApprovalTypeSearchTable[] = []
+  // 検索ボタン押下でデータを取得
+  async getApprovalTypeSearch() {
+    const [err, res] =
+      await this.$api.approvaltype.getApprovalTypeSearchRecord()
+    if (!err && res) {
+      //正常処理　swalはアラート用のライブラリ
+      this.approvalTypes = res
+      console.log(res)
+    } else {
+      //バックエンド側でエラーが発生したときのメッセージ
+      this.$swal({
+        title: 'エラー',
+        text: err.response.data.message,
+        icon: 'error'
+      })
+    }
+  }
   //#endregion
   //dummy data for table
   //table header and set value
-  searchHeader = [
+  Header = [
     {
       text: 'ID',
       align: 'center',
       sortable: false,
-      value: 'index'
+      value: 'approval_type_id'
     },
     {
       text: '部署課名',
       align: 'center',
-      value: 'department'
-    },
-    { text: '分類', align: 'center', value: 'category' },
-    { text: '申請内容', align: 'center', value: 'content' }
-  ]
-  // //#end
-  // //list applicants
-  searchResults = [
-    {
-      index: 1,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      value: 'segment.segment_nm'
     },
     {
-      index: 2,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      text: '分類',
+      align: 'center',
+      value: 'approval_class.approval_class_nm'
     },
     {
-      index: 3,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
-    },
-    {
-      index: 4,
-      department: 'パソコン導入依頼書',
-      category: 'パソコン導入依頼書の申請について',
-      content: 'パソコン導入依頼書の申請について'
+      text: '申請内容',
+      align: 'center',
+      value: 'approval_type_nm'
     }
   ]
-  //#end
+  // //#end
   handleSelect(value) {
     this.$emit('applicationCotent', value)
   }
@@ -63,8 +61,8 @@ export default class DashboardDetailSearchTable extends Vue {
 <template>
   <div class="dashboard__list">
     <v-data-table
-      :headers="searchHeader"
-      :items="searchResults"
+      :headers="Header"
+      :items="approvalTypes"
       :items-per-page="15"
       :no-data-text="contents.TABLE_NO_DATA"
       @click:row="handleSelect"

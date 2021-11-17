@@ -812,6 +812,43 @@ CREATE TABLE public.t_request_detail (
 ALTER TABLE public.t_request_detail OWNER TO approval_user;
 
 --
+-- Name: t_request_detail_hist; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.t_request_detail_hist (
+    id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    request_column_val character varying(20) NOT NULL,
+    request_id integer,
+    request_column_id character varying(4)
+);
+
+
+ALTER TABLE public.t_request_detail_hist OWNER TO approval_user;
+
+--
+-- Name: t_request_detail_hist_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.t_request_detail_hist_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.t_request_detail_hist_id_seq OWNER TO approval_user;
+
+--
+-- Name: t_request_detail_hist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.t_request_detail_hist_id_seq OWNED BY public.t_request_detail_hist.id;
+
+
+--
 -- Name: t_request_detail_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
 --
 
@@ -833,10 +870,10 @@ ALTER SEQUENCE public.t_request_detail_id_seq OWNED BY public.t_request_detail.i
 
 
 --
--- Name: t_reuqest_request_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+-- Name: t_request_request_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
 --
 
-CREATE SEQUENCE public.t_reuqest_request_id_seq
+CREATE SEQUENCE public.t_request_request_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -845,13 +882,13 @@ CREATE SEQUENCE public.t_reuqest_request_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.t_reuqest_request_id_seq OWNER TO approval_user;
+ALTER TABLE public.t_request_request_id_seq OWNER TO approval_user;
 
 --
--- Name: t_reuqest_request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+-- Name: t_request_request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
 --
 
-ALTER SEQUENCE public.t_reuqest_request_id_seq OWNED BY public.t_request.request_id;
+ALTER SEQUENCE public.t_request_request_id_seq OWNED BY public.t_request.request_id;
 
 
 --
@@ -1097,7 +1134,7 @@ ALTER TABLE ONLY public.t_notification_record ALTER COLUMN id SET DEFAULT nextva
 -- Name: t_request request_id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
-ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('public.t_reuqest_request_id_seq'::regclass);
+ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('public.t_request_request_id_seq'::regclass);
 
 
 --
@@ -1105,6 +1142,13 @@ ALTER TABLE ONLY public.t_request ALTER COLUMN request_id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY public.t_request_detail ALTER COLUMN id SET DEFAULT nextval('public.t_request_detail_id_seq'::regclass);
+
+
+--
+-- Name: t_request_detail_hist id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request_detail_hist ALTER COLUMN id SET DEFAULT nextval('public.t_request_detail_hist_id_seq'::regclass);
 
 
 --
@@ -1282,6 +1326,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 138	Can change news	35	change_news
 139	Can delete news	35	delete_news
 140	Can view news	35	view_news
+141	Can add request detail hist	36	add_requestdetailhist
+142	Can change request detail hist	36	change_requestdetailhist
+143	Can delete request detail hist	36	delete_requestdetailhist
+144	Can view request detail hist	36	view_requestdetailhist
 \.
 
 
@@ -1345,6 +1393,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 33	core	notificationrecord
 34	core	notificationtype
 35	core	news
+36	core	requestdetailhist
 \.
 
 
@@ -1400,6 +1449,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 45	core	0002_notificationrecord_confirm_dt	2021-11-11 08:21:23.720256+00
 46	core	0002_news	2021-11-11 12:35:04.490807+00
 47	core	0002_alter_notificationrecord_confirm_dt	2021-11-11 16:35:35.891122+00
+48	core	0002_auto_20211117_1546	2021-11-17 06:46:17.573624+00
 \.
 
 
@@ -1676,6 +1726,14 @@ COPY public.t_request_detail (id, created, modified, request_column_val, request
 
 
 --
+-- Data for Name: t_request_detail_hist; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.t_request_detail_hist (id, created, modified, request_column_val, request_id, request_column_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: token_blacklist_blacklistedtoken; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
@@ -1728,7 +1786,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 140, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 144, true);
 
 
 --
@@ -1742,14 +1800,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 12, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 35, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 36, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 47, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 48, true);
 
 
 --
@@ -1795,6 +1853,13 @@ SELECT pg_catalog.setval('public.t_notification_record_id_seq', 1, true);
 
 
 --
+-- Name: t_request_detail_hist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.t_request_detail_hist_id_seq', 1, false);
+
+
+--
 -- Name: t_request_detail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
@@ -1802,10 +1867,10 @@ SELECT pg_catalog.setval('public.t_request_detail_id_seq', 1, false);
 
 
 --
--- Name: t_reuqest_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+-- Name: t_request_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_reuqest_request_id_seq', 2, true);
+SELECT pg_catalog.setval('public.t_request_request_id_seq', 2, true);
 
 
 --
@@ -2092,6 +2157,14 @@ ALTER TABLE ONLY public.t_notification_record
 
 
 --
+-- Name: t_request_detail_hist t_request_detail_hist_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request_detail_hist
+    ADD CONSTRAINT t_request_detail_hist_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: t_request_detail t_request_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -2100,11 +2173,11 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_request t_reuqest_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_request_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_reuqest_pkey PRIMARY KEY (request_id);
+    ADD CONSTRAINT t_request_pkey PRIMARY KEY (request_id);
 
 
 --
@@ -2833,6 +2906,41 @@ CREATE INDEX t_notification_record_request_id_9cbb0ffd ON public.t_notification_
 
 
 --
+-- Name: t_request_approval_type_id_0c5c6523; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_request_approval_type_id_0c5c6523 ON public.t_request USING btree (approval_type_id);
+
+
+--
+-- Name: t_request_approval_type_id_0c5c6523_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_request_approval_type_id_0c5c6523_like ON public.t_request USING btree (approval_type_id varchar_pattern_ops);
+
+
+--
+-- Name: t_request_detail_hist_request_column_id_326255c9; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_request_detail_hist_request_column_id_326255c9 ON public.t_request_detail_hist USING btree (request_column_id);
+
+
+--
+-- Name: t_request_detail_hist_request_column_id_326255c9_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_request_detail_hist_request_column_id_326255c9_like ON public.t_request_detail_hist USING btree (request_column_id varchar_pattern_ops);
+
+
+--
+-- Name: t_request_detail_hist_request_id_5447b8b1; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_request_detail_hist_request_id_5447b8b1 ON public.t_request_detail_hist USING btree (request_id);
+
+
+--
 -- Name: t_request_detail_request_column_id_4d50586f; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -2854,31 +2962,17 @@ CREATE INDEX t_request_detail_request_id_cb49d5d2 ON public.t_request_detail USI
 
 
 --
--- Name: t_reuqest_approval_type_id_0c5c6523; Type: INDEX; Schema: public; Owner: approval_user
+-- Name: t_request_status_id_7484f8ec; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523 ON public.t_request USING btree (approval_type_id);
-
-
---
--- Name: t_reuqest_approval_type_id_0c5c6523_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_reuqest_approval_type_id_0c5c6523_like ON public.t_request USING btree (approval_type_id varchar_pattern_ops);
+CREATE INDEX t_request_status_id_7484f8ec ON public.t_request USING btree (status_id);
 
 
 --
--- Name: t_reuqest_status_id_7484f8ec; Type: INDEX; Schema: public; Owner: approval_user
+-- Name: t_request_status_id_7484f8ec_like; Type: INDEX; Schema: public; Owner: approval_user
 --
 
-CREATE INDEX t_reuqest_status_id_7484f8ec ON public.t_request USING btree (status_id);
-
-
---
--- Name: t_reuqest_status_id_7484f8ec_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_reuqest_status_id_7484f8ec_like ON public.t_request USING btree (status_id varchar_pattern_ops);
+CREATE INDEX t_request_status_id_7484f8ec_like ON public.t_request USING btree (status_id varchar_pattern_ops);
 
 
 --
@@ -3164,11 +3258,11 @@ ALTER TABLE ONLY public.t_approval_route_comment
 
 
 --
--- Name: t_approval_route_comment t_approval_route_com_request_id_8cbe311f_fk_t_reuqest; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_approval_route_comment t_approval_route_com_request_id_8cbe311f_fk_t_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_approval_route_comment
-    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_reuqest FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_com_request_id_8cbe311f_fk_t_request FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3252,11 +3346,11 @@ ALTER TABLE ONLY public.t_approval_route
 
 
 --
--- Name: t_approval_route t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_approval_route t_approval_route_request_id_524eafc6_fk_t_request_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_approval_route
-    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_approval_route_request_id_524eafc6_fk_t_request_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
@@ -3292,6 +3386,30 @@ ALTER TABLE ONLY public.t_notification_record
 
 
 --
+-- Name: t_request t_request_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request
+    ADD CONSTRAINT t_request_approval_type_id_0c5c6523_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_request_detail_hist t_request_detail_his_request_column_id_326255c9_fk_m_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request_detail_hist
+    ADD CONSTRAINT t_request_detail_his_request_column_id_326255c9_fk_m_request FOREIGN KEY (request_column_id) REFERENCES public.m_request_detail(request_column_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_request_detail_hist t_request_detail_his_request_id_5447b8b1_fk_t_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_request_detail_hist
+    ADD CONSTRAINT t_request_detail_his_request_id_5447b8b1_fk_t_request FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: t_request_detail t_request_detail_request_column_id_4d50586f_fk_m_request; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -3300,27 +3418,19 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_request_detail t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request_detail t_request_detail_request_id_cb49d5d2_fk_t_request_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request_detail
-    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_reuqest_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_detail_request_id_cb49d5d2_fk_t_request_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
--- Name: t_request t_reuqest_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_reuqest_approval_type_id_0c5c6523_fk_mm_approv FOREIGN KEY (approval_type_id) REFERENCES public.mm_approval_type(approval_type_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: t_request t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_request_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_reuqest_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

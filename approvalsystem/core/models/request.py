@@ -8,11 +8,18 @@ from .m_approval_route import ApprovalType, RequestDetailMaster
 
 
 class RequestStatus(BaseModel):
-    status_id = models.CharField(max_length=1, primary_key=True)
-    status_nm = models.CharField(max_length=5)
+    status_id = models.CharField(
+        max_length=1, primary_key=True,
+        verbose_name='status_id/申請ステータスID'
+    )
+    status_nm = models.CharField(
+        max_length=5,
+        verbose_name='status_nm/申請ステータス名'
+    )
 
     class Meta:
         db_table = 'm_request_status'
+        verbose_name_plural = 'm_request_status/M_申請ステータス'
 
     def __str__(self):
         return self.status_nm
@@ -27,19 +34,25 @@ class RequestStatus(BaseModel):
 
 
 class Request(BaseModel):
-    request_id = models.AutoField(primary_key=True)
+    request_id = models.AutoField(
+        primary_key=True,
+        verbose_name='request_id/申請ID'
+    )
     approval_type = models.ForeignKey(
         ApprovalType, on_delete=models.SET_NULL,
         null=True, related_name='requests'
     )
     status = models.ForeignKey(
         RequestStatus, on_delete=models.SET_NULL, max_length=1,  null=True,
-        default=RequestStatusEnum.DRAFT.value
+        default=RequestStatusEnum.DRAFT.value, verbose_name='status/申請ステータスID'
     )
-    request_title = models.CharField(max_length=50)
+    request_title = models.CharField(
+        max_length=50, verbose_name='request_title/申請タイトル'
+    )
 
     class Meta:
         db_table = 't_request'
+        verbose_name_plural = 't_request/T_申請'
 
     def register_approval_route(self, request_emp, department_id, route_details: list = None):
         """
@@ -90,3 +103,20 @@ class RequestDetail(BaseModel):
 
     class Meta:
         db_table = 't_request_detail'
+        verbose_name_plural = 't_request_detail/T_申請明細'
+
+
+class RequestDetailHist(BaseModel):
+    request = models.ForeignKey(
+        Request, on_delete=models.CASCADE,
+        null=True, related_name='request_detail_hists',
+    )
+    request_column = models.ForeignKey(
+        RequestDetailMaster, on_delete=models.CASCADE,
+        null=True, related_name='request_detail_hists',
+    )
+    request_column_val = models.CharField(max_length=20, blank=True)
+
+    class Meta:
+        db_table = 't_request_detail_hist'
+        verbose_name_plural = 't_request_detail_hist/T_申請明細履歴'

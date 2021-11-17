@@ -92,7 +92,7 @@ function mergeParentWithChildren(array: TableCell[]) {
   return [...noChild, ...parent, ...children]
 }
 
-export const childrenRow = (item: ApplicationForm.RequestDetail) => {
+export const childrenRow = (item: ApprovalType.RequestDetail) => {
   const component = {
     [ColumnTypeName.SELECTION]: VSelect,
     [ColumnTypeName.HEADER]: null,
@@ -175,11 +175,11 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
   ]
 }
 
-export const drawTableElement = (item: ApplicationForm.RequestDetail) => {
+export const drawTableElement = (item: ApprovalType.RequestDetail) => {
   return childrenRow(item)
 }
 
-export const drawTableHeader = (item: ApplicationForm.RequestDetail) => {
+export const drawTableHeader = (item: ApprovalType.RequestDetail) => {
   return {
     text: item.column_nm,
     colspan: 4,
@@ -187,9 +187,9 @@ export const drawTableHeader = (item: ApplicationForm.RequestDetail) => {
   }
 }
 
-export const splitToTables = (items: ApplicationForm.RequestDetail[]) => {
+export const splitToTables = (items: ApprovalType.RequestDetail[]) => {
   const tables = {} as {
-    [key in string]: ApplicationForm.RequestDetail[]
+    [key in string]: ApprovalType.RequestDetail[]
   }
   items.reduce((acc, cur) => {
     if (

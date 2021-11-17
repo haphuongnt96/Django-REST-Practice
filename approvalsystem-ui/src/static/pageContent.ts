@@ -111,7 +111,7 @@ const DASHBOARD = {
   FORM_APPLICANT_LATEST_DATE: '最終申請日',
   FORM_SUBJECT: '件名',
   FORM_OBJECT: '物件',
-  FORM_SEARCH: '選択',
+  FORM_SEARCH: '検索',
   FORM_CLEAR: 'クリア',
   FORM_APPROVER: '承認者',
   FORM_APPROVAL_DATE: '承認日',
