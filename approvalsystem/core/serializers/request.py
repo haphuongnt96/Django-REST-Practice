@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 from django.db.models import Q, ObjectDoesNotExist
+from django.utils.translation import gettext_lazy as _
 
 from core.models import (
     Request, RequestStatus, RequestDetail, Notifier,
@@ -114,7 +115,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
     m_request_details = ExtendRequestDetailMasterSerializer(
         many=True, read_only=True,
     )
-    status_id = serializers.ChoiceField(choices=RequestStatus.get_status_choices())
+    status_id = serializers.CharField()
 
     class Meta:
         model = Request
@@ -139,13 +140,40 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         try:
             approval_type = ApprovalType.objects.get(pk=approval_type_id)
         except ObjectDoesNotExist:
-            raise serializers.ValidationError('Approval_type invalid.')
+            raise serializers.ValidationError(_('"{input}" is not a valid m_approval_type.').format(input=approval_type_id))
         self.context.update({
             'approval_type': approval_type
         })
         return approval_type_id
 
+    def validate_status_id(self, status_id):
+        try:
+            RequestStatus.objects.get(pk=status_id)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError(_('"{input}" is not a valid m_request_status.').format(input=status_id))
+        return status_id
+
     def validate(self, attrs):
+        request_details_dict = {
+            request_detail['request_column_id']: request_detail['request_column_val']
+            for request_detail in attrs['request_details']
+        }
+        approval_type = self.context['approval_type']
+        request_details_errors = {}
+        for m_request_detail in approval_type.m_request_details.prefetch_related('choices'):
+            errors = []
+            request_column_val = request_details_dict.get(m_request_detail.request_column_id, '')
+            if attrs['status_id'] == RequestStatusEnum.APPLYING.value and m_request_detail.required and not request_column_val:
+                errors.append(_('This field may not be blank.'))
+            if len(request_column_val) > m_request_detail.max_length:
+                errors.append(_('Ensure this field has no more than {max_length} characters.').format(max_length=m_request_detail.max_length))
+            choices = m_request_detail.choices.values_list('choice_id', flat=True).all()
+            if choices and request_column_val and request_column_val not in choices:
+                errors.append(_('"{input}" is not a valid choice.').format(input=request_column_val))
+            if errors:
+                request_details_errors[m_request_detail.request_column_id] = errors
+        if any(request_details_errors.values()):
+            raise serializers.ValidationError({'request_details': request_details_errors})
         return attrs
 
     def get_approval_type_nm(self, instance):
@@ -222,7 +250,9 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         request_details = validated_data.pop('request_details', [])
         approval_route_details = validated_data.pop('approval_route_details', [])
         notifiers = validated_data.pop('notifiers', [])
+        status_id = validated_data.pop('status_id')
 
+        instance.status_id = status_id
         # save request detail answer
         for request_detail in request_details:
             request_detail['request_id'] = instance.request_id
