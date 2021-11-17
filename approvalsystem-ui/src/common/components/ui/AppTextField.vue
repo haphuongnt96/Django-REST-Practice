@@ -15,7 +15,7 @@ export default class AppTextField extends Vue {
   @Prop() value: string
   @Prop({ default: false }) disabled: boolean
   @Prop({ default: true }) outlined: boolean
-  @Prop() rules: string
+  @Prop() validations: string
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
   get current() {
     return this.value
@@ -24,11 +24,17 @@ export default class AppTextField extends Vue {
   set current(value: string) {
     this.$emit('input', value)
   }
+
+  //#region Method
+  handleChange(value: string) {
+    this.$emit('change', value)
+  }
+  //#endregion
 }
 </script>
 
 <template>
-  <ValidationProvider :rules="rules" v-slot="{ errors }">
+  <ValidationProvider :rules="validations" v-slot="{ errors }">
     <v-text-field
       :hide-details="hideDetails"
       :dense="dense"
@@ -36,6 +42,7 @@ export default class AppTextField extends Vue {
       :disabled="disabled"
       v-model="current"
       :error-messages="errors[0]"
+      @change="handleChange"
     />
   </ValidationProvider>
 </template>

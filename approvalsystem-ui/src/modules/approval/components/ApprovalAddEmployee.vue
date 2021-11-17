@@ -92,9 +92,9 @@ export default class ApprovalAddEmployee extends Vue {
 
 <template>
   <ValidationObserver ref="observer">
-    <div class="d-flex align-center flex-gap-8 mb-3">
-      <div class="d-flex align-center flex-gap-2 wrap">
-        <div>{{ contents.ADD_APPROVERS }}</div>
+    <div class="d-flex flex-gap-8 mb-3">
+      <div class="d-flex flex-gap-2 wrap">
+        <div class="mt-2">{{ contents.ADD_APPROVERS }}</div>
         <div>
           <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
             <span>{{ employee.emp_id }}</span>
@@ -110,12 +110,14 @@ export default class ApprovalAddEmployee extends Vue {
         </div>
       </div>
       <PopSearchEmployee :disabledIds="disabledIds" @setData="setEmployee" />
-      <div class="d-flex align-center flex-gap-2">
-        {{ contents.POSITION_NAME }}
-        <TextField v-model="record_nm" :rules="'required'" />
+      <div class="d-flex flex-gap-2">
+        <div class="mt-2">{{ contents.POSITION_NAME }}</div>
+        <TextField v-model="record_nm" :validations="'required'" />
       </div>
-      <div class="d-flex align-center flex-gap-2" v-if="allowOrder">
-        {{ contents.INSERT_ORDER }}
+      <div class="d-flex flex-gap-2" v-if="allowOrder">
+        <div class="mt-2">
+          {{ contents.INSERT_ORDER }}
+        </div>
         <CurrencyInput
           v-model="order"
           :rules="`required|min_value:${minOrder}`"
@@ -147,6 +149,9 @@ export default class ApprovalAddEmployee extends Vue {
     .theme--light.v-input--is-disabled input {
       color: white !important;
     }
+  }
+  .v-text-field__details {
+    margin-bottom: 0 !important;
   }
 }
 

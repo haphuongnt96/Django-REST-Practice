@@ -8,9 +8,11 @@ import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequest
 import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
 import eventBus from '@/plugins/eventBus'
+import { APPROVE_STATUS } from '@/modules/approval/enum'
 import { ApprovalRequestD, AuthD } from '@/store/typeD'
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter as G, Mutation as M } from 'vuex-class'
+import { ValidationObserver } from 'vee-validate'
 
 @Component({
   components: {
@@ -37,7 +39,6 @@ export default class Approval extends Vue {
 
   //#region Data
   m_request_details: ApplicationForm.RequestDetail[] = []
-  requests: Approvals.RegisterRequest[] = []
   // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []
   approval_route_details: Approvals.ApprovalRouteDetailResponse[] = []
@@ -88,6 +89,23 @@ export default class Approval extends Vue {
       (x) => x.department_id == this.$route.query.department_id
     )
     return department ? department.department_nm : ''
+  }
+
+  get observer() {
+    return this.$refs.observer as InstanceType<typeof ValidationObserver>
+  }
+
+  get requestDetails() {
+    return this.m_request_details
+      .map((x) =>
+        x.request_detail_children
+          .map((x) => ({
+            request_column_id: x.request_column_id,
+            request_column_val: x.request_column_val
+          }))
+          .filter((x) => x.request_column_val)
+      )
+      .flat()
   }
   //#endregion
 
@@ -147,20 +165,6 @@ export default class Approval extends Vue {
 
   async mounted() {
     window.addEventListener('scroll', this.handleScroll)
-    eventBus.$on(
-      EventBus.USER_INPUT_APPLICATION_FORM,
-      (value: Approvals.RegisterRequest) => {
-        const existed = this.requests.find(
-          (x) => x.request_column_id === value.request_column_id
-        )
-        if (existed) existed.request_column_val = value.request_column_val
-        else this.requests.push(value)
-      }
-    )
-  }
-
-  beforeDestroy() {
-    eventBus.$off(EventBus.USER_INPUT_APPLICATION_FORM)
   }
 
   //#endregion
@@ -191,10 +195,21 @@ export default class Approval extends Vue {
     routeDetail.approval_status = data.approval_status
   }
 
-  async saveDraft() {
+  saveDraft() {
+    this.sendRequest(APPROVE_STATUS.DRAFT)
+  }
+
+  async submit() {
+    const valid = await this.observer.validate()
+    if (!valid) return
+    this.sendRequest(APPROVE_STATUS.SUBMIT)
+  }
+
+  async sendRequest(status_id: string) {
     const data = {
+      status_id,
       approval_type_id: this.formSummary.approval_type_id || '',
-      request_details: this.requests,
+      request_details: this.requestDetails,
       department_id: this.departmentId,
       approval_route_details: this.approvals.filter((x) => !x.default_flg),
       notifiers: this.notifies || []
@@ -228,19 +243,22 @@ export default class Approval extends Vue {
     <ApprovalRoutes :items="items" class="mb-5" />
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" :formSummary="formSummary" />
-      <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
-        <ApprovalRequestDetail
-          class="approval__detail"
-          :items="m_request_details"
-        />
-        <div ref="main-function" :style="{ width: '160px' }">
-          <ApprovalMainFunction
-            :class="{ fixed }"
-            @approval="updateApprovalStatus"
-            @saveDraft="saveDraft"
+      <ValidationObserver ref="observer">
+        <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
+          <ApprovalRequestDetail
+            class="approval__detail"
+            :items="m_request_details"
           />
-        </div>
-      </v-container>
+          <div ref="main-function" :style="{ width: '160px' }">
+            <ApprovalMainFunction
+              :class="{ fixed }"
+              @approval="updateApprovalStatus"
+              @saveDraft="saveDraft"
+              @submit="submit"
+            />
+          </div>
+        </v-container>
+      </ValidationObserver>
     </v-card>
     <ApprovalSubFunction :commentCount="9" />
   </v-container>

@@ -13,8 +13,7 @@ extend('min_value', {
     return value >= args.length
   },
   message: (value, args) => {
-    console.log(args)
-    return `順位は${+args.length + 1}以降にしてください！`
+    return `順位は${args.length}以降にしてください！`
   },
   params: ['length']
 })

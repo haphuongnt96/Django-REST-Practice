@@ -1,6 +1,7 @@
+import AppTextField from '@/common/components/ui/AppTextField.vue'
 import RadioGroup from '@/common/components/ui/RadioGroup.vue'
 import config from '@/common/config'
-import { VSelect, VTextField } from 'vuetify/lib'
+import { VSelect } from 'vuetify/lib'
 import { ColumnTypeName } from './enum'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
@@ -35,7 +36,7 @@ export const rowIndexStatus = (
     },
     {
       text: fixed ? 'リストから選択' : '',
-      component: fixed ? VSelect : VTextField,
+      component: fixed ? VSelect : AppTextField,
       style: { textAlign: 'center' }
     },
     {
@@ -95,7 +96,7 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
   const component = {
     [ColumnTypeName.SELECTION]: VSelect,
     [ColumnTypeName.HEADER]: null,
-    [ColumnTypeName.INPUT_TEXT]: VTextField,
+    [ColumnTypeName.INPUT_TEXT]: AppTextField,
     [ColumnTypeName.RADIO]: RadioGroup
   }
   const {
@@ -125,7 +126,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
           style: { textAlign: 'center' },
           choices,
           request_column_id: item.request_column_id,
-          request_column_val: item.request_column_val
+          request_column_val: item.request_column_val,
+          rules: item.required ? 'required' : ''
         },
         {
           text: `※ ${notes}`,
@@ -144,7 +146,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
           style: { textAlign: 'center' },
           choices,
           request_column_id: item.request_column_id,
-          request_column_val: item.request_column_val
+          request_column_val: item.request_column_val,
+          rules: item.required ? 'required' : ''
         }
       ])
     ]
@@ -161,7 +164,8 @@ export const childrenRow = (item: ApplicationForm.RequestDetail) => {
       style: { textAlign: 'center' },
       choices,
       request_column_id: item.request_column_id,
-      request_column_val: item.request_column_val
+      request_column_val: item.request_column_val,
+      rules: item.required ? 'required' : ''
     },
     {
       text: `※ ${notes}`,

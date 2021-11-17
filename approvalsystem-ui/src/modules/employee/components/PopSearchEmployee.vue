@@ -100,79 +100,69 @@ export default class PopSearchEmployee extends Vue {
         {{ contents.POPUP_APPLICANT_TITLE }}
       </v-card-title>
       <v-card-text>
-        <div class="search__form">
-          <div class="search__form-header">
-            <table>
-              <tbody>
-                <tr>
-                  <td>{{ contents.POPUP_APPLICANT_CATE1 }}</td>
-                  <td>
-                    <v-select
-                      v-model="searchParams.department_id"
-                      :items="departments"
-                      :label="contents.POPUP_APPLICANT_CATE_PL1"
-                      item-text="department_nm"
-                      item-value="department_id"
-                      dense
-                      outlined
-                      hide-details="auto"
-                      clearable
-                    />
-                  </td>
-                  <td>{{ contents.POPUP_APPLICANT_CATE2 }}</td>
-                  <td>
-                    <v-select
-                      v-model="searchParams.segment_id"
-                      :items="segments"
-                      :label="contents.POPUP_APPLICANT_CATE_PL2"
-                      item-text="segment_nm"
-                      item-value="segment_id"
-                      dense
-                      clearable
-                      outlined
-                      hide-details="auto"
-                    />
-                  </td>
-                  <td>{{ contents.POPUP_APPLICANT_CATE3 }}</td>
-                  <td>
-                    <v-form
-                      class="search__form-control"
-                      ref="form"
-                      v-model="valid"
-                    >
-                      <v-text-field
-                        dense
-                        outlined
-                        hide-details="auto"
-                        required
-                        @input="employeeNmChanged"
-                      ></v-text-field>
-                      <v-btn
-                        :disabled="!valid"
-                        class="mr-4"
-                        @click="getDetailTable()"
-                      >
-                        {{ contents.POPUP_SEARCH_SEARCH }}
-                      </v-btn>
-                    </v-form>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="search__form-result">
-            <PopSearchEmployeeTable
-              :disabledIds="disabledIds"
-              :searchParams.sync="searchParams"
-              :totalItems="totalItems"
-              :items="employees"
-              @select="select"
+        <div class="d-flex align-center gap-4 mb-5">
+          <div class="d-flex align-center flex-gap-2 wrap">
+            {{ contents.POPUP_APPLICANT_CATE1 }}
+            <v-select
+              v-model="searchParams.department_id"
+              :items="departments"
+              :label="contents.POPUP_APPLICANT_CATE_PL1"
+              item-text="department_nm"
+              item-value="department_id"
+              dense
+              outlined
+              hide-details="auto"
+              clearable
             />
           </div>
+          <div class="d-flex align-center flex-gap-2 wrap">
+            {{ contents.POPUP_APPLICANT_CATE2 }}
+            <v-select
+              v-model="searchParams.segment_id"
+              :items="segments"
+              :label="contents.POPUP_APPLICANT_CATE_PL2"
+              item-text="segment_nm"
+              item-value="segment_id"
+              dense
+              clearable
+              outlined
+              hide-details="auto"
+            />
+          </div>
+          <div class="d-flex align-center flex-gap-2 wrap">
+            {{ contents.POPUP_APPLICANT_CATE3 }}
+            <v-text-field
+              dense
+              outlined
+              hide-details="auto"
+              required
+              @input="employeeNmChanged"
+            />
+          </div>
+          <v-btn :disabled="!valid" class="mr-4" @click="getDetailTable()">
+            {{ contents.POPUP_SEARCH_SEARCH }}
+          </v-btn>
+        </div>
+        <div class="search__form-result">
+          <PopSearchEmployeeTable
+            :disabledIds="disabledIds"
+            :searchParams.sync="searchParams"
+            :totalItems="totalItems"
+            :items="employees"
+            @select="select"
+          />
         </div>
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.wrap {
+  flex-wrap: wrap;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+</style>
