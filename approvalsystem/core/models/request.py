@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.apps import apps
+from django.conf import settings
 
 from utils.base_model import BaseModel
 from commons.constants import RequestStatus as RequestStatusEnum
@@ -120,3 +121,20 @@ class RequestDetailHist(BaseModel):
     class Meta:
         db_table = 't_request_detail_hist'
         verbose_name_plural = 't_request_detail_hist/T_申請明細履歴'
+
+class Notifier(BaseModel):
+    '''
+    T_通知者
+    '''
+    request = models.ForeignKey(
+        Request, verbose_name="request_id/リクエストID",
+        on_delete=models.CASCADE
+    )
+    notify_emp = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='notify_emp/通知者社員ID',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        db_table = 't_notifier'
+        verbose_name_plural = 't_notifier/T_通知者'

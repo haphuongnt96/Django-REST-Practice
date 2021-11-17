@@ -33,3 +33,4 @@ class ApprovalRouteComment(BaseModel):
 
     class Meta:
         db_table = 't_approval_route_comment'
+        verbose_name_plural = 't_approval_route_comment/T_承認ルートコメント'

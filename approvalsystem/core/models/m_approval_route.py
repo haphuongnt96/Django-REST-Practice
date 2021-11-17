@@ -108,7 +108,7 @@ class ApprovalRouteMaster(BaseModel):
 
     class Meta:
         db_table = 'mm_approval_route'
-
+        verbose_name_plural = 'mm_approval_route/MM_承認ステータス'
 
     def get_approval_route_detail(self):
         """
@@ -196,6 +196,7 @@ class Choice(BaseModel):
 
     class Meta:
         db_table = 'm_choices'
-
+        verbose_name_plural = 'm_choices/M_選択肢'
+    
     def __str__(self):
         return self.choice_nm
