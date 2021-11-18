@@ -122,6 +122,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         fields = [
             'request_id',
             'approval_type_id',
+            'request_title',
             'approval_type_nm',
             'request_emp_id',
             'request_emp_nm',
@@ -252,7 +253,9 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         notifiers = validated_data.pop('notifiers', [])
         status_id = validated_data.pop('status_id')
 
+        # update request
         instance.status_id = status_id
+        instance.status_id = validated_data['request_title']
         # save request detail answer
         for request_detail in request_details:
             request_detail['request_id'] = instance.request_id
