@@ -62,7 +62,7 @@ class NotificationRecord(BaseModel):
         NotificationType, on_delete=models.CASCADE, verbose_name='notification_type/通知区分',
         null=True, blank=True
     )
-    confirm_dt = models.DateTimeField(null=True, blank=True, editable=True,
+    confirm_dt = models.DateTimeField(null=True, blank=True,
                                       verbose_name='confirm_dt/確認日時')
     
     class Meta:

@@ -1519,6 +1519,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 48	core	0002_auto_20211117_1546	2021-11-17 06:46:17.573624+00
 49	core	0002_auto_20211118_1129	2021-11-18 02:29:38.183898+00
 50	core	0003_alter_approvalroutedetail_approval_date	2021-11-18 02:35:24.460754+00
+51	core	0002_alter_approvalroute_request_dt	2021-11-18 02:39:33.90068+00
 \.
 
 
@@ -1893,7 +1894,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 38, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 50, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 51, true);
 
 
 --

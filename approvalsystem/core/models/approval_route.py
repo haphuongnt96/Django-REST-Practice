@@ -49,7 +49,7 @@ class ApprovalRoute(BaseModel):
         null=True, blank=True,
     )
     request_dt = models.DateTimeField(
-        null=True, blank=True, editable=False,
+        null=True, blank=True,
         verbose_name='request_dt/申請日時'
     )
 
