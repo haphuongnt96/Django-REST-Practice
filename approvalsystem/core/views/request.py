@@ -9,7 +9,8 @@ from core.serializers import RequestSerializer, DetailRequestSerializer
 
 
 class RequestGetListAPI(ListAPIView):
-    queryset = Request.objects.all()
+    # レコード生成降順で整列
+    queryset = Request.objects.all().order_by('-created')
     serializer_class = RequestSerializer
 
 
