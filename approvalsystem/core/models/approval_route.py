@@ -58,7 +58,6 @@ class ApprovalRoute(BaseModel):
         verbose_name_plural = 't_approval_route/T_承認ルート'
 
 
-
 class ApprovalPost(BaseModel):
     approval_post_id = models.CharField(
         max_length=3, primary_key=True,
@@ -87,6 +86,7 @@ class ApprovalPost(BaseModel):
             self.approval_post_id = str(max_id + 1).zfill(3)
         return super().save(**kwargs)
 
+
 class ApprovalStatus(BaseModel):
     '''
     M_承認ステータス
@@ -100,6 +100,7 @@ class ApprovalStatus(BaseModel):
 
     def __str__(self) -> str:
         return "{}:{}".format(self.approval_status_id, self.approval_status_nm)
+
 
 class ApprovalRouteDetail(BaseModel):
     approval_route = models.ForeignKey(
@@ -123,7 +124,7 @@ class ApprovalRouteDetail(BaseModel):
     )
     approval_status = models.ForeignKey(
         ApprovalStatus, on_delete=models.SET_NULL,
-        default=0, null=True
+        null=True, blank=True,
     )
     approval_date = models.DateField(
         null=True, blank=True
@@ -139,9 +140,8 @@ class ApprovalRouteDetail(BaseModel):
         ]
 
     def save(self, *args, **kwargs):
-        if self.approval_status != self.StatusChoices.not_verified and \
-                not self.approval_date:
+        if self.approval_status and not self.approval_date:
             self.approval_date = date.today()
-        elif self.approval_status == self.StatusChoices.not_verified:
+        elif not self.approval_status:
             self.approval_date = None
         return super().save(*args, **kwargs)

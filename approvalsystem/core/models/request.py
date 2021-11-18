@@ -48,7 +48,7 @@ class Request(BaseModel):
         default=RequestStatusEnum.DRAFT.value, verbose_name='status/申請ステータスID'
     )
     request_title = models.CharField(
-        max_length=50, verbose_name='request_title/申請タイトル'
+        max_length=50, verbose_name='request_title/申請タイトル', blank=True
     )
 
     class Meta:
