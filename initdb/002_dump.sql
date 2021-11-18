@@ -291,6 +291,20 @@ CREATE TABLE public.m_approval_post (
 ALTER TABLE public.m_approval_post OWNER TO approval_user;
 
 --
+-- Name: m_approval_status; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.m_approval_status (
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    approval_status_id character varying(1) NOT NULL,
+    approval_status_nm character varying(5) NOT NULL
+);
+
+
+ALTER TABLE public.m_approval_status OWNER TO approval_user;
+
+--
 -- Name: m_business_unit; Type: TABLE; Schema: public; Owner: approval_user
 --
 
@@ -706,7 +720,7 @@ CREATE TABLE public.t_approval_route_detail (
     required_num_approvals integer,
     "order" integer NOT NULL,
     notification character varying(1),
-    approval_status character varying(1) NOT NULL,
+    approval_status_id character varying(1),
     approval_date date,
     approval_emp_id bigint,
     approval_post_id character varying(3) NOT NULL,
@@ -1330,6 +1344,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 142	Can change request detail hist	36	change_requestdetailhist
 143	Can delete request detail hist	36	delete_requestdetailhist
 144	Can view request detail hist	36	view_requestdetailhist
+145	Can add t_notifier/T_通知者	37	add_notifier
+146	Can change t_notifier/T_通知者	37	change_notifier
+147	Can delete t_notifier/T_通知者	37	delete_notifier
+148	Can view t_notifier/T_通知者	37	view_notifier
+149	Can add approval status	38	add_approvalstatus
+150	Can change approval status	38	change_approvalstatus
+151	Can delete approval status	38	delete_approvalstatus
+152	Can view approval status	38	view_approvalstatus
 \.
 
 
@@ -1394,6 +1416,8 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 34	core	notificationtype
 35	core	news
 36	core	requestdetailhist
+37	core	notifier
+38	core	approvalstatus
 \.
 
 
@@ -1450,6 +1474,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 46	core	0002_news	2021-11-11 12:35:04.490807+00
 47	core	0002_alter_notificationrecord_confirm_dt	2021-11-11 16:35:35.891122+00
 48	core	0002_auto_20211117_1546	2021-11-17 06:46:17.573624+00
+49	core	0002_auto_20211118_1038	2021-11-18 01:38:27.750179+00
 \.
 
 
@@ -1480,6 +1505,14 @@ COPY public.m_approval_post (created, modified, approval_post_id, approval_post_
 2021-09-22 02:38:00.458+00	2021-09-22 02:38:04.152+00	100	やくしょく1
 2021-09-22 02:38:00.458+00	2021-09-22 02:38:04.152+00	200	やくしょく2
 2021-09-22 02:38:00.458+00	2021-09-22 02:38:04.152+00	300	総務部　総務課　執行
+\.
+
+
+--
+-- Data for Name: m_approval_status; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.m_approval_status (created, modified, approval_status_id, approval_status_nm) FROM stdin;
 \.
 
 
@@ -1695,7 +1728,7 @@ COPY public.t_approval_route_comment (id, created, modified, comment_no, comment
 -- Data for Name: t_approval_route_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_approval_route_detail (created, modified, detail_no, required_num_approvals, "order", notification, approval_status, approval_date, approval_emp_id, approval_post_id, approval_route_id, department_id, division_id, segment_id) FROM stdin;
+COPY public.t_approval_route_detail (created, modified, detail_no, required_num_approvals, "order", notification, approval_status_id, approval_date, approval_emp_id, approval_post_id, approval_route_id, department_id, division_id, segment_id) FROM stdin;
 \.
 
 
@@ -1787,7 +1820,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 144, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 152, true);
 
 
 --
@@ -1801,14 +1834,14 @@ SELECT pg_catalog.setval('public.django_admin_log_id_seq', 12, true);
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 36, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 38, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 48, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 49, true);
 
 
 --
@@ -2011,6 +2044,14 @@ ALTER TABLE ONLY public.m_approval_class
 
 ALTER TABLE ONLY public.m_approval_post
     ADD CONSTRAINT m_approval_post_pkey PRIMARY KEY (approval_post_id);
+
+
+--
+-- Name: m_approval_status m_approval_status_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_approval_status
+    ADD CONSTRAINT m_approval_status_pkey PRIMARY KEY (approval_status_id);
 
 
 --
@@ -2337,6 +2378,13 @@ CREATE INDEX m_approval_class_approval_class_id_2e95ca75_like ON public.m_approv
 --
 
 CREATE INDEX m_approval_post_approval_post_cd_2fcf98d8_like ON public.m_approval_post USING btree (approval_post_id varchar_pattern_ops);
+
+
+--
+-- Name: m_approval_status_approval_status_id_014f0eb5_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_approval_status_approval_status_id_014f0eb5_like ON public.m_approval_status USING btree (approval_status_id varchar_pattern_ops);
 
 
 --
@@ -2792,6 +2840,20 @@ CREATE INDEX t_approval_route_detail_approval_post_cd_id_e91b1b51_like ON public
 --
 
 CREATE INDEX t_approval_route_detail_approval_route_id_id_340dda9e ON public.t_approval_route_detail USING btree (approval_route_id);
+
+
+--
+-- Name: t_approval_route_detail_approval_status_id_ead12d7a; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_approval_route_detail_approval_status_id_ead12d7a ON public.t_approval_route_detail USING btree (approval_status_id);
+
+
+--
+-- Name: t_approval_route_detail_approval_status_id_ead12d7a_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_approval_route_detail_approval_status_id_ead12d7a_like ON public.t_approval_route_detail USING btree (approval_status_id varchar_pattern_ops);
 
 
 --
@@ -3296,6 +3358,14 @@ ALTER TABLE ONLY public.t_approval_route_detail
 
 ALTER TABLE ONLY public.t_approval_route_detail
     ADD CONSTRAINT t_approval_route_det_approval_route_id_8d58ac80_fk_t_approva FOREIGN KEY (approval_route_id) REFERENCES public.t_approval_route(approval_route_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_approval_route_detail t_approval_route_det_approval_status_id_ead12d7a_fk_m_approva; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_detail
+    ADD CONSTRAINT t_approval_route_det_approval_status_id_ead12d7a_fk_m_approva FOREIGN KEY (approval_status_id) REFERENCES public.m_approval_status(approval_status_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

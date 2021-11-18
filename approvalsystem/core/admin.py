@@ -1,13 +1,13 @@
 from django.contrib import admin
 from core.models import (
     Department, Segment, Division, BusinessUnit,
-    Request, RequestStatus,
-    ApprovalRoute, ApprovalRouteDetail, ApprovalPost,
+    Request, RequestStatus, Notifier,
+    ApprovalRoute, ApprovalRouteDetail, ApprovalPost, ApprovalStatus,
     ApprovalRouteMaster,
     ApprovalType, ApprovalClass, Choice, RequestDetailMaster, ColumnType,
     Property, News,
     NotificationType, NotificationRecord,
-    RequestDetailHist
+    ApprovalRouteComment,
 )
 
 
@@ -72,6 +72,7 @@ admin.site.register(Department)
 admin.site.register(Segment)
 admin.site.register(Division)
 admin.site.register(Request, RequestAdmin)
+admin.site.register(ApprovalStatus)
 admin.site.register(ApprovalRoute, ApprovalRouteAdmin)
 admin.site.register(ApprovalPost)
 admin.site.register(RequestStatus, RequestStatusAdmin)
@@ -83,4 +84,7 @@ admin.site.register(Property)
 admin.site.register(News, NewsAdmin)
 admin.site.register(NotificationType)
 admin.site.register(NotificationRecord)
-admin.site.register(RequestDetailHist)
+admin.site.register(Choice)
+admin.site.register(ApprovalRouteMaster)
+admin.site.register(ApprovalRouteComment)
+admin.site.register(Notifier)

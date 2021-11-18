@@ -87,13 +87,21 @@ class ApprovalPost(BaseModel):
             self.approval_post_id = str(max_id + 1).zfill(3)
         return super().save(**kwargs)
 
+class ApprovalStatus(BaseModel):
+    '''
+    M_承認ステータス
+    ''' 
+    approval_status_id = models.CharField(max_length=1, primary_key=True)
+    approval_status_nm = models.CharField(max_length=5)
+
+    class Meta:
+        db_table = 'm_approval_status'
+        verbose_name_plural = 'm_approval_status/M_承認ステータス'
+
+    def __str__(self) -> str:
+        return "{}:{}".format(self.approval_status_id, self.approval_class_nm)
 
 class ApprovalRouteDetail(BaseModel):
-    class StatusChoices(models.TextChoices):
-        not_verified = '0', 'Not Verified'
-        approved = '1', 'Approved'
-        rejected = '2', 'Rejected'
-
     approval_route = models.ForeignKey(
         ApprovalRoute, on_delete=models.CASCADE,
         related_name='approval_route_details'
@@ -113,9 +121,9 @@ class ApprovalRouteDetail(BaseModel):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
         max_length=7, null=True,
     )
-    approval_status = models.CharField(
-        max_length=1, choices=StatusChoices.choices,
-        default=StatusChoices.not_verified,
+    approval_status = models.ForeignKey(
+        ApprovalStatus, on_delete=models.SET_NULL,
+        default=0, null=True
     )
     approval_date = models.DateField(
         null=True, blank=True, editable=False

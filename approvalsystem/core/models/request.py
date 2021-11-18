@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.apps import apps
+from django.conf import settings
 
 from utils.base_model import BaseModel
 from commons.constants import RequestStatus as RequestStatusEnum

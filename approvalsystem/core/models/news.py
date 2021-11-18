@@ -12,4 +12,4 @@ class News(BaseModel):
 
     class Meta:
         db_table = 'm_news'
-    
+        verbose_name_plural = 'm_news/M_お知らせ'
