@@ -1642,7 +1642,8 @@ COPY public.m_request_detail (created, modified, request_column_id, required, ma
 --
 
 COPY public.m_request_status (created, modified, status_id, status_nm) FROM stdin;
-2021-10-26 08:47:01.422+00	2021-10-26 08:47:04.61+00	1	下書き
+2021-10-30 04:05:47.076+00	2021-10-30 09:38:25.23+00	1	下書き
+2021-10-30 09:38:31.543+00	2021-10-30 09:39:13.909+00	2	申請中
 \.
 
 
