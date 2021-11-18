@@ -50,7 +50,7 @@ export default class Approval extends Vue {
     department_nm: ''
   }
   approval_types: Approvals.ApprovalType[] = []
-  commentCount = '0'
+  commentCount = ''
   //#endregion
 
   //#region Computed
@@ -172,9 +172,9 @@ export default class Approval extends Vue {
         }
       }
     }
-    // requestIDが取れるまでに臨時運用(requestIDが正常に取れてから削除予定)
+    // TODO: requestIDが取れるまでに臨時運用(requestIDが正常に取れてから削除予定)
     const [comment_err, comment_res] =
-      await this.$api.approval.getApprovalRouteComment('2')
+      await this.$api.approval.getApprovalRouteComment('1')
     if (!comment_err && comment_res) {
       if (comment_res.length === 0) {
         this.commentCount = '無'

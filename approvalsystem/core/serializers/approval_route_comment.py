@@ -20,7 +20,6 @@ class CreateApprovalRouteCommentSerializer(serializers.Serializer):
     request_id = serializers.IntegerField()
     approval_route_id = serializers.IntegerField()
     ins_emp_id = serializers.IntegerField()
-    comment_no = serializers.IntegerField()
     comment = serializers.CharField()
 
     def create(self, validated_data):

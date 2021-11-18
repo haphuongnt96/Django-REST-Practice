@@ -14,11 +14,11 @@ export default class ApprovalComment extends Vue {
   //#region Data
   items = []
   snackbar = false
-  //#endregion
   comment = ''
+  //#endregion
 
   async mounted() {
-    // approval_route_idが取れない状態なので1で固定
+    // TODO: approval_route_idが取れない状態なので1で固定
     const [err, res] = await this.$api.approval.getApprovalRouteComment('1')
     if (!err && res) {
       this.items = res
@@ -41,12 +41,13 @@ export default class ApprovalComment extends Vue {
   // 申請一覧のレコードクリック時に詳細画面に遷移する
   async saveComment(item) {
     // クリックされたオブジェクトのrequest_idを取得して渡す
+    // 既に保存されているコメントがない場合、最初のコメントNoは１とする。
     this.request_id = item.request_id
+    // TODO: approval_route_idが取れない状態なので1で固定
     const [err, res] = await this.$api.approval.postApprovalRouteComment('1', {
       request_id: 1, //TODO: 申請IDを取得する。
       approval_route_id: 1, //TODO: 承認ルートIDを取得する。
       ins_emp_id: this.user.id,
-      comment_no: this.items[0].comment_no + 1,
       comment: this.comment
     })
     if (!err && res) {
@@ -59,6 +60,7 @@ export default class ApprovalComment extends Vue {
         value: true
       })
       this.comment = ''
+      // TODO: approval_route_idが取れない状態なので1で固定
       const [err, res] = await this.$api.approval.getApprovalRouteComment('1')
       if (!err && res) {
         this.items = res
