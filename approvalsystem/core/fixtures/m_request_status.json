@@ -1,0 +1,20 @@
+[
+  {
+    "model": "core.requeststatus",
+    "pk": "1",
+    "fields": {
+      "created": "2021-10-30T04:05:47.076Z",
+      "modified": "2021-10-30T09:38:25.230Z",
+      "status_nm": "下書き"
+    }
+  },
+  {
+    "model": "core.requeststatus",
+    "pk": "2",
+    "fields": {
+      "created": "2021-10-30T09:38:31.543Z",
+      "modified": "2021-10-30T09:39:13.909Z",
+      "status_nm": "申請中"
+    }
+  }
+]

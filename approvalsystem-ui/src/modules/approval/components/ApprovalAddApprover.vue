@@ -1,42 +1,102 @@
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import mock from '@/static/add-notifier'
-import PopSearchEmployee from '@/modules/employee/components/PopSearchEmployee.vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import ApprovalAddEmployee from '@/modules/approval/components/ApprovalAddEmployee.vue'
+import { Mutation as M } from 'vuex-class'
+import { ApprovalRequestD } from '@/store/typeD'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const orderBy = require('lodash.orderby')
 
 @Component({
-  components: { PopSearchEmployee }
+  components: { ApprovalAddEmployee }
 })
 export default class ApprovalAddApprover extends Vue {
+  @M(...ApprovalRequestD.setListApprovers) setListApprovers: (
+    approvers: Approvals.ApprovalRouteDetailResponse[]
+  ) => void
+
+  @Prop({
+    default: function () {
+      return []
+    }
+  })
+  approval_route_details: Approvals.ApprovalRouteDetailResponse[]
+
   //#region Data
-  approvers = mock.listNotifiers
-  positionSearch = ''
-  order = ''
-  employee = {} as Employee.Employee
-
-  //#endregion
-
-  //#region Methods
-  setEmployee(item: Employee.Employee) {
-    this.employee = item
+  drag = false
+  dragOptions = {
+    animation: 200,
+    group: 'description',
+    disabled: false,
+    ghostClass: 'ghost'
   }
+
   //#endregion
 
   //#region Computed
+  get approvers() {
+    return orderBy(this.approval_route_details, 'order')
+  }
+
+  set approvers(value: Approvals.ApprovalRouteDetailResponse[]) {
+    value.forEach((x, i) => {
+      if (x) x.order = i
+    })
+    this.setListApprovers(value)
+  }
+
   get headers() {
     return [
-      { text: this.contents.POSITION, value: 'position' },
-      { text: this.contents.NAME, value: 'name' },
-      { text: this.contents.CONFIRMED_DATE, value: 'date' }
+      {
+        text: 'No',
+        value: 'index'
+      },
+      { text: this.contents.POSITION, value: 'approval_post_nm' },
+      { text: this.contents.NAME, value: 'emp_nm' },
+      { text: '', value: 'action', width: '80' }
+      // { text: this.contents.CONFIRMED_DATE, value: 'date' }
     ]
-  }
-  get items() {
-    return this.approvers.filter((x) =>
-      x.position.includes(this.positionSearch)
-    )
   }
 
   get contents() {
     return { ...this.$pageContents.APPROVAL_TABS, ...this.$pageContents.COMMON }
+  }
+
+  get disabledRow() {
+    return (item: Approvals.ApprovalRouteDetailResponse) => {
+      return item && item.default_flg
+    }
+  }
+  //#endregion
+
+  //#region Methods
+
+  addApprover(record: Approvals.RegisterApprovalRecord) {
+    const insertBeforeIndex = this.approvers.findIndex(
+      (x) => x.order > record.order
+    )
+    const index =
+      insertBeforeIndex > -1 ? insertBeforeIndex - 1 : this.approvers.length
+    const newRecord = {
+      approval_route_id: '',
+      approval_post_nm: record.record_nm,
+      order: record.order,
+      notification: '',
+      approval_post_cd: '',
+      approval_emp_id: record.approval_emp_id,
+      approval_emp_nm: record.emp_nm,
+      approval_status: false,
+      approval_date: ''
+    }
+    this.approvers.splice(index, 0, newRecord)
+    this.approvers = [...this.approvers]
+  }
+
+  removeEmployee(employee: Employee.EmployeeAffiliation) {
+    const index = this.approvers.findIndex(
+      (x) => x.approval_emp_id === employee.emp_id
+    )
+    this.approvers.splice(index, 1)
+    this.approvers = [...this.approvers]
   }
   //#endregion
 }
@@ -45,45 +105,58 @@ export default class ApprovalAddApprover extends Vue {
 <template>
   <v-container fluid px-0>
     <div class="text-h5 txt-text-1 mb-2">{{ contents.LIST_OF_APPROVER }}</div>
-    <div class="d-flex align-center flex-gap-8 mb-3">
-      <div class="d-flex align-center flex-gap-2">
-        <div>{{ contents.ADD_APPROVERS }}</div>
-        <div class="d-flex pa-2 text-body-1 txt-white employee__summary">
-          <span>{{ employee.emp_cd }}</span>
-          <v-divider vertical class="mx-2" />
-          <span>{{ employee.emp_nm }}</span>
-        </div>
-      </div>
-      <PopSearchEmployee @setData="setEmployee" />
-      <div class="d-flex align-center flex-gap-2">
-        {{ contents.POSITION_NAME }}
-        <v-text-field
-          outlined
-          dense
-          hide-details="auto"
-          v-model="positionSearch"
-        />
-      </div>
-      <div class="d-flex align-center flex-gap-2">
-        {{ contents.INSERT_ORDER }}
-        <v-text-field
-          outlined
-          dense
-          hide-details="auto"
-          v-model="order"
-          :style="{ width: '80px' }"
-        />
-      </div>
-      <v-spacer />
-      <v-btn color="secondary">{{ contents.ADD }}</v-btn>
-    </div>
+    <ApprovalAddEmployee
+      :approval_route_details="approval_route_details"
+      @addRecord="addApprover"
+      :allowOrder="true"
+    />
     <v-data-table
       :headers="headers"
-      :items="items"
-      :no-data-text="contents.TABLE_NO_DATA"
+      :items="approvers"
+      :items-per-page="$constants.VTABLE_DATA_CONFIG.ITEMS_PER_PAGE"
+      :no-data-text="$constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA"
+      disable-sort
     >
-      <template v-slot:item.date="{ item }">
-        {{ item.date | date }}
+      <template v-slot:body="props">
+        <draggable
+          v-model="approvers"
+          tag="tbody"
+          :component-data="{
+            tag: 'tr',
+            type: 'transition-group',
+            name: !drag ? 'flip-list' : null
+          }"
+          draggable=".draggable"
+          @start="drag = true"
+          @end="drag = false"
+          v-bind="dragOptions"
+          item-key="order"
+        >
+          <!-- <tr class="v-data-table__empty-wrapper" v-if="!approvers.length">
+            <td class="text-center" colspan="4">
+              {{ $constants.VTABLE_DATA_CONFIG.TEXT_NO_DATA }}
+            </td>
+          </tr> -->
+          <tr
+            :class="[disabledRow(item) ? 'disabled' : 'draggable']"
+            v-for="(item, index) in props.items"
+            :key="index"
+          >
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.approval_post_nm }}</td>
+            <td>{{ item.approval_emp_nm }}</td>
+            <td class="text-center">
+              <v-icon
+                v-if="!item.default_flg"
+                small
+                :color="$config.Colors.red2"
+                @click="removeEmployee(item)"
+              >
+                mdi-trash-can-outline
+              </v-icon>
+            </td>
+          </tr>
+        </draggable>
       </template>
     </v-data-table>
   </v-container>
@@ -104,5 +177,13 @@ export default class ApprovalAddApprover extends Vue {
 
 hr {
   background: white;
+}
+
+tr {
+  &.disabled {
+    background: $blue-2;
+    color: white;
+    pointer-events: none;
+  }
 }
 </style>

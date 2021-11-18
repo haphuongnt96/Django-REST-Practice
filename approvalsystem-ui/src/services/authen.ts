@@ -21,7 +21,11 @@ export function doLogout() {
   )
 }
 
-export function doChangePass(data: any) {
+export function doChangePass(data: {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}) {
   return transformData(
     service.request<Auth.User[]>({
       method: 'put',

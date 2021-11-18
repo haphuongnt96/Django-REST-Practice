@@ -21,18 +21,30 @@ export default class Form extends Vue {
   //#endregion
 
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
-  formFields = []
   drawTableElement = drawTableElement
   drawTableHeader = drawTableHeader
 
   //*===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏===🍏Computed
+  get formFields() {
+    return this.items
+  }
+
+  set formFields(value: ApplicationForm.RequestDetail[]) {
+    this.$emit('update:items', value)
+  }
 
   //#region Method
   handleInput(value: string, item: ApplicationForm.RequestDetail) {
-    console.log(value, item)
-    eventBus.$emit(EventBus.USER_INPUT_APPLICATION_FORM, {
-      request_column_id: item.request_column_id,
-      request_column_val: value
+    item.request_column_val = value
+    this.syncFormData(item)
+  }
+
+  syncFormData(item: ApplicationForm.RequestDetail) {
+    this.formFields.forEach((root) => {
+      const target = root.request_detail_children.find(
+        (x) => x.request_column_id === item.request_column_id
+      )
+      if (target) target.request_column_val = item.request_column_val
     })
   }
   //#endregion
@@ -41,7 +53,7 @@ export default class Form extends Vue {
 
 <template>
   <v-container fluid pa-0>
-    <template v-for="item in items">
+    <template v-for="item in formFields">
       <v-simple-table :key="item.request_column_id">
         <thead>
           <th
@@ -72,6 +84,7 @@ export default class Form extends Vue {
                   :items="cell.choices"
                   item-text="choice_nm"
                   item-value="choice_id"
+                  :validations="cell.rules"
                   @change="(value) => handleInput(value, cell)"
                 />
                 <template v-else>
@@ -95,6 +108,7 @@ export default class Form extends Vue {
                 <component
                   :is="cell.component"
                   v-if="cell.component"
+                  :validations="cell.rules"
                   :value="cell.request_column_val"
                   dense
                   hide-details="auto"
@@ -126,6 +140,9 @@ export default class Form extends Vue {
     width: 18px;
     border-radius: 50%;
     border: solid thin #000;
+  }
+  .v-text-field__details {
+    margin-bottom: 0 !important;
   }
 }
 

@@ -1,5 +1,8 @@
 import '@/plugins/server'
 import '@/plugins/layout'
+import '@/plugins/components'
 import '@/plugins/mixins'
 import '@/plugins/perfectscroll'
 import '@/plugins/toast'
+import '@/plugins/v-currency'
+import '@/plugins/vee-validate'

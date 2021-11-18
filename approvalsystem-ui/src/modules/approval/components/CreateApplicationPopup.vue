@@ -6,7 +6,6 @@ import { Component, Mixins } from 'vue-property-decorator'
 import { Getter as G } from 'vuex-class'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const debounce = require('lodash.debounce')
-type VForm = Vue & { validate: () => boolean; resetValidation: () => void }
 
 @Component({
   components: {
@@ -99,7 +98,7 @@ export default class CreateApplicationPopup extends Mixins(AppDialog) {
   //#region Methods
   selectForm(approvalType: Approvals.ApprovalType) {
     if (!this.valid) {
-      ;(this.$refs['form'] as VForm).validate()
+      ;(this.$refs['form'] as Vuetify.VForm).validate()
       return
     }
     this.$emit('setDataSearch', { ...this.userDepartment, ...approvalType })

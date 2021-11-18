@@ -1,8 +1,12 @@
 <script lang="ts">
+import eventBus from '@/plugins/eventBus'
+import EventBus from '@/common/eventBus'
 import ApprovalRecord from '@/modules/approval/components/ApprovalRecord.vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const groupBy = require('lodash.groupby')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const orderBy = require('lodash.orderby')
 @Component({
   components: {
     ApprovalRecord
@@ -26,6 +30,15 @@ export default class ApprovalListRoutes extends Vue {
 
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   panel = [0]
+
+  //#region Watch
+  @Watch('items', { deep: true }) onItemsUpdated() {
+    this.$nextTick(() => {
+      this.panel = [0]
+    })
+  }
+  //#endregion
+
   //#region Computed
 
   get contents() {
@@ -34,7 +47,7 @@ export default class ApprovalListRoutes extends Vue {
 
   get routeDetailsGrouped() {
     return (details: Approvals.ApprovalRouteDetailResponse[]) => {
-      return groupBy(details, 'approval_post_nm')
+      return groupBy(orderBy(details, 'order'), 'approval_post_nm')
     }
   }
   //#endregion
@@ -49,7 +62,7 @@ export default class ApprovalListRoutes extends Vue {
         <v-expansion-panel-header class="px-0">
           承認状況: {{ item.approval_route_id }}
         </v-expansion-panel-header>
-        <v-expansion-panel-content>
+        <v-expansion-panel-content class="px-1 py-2">
           <div class="d-box flex-gap-4">
             <v-simple-table class="table__applicant">
               <template v-slot:default>
@@ -83,14 +96,17 @@ export default class ApprovalListRoutes extends Vue {
       </v-expansion-panel>
     </template>
     <template v-else>
-      <v-expansion-panel
-        v-for="(value, key) in routeDetailsGrouped(approval_route_details)"
-        :key="key"
-      >
-        <v-divider v-if="i" class="bg-pink-2 mb-2" />
-        <v-expansion-panel-content>
+      <v-expansion-panel>
+        <v-expansion-panel-content class="py-2">
           <div class="d-box flex-gap-4">
-            <ApprovalRecord :header="key" :items="value" />
+            <div
+              v-for="(value, key) in routeDetailsGrouped(
+                approval_route_details
+              )"
+              :key="key"
+            >
+              <ApprovalRecord :header="key" :items="value" />
+            </div>
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>

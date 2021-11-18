@@ -79,6 +79,7 @@ class ApprovalRouteMasterSerializer(serializers.ModelSerializer):
     approval_post_nm = serializers.CharField(read_only=True)
     approval_emp_id = serializers.CharField(read_only=True, source='emp_id')
     approval_emp_nm = serializers.CharField(read_only=True)
+    default_flg = serializers.BooleanField(default=True, read_only=True)
 
     class Meta:
         model = ApprovalRouteMaster
@@ -99,6 +100,7 @@ class ApprovalRouteMasterSerializer(serializers.ModelSerializer):
             'approval_emp_id',
             'approval_emp_nm',
             'required_num_approvals',
+            'default_flg',
         ]
 
 

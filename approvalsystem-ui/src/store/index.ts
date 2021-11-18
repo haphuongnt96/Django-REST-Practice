@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex, { ActionTree } from 'vuex'
 import { authStore } from '@/store/modules/auth/authStore'
+import { approvalRequestStore } from '@/store/modules/approvalRequest/approvalRequestStore'
 import VuexPersistence from 'vuex-persist'
 import { Actions, State } from './storeD'
 import { Decorators as AuthDecorators } from '@/store/modules/auth/authD'
@@ -25,6 +26,7 @@ export default new Vuex.Store({
   actions,
   plugins: [vuexLocal.plugin],
   modules: {
-    auth: authStore
+    auth: authStore,
+    approvalRequest: approvalRequestStore
   }
 })

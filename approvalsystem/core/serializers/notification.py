@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from core.models import NotificationRecord, NotificationType, Request
-from core.serializers import RequestSerializer
+from django.db import models
+from django.db.models import F
+
+from core.models import NotificationRecord, NotificationType, Request, Notifier
 from users.serializers import UserDetailSerializer
-from django.utils.translation import gettext_lazy as _
+from .request import RequestSerializer
 
 
 class NotificationTypeSerializer(serializers.ModelSerializer):
@@ -15,6 +17,7 @@ class NotificationTypeSerializer(serializers.ModelSerializer):
             'notification_type_id',
             'notification_type_nm',
         ]
+
 
 class NotificationRecordSerializer(serializers.ModelSerializer):
     """
@@ -31,6 +34,34 @@ class NotificationRecordSerializer(serializers.ModelSerializer):
             'emp',
             'notification_type',
         ]
+
+
+class CustomListNotifierSerializer(serializers.ListSerializer):
+    """
+    Custom ListSerializer for changing behavior of queryset (like filter, annotate..)
+    for model Notifier (table t_notifier)
+    """
+    def to_representation(self, data):
+        if isinstance(data, (models.Manager, models.QuerySet)):
+            data = data.annotate(
+                notify_emp_nm=F('notify_emp__emp_nm'),
+            )
+        return super().to_representation(data)
+
+
+class NotifierSerializer(serializers.ModelSerializer):
+    notify_emp_id = serializers.IntegerField()
+    notify_emp_nm = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Notifier
+        list_serializer_class = CustomListNotifierSerializer
+        fields = [
+            'notify_emp_id',
+            'notify_emp_nm',
+            'confirm_dt',
+        ]
+
 
 class NotificationRequestSerializer(serializers.ModelSerializer):
     """

@@ -45,6 +45,7 @@ class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
             'approval_emp_nm',
             'approval_status',
             'approval_date',
+            'default_flg',
         ]
 
 

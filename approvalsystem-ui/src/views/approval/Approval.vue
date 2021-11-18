@@ -1,17 +1,18 @@
 <script lang="ts">
+import { TOAST_MESSAGES } from '@/common/constant'
+import EventBus from '@/common/eventBus'
 import ApprovalComment from '@/modules/approval/components/ApprovalComment.vue'
 import ApprovalMainFunction from '@/modules/approval/components/ApprovalMainFunction.vue'
 import ApprovalRequestDetail from '@/modules/approval/components/ApprovalRequestDetail.vue'
 import ApprovalRequestHeader from '@/modules/approval/components/ApprovalRequestHeader.vue'
 import ApprovalRoutes from '@/modules/approval/components/ApprovalRoutes.vue'
 import ApprovalSubFunction from '@/modules/approval/components/ApprovalSubFunction.vue'
-import { Component, Vue } from 'vue-property-decorator'
 import eventBus from '@/plugins/eventBus'
-import EventBus from '@/common/eventBus'
-import { Getter as G } from 'vuex-class'
-import { AuthD } from '@/store/typeD'
-import { format } from 'date-fns'
-import { ToastMessages } from '@/common/constant'
+import { APPROVE_STATUS } from '@/modules/approval/enum'
+import { ApprovalRequestD, AuthD } from '@/store/typeD'
+import { Component, Vue } from 'vue-property-decorator'
+import { Getter as G, Mutation as M } from 'vuex-class'
+import { ValidationObserver } from 'vee-validate'
 
 @Component({
   components: {
@@ -25,10 +26,19 @@ import { ToastMessages } from '@/common/constant'
 })
 export default class Approval extends Vue {
   @G(...AuthD.getUser) user: Auth.User
+  @G(...ApprovalRequestD.getListApprovers)
+  approvals: Approvals.ApprovalRouteDetailResponse[]
+  @G(...ApprovalRequestD.getListNotifies)
+  notifies: Approvals.NotificationRecords[]
+  @M(...ApprovalRequestD.setListApprovers) setListApprovers: (
+    approvers: Approvals.ApprovalRouteDetailResponse[]
+  ) => void
+  @M(...ApprovalRequestD.setListNotifies) setListNotifies: (
+    notifiers: Approvals.NotificationRecords[]
+  ) => void
 
   //#region Data
-  m_request_details: ApprovalType.RequestDetail[] = []
-  requests: Approvals.RegisterRequest[] = []
+  m_request_details: ApplicationForm.RequestDetail[] = []
   // itemsの型宣言を取得
   items: Approvals.ApprovalRouteResponse[] = []
   approval_route_details: Approvals.ApprovalRouteDetailResponse[] = []
@@ -81,6 +91,23 @@ export default class Approval extends Vue {
     )
     return department ? department.department_nm : ''
   }
+
+  get observer() {
+    return this.$refs.observer as InstanceType<typeof ValidationObserver>
+  }
+
+  get requestDetails() {
+    return this.m_request_details
+      .map((x) =>
+        x.request_detail_children
+          .map((x) => ({
+            request_column_id: x.request_column_id,
+            request_column_val: x.request_column_val
+          }))
+          .filter((x) => x.request_column_val)
+      )
+      .flat()
+  }
   //#endregion
 
   //#region Hooks
@@ -93,9 +120,10 @@ export default class Approval extends Vue {
       }
       const [err, res] = await this.$api.approval.getApproveTypeById('0001')
       if (!err && res) {
-        const { approval_route_details, m_request_details } = res
+        const { approval_route_details, m_request_details, notifiers } = res
         this.m_request_details = m_request_details
-        this.approval_route_details = approval_route_details
+        this.setListApprovers(approval_route_details)
+        this.setListNotifies(notifiers)
       }
       this.formSummary = {
         emp_nm: this.user.emp_nm,
@@ -117,6 +145,8 @@ export default class Approval extends Vue {
           approval_type_nm,
           approval_type_id,
           department_nm,
+          notifiers,
+          approval_route_details,
           created
         } = res
         this.formSummary = {
@@ -128,6 +158,8 @@ export default class Approval extends Vue {
         }
         this.m_request_details = m_request_details
         this.items = approval_routes
+        this.setListApprovers(approval_route_details)
+        this.setListNotifies(notifiers)
       }
       // comment件数取得
       const [comment_err, comment_res] =
@@ -154,20 +186,6 @@ export default class Approval extends Vue {
 
   async mounted() {
     window.addEventListener('scroll', this.handleScroll)
-    eventBus.$on(
-      EventBus.USER_INPUT_APPLICATION_FORM,
-      (value: Approvals.RegisterRequest) => {
-        const existed = this.requests.find(
-          (x) => x.request_column_id === value.request_column_id
-        )
-        if (existed) existed.request_column_val = value.request_column_val
-        else this.requests.push(value)
-      }
-    )
-  }
-
-  beforeDestroy() {
-    eventBus.$off(EventBus.USER_INPUT_APPLICATION_FORM)
   }
 
   //#endregion
@@ -198,16 +216,33 @@ export default class Approval extends Vue {
     routeDetail.approval_status = data.approval_status
   }
 
-  async saveDraft() {
+  saveDraft() {
+    this.sendRequest(APPROVE_STATUS.DRAFT)
+  }
+
+  async submit() {
+    const valid = await this.observer.validate()
+    if (!valid) return
+    this.sendRequest(APPROVE_STATUS.SUBMIT)
+  }
+
+  async sendRequest(status_id: string) {
     const data = {
+      status_id,
       approval_type_id: this.formSummary.approval_type_id || '',
-      request_details: this.requests,
-      department_id: this.departmentId
+      request_details: this.requestDetails,
+      department_id: this.departmentId,
+      approval_route_details: this.approvals.filter((x) => !x.default_flg),
+      notifiers: this.notifies || []
     }
     const [err, res] = this.requestID
       ? await this.$api.approval.updateRequestFormData(this.requestID, data)
       : await this.$api.approval.sendRequest(data)
     if (!err && res) {
+      this.$toast.fire({
+        icon: 'success',
+        title: TOAST_MESSAGES.APP_SAVE_SUCCESS
+      })
       const { approval_routes, m_request_details, request_id } = res
       this.items = approval_routes
       this.m_request_details = m_request_details
@@ -218,10 +253,6 @@ export default class Approval extends Vue {
       })
       const { name, query } = route.route
       if (name) this.$router.push({ name, query })
-      this.$toast.fire({
-        icon: 'success',
-        title: ToastMessages.APP_SAVE_SUCCESS
-      })
     }
   }
   //#endregion
@@ -230,26 +261,25 @@ export default class Approval extends Vue {
 
 <template>
   <v-container fluid px-8>
-    <ApprovalRoutes
-      :items="items"
-      :approval_route_details="approval_route_details"
-      class="mb-5"
-    />
+    <ApprovalRoutes :items="items" class="mb-5" />
     <v-card class="pa-5 approval__container">
       <ApprovalRequestHeader class="flex-grow-1" :formSummary="formSummary" />
-      <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
-        <ApprovalRequestDetail
-          class="approval__detail"
-          :items="m_request_details"
-        />
-        <div ref="main-function" :style="{ width: '160px' }">
-          <ApprovalMainFunction
-            :class="{ fixed }"
-            @approval="updateApprovalStatus"
-            @saveDraft="saveDraft"
+      <ValidationObserver ref="observer">
+        <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
+          <ApprovalRequestDetail
+            class="approval__detail"
+            :items="m_request_details"
           />
-        </div>
-      </v-container>
+          <div ref="main-function" :style="{ width: '160px' }">
+            <ApprovalMainFunction
+              :class="{ fixed }"
+              @approval="updateApprovalStatus"
+              @saveDraft="saveDraft"
+              @submit="submit"
+            />
+          </div>
+        </v-container>
+      </ValidationObserver>
     </v-card>
     <ApprovalSubFunction :commentCount="commentCount" />
   </v-container>

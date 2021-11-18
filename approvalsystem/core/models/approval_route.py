@@ -65,7 +65,7 @@ class ApprovalPost(BaseModel):
         verbose_name='approval_post_id/承認役職ID'
     )
     approval_post_nm = models.CharField(
-        max_length=10,
+        max_length=10, unique=True,
         verbose_name='approval_post_nm/承認役職名'
     )
 
@@ -76,6 +76,16 @@ class ApprovalPost(BaseModel):
 
     def __str__(self):
         return self.approval_post_nm
+
+    def save(self, **kwargs):
+        if not self.approval_post_id:
+            max_id = ApprovalPost.objects.aggregate(max_id=models.Max('approval_post_id'))['max_id']
+            if not max_id:
+                max_id = 0
+            else:
+                max_id = int(max_id)
+            self.approval_post_id = str(max_id + 1).zfill(3)
+        return super().save(**kwargs)
 
 
 class ApprovalRouteDetail(BaseModel):
@@ -89,20 +99,6 @@ class ApprovalRouteDetail(BaseModel):
         related_name='approval_route_details'
     )
     detail_no = models.AutoField(primary_key=True)
-
-    department = models.ForeignKey(
-        Department, on_delete=models.SET_NULL,
-        max_length=3, null=True, blank=True
-    )
-    segment = models.ForeignKey(
-        Segment, on_delete=models.SET_NULL,
-        max_length=3, null=True, blank=True
-    )
-    division = models.ForeignKey(
-        Division, on_delete=models.SET_NULL,
-        max_length=1, null=True, blank=True
-    )
-
     required_num_approvals = models.IntegerField(
         null=True, blank=True
     )
@@ -124,9 +120,15 @@ class ApprovalRouteDetail(BaseModel):
     approval_date = models.DateField(
         null=True, blank=True, editable=False
     )
+    current_order_flg = models.BooleanField(default=False)
+    default_flg = models.BooleanField(default=False)
 
     class Meta:
         db_table = 't_approval_route_detail'
+        ordering = ['order']
+        unique_together = [
+            ('approval_route', 'approval_emp'),
+        ]
 
     def save(self, *args, **kwargs):
         if self.approval_status != self.StatusChoices.not_verified and \

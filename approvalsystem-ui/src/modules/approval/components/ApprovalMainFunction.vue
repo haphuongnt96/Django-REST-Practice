@@ -9,6 +9,10 @@ export default class ApprovalMainFunction extends Vue {
   @Emit('saveDraft') saveDraft() {
     return
   }
+
+  @Emit('submit') submit() {
+    return
+  }
   //#endregion
 
   //#region COMPUTED
@@ -37,7 +41,7 @@ export default class ApprovalMainFunction extends Vue {
 
 <template>
   <div class="grid">
-    <v-btn color="grey">{{ contents.APPLY }}</v-btn>
+    <v-btn color="grey" @click="submit">{{ contents.APPLY }}</v-btn>
     <v-btn color="grey" @click="saveDraft">{{ contents.SAVE_DRAFT }}</v-btn>
     <v-btn color="grey">{{ contents.CANCEL_APP }}</v-btn>
     <v-btn color="grey">{{ contents.DELETE }}</v-btn>
