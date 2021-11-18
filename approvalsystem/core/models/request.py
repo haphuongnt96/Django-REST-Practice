@@ -22,8 +22,8 @@ class RequestStatus(BaseModel):
         db_table = 'm_request_status'
         verbose_name_plural = 'm_request_status/M_申請ステータス'
 
-    def __str__(self):
-        return self.status_nm
+    def __str__(self) -> str:
+        return "{}:{}".format(self.status_id, self.status_nm)
 
     @classmethod
     def get_status_choices(cls):
