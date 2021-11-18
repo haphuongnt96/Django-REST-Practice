@@ -725,9 +725,8 @@ CREATE TABLE public.t_approval_route_detail (
     approval_emp_id bigint,
     approval_post_id character varying(3) NOT NULL,
     approval_route_id integer NOT NULL,
-    department_id character varying(3),
-    division_id character varying(2),
-    segment_id character varying(3)
+    current_order_flg boolean NOT NULL,
+    default_flg boolean NOT NULL
 );
 
 
@@ -764,7 +763,7 @@ CREATE TABLE public.t_notification_record (
     created timestamp with time zone NOT NULL,
     modified timestamp with time zone NOT NULL,
     emp_id bigint NOT NULL,
-    notification_type_id character varying(2) NOT NULL,
+    notification_type_id character varying(2),
     request_id integer,
     confirm_dt timestamp with time zone
 );
@@ -791,6 +790,43 @@ ALTER TABLE public.t_notification_record_id_seq OWNER TO approval_user;
 --
 
 ALTER SEQUENCE public.t_notification_record_id_seq OWNED BY public.t_notification_record.id;
+
+
+--
+-- Name: t_notifier; Type: TABLE; Schema: public; Owner: approval_user
+--
+
+CREATE TABLE public.t_notifier (
+    id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    confirm_dt timestamp with time zone,
+    notify_emp_id bigint,
+    request_id integer
+);
+
+
+ALTER TABLE public.t_notifier OWNER TO approval_user;
+
+--
+-- Name: t_notifier_id_seq; Type: SEQUENCE; Schema: public; Owner: approval_user
+--
+
+CREATE SEQUENCE public.t_notifier_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.t_notifier_id_seq OWNER TO approval_user;
+
+--
+-- Name: t_notifier_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: approval_user
+--
+
+ALTER SEQUENCE public.t_notifier_id_seq OWNED BY public.t_notifier.id;
 
 
 --
@@ -1145,6 +1181,13 @@ ALTER TABLE ONLY public.t_notification_record ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- Name: t_notifier id; Type: DEFAULT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notifier ALTER COLUMN id SET DEFAULT nextval('public.t_notifier_id_seq'::regclass);
+
+
+--
 -- Name: t_request request_id; Type: DEFAULT; Schema: public; Owner: approval_user
 --
 
@@ -1344,14 +1387,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 142	Can change request detail hist	36	change_requestdetailhist
 143	Can delete request detail hist	36	delete_requestdetailhist
 144	Can view request detail hist	36	view_requestdetailhist
-145	Can add t_notifier/T_通知者	37	add_notifier
-146	Can change t_notifier/T_通知者	37	change_notifier
-147	Can delete t_notifier/T_通知者	37	delete_notifier
-148	Can view t_notifier/T_通知者	37	view_notifier
-149	Can add approval status	38	add_approvalstatus
-150	Can change approval status	38	change_approvalstatus
-151	Can delete approval status	38	delete_approvalstatus
-152	Can view approval status	38	view_approvalstatus
+145	Can add approval status	37	add_approvalstatus
+146	Can change approval status	37	change_approvalstatus
+147	Can delete approval status	37	delete_approvalstatus
+148	Can view approval status	37	view_approvalstatus
+149	Can add t_notifier/T_通知者	38	add_notifier
+150	Can change t_notifier/T_通知者	38	change_notifier
+151	Can delete t_notifier/T_通知者	38	delete_notifier
+152	Can view t_notifier/T_通知者	38	view_notifier
 \.
 
 
@@ -1416,8 +1459,8 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 34	core	notificationtype
 35	core	news
 36	core	requestdetailhist
-37	core	notifier
-38	core	approvalstatus
+37	core	approvalstatus
+38	core	notifier
 \.
 
 
@@ -1474,7 +1517,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 46	core	0002_news	2021-11-11 12:35:04.490807+00
 47	core	0002_alter_notificationrecord_confirm_dt	2021-11-11 16:35:35.891122+00
 48	core	0002_auto_20211117_1546	2021-11-17 06:46:17.573624+00
-49	core	0002_auto_20211118_1038	2021-11-18 01:38:27.750179+00
+49	core	0002_auto_20211118_1129	2021-11-18 02:29:38.183898+00
+50	core	0003_alter_approvalroutedetail_approval_date	2021-11-18 02:35:24.460754+00
 \.
 
 
@@ -1728,7 +1772,7 @@ COPY public.t_approval_route_comment (id, created, modified, comment_no, comment
 -- Data for Name: t_approval_route_detail; Type: TABLE DATA; Schema: public; Owner: approval_user
 --
 
-COPY public.t_approval_route_detail (created, modified, detail_no, required_num_approvals, "order", notification, approval_status_id, approval_date, approval_emp_id, approval_post_id, approval_route_id, department_id, division_id, segment_id) FROM stdin;
+COPY public.t_approval_route_detail (created, modified, detail_no, required_num_approvals, "order", notification, approval_status_id, approval_date, approval_emp_id, approval_post_id, approval_route_id, current_order_flg, default_flg) FROM stdin;
 \.
 
 
@@ -1738,6 +1782,14 @@ COPY public.t_approval_route_detail (created, modified, detail_no, required_num_
 
 COPY public.t_notification_record (id, created, modified, emp_id, notification_type_id, request_id, confirm_dt) FROM stdin;
 1	2021-11-11 16:40:50.802153+00	2021-11-11 16:40:50.802153+00	1	02	1	\N
+\.
+
+
+--
+-- Data for Name: t_notifier; Type: TABLE DATA; Schema: public; Owner: approval_user
+--
+
+COPY public.t_notifier (id, created, modified, confirm_dt, notify_emp_id, request_id) FROM stdin;
 \.
 
 
@@ -1841,7 +1893,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 38, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 49, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 50, true);
 
 
 --
@@ -1884,6 +1936,13 @@ SELECT pg_catalog.setval('public.t_approval_route_detail_detail_no_seq', 1, fals
 --
 
 SELECT pg_catalog.setval('public.t_notification_record_id_seq', 1, true);
+
+
+--
+-- Name: t_notifier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
+--
+
+SELECT pg_catalog.setval('public.t_notifier_id_seq', 1, false);
 
 
 --
@@ -2039,6 +2098,14 @@ ALTER TABLE ONLY public.m_approval_class
 
 
 --
+-- Name: m_approval_post m_approval_post_approval_post_nm_42311033_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.m_approval_post
+    ADD CONSTRAINT m_approval_post_approval_post_nm_42311033_uniq UNIQUE (approval_post_nm);
+
+
+--
 -- Name: m_approval_post m_approval_post_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -2175,6 +2242,14 @@ ALTER TABLE ONLY public.t_approval_route_comment
 
 
 --
+-- Name: t_approval_route_detail t_approval_route_detail_approval_route_id_approv_fc0d69fa_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_approval_route_detail
+    ADD CONSTRAINT t_approval_route_detail_approval_route_id_approv_fc0d69fa_uniq UNIQUE (approval_route_id, approval_emp_id);
+
+
+--
 -- Name: t_approval_route_detail t_approval_route_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -2196,6 +2271,22 @@ ALTER TABLE ONLY public.t_approval_route
 
 ALTER TABLE ONLY public.t_notification_record
     ADD CONSTRAINT t_notification_record_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: t_notifier t_notifier_pkey; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notifier
+    ADD CONSTRAINT t_notifier_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: t_notifier t_notifier_request_id_notify_emp_id_0d024b0e_uniq; Type: CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notifier
+    ADD CONSTRAINT t_notifier_request_id_notify_emp_id_0d024b0e_uniq UNIQUE (request_id, notify_emp_id);
 
 
 --
@@ -2378,6 +2469,13 @@ CREATE INDEX m_approval_class_approval_class_id_2e95ca75_like ON public.m_approv
 --
 
 CREATE INDEX m_approval_post_approval_post_cd_2fcf98d8_like ON public.m_approval_post USING btree (approval_post_id varchar_pattern_ops);
+
+
+--
+-- Name: m_approval_post_approval_post_nm_42311033_like; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX m_approval_post_approval_post_nm_42311033_like ON public.m_approval_post USING btree (approval_post_nm varchar_pattern_ops);
 
 
 --
@@ -2857,48 +2955,6 @@ CREATE INDEX t_approval_route_detail_approval_status_id_ead12d7a_like ON public.
 
 
 --
--- Name: t_approval_route_detail_department_cd_id_ea63abf1; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_approval_route_detail_department_cd_id_ea63abf1 ON public.t_approval_route_detail USING btree (department_id);
-
-
---
--- Name: t_approval_route_detail_department_cd_id_ea63abf1_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_approval_route_detail_department_cd_id_ea63abf1_like ON public.t_approval_route_detail USING btree (department_id varchar_pattern_ops);
-
-
---
--- Name: t_approval_route_detail_division_cd_id_b137c8d1; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_approval_route_detail_division_cd_id_b137c8d1 ON public.t_approval_route_detail USING btree (division_id);
-
-
---
--- Name: t_approval_route_detail_division_cd_id_b137c8d1_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_approval_route_detail_division_cd_id_b137c8d1_like ON public.t_approval_route_detail USING btree (division_id varchar_pattern_ops);
-
-
---
--- Name: t_approval_route_detail_segment_cd_id_f8cf4a3a; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_approval_route_detail_segment_cd_id_f8cf4a3a ON public.t_approval_route_detail USING btree (segment_id);
-
-
---
--- Name: t_approval_route_detail_segment_cd_id_f8cf4a3a_like; Type: INDEX; Schema: public; Owner: approval_user
---
-
-CREATE INDEX t_approval_route_detail_segment_cd_id_f8cf4a3a_like ON public.t_approval_route_detail USING btree (segment_id varchar_pattern_ops);
-
-
---
 -- Name: t_approval_route_division_id_38453696; Type: INDEX; Schema: public; Owner: approval_user
 --
 
@@ -2966,6 +3022,20 @@ CREATE INDEX t_notification_record_notification_type_id_1ea1f225_like ON public.
 --
 
 CREATE INDEX t_notification_record_request_id_9cbb0ffd ON public.t_notification_record USING btree (request_id);
+
+
+--
+-- Name: t_notifier_notify_emp_id_49e83404; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_notifier_notify_emp_id_49e83404 ON public.t_notifier USING btree (notify_emp_id);
+
+
+--
+-- Name: t_notifier_request_id_063f7cee; Type: INDEX; Schema: public; Owner: approval_user
+--
+
+CREATE INDEX t_notifier_request_id_063f7cee ON public.t_notifier USING btree (request_id);
 
 
 --
@@ -3369,30 +3439,6 @@ ALTER TABLE ONLY public.t_approval_route_detail
 
 
 --
--- Name: t_approval_route_detail t_approval_route_det_department_id_7c93281b_fk_m_departm; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_approval_route_detail
-    ADD CONSTRAINT t_approval_route_det_department_id_7c93281b_fk_m_departm FOREIGN KEY (department_id) REFERENCES public.m_department(department_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: t_approval_route_detail t_approval_route_det_division_id_0ec37482_fk_m_divisio; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_approval_route_detail
-    ADD CONSTRAINT t_approval_route_det_division_id_0ec37482_fk_m_divisio FOREIGN KEY (division_id) REFERENCES public.m_division(division_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: t_approval_route_detail t_approval_route_det_segment_id_7446c23a_fk_m_segment; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
---
-
-ALTER TABLE ONLY public.t_approval_route_detail
-    ADD CONSTRAINT t_approval_route_det_segment_id_7446c23a_fk_m_segment FOREIGN KEY (segment_id) REFERENCES public.m_segment(segment_id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: t_approval_route_detail t_approval_route_detail_approval_emp_id_da02f9c3_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -3457,6 +3503,22 @@ ALTER TABLE ONLY public.t_notification_record
 
 
 --
+-- Name: t_notifier t_notifier_notify_emp_id_49e83404_fk_m_emp_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notifier
+    ADD CONSTRAINT t_notifier_notify_emp_id_49e83404_fk_m_emp_id FOREIGN KEY (notify_emp_id) REFERENCES public.m_emp(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: t_notifier t_notifier_request_id_063f7cee_fk_t_request_request_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+--
+
+ALTER TABLE ONLY public.t_notifier
+    ADD CONSTRAINT t_notifier_request_id_063f7cee_fk_t_request_request_id FOREIGN KEY (request_id) REFERENCES public.t_request(request_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: t_request t_request_approval_type_id_0c5c6523_fk_mm_approv; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
@@ -3497,11 +3559,11 @@ ALTER TABLE ONLY public.t_request_detail
 
 
 --
--- Name: t_request t_request_status_id_7484f8ec_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
+-- Name: t_request t_request_status_id_baae0a5b_fk_m_request_status_status_id; Type: FK CONSTRAINT; Schema: public; Owner: approval_user
 --
 
 ALTER TABLE ONLY public.t_request
-    ADD CONSTRAINT t_request_status_id_7484f8ec_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
+    ADD CONSTRAINT t_request_status_id_baae0a5b_fk_m_request_status_status_id FOREIGN KEY (status_id) REFERENCES public.m_request_status(status_id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

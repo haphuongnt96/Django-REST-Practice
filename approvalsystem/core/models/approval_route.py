@@ -126,7 +126,7 @@ class ApprovalRouteDetail(BaseModel):
         default=0, null=True
     )
     approval_date = models.DateField(
-        null=True, blank=True, editable=False
+        null=True, blank=True
     )
     current_order_flg = models.BooleanField(default=False)
     default_flg = models.BooleanField(default=False)
