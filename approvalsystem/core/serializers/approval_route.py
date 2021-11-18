@@ -20,6 +20,7 @@ class CustomListApprovalRouteDetailSerializer(serializers.ListSerializer):
             data = data.annotate(
                 approval_post_nm=F('approval_post__approval_post_nm'),
                 approval_emp_nm=F('approval_emp__emp_nm'),
+                approval_status_nm=F('approval_status__approval_status_nm'),
             )
         return super().to_representation(data)
 
@@ -30,6 +31,7 @@ class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
     """
     approval_post_nm = serializers.CharField(read_only=True)
     approval_emp_nm = serializers.CharField(read_only=True)
+    approval_status_nm = serializers.CharField(read_only=True)
 
     class Meta:
         model = ApprovalRouteDetail
@@ -43,7 +45,8 @@ class ApprovalRouteDetailSerializer(serializers.ModelSerializer):
             'approval_post_nm',
             'approval_emp_id',
             'approval_emp_nm',
-            'approval_status',
+            'approval_status_id',
+            'approval_status_nm',
             'approval_date',
             'default_flg',
         ]

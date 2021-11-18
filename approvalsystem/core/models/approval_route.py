@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 
 from utils.base_model import BaseModel
+from commons.constants import ApprovalStatus as ApprovalStatusEnum
 
 from users.models.organization import BusinessUnit, Department, Segment, Division
 from .request import Request
@@ -58,7 +59,6 @@ class ApprovalRoute(BaseModel):
         verbose_name_plural = 't_approval_route/T_承認ルート'
 
 
-
 class ApprovalPost(BaseModel):
     approval_post_id = models.CharField(
         max_length=3, primary_key=True,
@@ -87,6 +87,7 @@ class ApprovalPost(BaseModel):
             self.approval_post_id = str(max_id + 1).zfill(3)
         return super().save(**kwargs)
 
+
 class ApprovalStatus(BaseModel):
     '''
     M_承認ステータス
@@ -100,6 +101,7 @@ class ApprovalStatus(BaseModel):
 
     def __str__(self) -> str:
         return "{}:{}".format(self.approval_status_id, self.approval_class_nm)
+
 
 class ApprovalRouteDetail(BaseModel):
     approval_route = models.ForeignKey(
@@ -123,7 +125,7 @@ class ApprovalRouteDetail(BaseModel):
     )
     approval_status = models.ForeignKey(
         ApprovalStatus, on_delete=models.SET_NULL,
-        default=0, null=True
+        null=True, default=ApprovalStatusEnum.NOT_VERIFY.value,
     )
     approval_date = models.DateField(
         null=True, blank=True

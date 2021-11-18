@@ -17,6 +17,18 @@ class NotificationType(Enum):
     COMMENT = '09'
 
 
+class ApprovalStatus(Enum):
+    """
+    承認ステータス区分
+    """
+    # 未検証
+    NOT_VERIFY = '1'
+    # 承認
+    APPROVED = '2'
+    # 差戻
+    REMAND = '3'
+
+
 class RequestStatus(Enum):
     """
     依頼ステータス区分
