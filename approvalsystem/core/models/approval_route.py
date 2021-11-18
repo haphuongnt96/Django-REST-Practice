@@ -99,7 +99,7 @@ class ApprovalStatus(BaseModel):
         verbose_name_plural = 'm_approval_status/M_承認ステータス'
 
     def __str__(self) -> str:
-        return "{}:{}".format(self.approval_status_id, self.approval_class_nm)
+        return "{}:{}".format(self.approval_status_id, self.approval_status_nm)
 
 class ApprovalRouteDetail(BaseModel):
     approval_route = models.ForeignKey(
