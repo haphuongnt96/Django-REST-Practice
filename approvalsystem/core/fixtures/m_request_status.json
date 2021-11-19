@@ -1,20 +1,47 @@
 [
-  {
-    "model": "core.requeststatus",
-    "pk": "1",
-    "fields": {
-      "created": "2021-10-30T04:05:47.076Z",
-      "modified": "2021-10-30T09:38:25.230Z",
-      "status_nm": "下書き"
+    {
+        "model": "core.requeststatus",
+        "pk": "1",
+        "fields": {
+            "created": "2021-10-30T04:05:47.076Z",
+            "modified": "2021-10-30T09:38:25.230Z",
+            "status_nm": "下書き"
+        }
+    },
+    {
+        "model": "core.requeststatus",
+        "pk": "2",
+        "fields": {
+            "created": "2021-10-30T09:38:31.543Z",
+            "modified": "2021-10-30T09:39:13.909Z",
+            "status_nm": "申請中"
+        }
+    },
+    {
+        "model": "core.requeststatus",
+        "pk": "3",
+        "fields": {
+            "created": "2021-11-18T05:54:06.830Z",
+            "modified": "2021-11-18T05:54:06.830Z",
+            "status_nm": "最終承認済"
+        }
+    },
+    {
+        "model": "core.requeststatus",
+        "pk": "8",
+        "fields": {
+            "created": "2021-11-18T05:54:20.770Z",
+            "modified": "2021-11-18T05:54:20.770Z",
+            "status_nm": "差戻"
+        }
+    },
+    {
+        "model": "core.requeststatus",
+        "pk": "9",
+        "fields": {
+            "created": "2021-11-18T05:54:29.177Z",
+            "modified": "2021-11-18T05:54:29.178Z",
+            "status_nm": "申請取消"
+        }
     }
-  },
-  {
-    "model": "core.requeststatus",
-    "pk": "2",
-    "fields": {
-      "created": "2021-10-30T09:38:31.543Z",
-      "modified": "2021-10-30T09:39:13.909Z",
-      "status_nm": "申請中"
-    }
-  }
 ]

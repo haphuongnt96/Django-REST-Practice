@@ -1,29 +1,19 @@
-[
-  {
-    "model": "core.approvalstatus",
-    "pk": "1",
-    "fields": {
-      "created": "2021-10-30T04:05:47.076Z",
-      "modified": "2021-10-30T09:38:25.230Z",
-      "approval_status_nm": "未検証"
+[{
+        "model": "core.approvalstatus",
+        "pk": "1",
+        "fields": {
+            "created": "2021-11-18T04:49:51.840Z",
+            "modified": "2021-11-18T05:49:33.169Z",
+            "approval_status_nm": "承認"
+        }
+    },
+    {
+        "model": "core.approvalstatus",
+        "pk": "2",
+        "fields": {
+            "created": "2021-11-18T05:37:26.173Z",
+            "modified": "2021-11-18T06:24:56.909Z",
+            "approval_status_nm": "差戻"
+        }
     }
-  },
-  {
-    "model": "core.approvalstatus",
-    "pk": "2",
-    "fields": {
-      "created": "2021-10-30T09:38:31.543Z",
-      "modified": "2021-10-30T09:39:13.909Z",
-      "approval_status_nm": "承認"
-    }
-  },
-  {
-    "model": "core.approvalstatus",
-    "pk": "3",
-    "fields": {
-      "created": "2021-10-30T09:38:31.543Z",
-      "modified": "2021-10-30T09:39:13.909Z",
-      "approval_status_nm": "差戻"
-    }
-  }
 ]

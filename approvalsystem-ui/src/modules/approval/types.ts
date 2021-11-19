@@ -99,6 +99,7 @@ declare namespace Approvals {
     approval_type_nm: string
     created: string
     department_nm: string
+    request_title: string
   } & GetAprrovalTypeResponse
 
   type FormSummary = {
@@ -107,6 +108,7 @@ declare namespace Approvals {
     created?: string
     department_nm?: string
     approval_type_id?: string
+    request_title: string
   }
 
   type RegisterApprovalRecord = {

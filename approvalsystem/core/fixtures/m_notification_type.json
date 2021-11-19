@@ -1,0 +1,47 @@
+[
+    {
+        "model": "core.notificationtype",
+        "pk": "01",
+        "fields": {
+            "created": "2021-11-11T04:23:28.009Z",
+            "modified": "2021-11-11T04:23:28.009Z",
+            "notification_type_nm": "不在"
+        }
+    },
+    {
+        "model": "core.notificationtype",
+        "pk": "02",
+        "fields": {
+            "created": "2021-11-11T04:23:32.400Z",
+            "modified": "2021-11-11T04:23:32.400Z",
+            "notification_type_nm": "最終承認済"
+        }
+    },
+    {
+        "model": "core.notificationtype",
+        "pk": "03",
+        "fields": {
+            "created": "2021-11-11T04:23:39.330Z",
+            "modified": "2021-11-11T04:23:39.330Z",
+            "notification_type_nm": "差戻"
+        }
+    },
+    {
+        "model": "core.notificationtype",
+        "pk": "04",
+        "fields": {
+            "created": "2021-11-11T04:23:46.393Z",
+            "modified": "2021-11-11T04:23:46.393Z",
+            "notification_type_nm": "申請取消"
+        }
+    },
+    {
+        "model": "core.notificationtype",
+        "pk": "09",
+        "fields": {
+            "created": "2021-11-11T04:23:53.381Z",
+            "modified": "2021-11-11T04:23:53.381Z",
+            "notification_type_nm": "コメント有"
+        }
+    }
+]

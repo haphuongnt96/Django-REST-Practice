@@ -12,9 +12,18 @@ export default class ApprovalRequestHeader extends Vue {
     }
   })
   formSummary: Approvals.FormSummary
+  @Prop() request_title: string
   //*===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎===🍎Data
   format = format
   //#region COMPUTED
+  get title() {
+    return this.request_title
+  }
+
+  set title(value: string) {
+    this.$emit('update:request_title', value)
+  }
+
   get contents() {
     return this.$pageContents.APPROVAL
   }
@@ -34,6 +43,15 @@ export default class ApprovalRequestHeader extends Vue {
   get userName() {
     return this.formSummary.emp_nm
   }
+
+  get requestTitle() {
+    return this.formSummary.request_title
+  }
+
+  set requestTitle(value: string) {
+    const result = { ...this.formSummary, ...{ request_title: value } }
+    this.$emit('update:formSummary', result)
+  }
   //#endregion
 }
 </script>
@@ -41,6 +59,10 @@ export default class ApprovalRequestHeader extends Vue {
 <template>
   <div>
     <div class="text-h5 txt-text-1 mb-2">{{ contents.APP_INFORMATION }}</div>
+    <div class="d-flex flex-gap-2 mb-4">
+      <div class="mt-2">申請タイトル</div>
+      <TextField v-model="requestTitle" :validations="'required'" />
+    </div>
     <div class="d-flex flex-gap-8">
       <div class="d-flex align-center">
         <span class="mr-2">{{ contents.APP_CONTENT }}:</span>
@@ -64,4 +86,10 @@ export default class ApprovalRequestHeader extends Vue {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep {
+  .v-text-field__details {
+    margin-bottom: 0 !important;
+  }
+}
+</style>

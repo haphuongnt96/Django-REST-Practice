@@ -100,7 +100,8 @@ class ApprovalStatus(BaseModel):
         verbose_name_plural = 'm_approval_status/M_承認ステータス'
 
     def __str__(self) -> str:
-        return "{}:{}".format(self.approval_status_id, self.approval_class_nm)
+        return "{}:{}".format(self.approval_status_id, self.approval_status_nm)
+
 
 
 class ApprovalRouteDetail(BaseModel):
@@ -125,7 +126,7 @@ class ApprovalRouteDetail(BaseModel):
     )
     approval_status = models.ForeignKey(
         ApprovalStatus, on_delete=models.SET_NULL,
-        null=True, default=ApprovalStatusEnum.NOT_VERIFY.value,
+        null=True, blank=True,
     )
     approval_date = models.DateField(
         null=True, blank=True
@@ -141,9 +142,8 @@ class ApprovalRouteDetail(BaseModel):
         ]
 
     def save(self, *args, **kwargs):
-        if self.approval_status != self.StatusChoices.not_verified and \
-                not self.approval_date:
+        if self.approval_status and not self.approval_date:
             self.approval_date = date.today()
-        elif self.approval_status == self.StatusChoices.not_verified:
+        elif not self.approval_status:
             self.approval_date = None
         return super().save(*args, **kwargs)

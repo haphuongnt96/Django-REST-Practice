@@ -21,12 +21,10 @@ class ApprovalStatus(Enum):
     """
     承認ステータス区分
     """
-    # 未検証
-    NOT_VERIFY = '1'
     # 承認
-    APPROVED = '2'
+    APPROVED = '1'
     # 差戻
-    REMAND = '3'
+    REMAND = '2'
 
 
 class RequestStatus(Enum):

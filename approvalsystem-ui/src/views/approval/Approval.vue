@@ -47,7 +47,8 @@ export default class Approval extends Vue {
     emp_nm: '',
     created: '',
     approval_type_nm: '',
-    department_nm: ''
+    department_nm: '',
+    request_title: ''
   }
   approval_types: Approvals.ApprovalType[] = []
   commentCount = '0'
@@ -147,14 +148,16 @@ export default class Approval extends Vue {
           department_nm,
           notifiers,
           approval_route_details,
-          created
+          created,
+          request_title
         } = res
         this.formSummary = {
           emp_nm: request_emp_nm,
           approval_type_nm,
           created,
           approval_type_id,
-          department_nm
+          department_nm,
+          request_title
         }
         this.m_request_details = m_request_details
         this.items = approval_routes
@@ -217,6 +220,7 @@ export default class Approval extends Vue {
   }
 
   saveDraft() {
+    this.observer.reset()
     this.sendRequest(APPROVE_STATUS.DRAFT)
   }
 
@@ -233,7 +237,8 @@ export default class Approval extends Vue {
       request_details: this.requestDetails,
       department_id: this.departmentId,
       approval_route_details: this.approvals.filter((x) => !x.default_flg),
-      notifiers: this.notifies || []
+      notifiers: this.notifies || [],
+      request_title: this.formSummary.request_title
     }
     const [err, res] = this.requestID
       ? await this.$api.approval.updateRequestFormData(this.requestID, data)
@@ -260,11 +265,14 @@ export default class Approval extends Vue {
 </script>
 
 <template>
-  <v-container fluid px-8>
-    <ApprovalRoutes :items="items" class="mb-5" />
-    <v-card class="pa-5 approval__container">
-      <ApprovalRequestHeader class="flex-grow-1" :formSummary="formSummary" />
-      <ValidationObserver ref="observer">
+  <ValidationObserver ref="observer">
+    <v-container fluid px-8>
+      <ApprovalRoutes :items="items" class="mb-5" />
+      <v-card class="pa-5 approval__container">
+        <ApprovalRequestHeader
+          class="flex-grow-1"
+          :formSummary.sync="formSummary"
+        />
         <v-container fluid pa-0 class="d-flex mt-5 justify-center flex-gap-4">
           <ApprovalRequestDetail
             class="approval__detail"
@@ -279,10 +287,10 @@ export default class Approval extends Vue {
             />
           </div>
         </v-container>
-      </ValidationObserver>
-    </v-card>
-    <ApprovalSubFunction :commentCount="commentCount" />
-  </v-container>
+      </v-card>
+      <ApprovalSubFunction :commentCount="commentCount" />
+    </v-container>
+  </ValidationObserver>
 </template>
 
 <style lang="scss" scoped>

@@ -22,8 +22,8 @@ class RequestStatus(BaseModel):
         db_table = 'm_request_status'
         verbose_name_plural = 'm_request_status/M_申請ステータス'
 
-    def __str__(self):
-        return self.status_nm
+    def __str__(self) -> str:
+        return "{}:{}".format(self.status_id, self.status_nm)
 
     @classmethod
     def get_status_choices(cls):
@@ -48,7 +48,7 @@ class Request(BaseModel):
         default=RequestStatusEnum.DRAFT.value, verbose_name='status/申請ステータスID'
     )
     request_title = models.CharField(
-        max_length=50, verbose_name='request_title/申請タイトル'
+        max_length=50, verbose_name='request_title/申請タイトル', blank=True
     )
 
     class Meta:
