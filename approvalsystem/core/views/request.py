@@ -10,7 +10,7 @@ from core.serializers import RequestSerializer, DetailRequestSerializer
 
 class RequestGetListAPI(ListAPIView):
     # レコード生成降順で整列
-    queryset = Request.objects.all().order_by('-request_id')
+    queryset = Request.objects.all().order_by('request_id')
     serializer_class = RequestSerializer
 
 
