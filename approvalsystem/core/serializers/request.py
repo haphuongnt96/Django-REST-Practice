@@ -7,7 +7,10 @@ from core.models import (
     Request, RequestStatus, RequestDetail, Notifier,
     ApprovalRouteDetail, ApprovalPost, ApprovalType
 )
-from commons.constants import RequestStatus as RequestStatusEnum
+from commons.constants import (
+    RequestStatus as RequestStatusEnum,
+    ApprovalStatus as ApprovalStatusEnum,
+)
 from .approval_route import ApprovalRouteSerializer, DetailApprovalRouteSerializer
 from .m_approval_route import RequestDetailMasterSerializer
 
@@ -122,6 +125,7 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         fields = [
             'request_id',
             'approval_type_id',
+            'request_title',
             'approval_type_nm',
             'request_emp_id',
             'request_emp_nm',
@@ -252,7 +256,9 @@ class DetailRequestSerializer(serializers.ModelSerializer):
         notifiers = validated_data.pop('notifiers', [])
         status_id = validated_data.pop('status_id')
 
+        # update request
         instance.status_id = status_id
+        instance.request_title = validated_data.get('request_title', '')
         # save request detail answer
         for request_detail in request_details:
             request_detail['request_id'] = instance.request_id
@@ -277,9 +283,9 @@ class DetailRequestSerializer(serializers.ModelSerializer):
                 approval_emp_id=approval_emp_id
             ).first()
             if approval_route_detail:
-                if approval_route_detail.approval_status in (
-                        ApprovalRouteDetail.StatusChoices.approved,
-                        ApprovalRouteDetail.StatusChoices.rejected,
+                if approval_route_detail.approval_status_id in (
+                        ApprovalStatusEnum.APPROVED.value,
+                        ApprovalStatusEnum.REMAND.value,
                 ):
                     continue
                 approval_route_detail.approval_post = approval_post

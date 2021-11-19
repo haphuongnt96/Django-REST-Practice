@@ -1,5 +1,4 @@
-[
-    {
+[{
         "model": "core.approvalstatus",
         "pk": "1",
         "fields": {
