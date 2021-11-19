@@ -19,7 +19,7 @@ class ApprovalClass(BaseModel):
     )
     approval_class_nm = models.CharField(
         max_length=10,
-        verbose_name='approval_class_id/承認分類名'
+        verbose_name='approval_class_nm/承認分類名'
     )
 
     class Meta:

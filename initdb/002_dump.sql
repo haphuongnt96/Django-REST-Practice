@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.4 (Debian 13.4-1.pgdg100+1)
--- Dumped by pg_dump version 13.4 (Debian 13.4-1.pgdg100+1)
+-- Dumped from database version 13.4 (Debian 13.4-1.pgdg110+1)
+-- Dumped by pg_dump version 13.4 (Debian 13.4-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1415,6 +1415,98 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 10	2021-11-11 16:40:05.201597+00	1	Request object (1)	1	[{"added": {}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (1)"}}]	12	1
 11	2021-11-11 16:40:31.72207+00	2	Request object (2)	1	[{"added": {}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (2)"}}]	12	1
 12	2021-11-11 16:40:50.805143+00	1	Request object (1):0000001 - あどみん:02:最終承認済	1	[{"added": {}}]	33	1
+13	2021-11-18 04:03:12.65647+00	100	総務部　総務課　課長	2	[{"changed": {"fields": ["Approval_post_nm/\\u627f\\u8a8d\\u5f79\\u8077\\u540d"]}}]	6	1
+14	2021-11-18 04:03:30.287722+00	300	総務部　総務課　部長	2	[{"changed": {"fields": ["Approval_post_nm/\\u627f\\u8a8d\\u5f79\\u8077\\u540d"]}}]	6	1
+15	2021-11-18 04:05:41.774257+00	01	管理本部	2	[{"changed": {"fields": ["Business_unit_nm/\\u4e8b\\u696d\\u90e8\\u540d"]}}]	28	1
+16	2021-11-18 04:05:59.111123+00	100	100 - 総務部	2	[{"changed": {"fields": ["Department_nm/\\u90e8\\u9580\\u540d"]}}]	29	1
+17	2021-11-18 04:06:12.452252+00	200	200 - 経営企画部	1	[{"added": {}}]	29	1
+18	2021-11-18 04:06:28.813761+00	300	300 - 経理部	1	[{"added": {}}]	29	1
+19	2021-11-18 04:06:53.914375+00	100	総務課	2	[{"changed": {"fields": ["Segment_nm/\\u30bb\\u30b0\\u30e1\\u30f3\\u30c8\\u540d"]}}]	31	1
+20	2021-11-18 04:07:06.808585+00	200	人財課	1	[{"added": {}}]	31	1
+21	2021-11-18 04:07:22.794386+00	300	情報システム	1	[{"added": {}}]	31	1
+22	2021-11-18 04:07:56.319934+00	400	経理課	1	[{"added": {}}]	31	1
+23	2021-11-18 04:12:01.950358+00	4	0000003 - かきくけこ	1	[{"added": {}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (2)"}}]	14	1
+24	2021-11-18 04:13:07.272122+00	5	0000004 - さしすせそ	1	[{"added": {}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (3)"}}]	14	1
+25	2021-11-18 04:14:12.534315+00	1	Request object (1)	2	[{"changed": {"name": "approval route", "object": "ApprovalRoute object (1)", "fields": ["Request_dt/\\u7533\\u8acb\\u65e5\\u6642"]}}]	12	1
+26	2021-11-18 05:23:52.930362+00	3	承認済	1	[{"added": {}}]	18	1
+27	2021-11-18 05:25:01.882275+00	4	未承認	1	[{"added": {}}]	18	1
+28	2021-11-18 05:35:56.298485+00	2	Request object (1):0000002 - あいうえお:03:差戻	1	[{"added": {}}]	33	1
+29	2021-11-18 05:36:13.188805+00	1	Request object (1):0000004 - さしすせそ	1	[{"added": {}}]	38	1
+30	2021-11-18 05:38:50.337555+00	1	Request object (1)	2	[{"added": {"name": "approval route", "object": "ApprovalRoute object (3)"}}, {"added": {"name": "approval route", "object": "ApprovalRoute object (4)"}}]	12	1
+31	2021-11-18 05:39:28.747576+00	200	経理部　経理課　担当	2	[{"changed": {"fields": ["Approval_post_nm/\\u627f\\u8a8d\\u5f79\\u8077\\u540d"]}}]	6	1
+32	2021-11-18 05:56:47.328867+00	1	1:承認	1	[{"added": {}}]	37	1
+33	2021-11-19 00:46:57.021607+00	02	マンション管理事業本	1	[{"added": {}}]	28	1
+34	2021-11-19 01:22:35.102923+00	400	400 - 監査部	1	[{"added": {}}]	29	1
+35	2021-11-19 01:22:50.985917+00	500	500 - 受託会計部	1	[{"added": {}}]	29	1
+36	2021-11-19 01:23:13.285134+00	600	600 - 業務統括部	1	[{"added": {}}]	29	1
+37	2021-11-19 01:23:30.538668+00	700	700 - 大阪北支店	1	[{"added": {}}]	29	1
+38	2021-11-19 01:23:43.831618+00	800	800 - 大阪南支店	1	[{"added": {}}]	29	1
+39	2021-11-19 01:24:12.089517+00	900	900 - 京奈支店	1	[{"added": {}}]	29	1
+40	2021-11-19 01:24:35.274677+00	101	101 - 神戸・西日本支店	1	[{"added": {}}]	29	1
+41	2021-11-19 01:24:57.60872+00	102	102 - 東京支店	1	[{"added": {}}]	29	1
+42	2021-11-19 01:25:13.433631+00	103	103 - 名古屋支店	1	[{"added": {}}]	29	1
+43	2021-11-19 01:25:37.68088+00	104	104 - 工事営業部	1	[{"added": {}}]	29	1
+44	2021-11-19 01:26:06.72469+00	105	105 - 賃貸事業部	1	[{"added": {}}]	29	1
+45	2021-11-19 01:26:22.696777+00	106	106 - 賃貸事業部	1	[{"added": {}}]	29	1
+46	2021-11-19 01:26:34.597811+00	106	106 - 賃貸事業部	3		29	1
+47	2021-11-19 01:26:56.041799+00	106	106 - 公営住宅事業部	1	[{"added": {}}]	29	1
+48	2021-11-19 01:27:16.39733+00	107	107 - 技術・品質管理部	1	[{"added": {}}]	29	1
+49	2021-11-19 01:50:42.197319+00	500	経営企画	1	[{"added": {}}]	31	1
+50	2021-11-19 01:51:01.650939+00	500	経営企画部	2	[{"changed": {"fields": ["Segment_nm/\\u30bb\\u30b0\\u30e1\\u30f3\\u30c8\\u540d"]}}]	31	1
+51	2021-11-19 01:52:54.898346+00	600	購買課	1	[{"added": {}}]	31	1
+52	2021-11-19 01:53:50.458037+00	700	監査	1	[{"added": {}}]	31	1
+53	2021-11-19 01:54:10.681913+00	800	受託会計部	1	[{"added": {}}]	31	1
+54	2021-11-19 01:54:34.902214+00	900	業務推進課	1	[{"added": {}}]	31	1
+55	2021-11-19 01:54:55.617402+00	101	契約管理センター	1	[{"added": {}}]	31	1
+56	2021-11-19 01:55:16.461115+00	102	マンション管理研修セ	1	[{"added": {}}]	31	1
+57	2021-11-19 01:55:56.899689+00	103	セーフティ24コール	1	[{"added": {}}]	31	1
+58	2021-11-19 01:56:18.170145+00	104	大阪北	1	[{"added": {}}]	31	1
+59	2021-11-19 01:56:28.579299+00	105	大阪南	1	[{"added": {}}]	31	1
+60	2021-11-19 01:56:43.635186+00	106	奈良	1	[{"added": {}}]	31	1
+61	2021-11-19 01:56:54.184667+00	107	京都営業所	1	[{"added": {}}]	31	1
+62	2021-11-19 02:01:08.258489+00	108	神戸	1	[{"added": {}}]	31	1
+63	2021-11-19 02:01:37.80313+00	109	広島営業所	1	[{"added": {}}]	31	1
+64	2021-11-19 02:02:05.51716+00	110	福岡営業所	1	[{"added": {}}]	31	1
+65	2021-11-19 02:02:28.301212+00	111	東京	1	[{"added": {}}]	31	1
+66	2021-11-19 02:03:47.15953+00	112	名古屋	1	[{"added": {}}]	31	1
+67	2021-11-19 02:04:09.041979+00	113	三重営業所	1	[{"added": {}}]	31	1
+68	2021-11-19 02:05:18.290469+00	114	工事営業	1	[{"added": {}}]	31	1
+69	2021-11-19 02:07:24.03693+00	115	賃貸営業	1	[{"added": {}}]	31	1
+70	2021-11-19 02:07:41.526724+00	116	賃貸FMセンター	1	[{"added": {}}]	31	1
+71	2021-11-19 02:11:12.923506+00	117	公営住宅事業部	1	[{"added": {}}]	31	1
+72	2021-11-19 02:11:35.019665+00	119	技術センター	1	[{"added": {}}]	31	1
+73	2021-11-19 02:12:07.457075+00	120	長期修繕計画センター	1	[{"added": {}}]	31	1
+74	2021-11-19 02:13:13.605875+00	2	2:差戻	1	[{"added": {}}]	37	1
+75	2021-11-19 02:15:50.885934+00	400	経営企画部　担当	1	[{"added": {}}]	6	1
+76	2021-11-19 02:16:13.652291+00	500	経営企画部　課長	1	[{"added": {}}]	6	1
+77	2021-11-19 02:17:06.090497+00	1	ApprovalRouteMaster object (1)	1	[{"added": {}}]	21	1
+78	2021-11-19 02:19:17.499961+00	1	ApprovalRouteMaster object (1)	2	[]	21	1
+79	2021-11-19 02:19:59.016211+00	2	ApprovalRouteMaster object (2)	1	[{"added": {}}]	21	1
+80	2021-11-19 02:21:20.161398+00	3	ApprovalRouteMaster object (3)	1	[{"added": {}}]	21	1
+81	2021-11-19 02:47:56.233282+00	2	0000002 - 〇垣　敦	2	[{"changed": {"fields": ["Employee name/\\u793e\\u54e1\\u540d", "Email/E\\u30e1\\u30fc\\u30eb"]}}]	14	1
+82	2021-11-19 02:48:33.280721+00	4	0000003 - 〇東　聡子	2	[{"changed": {"fields": ["Employee name/\\u793e\\u54e1\\u540d", "Email/E\\u30e1\\u30fc\\u30eb"]}}]	14	1
+83	2021-11-19 02:49:05.011346+00	2	0000002 - 〇垣　敦	2	[{"added": {"name": "emp affiliation", "object": "EmpAffiliation object (4)"}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (5)"}}]	14	1
+84	2021-11-19 02:50:37.47581+00	5	0000004 - 〇山　和志	2	[{"changed": {"fields": ["Employee name/\\u793e\\u54e1\\u540d", "Email/E\\u30e1\\u30fc\\u30eb"]}}, {"changed": {"name": "emp affiliation", "object": "EmpAffiliation object (3)", "fields": ["Department/\\u90e8\\u9580", "Segment/\\u30bb\\u30b0\\u30e1\\u30f3\\u30c8"]}}]	14	1
+85	2021-11-19 02:51:36.713798+00	6	0000005 - 〇中　奈央	1	[{"added": {}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (6)"}}]	14	1
+86	2021-11-19 02:52:51.576988+00	7	0000006 - 〇川　浩志	1	[{"added": {}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (7)"}}]	14	1
+87	2021-11-19 02:55:03.598727+00	8	0000007 - 〇倉　富彦	1	[{"added": {}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (8)"}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (9)"}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (10)"}}]	14	1
+88	2021-11-19 02:56:28.252748+00	9	0000008 - 〇塚　勝哉	1	[{"added": {}}, {"added": {"name": "emp affiliation", "object": "EmpAffiliation object (11)"}}]	14	1
+89	2021-11-19 02:56:58.469891+00	01	〇垣　敦	2	[{"changed": {"fields": ["Division_nm/\\u8ab2\\u540d"]}}]	30	1
+90	2021-11-19 02:57:23.079585+00	02	〇塚　勝哉	1	[{"added": {}}]	30	1
+91	2021-11-19 02:57:46.511992+00	03	〇中　忍	1	[{"added": {}}]	30	1
+92	2021-11-19 04:07:06.225111+00	1	ローレルコート御幣島管理組合	2	[{"changed": {"fields": ["Property_nm/\\u7269\\u4ef6\\u540d", "Department/\\u90e8\\u9580ID", "Segment/\\u30bb\\u30b0\\u30e1\\u30f3\\u30c8ID", "Address/\\u4f4f\\u6240", "Emp/\\u793e\\u54e1ID"]}}]	26	1
+93	2021-11-19 04:08:05.618386+00	2	OTCセブンハイツ管理組合	1	[{"added": {}}]	26	1
+94	2021-11-19 04:08:50.230196+00	1002201	ローレルコート御幣島管理組合	2	[{"changed": {"fields": ["Property_id/\\u7269\\u4ef6ID"]}}]	26	1
+95	2021-11-19 04:09:02.007846+00	1004501	OTCセブンハイツ管理組合	2	[{"changed": {"fields": ["Property_id/\\u7269\\u4ef6ID"]}}]	26	1
+96	2021-11-19 04:10:04.417766+00	1	ローレルコート御幣島管理組合	3		26	1
+97	2021-11-19 04:10:12.196515+00	2	OTCセブンハイツ管理組合	3		26	1
+98	2021-11-19 04:11:21.314787+00	1005601	ローレルコート豊中服部緑地管理組合	1	[{"added": {}}]	26	1
+99	2021-11-19 04:12:19.26658+00	1000301	ローレルスクエア八尾ミッド管理組合	1	[{"added": {}}]	26	1
+100	2021-11-19 04:13:14.743374+00	1002001	ローレルコート百舌鳥管理組合	1	[{"added": {}}]	26	1
+101	2021-11-19 04:14:38.701303+00	1	ApprovalRouteComment object (1)	1	[{"added": {}}]	17	1
+102	2021-11-19 04:18:50.858317+00	1	1:システム系	1	[{"added": {}}]	20	1
+103	2021-11-19 04:19:04.255528+00	2	2:通勤系	1	[{"added": {}}]	20	1
+104	2021-11-19 04:19:18.680117+00	3	3:労災系	1	[{"added": {}}]	20	1
 \.
 
 
@@ -1531,6 +1623,7 @@ COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 yigkgqjbcblyj2kpe7pu8lmemsyrdilg	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mSuEQ:hq6EKgyBgorOQ5MCJ2sRGsU0xMe0_OWc9hyLLCR9Lz8	2021-10-06 04:51:42.239745+00
 ihx16sdmo21hminnfw3eisnykee4dcha	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mV27a:jRpvK8lAur5PUTtuPD_StdV9imefYq1NXX6tNs7s5f4	2021-10-12 01:41:26.094011+00
 spdp6uqocyi05kvh6jlmgycgx7ffj28t	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1ml1bf:81TVjf8PYBYgpE3SRBtA7wHUQ_vyUVh-LqOvMWgiz7Y	2021-11-25 04:22:35.220068+00
+3pi739s3ug3xk3g4quufl4j8va22bsul	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpAvdnnPufYuA61LC2tMcpiguQonTLyPkZ6q7iA-s9ya51WWeSO6JPGyXtxbT63q0fwcFe9nWdIYM1no2xmkzkiFiNsDegyKKdkA_Zj-qnL3V2cHAeYOk0GrtEEF8vt-MN-o:1mnXTr:CkwUaZxQ2g99qt-7eibGuJ9aYMAcgNZugE2-XtJDpRQ	2021-12-02 02:48:55.458814+00
 \.
 
 
@@ -1539,6 +1632,9 @@ spdp6uqocyi05kvh6jlmgycgx7ffj28t	.eJxVjMsOwiAQRf-FtSHSoTxcuvcbyMwAUjWQlHZl_HfbpA
 --
 
 COPY public.m_approval_class (created, modified, approval_class_id, approval_class_nm) FROM stdin;
+2021-11-19 04:18:50.854318+00	2021-11-19 04:18:50.855342+00	1	システム系
+2021-11-19 04:19:04.252526+00	2021-11-19 04:19:04.252526+00	2	通勤系
+2021-11-19 04:19:18.678271+00	2021-11-19 04:19:18.678271+00	3	労災系
 \.
 
 
@@ -1547,9 +1643,11 @@ COPY public.m_approval_class (created, modified, approval_class_id, approval_cla
 --
 
 COPY public.m_approval_post (created, modified, approval_post_id, approval_post_nm) FROM stdin;
-2021-09-22 02:38:00.458+00	2021-09-22 02:38:04.152+00	100	やくしょく1
-2021-09-22 02:38:00.458+00	2021-09-22 02:38:04.152+00	200	やくしょく2
-2021-09-22 02:38:00.458+00	2021-09-22 02:38:04.152+00	300	総務部　総務課　執行
+2021-09-22 02:38:00.458+00	2021-11-18 04:03:12.647466+00	100	総務部　総務課　課長
+2021-09-22 02:38:00.458+00	2021-11-18 04:03:30.2822+00	300	総務部　総務課　部長
+2021-09-22 02:38:00.458+00	2021-11-18 05:39:28.738573+00	200	経理部　経理課　担当
+2021-11-19 02:15:50.878853+00	2021-11-19 02:15:50.878853+00	400	経営企画部　担当
+2021-11-19 02:16:13.648286+00	2021-11-19 02:16:13.648286+00	500	経営企画部　課長
 \.
 
 
@@ -1558,8 +1656,8 @@ COPY public.m_approval_post (created, modified, approval_post_id, approval_post_
 --
 
 COPY public.m_approval_status (created, modified, approval_status_id, approval_status_nm) FROM stdin;
-2021-11-18 04:49:51.84+00	2021-11-18 05:49:33.169+00	1	承認
-2021-11-18 05:37:26.173+00	2021-11-18 06:24:56.909+00	2	差戻
+2021-11-18 05:56:47.322869+00	2021-11-18 05:56:47.322869+00	1	承認
+2021-11-19 02:13:13.603688+00	2021-11-19 02:13:13.603688+00	2	差戻
 \.
 
 
@@ -1568,7 +1666,8 @@ COPY public.m_approval_status (created, modified, approval_status_id, approval_s
 --
 
 COPY public.m_business_unit (created, modified, business_unit_id, business_unit_nm) FROM stdin;
-2021-10-26 08:52:48.869+00	2021-10-26 08:52:52.346+00	01	事業部1
+2021-10-26 08:52:48.869+00	2021-11-18 04:05:41.770258+00	01	管理本部
+2021-11-19 00:46:57.018976+00	2021-11-19 00:46:57.018976+00	02	マンション管理事業本
 \.
 
 
@@ -1609,7 +1708,22 @@ COPY public.m_column_type (created, modified, column_type_id, column_type_nm) FR
 --
 
 COPY public.m_department (created, modified, department_id, department_nm) FROM stdin;
-2021-10-26 08:53:25.13+00	2021-10-26 08:53:28.863+00	100	部門100
+2021-10-26 08:53:25.13+00	2021-11-18 04:05:59.107107+00	100	総務部
+2021-11-18 04:06:12.450262+00	2021-11-18 04:06:12.450262+00	200	経営企画部
+2021-11-18 04:06:28.81077+00	2021-11-18 04:06:28.81077+00	300	経理部
+2021-11-19 01:22:35.099923+00	2021-11-19 01:22:35.099923+00	400	監査部
+2021-11-19 01:22:50.983749+00	2021-11-19 01:22:50.983749+00	500	受託会計部
+2021-11-19 01:23:13.28208+00	2021-11-19 01:23:13.28208+00	600	業務統括部
+2021-11-19 01:23:30.536669+00	2021-11-19 01:23:30.536669+00	700	大阪北支店
+2021-11-19 01:23:43.828617+00	2021-11-19 01:23:43.829615+00	800	大阪南支店
+2021-11-19 01:24:12.087494+00	2021-11-19 01:24:12.087494+00	900	京奈支店
+2021-11-19 01:24:35.272669+00	2021-11-19 01:24:35.272669+00	101	神戸・西日本支店
+2021-11-19 01:24:57.606722+00	2021-11-19 01:24:57.606722+00	102	東京支店
+2021-11-19 01:25:13.43165+00	2021-11-19 01:25:13.43165+00	103	名古屋支店
+2021-11-19 01:25:37.678882+00	2021-11-19 01:25:37.678882+00	104	工事営業部
+2021-11-19 01:26:06.722691+00	2021-11-19 01:26:06.722691+00	105	賃貸事業部
+2021-11-19 01:26:56.039816+00	2021-11-19 01:26:56.039816+00	106	公営住宅事業部
+2021-11-19 01:27:16.395331+00	2021-11-19 01:27:16.395331+00	107	技術・品質管理部
 \.
 
 
@@ -1618,7 +1732,9 @@ COPY public.m_department (created, modified, department_id, department_nm) FROM 
 --
 
 COPY public.m_division (created, modified, division_id, division_nm) FROM stdin;
-2021-10-26 08:54:12.051+00	2021-10-26 08:54:15.217+00	01	課01
+2021-10-26 08:54:12.051+00	2021-11-19 02:56:58.46789+00	01	〇垣　敦
+2021-11-19 02:57:23.077589+00	2021-11-19 02:57:23.077589+00	02	〇塚　勝哉
+2021-11-19 02:57:46.510005+00	2021-11-19 02:57:46.510005+00	03	〇中　忍
 \.
 
 
@@ -1627,8 +1743,14 @@ COPY public.m_division (created, modified, division_id, division_nm) FROM stdin;
 --
 
 COPY public.m_emp (id, password, last_login, is_superuser, created, modified, email, is_staff, is_active, deleted_flg, emp_cd, emp_nm) FROM stdin;
-2	pbkdf2_sha256$260000$1DZJ22YKKNTGSelK2Ti3CI$SKJPYqfH3bv3UH3AkkJeVpeMbWcdN5eZVvaJqxbN5Ps=	\N	f	2021-09-22 03:44:48.939363+00	2021-09-27 10:58:35.040219+00	ai@example.com	f	t	f	0000002	あいうえお
-1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-11-11 04:22:35.208566+00	t	2021-09-22 03:43:00.644272+00	2021-09-27 10:58:35.037229+00	admin@example.com	t	t	f	0000001	あどみん
+1	pbkdf2_sha256$260000$L2gggWSh35FU8DaCpjSizv$U/PEZ3ckieXr5KeJUCwv+GB5+XZOkwEoLmLMmjet1Xw=	2021-11-18 02:48:55.449381+00	t	2021-09-22 03:43:00.644272+00	2021-09-27 10:58:35.037229+00	admin@example.com	t	t	f	0000001	あどみん
+4	pbkdf2_sha256$260000$EeRopa5jpxR71v899ih4QL$mIiJahgf91lPDDNT6ilmXokM/8M3BVbpz6dAqumJx1I=	\N	f	2021-11-18 04:12:01.945359+00	2021-11-19 02:48:33.27072+00	s@example.com	f	t	f	0000003	〇東　聡子
+2	pbkdf2_sha256$260000$1DZJ22YKKNTGSelK2Ti3CI$SKJPYqfH3bv3UH3AkkJeVpeMbWcdN5eZVvaJqxbN5Ps=	\N	f	2021-09-22 03:44:48.939363+00	2021-11-19 02:49:04.968887+00	i@example.com	f	t	f	0000002	〇垣　敦
+5	pbkdf2_sha256$260000$1E3XqvmiGY5ZSHNs1HGITh$W/pJG/t3svpbypvqnc1pkG1bmBRNPa/enJm6WPKyKg4=	\N	f	2021-11-18 04:13:07.236941+00	2021-11-19 02:50:37.463106+00	co@example.com	f	t	f	0000004	〇山　和志
+6	pbkdf2_sha256$260000$xMvN3RKHUQl0S8svUjIuPr$aMr1Z50DVTpxrFPsQlZHSK5McngPNAKh7kBEfWKrd2o=	\N	f	2021-11-19 02:51:36.701796+00	2021-11-19 02:51:36.701796+00	ta@example.com	f	t	f	0000005	〇中　奈央
+7	pbkdf2_sha256$260000$GNNsQSJrBQsEyaZ49a3W5g$9LThH6xkRi6RdYywk3MfzlheWwglGesh9v67AKAY1xM=	\N	f	2021-11-19 02:52:51.572972+00	2021-11-19 02:52:51.572972+00	ya@example.com	f	t	f	0000006	〇川　浩志
+8	pbkdf2_sha256$260000$Rq05649e1GJfQQj0VtyGbn$kIzLwNJE02fFezLesXQ98Uow5ON1SXQQGB2JggpZfK0=	\N	f	2021-11-19 02:55:03.584585+00	2021-11-19 02:55:03.584585+00	kura@example.com	f	t	f	0000007	〇倉　富彦
+9	pbkdf2_sha256$260000$db8WyDwcix38QG0jnfMKSV$CwHre5qZCQsIXPY7Kfafd0IejE+iuKySVLrRkPPYuck=	\N	f	2021-11-19 02:56:28.24761+00	2021-11-19 02:56:28.24761+00	taku@example.com	f	t	f	0000008	〇塚　勝哉
 \.
 
 
@@ -1638,6 +1760,16 @@ COPY public.m_emp (id, password, last_login, is_superuser, created, modified, em
 
 COPY public.m_emp_affiliation (created, modified, emp_affiliation_id, main_flg, business_unit_id, department_id, division_id, emp_id, segment_id) FROM stdin;
 2021-11-09 02:41:10.183+00	2021-11-09 02:41:14.029+00	1	t	01	100	01	1	100
+2021-11-18 04:12:01.947361+00	2021-11-18 04:12:01.947361+00	2	f	01	200	\N	4	300
+2021-11-19 02:49:04.978346+00	2021-11-19 02:49:04.978346+00	4	f	01	200	\N	2	300
+2021-11-19 02:49:05.009346+00	2021-11-19 02:49:05.009346+00	5	f	01	200	\N	2	500
+2021-11-18 04:13:07.239655+00	2021-11-19 02:50:37.472108+00	3	f	01	200	\N	5	300
+2021-11-19 02:51:36.710796+00	2021-11-19 02:51:36.710796+00	6	f	01	200	\N	6	300
+2021-11-19 02:52:51.574974+00	2021-11-19 02:52:51.574974+00	7	f	01	200	\N	7	300
+2021-11-19 02:55:03.587584+00	2021-11-19 02:55:03.587584+00	8	f	01	100	\N	8	100
+2021-11-19 02:55:03.591401+00	2021-11-19 02:55:03.591401+00	9	f	01	200	\N	8	300
+2021-11-19 02:55:03.594459+00	2021-11-19 02:55:03.594459+00	10	f	01	500	\N	8	800
+2021-11-19 02:56:28.2496+00	2021-11-19 02:56:28.2496+00	11	f	01	100	\N	9	100
 \.
 
 
@@ -1683,7 +1815,11 @@ COPY public.m_notification_type (created, modified, notification_type_id, notifi
 --
 
 COPY public.m_property (created, modified, property_id, property_nm, address, tel_number, department_id, division_id, emp_id, segment_id) FROM stdin;
-2021-11-09 04:23:52.528+00	2021-11-09 04:23:55.783+00	1	ぶっけん	じゅうしょ	070	100	01	1	100
+2021-11-19 04:08:50.228203+00	2021-11-19 04:08:50.228203+00	1002201	ローレルコート御幣島管理組合	大阪府大阪市西淀川区	070	700	01	5	104
+2021-11-19 04:09:02.005835+00	2021-11-19 04:09:02.005835+00	1004501	OTCセブンハイツ管理組合	大阪府大阪市西淀川区	090	700	01	5	104
+2021-11-19 04:11:21.312786+00	2021-11-19 04:11:21.312786+00	1005601	ローレルコート豊中服部緑地管理組合	大阪府大阪市西淀川区	090	700	01	4	104
+2021-11-19 04:12:19.263581+00	2021-11-19 04:12:19.263581+00	1000301	ローレルスクエア八尾ミッド管理組合	大阪府大阪市西淀川区	090	800	01	4	105
+2021-11-19 04:13:14.741371+00	2021-11-19 04:13:14.741371+00	1002001	ローレルコート百舌鳥管理組合	大阪府大阪市西淀川区	090	800	01	2	105
 \.
 
 
@@ -1724,9 +1860,6 @@ COPY public.m_request_detail (created, modified, request_column_id, required, ma
 COPY public.m_request_status (created, modified, status_id, status_nm) FROM stdin;
 2021-10-30 04:05:47.076+00	2021-10-30 09:38:25.23+00	1	下書き
 2021-10-30 09:38:31.543+00	2021-10-30 09:39:13.909+00	2	申請中
-2021-11-18 05:54:06.83+00	2021-11-18 05:54:06.83+00	3	最終承認済
-2021-11-18 05:54:20.77+00	2021-11-18 05:54:20.77+00	8	差戻
-2021-11-18 05:54:29.177+00	2021-11-18 05:54:29.178+00	9	申請取消
 \.
 
 
@@ -1735,7 +1868,34 @@ COPY public.m_request_status (created, modified, status_id, status_nm) FROM stdi
 --
 
 COPY public.m_segment (created, modified, segment_id, segment_nm) FROM stdin;
-2021-10-26 08:54:37.912+00	2021-10-26 08:54:41.625+00	100	セグメント100
+2021-10-26 08:54:37.912+00	2021-11-18 04:06:53.910377+00	100	総務課
+2021-11-18 04:07:06.806579+00	2021-11-18 04:07:06.806579+00	200	人財課
+2021-11-18 04:07:22.79238+00	2021-11-18 04:07:22.79238+00	300	情報システム
+2021-11-18 04:07:56.318902+00	2021-11-18 04:07:56.318902+00	400	経理課
+2021-11-19 01:50:42.1948+00	2021-11-19 01:51:01.648122+00	500	経営企画部
+2021-11-19 01:52:54.896339+00	2021-11-19 01:52:54.896339+00	600	購買課
+2021-11-19 01:53:50.45604+00	2021-11-19 01:53:50.45604+00	700	監査
+2021-11-19 01:54:10.678994+00	2021-11-19 01:54:10.678994+00	800	受託会計部
+2021-11-19 01:54:34.90021+00	2021-11-19 01:54:34.90021+00	900	業務推進課
+2021-11-19 01:54:55.615406+00	2021-11-19 01:54:55.615406+00	101	契約管理センター
+2021-11-19 01:55:16.459115+00	2021-11-19 01:55:16.459115+00	102	マンション管理研修セ
+2021-11-19 01:55:56.896467+00	2021-11-19 01:55:56.896467+00	103	セーフティ24コール
+2021-11-19 01:56:18.168139+00	2021-11-19 01:56:18.168139+00	104	大阪北
+2021-11-19 01:56:28.576296+00	2021-11-19 01:56:28.576296+00	105	大阪南
+2021-11-19 01:56:43.633187+00	2021-11-19 01:56:43.633187+00	106	奈良
+2021-11-19 01:56:54.182661+00	2021-11-19 01:56:54.182661+00	107	京都営業所
+2021-11-19 02:01:08.256488+00	2021-11-19 02:01:08.256488+00	108	神戸
+2021-11-19 02:01:37.801138+00	2021-11-19 02:01:37.801138+00	109	広島営業所
+2021-11-19 02:02:05.515159+00	2021-11-19 02:02:05.515159+00	110	福岡営業所
+2021-11-19 02:02:28.298678+00	2021-11-19 02:02:28.299681+00	111	東京
+2021-11-19 02:03:47.156534+00	2021-11-19 02:03:47.156534+00	112	名古屋
+2021-11-19 02:04:09.039968+00	2021-11-19 02:04:09.039968+00	113	三重営業所
+2021-11-19 02:05:18.288469+00	2021-11-19 02:05:18.28947+00	114	工事営業
+2021-11-19 02:07:24.033934+00	2021-11-19 02:07:24.033934+00	115	賃貸営業
+2021-11-19 02:07:41.524725+00	2021-11-19 02:07:41.524725+00	116	賃貸FMセンター
+2021-11-19 02:11:12.921525+00	2021-11-19 02:11:12.921525+00	117	公営住宅事業部
+2021-11-19 02:11:35.017681+00	2021-11-19 02:11:35.017681+00	119	技術センター
+2021-11-19 02:12:07.455078+00	2021-11-19 02:12:07.455078+00	120	長期修繕計画センター
 \.
 
 
@@ -1744,6 +1904,9 @@ COPY public.m_segment (created, modified, segment_id, segment_nm) FROM stdin;
 --
 
 COPY public.mm_approval_route (id, created, modified, judge_cd, "order", notification, required_num_approvals, approval_post_id, approval_type_id, department_id, division_id, emp_id, segment_id) FROM stdin;
+1	2021-11-19 02:17:06.063373+00	2021-11-19 02:19:17.497384+00		1	\N	1	500	0001	200	\N	2	300
+2	2021-11-19 02:19:59.01221+00	2021-11-19 02:19:59.01221+00		2	\N	2	100	0001	100	\N	4	100
+3	2021-11-19 02:21:20.159268+00	2021-11-19 02:21:20.159268+00		3	\N	3	300	0001	200	\N	5	300
 \.
 
 
@@ -1761,8 +1924,14 @@ COPY public.mm_approval_type (created, modified, approval_type_id, approval_type
 --
 
 COPY public.t_approval_route (created, modified, approval_route_id, judgement_cd, request_emp_id, business_unit_id, department_id, division_id, segment_id, approval_type_id, request_id, request_dt) FROM stdin;
-2021-11-11 16:40:05.197598+00	2021-11-11 16:40:05.197598+00	1	\N	1	01	100	01	100	0001	1	\N
 2021-11-11 16:40:31.719428+00	2021-11-11 16:40:31.719428+00	2	\N	2	01	100	01	100	0001	2	\N
+2021-11-11 16:40:05.197598+00	2021-11-18 04:14:12.529318+00	1	\N	1	01	100	01	100	0001	1	2021-11-18 04:14:04+00
+2021-11-18 05:38:50.316552+00	2021-11-18 05:38:50.316552+00	3	\N	2	01	300	\N	400	0001	1	\N
+2021-11-18 05:38:50.334553+00	2021-11-18 05:38:50.335564+00	4	\N	4	01	200	\N	300	0001	1	\N
+2021-11-18 05:44:02.34909+00	2021-11-18 05:44:02.34909+00	5	\N	1	\N	100	\N	\N	0001	3	\N
+2021-11-19 00:51:17.606598+00	2021-11-19 00:51:17.606598+00	6	\N	1	\N	100	\N	\N	0001	4	\N
+2021-11-19 00:51:17.798749+00	2021-11-19 00:51:17.798749+00	7	\N	1	\N	100	\N	\N	0001	5	\N
+2021-11-19 00:51:17.993973+00	2021-11-19 00:51:17.993973+00	8	\N	1	\N	100	\N	\N	0001	6	\N
 \.
 
 
@@ -1771,6 +1940,7 @@ COPY public.t_approval_route (created, modified, approval_route_id, judgement_cd
 --
 
 COPY public.t_approval_route_comment (id, created, modified, comment_no, comment, approval_route_id, ins_emp_id, request_id) FROM stdin;
+1	2021-11-19 04:14:38.69631+00	2021-11-19 04:14:38.69631+00	1	修正してください。	1	2	1
 \.
 
 
@@ -1788,6 +1958,7 @@ COPY public.t_approval_route_detail (created, modified, detail_no, required_num_
 
 COPY public.t_notification_record (id, created, modified, emp_id, notification_type_id, request_id, confirm_dt) FROM stdin;
 1	2021-11-11 16:40:50.802153+00	2021-11-11 16:40:50.802153+00	1	02	1	\N
+2	2021-11-18 05:35:56.289463+00	2021-11-18 05:35:56.289463+00	2	03	1	\N
 \.
 
 
@@ -1796,6 +1967,7 @@ COPY public.t_notification_record (id, created, modified, emp_id, notification_t
 --
 
 COPY public.t_notifier (id, created, modified, confirm_dt, notify_emp_id, request_id) FROM stdin;
+1	2021-11-18 05:36:13.150771+00	2021-11-18 05:36:13.150771+00	\N	5	1
 \.
 
 
@@ -1804,8 +1976,12 @@ COPY public.t_notifier (id, created, modified, confirm_dt, notify_emp_id, reques
 --
 
 COPY public.t_request (created, modified, request_id, request_title, status_id, approval_type_id) FROM stdin;
-2021-11-11 16:40:05.194096+00	2021-11-11 16:40:05.194096+00	1	テスト申請	1	0001
 2021-11-11 16:40:31.717351+00	2021-11-11 16:40:31.717351+00	2	テストテスト	1	0001
+2021-11-11 16:40:05.194096+00	2021-11-18 05:38:50.310581+00	1	テスト申請	1	0001
+2021-11-18 05:44:02.291093+00	2021-11-18 05:44:17.8497+00	3		2	0001
+2021-11-19 00:51:17.773892+00	2021-11-19 00:51:17.773892+00	5		2	0001
+2021-11-19 00:51:17.976973+00	2021-11-19 00:51:17.976973+00	6		2	0001
+2021-11-19 00:51:17.591116+00	2021-11-19 02:17:29.259371+00	4		2	0001
 \.
 
 
@@ -1814,6 +1990,8 @@ COPY public.t_request (created, modified, request_id, request_title, status_id, 
 --
 
 COPY public.t_request_detail (id, created, modified, request_column_val, request_id, request_column_id) FROM stdin;
+1	2021-11-18 05:44:02.31409+00	2021-11-18 05:44:17.837717+00	08	3	0018
+2	2021-11-18 05:44:02.329097+00	2021-11-18 05:44:17.845701+00	10	3	0019
 \.
 
 
@@ -1838,6 +2016,15 @@ COPY public.token_blacklist_blacklistedtoken (id, blacklisted_at, token_id) FROM
 6	2021-11-09 02:02:00.389888+00	8
 7	2021-11-11 16:40:58.546469+00	10
 8	2021-11-11 16:40:59.15447+00	11
+9	2021-11-18 05:41:57.627448+00	12
+10	2021-11-19 00:49:37.04025+00	13
+12	2021-11-19 01:00:02.164012+00	15
+13	2021-11-19 02:17:29.13574+00	16
+14	2021-11-19 02:26:16.147581+00	17
+15	2021-11-19 02:36:26.784675+00	18
+16	2021-11-19 02:43:21.091201+00	19
+18	2021-11-19 04:14:46.560223+00	21
+20	2021-11-19 04:23:44.551475+00	23
 \.
 
 
@@ -1857,6 +2044,17 @@ COPY public.token_blacklist_outstandingtoken (id, token, created_at, expires_at,
 9	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjUwOTcyNiwianRpIjoiODhkOGQ5ZDFhODcwNDk2N2I2Njc3Y2M1Yjc5OTQwMmUiLCJ1c2VyX2lkIjoxfQ.ke9lnYI8mF66CzveFdgKSXIRZM8yfPMkbL6cRhvdpbI	2021-11-09 02:02:06.587675+00	2021-11-10 02:02:06+00	1	88d8d9d1a8704967b6677cc5b799402e
 10	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjczNDY5NSwianRpIjoiNWE1ZWUxMDE0MGY0NGFhYThlZjZlNTdjYjI1NTBhYWMiLCJ1c2VyX2lkIjoxfQ.LfvbuekvJktEQaFeyU4RW6UJyGZ1HYt11Nf5vYNuBfo	\N	2021-11-12 16:31:35+00	\N	5a5ee10140f44aaa8ef6e57cb2550aac
 11	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNjczNTI1OCwianRpIjoiNmVmYjdjNDM4MTk3NDA1NmE0MTM5ZmIxMDc4MjAwZjgiLCJ1c2VyX2lkIjoxfQ.JeiJ0yMzT4-3EfyEbK944VpCP9DtMtpIB8rcWzN2B0w	\N	2021-11-12 16:40:58+00	\N	6efb7c4381974056a4139fb1078200f8
+12	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzI4NzA5OSwianRpIjoiNDdkZDUzZTYxNTk5NDVlZDhiOTcwODVlYzA4YjkyZmMiLCJ1c2VyX2lkIjoxfQ.8UvYmM9RF3PPTIDvStPMeR4wRkEdS6WlvYyY-L9TA3E	\N	2021-11-19 01:58:19+00	\N	47dd53e6159945ed8b97085ec08b92fc
+13	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzMwMDUxNywianRpIjoiMjUwMmViZjI3OTk1NDMyNDg4ZTIxYTMwYWEzNGJlN2EiLCJ1c2VyX2lkIjoxfQ._6_yTtWqomlkpYMREaDAOGUKyFsS5zsSfh1Wu9D5HWE	\N	2021-11-19 05:41:57+00	\N	2502ebf27995432488e21a30aa34be7a
+15	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM2OTM4NywianRpIjoiMTk4YmMxNjRmM2FiNDg1MzgxYzQ1MjJjMDIwYWNjMTgiLCJ1c2VyX2lkIjoxfQ.rsbAjl8vD7nchJ01HB70KdmZAuTdGvxvx5tc0GrdbRg	2021-11-19 00:49:47.927901+00	2021-11-20 00:49:47+00	1	198bc164f3ab485381c4522c020acc18
+16	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM3MDAwMiwianRpIjoiNjA5MjVhMmM2NGM5NDk3ZWE0NDQyODc1MjQ0MTIwOTEiLCJ1c2VyX2lkIjoxfQ.ot54BBre88di2vEWZfEkllZNgL0o8NORLz1A1lu1SYw	\N	2021-11-20 01:00:02+00	\N	60925a2c64c9497ea444287524412091
+17	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM3NDY0OSwianRpIjoiYjk0YmFjZWZlOWJjNGUxM2I5MWY2ZGFiMzY5YjFhM2UiLCJ1c2VyX2lkIjoxfQ.SeADtylCuoyNtDMgX3-_2tuGNK_rddEFB2Q1DCcAh8M	\N	2021-11-20 02:17:29+00	\N	b94bacefe9bc4e13b91f6dab369b1a3e
+18	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM3NTE5MiwianRpIjoiODk0OTg0MGM4MWFhNGY5OWFlZmMyMjdmOTAzNTEyZjAiLCJ1c2VyX2lkIjoxfQ.Q-ZXnrB2FETOf4tBM3evdk8xmBK0tubMPaJXyR3V-o8	2021-11-19 02:26:32.560026+00	2021-11-20 02:26:32+00	1	8949840c81aa4f99aefc227f903512f0
+19	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM3NTc4NiwianRpIjoiOWNhMjllNTIxM2E0NDU4MmE3MWIyZjk3Y2NmYzA2MzkiLCJ1c2VyX2lkIjoxfQ.e1EqEnmnHXKe12Ivt8w33vjx6WVwCfSbq8l1ETsq5yY	\N	2021-11-20 02:36:26+00	\N	9ca29e5213a44582a71b2f97ccfc0639
+21	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM3NjIwMSwianRpIjoiZjU0NDk5MjMzYWQxNDMwOTkzMWQ2NDRhMjM5OGMxZjQiLCJ1c2VyX2lkIjoxfQ.9SreF3PIzKp7lYEIiLZewdOCZXwivFX_agtlihsxQAs	\N	2021-11-20 02:43:21+00	\N	f54499233ad14309931d644a2398c1f4
+23	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM4MTY5NiwianRpIjoiM2Q2MDY1MWNhNTlhNDAzNDkyYWU3NTI0MmEyYWNmMWMiLCJ1c2VyX2lkIjoxfQ.G9QfPGv2Kz9AhrwUC3bXvY67aGxrVhy1HmyOdDHXyQo	2021-11-19 04:14:56.02224+00	2021-11-20 04:14:56+00	1	3d60651ca59a403492ae75242a2acf1c
+24	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM4MjIzNCwianRpIjoiZTUyYThiMmJmZjZmNDYxN2I2NzNmMTUzM2JhOTgzZDYiLCJ1c2VyX2lkIjoxfQ.ipeA3MHd6X-k0W44tP7oKiufTKUK0z_wrOmZfvN5-sE	2021-11-19 04:23:54.1405+00	2021-11-20 04:23:54+00	1	e52a8b2bff6f4617b673f1533ba983d6
+25	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzNzM4MjIzNCwianRpIjoiM2I5ZjZjMGM0NTk5NGQ1ZmE3OTUxZmM1M2Y5NmNlMzAiLCJ1c2VyX2lkIjoxfQ.PFs5Lia6MV2J5dvCllBewy7CW5HGl7m1OCaTIYdYgyg	2021-11-19 04:23:54.451723+00	2021-11-20 04:23:54+00	1	3b9f6c0c45994d5fa7951fc53f96ce30
 \.
 
 
@@ -1885,7 +2083,7 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 152, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 12, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 104, true);
 
 
 --
@@ -1906,49 +2104,49 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 51, true);
 -- Name: m_emp_affiliation_emp_affiliation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.m_emp_affiliation_emp_affiliation_id_seq', 1, false);
+SELECT pg_catalog.setval('public.m_emp_affiliation_emp_affiliation_id_seq', 11, true);
 
 
 --
 -- Name: mm_approval_route_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.mm_approval_route_id_seq', 1, false);
+SELECT pg_catalog.setval('public.mm_approval_route_id_seq', 3, true);
 
 
 --
 -- Name: t_approval_route_approval_route_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_approval_route_approval_route_id_seq', 2, true);
+SELECT pg_catalog.setval('public.t_approval_route_approval_route_id_seq', 12, true);
 
 
 --
 -- Name: t_approval_route_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_approval_route_comment_id_seq', 1, false);
+SELECT pg_catalog.setval('public.t_approval_route_comment_id_seq', 1, true);
 
 
 --
 -- Name: t_approval_route_detail_detail_no_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_approval_route_detail_detail_no_seq', 1, false);
+SELECT pg_catalog.setval('public.t_approval_route_detail_detail_no_seq', 12, true);
 
 
 --
 -- Name: t_notification_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_notification_record_id_seq', 1, true);
+SELECT pg_catalog.setval('public.t_notification_record_id_seq', 2, true);
 
 
 --
 -- Name: t_notifier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_notifier_id_seq', 1, false);
+SELECT pg_catalog.setval('public.t_notifier_id_seq', 1, true);
 
 
 --
@@ -1962,28 +2160,28 @@ SELECT pg_catalog.setval('public.t_request_detail_hist_id_seq', 1, false);
 -- Name: t_request_detail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_request_detail_id_seq', 1, false);
+SELECT pg_catalog.setval('public.t_request_detail_id_seq', 2, true);
 
 
 --
 -- Name: t_request_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.t_request_request_id_seq', 2, true);
+SELECT pg_catalog.setval('public.t_request_request_id_seq', 10, true);
 
 
 --
 -- Name: token_blacklist_blacklistedtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 8, true);
+SELECT pg_catalog.setval('public.token_blacklist_blacklistedtoken_id_seq', 21, true);
 
 
 --
 -- Name: token_blacklist_outstandingtoken_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 11, true);
+SELECT pg_catalog.setval('public.token_blacklist_outstandingtoken_id_seq', 25, true);
 
 
 --
@@ -1997,7 +2195,7 @@ SELECT pg_catalog.setval('public.users_user_groups_id_seq', 1, false);
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: approval_user
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 2, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 9, true);
 
 
 --
