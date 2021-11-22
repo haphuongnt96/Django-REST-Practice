@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.4 (Debian 13.4-1.pgdg110+1)
--- Dumped by pg_dump version 13.4 (Debian 13.4-1.pgdg110+1)
+-- Dumped from database version 13.4 (Debian 13.4-1.pgdg100+1)
+-- Dumped by pg_dump version 13.4 (Debian 13.4-1.pgdg100+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1656,8 +1656,8 @@ COPY public.m_approval_post (created, modified, approval_post_id, approval_post_
 --
 
 COPY public.m_approval_status (created, modified, approval_status_id, approval_status_nm) FROM stdin;
-2021-11-18 05:56:47.322869+00	2021-11-18 05:56:47.322869+00	1	承認
-2021-11-19 02:13:13.603688+00	2021-11-19 02:13:13.603688+00	2	差戻
+2021-11-18 04:49:51.84+00	2021-11-18 05:49:33.169+00	1	承認
+2021-11-18 05:37:26.173+00	2021-11-18 06:24:56.909+00	2	差戻
 \.
 
 
@@ -1695,7 +1695,7 @@ COPY public.m_choices (created, modified, choice_id, choice_nm, request_column_i
 
 COPY public.m_column_type (created, modified, column_type_id, column_type_nm) FROM stdin;
 2021-10-30 04:05:47.076+00	2021-10-30 09:38:25.23+00	01	header
-2021-10-30 09:38:31.543+00	2021-10-30 09:39:13.909+00	02	text
+2021-10-30 09:38:31.543+00	2021-10-30 09:39:13.909+00	02	input_text
 2021-10-30 09:39:24.043+00	2021-10-30 09:39:24.043+00	03	number
 2021-10-30 09:39:42.641+00	2021-10-30 09:39:42.641+00	04	radio
 2021-10-30 09:39:55.823+00	2021-10-30 09:39:55.823+00	05	checkbox
@@ -1860,6 +1860,9 @@ COPY public.m_request_detail (created, modified, request_column_id, required, ma
 COPY public.m_request_status (created, modified, status_id, status_nm) FROM stdin;
 2021-10-30 04:05:47.076+00	2021-10-30 09:38:25.23+00	1	下書き
 2021-10-30 09:38:31.543+00	2021-10-30 09:39:13.909+00	2	申請中
+2021-11-18 05:54:06.83+00	2021-11-18 05:54:06.83+00	3	最終承認済
+2021-11-18 05:54:20.77+00	2021-11-18 05:54:20.77+00	8	差戻
+2021-11-18 05:54:29.177+00	2021-11-18 05:54:29.178+00	9	申請取消
 \.
 
 
