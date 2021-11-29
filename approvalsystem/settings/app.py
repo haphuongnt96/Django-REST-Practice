@@ -1,4 +1,5 @@
 INSTALLED_APPS = [
+    'inventory',
     'users',
     'django.contrib.admin',
     'django.contrib.auth',

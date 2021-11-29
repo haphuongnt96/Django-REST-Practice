@@ -1,0 +1,19 @@
+[{
+        "model": "core.approvalstatus",
+        "pk": "1",
+        "fields": {
+            "created": "2021-11-18T04:49:51.840Z",
+            "modified": "2021-11-18T05:49:33.169Z",
+            "approval_status_nm": "承認"
+        }
+    },
+    {
+        "model": "core.approvalstatus",
+        "pk": "2",
+        "fields": {
+            "created": "2021-11-18T05:37:26.173Z",
+            "modified": "2021-11-18T06:24:56.909Z",
+            "approval_status_nm": "差戻"
+        }
+    }
+]

@@ -25,7 +25,8 @@ class ApprovalRequestAPI(APIView):
         try:
             approval_route_detail = ApprovalRouteDetail.objects.filter(
                 approval_route_id=approval_route.approval_route_id,
-                approval_status=ApprovalRouteDetail.StatusChoices.not_verified,
+                approval_status=ApprovalRouteDetail.approval_status_id,
+                #StatusChoices.not_verified,
             ).earliest('detail_no')
         except ApprovalRouteDetail.DoesNotExist:
             raise NotFound(
