@@ -22,6 +22,7 @@ from .views import (
     CreatePurchaseOrder,
     PurchaseOrderListing,
     SubmitPurchaseOrder,
+    UpdatePurchaseOrder,
     #InteractStockOnHandAPI,
 )
 
@@ -29,7 +30,8 @@ urlpatterns = [
     path('inventories', PostNewInventoryAPI.as_view(), name='inventory.post'),
     path('inventories/<int:inventory_id>', InteractInventoryAPI.as_view(), name='inventory.interact'),
     path('purchase-orders', CreatePurchaseOrder.as_view(), name='purchase_order.create'),
-    path('purchase-orders/submit', SubmitPurchaseOrder.as_view(), name='purchase_order.submit'),
+    path('purchase-orders/<int:purchase_order_id>', UpdatePurchaseOrder.as_view(), name = 'purchase_order.update'),
+    path('purchase-orders/<int:purchase_order_id>/submit', SubmitPurchaseOrder.as_view(), name='purchase_order.submit'),
     path('purchase-orders/listing', PurchaseOrderListing.as_view(), name='purchase-order.list'),
     path('locations', PostNewLocationAPI.as_view(), name='location.post'),
     # 申請一覧

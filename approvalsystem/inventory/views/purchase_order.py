@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, DestroyAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, DestroyAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -22,6 +22,10 @@ class CreatePurchaseOrder(CreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UpdatePurchaseOrder(RetrieveUpdateDestroyAPIView):
+    queryset = PurchaseOrder.objects.all()
+    serializer_class = PurchaseOrderVoucherSerializer
+    lookup_field = "purchase_order_id"
 
 class PurchaseOrderListing(ListAPIView):
     serializer_class = PurchaseOrderSerializer
@@ -35,10 +39,21 @@ class SubmitPurchaseOrder(APIView):
         return queryset
 
     def put(self, request, *args, **kwargs):
-        serializer = PurchaseOrderVoucherSerializer(data=self.request.data)
-        if serializer.is_valid():
-            serializer.save()
-            data = serializer.validated_data
+        # Update purchase order voucher (hdr + det)
+        purchase_order_id = kwargs['purchase_order_id']
+        # 
+        purchase_order_object = PurchaseOrder.objects.get(purchase_order_id=purchase_order_id)
+        purchase_order_serializer = PurchaseOrderVoucherSerializer(purchase_order_object, data=self.request.data)
+
+        if purchase_order_serializer.is_valid():
+            purchase_order_serializer.save()
+
+            data = purchase_order_serializer.validated_data
+            # Update PO voucher status to Outstanding
+            purchase_order_object.status = "O"
+            purchase_order_object.save()
+            
+            # Update Stock on Hand qty on order
             purchase_order_detail = data.pop('purchase_order_detail')
             po_detail_summary = {}
             for poDetail in purchase_order_detail:
@@ -52,6 +67,7 @@ class SubmitPurchaseOrder(APIView):
                 instance.qty_on_order += po_detail_summary[inventory]
                 instance.save()
 
-            return Response(serializer.data)
-
+            return Response(purchase_order_serializer.data)
+        else:
+            return Response(purchase_order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

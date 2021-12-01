@@ -41,5 +41,6 @@ from .inventory import (
 from .purchase_order import (
     CreatePurchaseOrder,
     PurchaseOrderListing,
-    SubmitPurchaseOrder
+    SubmitPurchaseOrder,
+    UpdatePurchaseOrder
 )
