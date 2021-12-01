@@ -199,6 +199,15 @@ curl --location --request DELETE 'http://127.0.0.1:8000/api/inventories/2' \
     "inventory_name": "Outlander"
 }'
 
+5. Post a new location
+curl --location --request POST 'http://127.0.0.1:8000/api/locations' \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM4MTU5OTYwLCJqdGkiOiIxMDljYWI5MDhhNGU0M2IxOTc3YjUzMmNkZjMyMzQ3YiIsInVzZXJfaWQiOjN9.ykAvvB2Mc6hhkY3ggA0yxqrOI4TB-_0zlya8-uc7U8o' \
+--header 'Content-Type: application/json' \
+--header 'Cookie: csrftoken=vR0wr4PGnWerT7Rff9o080ezsjIEhH16ZLoG2BAeLxpVTVhh4Xa6oyHeuJeb7MHt' \
+--data-raw '{
+    "location_name": "Da Nang",
+    "location_address": "Da Nang address "
+}'
 
 ### Purchase Order:
 1. Post a purchase order (create draft)
@@ -242,6 +251,5 @@ curl --location --request PUT 'http://127.0.0.1:8000/api/purchase-orders/submit'
         "inventory": 1,
         "order_qty": 4
     }
-
     ]
 }'
