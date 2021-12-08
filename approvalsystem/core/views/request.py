@@ -18,14 +18,14 @@ class RegisterRequestAPI(CreateAPIView):
     #queryset = Request.objects.all()
     serializer_class = DetailRequestSerializer
 
-    # @transaction.atomic
-    # def create(self, *args, **kwargs):
-    #     serializer = self.get_serializer(data=self.request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     else:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @transaction.atomic
+    def create(self, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RetrieveUpdateRequestAPI(RetrieveUpdateAPIView):

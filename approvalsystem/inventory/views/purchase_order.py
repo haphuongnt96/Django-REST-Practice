@@ -1,4 +1,5 @@
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, DestroyAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from django.http.response import Http404
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, DestroyAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -34,25 +35,32 @@ class PurchaseOrderListing(ListAPIView):
 
 
 class SubmitPurchaseOrder(APIView):
-    def get_object(self, inventory, location):
-        queryset = StockOnHand.objects.get(inventory=inventory, location=location)
-        return queryset
+    def get_object_inventory(self, inventory, location):
+        queryset = StockOnHand.objects.all()
+        filter = {"inventory": inventory, "location": location}        
+        obj = get_object_or_404(queryset, **filter)
+        return obj
+
+    def get_object_purchase_order(self, purchase_order_id):
+        queryset = PurchaseOrder.objects.all()
+        filter = {"purchase_order_id": purchase_order_id}
+        obj = get_object_or_404(queryset, **filter)
+        return obj
 
     def put(self, request, *args, **kwargs):
         # Update purchase order voucher (hdr + det)
         purchase_order_id = kwargs['purchase_order_id']
-        # 
-        purchase_order_object = PurchaseOrder.objects.get(purchase_order_id=purchase_order_id)
+        purchase_order_object = self.get_object_purchase_order(purchase_order_id)
         purchase_order_serializer = PurchaseOrderVoucherSerializer(purchase_order_object, data=self.request.data)
 
         if purchase_order_serializer.is_valid():
             purchase_order_serializer.save()
 
-            data = purchase_order_serializer.validated_data
             # Update PO voucher status to Outstanding
             purchase_order_object.status = "O"
             purchase_order_object.save()
             
+            data = purchase_order_serializer.validated_data
             # Update Stock on Hand qty on order
             purchase_order_detail = data.pop('purchase_order_detail')
             po_detail_summary = {}
@@ -63,7 +71,7 @@ class SubmitPurchaseOrder(APIView):
                     po_detail_summary[poDetail['inventory']] = poDetail['order_qty']
             
             for inventory in po_detail_summary:
-                instance = self.get_object(inventory, data['ship_to_location'])
+                instance = self.get_object_inventory(inventory, data['ship_to_location'])
                 instance.qty_on_order += po_detail_summary[inventory]
                 instance.save()
 

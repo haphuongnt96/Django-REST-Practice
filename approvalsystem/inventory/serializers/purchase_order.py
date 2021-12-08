@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 from inventory.models import PurchaseOrder, PurchaseOrderDetail
 from inventory.serializers import LocationSerializer, InventorySerializer
 from django.utils import timezone
@@ -11,6 +12,12 @@ class PurchaseOrderDetailSerializer(serializers.ModelSerializer):
             'inventory',
             'order_qty',
         ]
+        # validators = [
+        #     UniqueTogetherValidator(
+        #         queryset = PurchaseOrderDetail.objects.all(),
+        #         fields = ['purchase_order_id', 'purchase_order_line_item_no']
+        #     )
+        # ]
 
 class PurchaseOrderSerializer(serializers.ModelSerializer):
     ship_to_location = LocationSerializer(read_only = True)
@@ -41,20 +48,25 @@ class PurchaseOrderVoucherSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def create_or_update_purchase_order_detail(purchase_order_detail: dict):
-        defaults = {'purchase_order_id': purchase_order_detail['purchase_order_id'],
-                    'purchase_order_line_item_no': purchase_order_detail['purchase_order_line_item_no'],
-                    'inventory': purchase_order_detail['inventory'],
-                    'order_qty': purchase_order_detail['order_qty']}
-        try:
-            purchase_order_detail_instance = PurchaseOrderDetail.objects.get(purchase_order_id = detail['purchase_order_id'], purchase_order_line_item_no = detail['purchase_order_line_item_no'])
-            for key, value in defaults.item():
-                setattr(purchase_order_detail_instance, key, value)
-            purchase_order_detail_instance.save()
-        except purchase_order_detail_instance.DoesNotExist:
-                new_values = {}
-            purchase_order_detail_instance.inventory_id = detail['inventory']
-            purchase_order_detail_instance.order_qty = detail['order_qty']
-            purchase_order_detail_instance.save()
+        # defaults = {'inventory': purchase_order_detail['inventory'],
+        #             'order_qty': purchase_order_detail['order_qty']}
+        # try:
+        #     purchase_order_detail_instance = PurchaseOrderDetail.objects.get(purchase_order_id = purchase_order_detail['purchase_order_id'], purchase_order_line_item_no = purchase_order_detail['purchase_order_line_item_no'])
+        #     for key, value in defaults.items():
+        #         setattr(purchase_order_detail_instance, key, value)
+        #     purchase_order_detail_instance.save()
+        # except PurchaseOrderDetail.DoesNotExist:
+        #     obj = PurchaseOrderDetail(purchase_order_id = purchase_order_detail['purchase_order_id'], purchase_order_line_item_no = purchase_order_detail['purchase_order_line_item_no'],**defaults)
+        #     obj.save()
+        # shortcut:
+        purchase_order_detail_instance = PurchaseOrderDetail.objects.update_or_create(
+            purchase_order_id=purchase_order_detail['purchase_order_id'],
+            purchase_order_line_item_no=purchase_order_detail['purchase_order_line_item_no'],
+            defaults={
+                'inventory': purchase_order_detail['inventory'],
+                'order_qty': purchase_order_detail['order_qty']
+            }
+        )
     def create(self, validated_data):
         """
             Custom func for creating nested serializer 
